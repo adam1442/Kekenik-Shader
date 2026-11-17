@@ -1,0 +1,111 @@
+/* Export dialog — layout only; colours / controls come from the design system. */
+.kk-export {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--kk-space-12, 12px);
+  height: min(620px, 70vh);
+}
+.kk-export__side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.kk-export__targets {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.kk-export__target {
+  padding: 6px 8px;
+  border: 1px solid var(--kk-border-subtle);
+  border-radius: var(--kk-radius-md);
+  background: var(--kk-surface-2);
+}
+.kk-export__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kk-export__opts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+.kk-export__files {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--kk-border-subtle);
+  border-radius: var(--kk-radius-md);
+  padding: 4px;
+}
+.kk-export__file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--kk-text);
+  border-radius: var(--kk-radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+  transition: background var(--kk-dur-fast, 120ms);
+}
+.kk-export__file:hover {
+  background: var(--kk-surface-3);
+}
+.kk-export__file.is-active {
+  background: var(--kk-accent-soft, rgba(110, 140, 255, 0.18));
+}
+.kk-export__file small {
+  margin-left: auto;
+  opacity: 0.55;
+  font-size: 10px;
+}
+.kk-export__preview {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--kk-border-subtle);
+  border-radius: var(--kk-radius-md);
+  overflow: hidden;
+}
+.kk-export__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--kk-border-subtle);
+  background: var(--kk-surface-2);
+}
+.kk-export__path {
+  font-family: var(--kk-font-mono, monospace);
+  font-size: 11px;
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-export__code {
+  flex: 1;
+  min-height: 0;
+}
+.kk-export__confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  color: var(--kk-warning, #e5a93d);
+  font-size: 12px;
+}

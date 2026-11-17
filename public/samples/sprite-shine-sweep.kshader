@@ -1,0 +1,875 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABDElEQVR42u2Z3Q3DIAwGO0dfukoW6DRdo9t0pwzQBVK1EhKiQEwSiA13kh8j8V2Iw88FAAAAAAAAAAAAAACqcJ1ui6SGC9ydEDfw9zL/Kgw0ve5/9Zwf9kX4g3XhXcVCxyT4ZUpEOMhQgERCKCAnQ3X4b5gtM8CkhNy3XRp+TUBMhNrwe8qEBEl4SfeXPKdOgiRYrBlKJMQaaUrCaT2h9O37a4FSAepmgXRKp/7hpdN/TUBzCXvCHN0D1Avo8o/QMvwWCQjoUYBEQrc9oHSP0K2AnIRhBKQkqF0MtRCgYj9wlgQTO8JaAlSeCbQQof5UqJYIE4ejNUSYvSc46lKki9uiIUMDAAAAAABo5gN3RJBBDIO6/gAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-shine-sweep.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-shine-sweep.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_src",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Plain sprite fetch."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_timing",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1460
+        },
+        "text": "`auto = fract(time / duration) × (1 + pause)`. Progress above 1 is clamped by the shine node, which is exactly the idle phase between sweeps. **Auto Animate** picks between this and the manual slider."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_shine",
+        "position": {
+          "x": 2432,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Shine Sweep** node outputs the band mask and a tinted, intensity-scaled colour."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_comp",
+        "position": {
+          "x": 3178,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "`colour = sprite + band × sprite alpha` — the glint never leaks onto transparent pixels."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 3924,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Colour with glint, original alpha."
+      }
+    ],
+    "edges": {
+      "auto:out>pick:b": {
+        "from": {
+          "node": "auto",
+          "port": "out"
+        },
+        "id": "auto:out>pick:b",
+        "to": {
+          "node": "pick",
+          "port": "b"
+        }
+      },
+      "band:color>masked:a": {
+        "from": {
+          "node": "band",
+          "port": "color"
+        },
+        "id": "band:color>masked:a",
+        "to": {
+          "node": "masked",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "cycle:out>auto:a": {
+        "from": {
+          "node": "cycle",
+          "port": "out"
+        },
+        "id": "cycle:out>auto:a",
+        "to": {
+          "node": "auto",
+          "port": "a"
+        }
+      },
+      "masked:out>col:b": {
+        "from": {
+          "node": "masked",
+          "port": "out"
+        },
+        "id": "masked:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_angle_shine:out>band:angle": {
+        "from": {
+          "node": "p_angle_shine",
+          "port": "out"
+        },
+        "id": "p_angle_shine:out>band:angle",
+        "to": {
+          "node": "band",
+          "port": "angle"
+        }
+      },
+      "p_auto_timing:out>pick:t": {
+        "from": {
+          "node": "p_auto_timing",
+          "port": "out"
+        },
+        "id": "p_auto_timing:out>pick:t",
+        "to": {
+          "node": "pick",
+          "port": "t"
+        }
+      },
+      "p_intensity_shine:out>band:intensity": {
+        "from": {
+          "node": "p_intensity_shine",
+          "port": "out"
+        },
+        "id": "p_intensity_shine:out>band:intensity",
+        "to": {
+          "node": "band",
+          "port": "intensity"
+        }
+      },
+      "p_locked_sprite_texture_src:out>sprite:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_src",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_src:out>sprite:tex",
+        "to": {
+          "node": "sprite",
+          "port": "tex"
+        }
+      },
+      "p_manual_timing:out>pick:a": {
+        "from": {
+          "node": "p_manual_timing",
+          "port": "out"
+        },
+        "id": "p_manual_timing:out>pick:a",
+        "to": {
+          "node": "pick",
+          "port": "a"
+        }
+      },
+      "p_pause_timing:out>span:a": {
+        "from": {
+          "node": "p_pause_timing",
+          "port": "out"
+        },
+        "id": "p_pause_timing:out>span:a",
+        "to": {
+          "node": "span",
+          "port": "a"
+        }
+      },
+      "p_period_timing:out>phase:b": {
+        "from": {
+          "node": "p_period_timing",
+          "port": "out"
+        },
+        "id": "p_period_timing:out>phase:b",
+        "to": {
+          "node": "phase",
+          "port": "b"
+        }
+      },
+      "p_softness_shine:out>band:softness": {
+        "from": {
+          "node": "p_softness_shine",
+          "port": "out"
+        },
+        "id": "p_softness_shine:out>band:softness",
+        "to": {
+          "node": "band",
+          "port": "softness"
+        }
+      },
+      "p_tint_shine:out>band:tint": {
+        "from": {
+          "node": "p_tint_shine",
+          "port": "out"
+        },
+        "id": "p_tint_shine:out>band:tint",
+        "to": {
+          "node": "band",
+          "port": "tint"
+        }
+      },
+      "p_width_shine:out>band:width": {
+        "from": {
+          "node": "p_width_shine",
+          "port": "out"
+        },
+        "id": "p_width_shine:out>band:width",
+        "to": {
+          "node": "band",
+          "port": "width"
+        }
+      },
+      "phase:out>cycle:in": {
+        "from": {
+          "node": "phase",
+          "port": "out"
+        },
+        "id": "phase:out>cycle:in",
+        "to": {
+          "node": "cycle",
+          "port": "in"
+        }
+      },
+      "pick:out>band:progress": {
+        "from": {
+          "node": "pick",
+          "port": "out"
+        },
+        "id": "pick:out>band:progress",
+        "to": {
+          "node": "band",
+          "port": "progress"
+        }
+      },
+      "span:out>auto:b": {
+        "from": {
+          "node": "span",
+          "port": "out"
+        },
+        "id": "span:out>auto:b",
+        "to": {
+          "node": "auto",
+          "port": "b"
+        }
+      },
+      "sprite:a>masked:b": {
+        "from": {
+          "node": "sprite",
+          "port": "a"
+        },
+        "id": "sprite:a>masked:b",
+        "to": {
+          "node": "masked",
+          "port": "b"
+        }
+      },
+      "sprite:a>master:alpha": {
+        "from": {
+          "node": "sprite",
+          "port": "a"
+        },
+        "id": "sprite:a>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "sprite:rgb>col:a": {
+        "from": {
+          "node": "sprite",
+          "port": "rgb"
+        },
+        "id": "sprite:rgb>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "time:time>phase:a": {
+        "from": {
+          "node": "time",
+          "port": "time"
+        },
+        "id": "time:time>phase:a",
+        "to": {
+          "node": "phase",
+          "port": "a"
+        }
+      },
+      "uv:out>band:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>band:uv",
+        "to": {
+          "node": "band",
+          "port": "uv"
+        }
+      },
+      "uv:out>sprite:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>sprite:uv",
+        "to": {
+          "node": "sprite",
+          "port": "uv"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_src",
+        "nodeIds": [
+          "uv",
+          "sprite",
+          "p_locked_sprite_texture_src"
+        ],
+        "rect": {
+          "h": 421,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Sprite"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_timing",
+        "nodeIds": [
+          "time",
+          "phase",
+          "cycle",
+          "span",
+          "auto",
+          "pick",
+          "p_period_timing",
+          "p_pause_timing",
+          "p_manual_timing",
+          "p_auto_timing"
+        ],
+        "rect": {
+          "h": 703,
+          "w": 1504,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Sweep timing"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_shine",
+        "nodeIds": [
+          "band",
+          "p_width_shine",
+          "p_softness_shine",
+          "p_angle_shine",
+          "p_intensity_shine",
+          "p_tint_shine"
+        ],
+        "rect": {
+          "h": 696,
+          "w": 586,
+          "x": 2410,
+          "y": 0
+        },
+        "title": "Shine band"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_comp",
+        "nodeIds": [
+          "masked",
+          "col"
+        ],
+        "rect": {
+          "h": 260,
+          "w": 586,
+          "x": 3156,
+          "y": 0
+        },
+        "title": "Mask to sprite"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 3902,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-shine-sweep",
+    "keywords": [],
+    "name": "Shine Sweep",
+    "nodes": {
+      "auto": {
+        "defId": "multiply",
+        "id": "auto",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "band": {
+        "defId": "shineSweep",
+        "id": "band",
+        "params": {
+          "loop": false
+        },
+        "position": {
+          "x": 2738,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "add",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 3484,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cycle": {
+        "defId": "fract",
+        "id": "cycle",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "masked": {
+        "defId": "multiply",
+        "id": "masked",
+        "params": {},
+        "position": {
+          "x": 3178,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 3924,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_angle_shine": {
+        "defId": "property",
+        "id": "p_angle_shine",
+        "params": {
+          "property": "angle"
+        },
+        "position": {
+          "x": 2432,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_auto_timing": {
+        "defId": "property",
+        "id": "p_auto_timing",
+        "params": {
+          "property": "auto"
+        },
+        "position": {
+          "x": 768,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_shine": {
+        "defId": "property",
+        "id": "p_intensity_shine",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 2432,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_src": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_src",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 22,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_manual_timing": {
+        "defId": "property",
+        "id": "p_manual_timing",
+        "params": {
+          "property": "manual"
+        },
+        "position": {
+          "x": 768,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pause_timing": {
+        "defId": "property",
+        "id": "p_pause_timing",
+        "params": {
+          "property": "pause"
+        },
+        "position": {
+          "x": 768,
+          "y": 613
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_period_timing": {
+        "defId": "property",
+        "id": "p_period_timing",
+        "params": {
+          "property": "period"
+        },
+        "position": {
+          "x": 768,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_shine": {
+        "defId": "property",
+        "id": "p_softness_shine",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 2432,
+          "y": 418
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tint_shine": {
+        "defId": "property",
+        "id": "p_tint_shine",
+        "params": {
+          "property": "tint"
+        },
+        "position": {
+          "x": 2432,
+          "y": 512
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_width_shine": {
+        "defId": "property",
+        "id": "p_width_shine",
+        "params": {
+          "property": "width"
+        },
+        "position": {
+          "x": 2432,
+          "y": 606
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "phase": {
+        "defId": "divide",
+        "id": "phase",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pick": {
+        "defId": "lerp",
+        "id": "pick",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "span": {
+        "defId": "add",
+        "id": "span",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 495
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1
+        }
+      },
+      "sprite": {
+        "defId": "sampleTexture2D",
+        "id": "sprite",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "time": {
+        "defId": "time",
+        "id": "time",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Timing",
+        "default": true,
+        "displayName": "Auto Animate",
+        "exposed": true,
+        "id": "auto",
+        "perInstance": false,
+        "referenceName": "_AutoAnimate",
+        "tooltip": "On = the band sweeps on a timer; off = Manual Progress is used.",
+        "type": "bool"
+      },
+      {
+        "category": "Timing",
+        "default": 0.5,
+        "displayName": "Manual Progress",
+        "exposed": true,
+        "id": "manual",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ManualProgress",
+        "slider": true,
+        "tooltip": "Band position when Auto Animate is off (0 = before the sprite, 1 = past it).",
+        "type": "float"
+      },
+      {
+        "category": "Timing",
+        "default": 1.6,
+        "displayName": "Sweep Duration",
+        "exposed": true,
+        "id": "period",
+        "max": 6,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_SweepDuration",
+        "slider": true,
+        "tooltip": "Seconds one sweep takes.",
+        "type": "float"
+      },
+      {
+        "category": "Timing",
+        "default": 1.2,
+        "displayName": "Pause Between Sweeps",
+        "exposed": true,
+        "id": "pause",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PauseBetweenSweeps",
+        "slider": true,
+        "tooltip": "Idle time between sweeps, as a multiple of the sweep duration.",
+        "type": "float"
+      },
+      {
+        "category": "Band",
+        "default": 30,
+        "displayName": "Angle",
+        "exposed": true,
+        "id": "angle",
+        "max": 90,
+        "min": -90,
+        "perInstance": false,
+        "referenceName": "_Angle",
+        "slider": true,
+        "tooltip": "Direction the band travels, in degrees (0 = left → right).",
+        "type": "float"
+      },
+      {
+        "category": "Band",
+        "default": 0.28,
+        "displayName": "Width",
+        "exposed": true,
+        "id": "width",
+        "max": 1,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_Width",
+        "slider": true,
+        "tooltip": "Width of the band (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Band",
+        "default": 0.1,
+        "displayName": "Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Softness",
+        "slider": true,
+        "tooltip": "Feathering of the band edges.",
+        "type": "float"
+      },
+      {
+        "category": "Band",
+        "default": 1.4,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Brightness of the band (HDR; > 1 blooms).",
+        "type": "float"
+      },
+      {
+        "category": "Band",
+        "colorSpace": "linear",
+        "default": [
+          1,
+          0.95,
+          0.8
+        ],
+        "displayName": "Shine Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "tint",
+        "perInstance": false,
+        "referenceName": "_ShineColor",
+        "tooltip": "Colour of the band (linear HDR).",
+        "type": "color"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-shine-sweep.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

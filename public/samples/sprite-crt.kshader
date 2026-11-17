@@ -1,0 +1,2078 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "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",
+        "id": "sample.sprite-crt.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "retro-scene.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-crt.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_curve",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 3296
+        },
+        "text": "`c = uv − ½`, `uv' = ½ + c × (1 + curvature × |c|²)`: the screen edge samples further out than the centre. The same scaled vector gives the screen mask `1 − smoothstep(0.495, 0.5, max(|x|, |y|))`, so everything beyond the curved glass is transparent."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_tex",
+        "position": {
+          "x": 3522,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "The **Chromatic Aberration** node samples the sprite three times; red is pushed further from the centre than blue (radial mode), like a cheap lens."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_scan",
+        "position": {
+          "x": 4880,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "**CRT Scanlines** darken between lines (phase scrolls with time). The phosphor mask is three cosines `½ + ½cos(2π(x·density − k/3))` — one per channel, floor `1 − strength` — multiplied onto the colour."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_final",
+        "position": {
+          "x": 7462,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`vignette = 1 − v × smoothstep(0.2, 0.72, |c'|)`; flicker = `1 − amount × ½(1 + sin(97t))`; the result is multiplied by *Brightness*."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 9738,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Colour and the screen-shaped alpha."
+      }
+    ],
+    "edges": {
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "ax:out>mx:a": {
+        "from": {
+          "node": "ax",
+          "port": "out"
+        },
+        "id": "ax:out>mx:a",
+        "to": {
+          "node": "mx",
+          "port": "a"
+        }
+      },
+      "ay:out>mx:b": {
+        "from": {
+          "node": "ay",
+          "port": "out"
+        },
+        "id": "ay:out>mx:b",
+        "to": {
+          "node": "mx",
+          "port": "b"
+        }
+      },
+      "c:out>ck:a": {
+        "from": {
+          "node": "c",
+          "port": "out"
+        },
+        "id": "c:out>ck:a",
+        "to": {
+          "node": "ck",
+          "port": "a"
+        }
+      },
+      "c:out>r2:a": {
+        "from": {
+          "node": "c",
+          "port": "out"
+        },
+        "id": "c:out>r2:a",
+        "to": {
+          "node": "r2",
+          "port": "a"
+        }
+      },
+      "c:out>r2:b": {
+        "from": {
+          "node": "c",
+          "port": "out"
+        },
+        "id": "c:out>r2:b",
+        "to": {
+          "node": "r2",
+          "port": "b"
+        }
+      },
+      "c_b:out>h_b:in": {
+        "from": {
+          "node": "c_b",
+          "port": "out"
+        },
+        "id": "c_b:out>h_b:in",
+        "to": {
+          "node": "h_b",
+          "port": "in"
+        }
+      },
+      "c_g:out>h_g:in": {
+        "from": {
+          "node": "c_g",
+          "port": "out"
+        },
+        "id": "c_g:out>h_g:in",
+        "to": {
+          "node": "h_g",
+          "port": "in"
+        }
+      },
+      "c_r:out>h_r:in": {
+        "from": {
+          "node": "c_r",
+          "port": "out"
+        },
+        "id": "c_r:out>h_r:in",
+        "to": {
+          "node": "h_r",
+          "port": "in"
+        }
+      },
+      "ca:rgba>sp:in": {
+        "from": {
+          "node": "ca",
+          "port": "rgba"
+        },
+        "id": "ca:rgba>sp:in",
+        "to": {
+          "node": "sp",
+          "port": "in"
+        }
+      },
+      "ck:out>len:in": {
+        "from": {
+          "node": "ck",
+          "port": "out"
+        },
+        "id": "ck:out>len:in",
+        "to": {
+          "node": "len",
+          "port": "in"
+        }
+      },
+      "ck:out>uvc:a": {
+        "from": {
+          "node": "ck",
+          "port": "out"
+        },
+        "id": "ck:out>uvc:a",
+        "to": {
+          "node": "uvc",
+          "port": "a"
+        }
+      },
+      "ck:out>xy:in": {
+        "from": {
+          "node": "ck",
+          "port": "out"
+        },
+        "id": "ck:out>xy:in",
+        "to": {
+          "node": "xy",
+          "port": "in"
+        }
+      },
+      "crt:out>lit:a": {
+        "from": {
+          "node": "crt",
+          "port": "out"
+        },
+        "id": "crt:out>lit:a",
+        "to": {
+          "node": "lit",
+          "port": "a"
+        }
+      },
+      "edge:out>inside:in": {
+        "from": {
+          "node": "edge",
+          "port": "out"
+        },
+        "id": "edge:out>inside:in",
+        "to": {
+          "node": "inside",
+          "port": "in"
+        }
+      },
+      "fk:out>fl:in": {
+        "from": {
+          "node": "fk",
+          "port": "out"
+        },
+        "id": "fk:out>fl:in",
+        "to": {
+          "node": "fl",
+          "port": "in"
+        }
+      },
+      "fl:out>g2:b": {
+        "from": {
+          "node": "fl",
+          "port": "out"
+        },
+        "id": "fl:out>g2:b",
+        "to": {
+          "node": "g2",
+          "port": "b"
+        }
+      },
+      "floor:out>h_b:outMin": {
+        "from": {
+          "node": "floor",
+          "port": "out"
+        },
+        "id": "floor:out>h_b:outMin",
+        "to": {
+          "node": "h_b",
+          "port": "outMin"
+        }
+      },
+      "floor:out>h_g:outMin": {
+        "from": {
+          "node": "floor",
+          "port": "out"
+        },
+        "id": "floor:out>h_g:outMin",
+        "to": {
+          "node": "h_g",
+          "port": "outMin"
+        }
+      },
+      "floor:out>h_r:outMin": {
+        "from": {
+          "node": "floor",
+          "port": "out"
+        },
+        "id": "floor:out>h_r:outMin",
+        "to": {
+          "node": "h_r",
+          "port": "outMin"
+        }
+      },
+      "g1:out>g2:a": {
+        "from": {
+          "node": "g1",
+          "port": "out"
+        },
+        "id": "g1:out>g2:a",
+        "to": {
+          "node": "g2",
+          "port": "a"
+        }
+      },
+      "g2:out>g3:a": {
+        "from": {
+          "node": "g2",
+          "port": "out"
+        },
+        "id": "g2:out>g3:a",
+        "to": {
+          "node": "g3",
+          "port": "a"
+        }
+      },
+      "g3:out>master:baseColor": {
+        "from": {
+          "node": "g3",
+          "port": "out"
+        },
+        "id": "g3:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "h:out>fk:a": {
+        "from": {
+          "node": "h",
+          "port": "out"
+        },
+        "id": "h:out>fk:a",
+        "to": {
+          "node": "fk",
+          "port": "a"
+        }
+      },
+      "h_b:out>m:b": {
+        "from": {
+          "node": "h_b",
+          "port": "out"
+        },
+        "id": "h_b:out>m:b",
+        "to": {
+          "node": "m",
+          "port": "b"
+        }
+      },
+      "h_g:out>m:g": {
+        "from": {
+          "node": "h_g",
+          "port": "out"
+        },
+        "id": "h_g:out>m:g",
+        "to": {
+          "node": "m",
+          "port": "g"
+        }
+      },
+      "h_r:out>m:r": {
+        "from": {
+          "node": "h_r",
+          "port": "out"
+        },
+        "id": "h_r:out>m:r",
+        "to": {
+          "node": "m",
+          "port": "r"
+        }
+      },
+      "inside:out>al:a": {
+        "from": {
+          "node": "inside",
+          "port": "out"
+        },
+        "id": "inside:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "k:out>ck:b": {
+        "from": {
+          "node": "k",
+          "port": "out"
+        },
+        "id": "k:out>ck:b",
+        "to": {
+          "node": "ck",
+          "port": "b"
+        }
+      },
+      "kr:out>k:a": {
+        "from": {
+          "node": "kr",
+          "port": "out"
+        },
+        "id": "kr:out>k:a",
+        "to": {
+          "node": "k",
+          "port": "a"
+        }
+      },
+      "len:out>vs:in": {
+        "from": {
+          "node": "len",
+          "port": "out"
+        },
+        "id": "len:out>vs:in",
+        "to": {
+          "node": "vs",
+          "port": "in"
+        }
+      },
+      "lit:out>g1:a": {
+        "from": {
+          "node": "lit",
+          "port": "out"
+        },
+        "id": "lit:out>g1:a",
+        "to": {
+          "node": "g1",
+          "port": "a"
+        }
+      },
+      "m:rgb>lit:b": {
+        "from": {
+          "node": "m",
+          "port": "rgb"
+        },
+        "id": "m:rgb>lit:b",
+        "to": {
+          "node": "lit",
+          "port": "b"
+        }
+      },
+      "mx:out>edge:in": {
+        "from": {
+          "node": "mx",
+          "port": "out"
+        },
+        "id": "mx:out>edge:in",
+        "to": {
+          "node": "edge",
+          "port": "in"
+        }
+      },
+      "o_b:out>t_b:a": {
+        "from": {
+          "node": "o_b",
+          "port": "out"
+        },
+        "id": "o_b:out>t_b:a",
+        "to": {
+          "node": "t_b",
+          "port": "a"
+        }
+      },
+      "o_g:out>t_g:a": {
+        "from": {
+          "node": "o_g",
+          "port": "out"
+        },
+        "id": "o_g:out>t_g:a",
+        "to": {
+          "node": "t_g",
+          "port": "a"
+        }
+      },
+      "o_r:out>t_r:a": {
+        "from": {
+          "node": "o_r",
+          "port": "out"
+        },
+        "id": "o_r:out>t_r:a",
+        "to": {
+          "node": "t_r",
+          "port": "a"
+        }
+      },
+      "p_aberration_tex:out>ca:strength": {
+        "from": {
+          "node": "p_aberration_tex",
+          "port": "out"
+        },
+        "id": "p_aberration_tex:out>ca:strength",
+        "to": {
+          "node": "ca",
+          "port": "strength"
+        }
+      },
+      "p_brightness_final:out>g3:b": {
+        "from": {
+          "node": "p_brightness_final",
+          "port": "out"
+        },
+        "id": "p_brightness_final:out>g3:b",
+        "to": {
+          "node": "g3",
+          "port": "b"
+        }
+      },
+      "p_curvature_curve:out>kr:b": {
+        "from": {
+          "node": "p_curvature_curve",
+          "port": "out"
+        },
+        "id": "p_curvature_curve:out>kr:b",
+        "to": {
+          "node": "kr",
+          "port": "b"
+        }
+      },
+      "p_flicker_final:out>fk:b": {
+        "from": {
+          "node": "p_flicker_final",
+          "port": "out"
+        },
+        "id": "p_flicker_final:out>fk:b",
+        "to": {
+          "node": "fk",
+          "port": "b"
+        }
+      },
+      "p_lines_scan:out>crt:lines": {
+        "from": {
+          "node": "p_lines_scan",
+          "port": "out"
+        },
+        "id": "p_lines_scan:out>crt:lines",
+        "to": {
+          "node": "crt",
+          "port": "lines"
+        }
+      },
+      "p_locked_sprite_texture_tex:out>ca:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_tex",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_tex:out>ca:tex",
+        "to": {
+          "node": "ca",
+          "port": "tex"
+        }
+      },
+      "p_maskDensity_scan:out>x:b": {
+        "from": {
+          "node": "p_maskDensity_scan",
+          "port": "out"
+        },
+        "id": "p_maskDensity_scan:out>x:b",
+        "to": {
+          "node": "x",
+          "port": "b"
+        }
+      },
+      "p_maskStrength_scan:out>floor:in": {
+        "from": {
+          "node": "p_maskStrength_scan",
+          "port": "out"
+        },
+        "id": "p_maskStrength_scan:out>floor:in",
+        "to": {
+          "node": "floor",
+          "port": "in"
+        }
+      },
+      "p_roll_scan:out>ph:b": {
+        "from": {
+          "node": "p_roll_scan",
+          "port": "out"
+        },
+        "id": "p_roll_scan:out>ph:b",
+        "to": {
+          "node": "ph",
+          "port": "b"
+        }
+      },
+      "p_scanIntensity_scan:out>crt:intensity": {
+        "from": {
+          "node": "p_scanIntensity_scan",
+          "port": "out"
+        },
+        "id": "p_scanIntensity_scan:out>crt:intensity",
+        "to": {
+          "node": "crt",
+          "port": "intensity"
+        }
+      },
+      "p_scanSharp_scan:out>crt:sharpness": {
+        "from": {
+          "node": "p_scanSharp_scan",
+          "port": "out"
+        },
+        "id": "p_scanSharp_scan:out>crt:sharpness",
+        "to": {
+          "node": "crt",
+          "port": "sharpness"
+        }
+      },
+      "p_vignette_final:out>vk:b": {
+        "from": {
+          "node": "p_vignette_final",
+          "port": "out"
+        },
+        "id": "p_vignette_final:out>vk:b",
+        "to": {
+          "node": "vk",
+          "port": "b"
+        }
+      },
+      "ph:out>crt:phase": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>crt:phase",
+        "to": {
+          "node": "crt",
+          "port": "phase"
+        }
+      },
+      "po_screenuv_ca_uv:out>ca:uv": {
+        "from": {
+          "node": "po_screenuv_ca_uv",
+          "port": "out"
+        },
+        "id": "po_screenuv_ca_uv:out>ca:uv",
+        "to": {
+          "node": "ca",
+          "port": "uv"
+        }
+      },
+      "po_time_ph_a:out>ph:a": {
+        "from": {
+          "node": "po_time_ph_a",
+          "port": "out"
+        },
+        "id": "po_time_ph_a:out>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "r2:out>kr:a": {
+        "from": {
+          "node": "r2",
+          "port": "out"
+        },
+        "id": "r2:out>kr:a",
+        "to": {
+          "node": "kr",
+          "port": "a"
+        }
+      },
+      "rgb:rgb>crt:color": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>crt:color",
+        "to": {
+          "node": "crt",
+          "port": "color"
+        }
+      },
+      "sn:out>h:in": {
+        "from": {
+          "node": "sn",
+          "port": "out"
+        },
+        "id": "sn:out>h:in",
+        "to": {
+          "node": "h",
+          "port": "in"
+        }
+      },
+      "sp:a>al:b": {
+        "from": {
+          "node": "sp",
+          "port": "a"
+        },
+        "id": "sp:a>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "sp:b>rgb:b": {
+        "from": {
+          "node": "sp",
+          "port": "b"
+        },
+        "id": "sp:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "sp:g>rgb:g": {
+        "from": {
+          "node": "sp",
+          "port": "g"
+        },
+        "id": "sp:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "sp:r>rgb:r": {
+        "from": {
+          "node": "sp",
+          "port": "r"
+        },
+        "id": "sp:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "t97:out>sn:in": {
+        "from": {
+          "node": "t97",
+          "port": "out"
+        },
+        "id": "t97:out>sn:in",
+        "to": {
+          "node": "sn",
+          "port": "in"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "t:time>t97:a": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>t97:a",
+        "to": {
+          "node": "t97",
+          "port": "a"
+        }
+      },
+      "t_b:out>c_b:in": {
+        "from": {
+          "node": "t_b",
+          "port": "out"
+        },
+        "id": "t_b:out>c_b:in",
+        "to": {
+          "node": "c_b",
+          "port": "in"
+        }
+      },
+      "t_g:out>c_g:in": {
+        "from": {
+          "node": "t_g",
+          "port": "out"
+        },
+        "id": "t_g:out>c_g:in",
+        "to": {
+          "node": "c_g",
+          "port": "in"
+        }
+      },
+      "t_r:out>c_r:in": {
+        "from": {
+          "node": "t_r",
+          "port": "out"
+        },
+        "id": "t_r:out>c_r:in",
+        "to": {
+          "node": "c_r",
+          "port": "in"
+        }
+      },
+      "uv:out>c:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>c:a",
+        "to": {
+          "node": "c",
+          "port": "a"
+        }
+      },
+      "uvc:out>crt:coord": {
+        "from": {
+          "node": "uvc",
+          "port": "out"
+        },
+        "id": "uvc:out>crt:coord",
+        "to": {
+          "node": "crt",
+          "port": "coord"
+        }
+      },
+      "uvc:out>pi_screenuv:in": {
+        "from": {
+          "node": "uvc",
+          "port": "out"
+        },
+        "id": "uvc:out>pi_screenuv:in",
+        "to": {
+          "node": "pi_screenuv",
+          "port": "in"
+        }
+      },
+      "uvc:out>ux:in": {
+        "from": {
+          "node": "uvc",
+          "port": "out"
+        },
+        "id": "uvc:out>ux:in",
+        "to": {
+          "node": "ux",
+          "port": "in"
+        }
+      },
+      "ux:r>x:a": {
+        "from": {
+          "node": "ux",
+          "port": "r"
+        },
+        "id": "ux:r>x:a",
+        "to": {
+          "node": "x",
+          "port": "a"
+        }
+      },
+      "vig:out>g1:b": {
+        "from": {
+          "node": "vig",
+          "port": "out"
+        },
+        "id": "vig:out>g1:b",
+        "to": {
+          "node": "g1",
+          "port": "b"
+        }
+      },
+      "vk:out>vig:in": {
+        "from": {
+          "node": "vk",
+          "port": "out"
+        },
+        "id": "vk:out>vig:in",
+        "to": {
+          "node": "vig",
+          "port": "in"
+        }
+      },
+      "vs:out>vk:a": {
+        "from": {
+          "node": "vs",
+          "port": "out"
+        },
+        "id": "vs:out>vk:a",
+        "to": {
+          "node": "vk",
+          "port": "a"
+        }
+      },
+      "x:out>o_b:a": {
+        "from": {
+          "node": "x",
+          "port": "out"
+        },
+        "id": "x:out>o_b:a",
+        "to": {
+          "node": "o_b",
+          "port": "a"
+        }
+      },
+      "x:out>o_g:a": {
+        "from": {
+          "node": "x",
+          "port": "out"
+        },
+        "id": "x:out>o_g:a",
+        "to": {
+          "node": "o_g",
+          "port": "a"
+        }
+      },
+      "x:out>o_r:a": {
+        "from": {
+          "node": "x",
+          "port": "out"
+        },
+        "id": "x:out>o_r:a",
+        "to": {
+          "node": "o_r",
+          "port": "a"
+        }
+      },
+      "xy:g>ay:in": {
+        "from": {
+          "node": "xy",
+          "port": "g"
+        },
+        "id": "xy:g>ay:in",
+        "to": {
+          "node": "ay",
+          "port": "in"
+        }
+      },
+      "xy:r>ax:in": {
+        "from": {
+          "node": "xy",
+          "port": "r"
+        },
+        "id": "xy:r>ax:in",
+        "to": {
+          "node": "ax",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_curve",
+        "nodeIds": [
+          "uv",
+          "c",
+          "r2",
+          "kr",
+          "k",
+          "ck",
+          "uvc",
+          "xy",
+          "ax",
+          "ay",
+          "mx",
+          "edge",
+          "inside",
+          "p_curvature_curve",
+          "pi_screenuv"
+        ],
+        "rect": {
+          "h": 474,
+          "w": 3340,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Barrel distortion + screen mask"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_tex",
+        "nodeIds": [
+          "ca",
+          "sp",
+          "rgb",
+          "p_locked_sprite_texture_tex",
+          "po_screenuv_ca_uv",
+          "p_aberration_tex"
+        ],
+        "rect": {
+          "h": 457,
+          "w": 1198,
+          "x": 3500,
+          "y": 0
+        },
+        "title": "Sprite + chromatic aberration"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_scan",
+        "nodeIds": [
+          "t",
+          "ph",
+          "crt",
+          "ux",
+          "x",
+          "floor",
+          "m",
+          "lit",
+          "pi_time",
+          "po_time_ph_a",
+          "p_roll_scan",
+          "p_lines_scan",
+          "p_scanIntensity_scan",
+          "p_scanSharp_scan",
+          "p_maskDensity_scan",
+          "p_maskStrength_scan",
+          "o_r",
+          "t_r",
+          "c_r",
+          "h_r",
+          "o_g",
+          "t_g",
+          "c_g",
+          "h_g",
+          "o_b",
+          "t_b",
+          "c_b",
+          "h_b"
+        ],
+        "rect": {
+          "h": 1531,
+          "w": 2422,
+          "x": 4858,
+          "y": 0
+        },
+        "title": "Scanlines + phosphor mask"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_final",
+        "nodeIds": [
+          "len",
+          "vs",
+          "vk",
+          "vig",
+          "t97",
+          "sn",
+          "h",
+          "fk",
+          "fl",
+          "g1",
+          "g2",
+          "g3",
+          "al",
+          "p_vignette_final",
+          "p_flicker_final",
+          "p_brightness_final"
+        ],
+        "rect": {
+          "h": 835,
+          "w": 2116,
+          "x": 7440,
+          "y": 0
+        },
+        "title": "Vignette, flicker, gain"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 9716,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-crt",
+    "keywords": [],
+    "name": "CRT Monitor",
+    "nodes": {
+      "al": {
+        "defId": "multiply",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 7462,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ax": {
+        "defId": "abs",
+        "id": "ax",
+        "params": {},
+        "position": {
+          "x": 2164,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ay": {
+        "defId": "abs",
+        "id": "ay",
+        "params": {},
+        "position": {
+          "x": 2164,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c": {
+        "defId": "subtract",
+        "id": "c",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "c_b": {
+        "defId": "cos",
+        "id": "c_b",
+        "params": {},
+        "position": {
+          "x": 6104,
+          "y": 679
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c_g": {
+        "defId": "cos",
+        "id": "c_g",
+        "params": {},
+        "position": {
+          "x": 6104,
+          "y": 893
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c_r": {
+        "defId": "cos",
+        "id": "c_r",
+        "params": {},
+        "position": {
+          "x": 6104,
+          "y": 1107
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ca": {
+        "defId": "chromaticAberration",
+        "id": "ca",
+        "params": {
+          "mode": "radial"
+        },
+        "position": {
+          "x": 3828,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ck": {
+        "defId": "multiply",
+        "id": "ck",
+        "params": {},
+        "position": {
+          "x": 1552,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "crt": {
+        "defId": "crtScanlines",
+        "id": "crt",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "edge": {
+        "defId": "smoothstep",
+        "id": "edge",
+        "params": {},
+        "position": {
+          "x": 2776,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.495,
+          "edge2": 0.5
+        }
+      },
+      "fk": {
+        "defId": "multiply",
+        "id": "fk",
+        "params": {},
+        "position": {
+          "x": 8380,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fl": {
+        "defId": "oneMinus",
+        "id": "fl",
+        "params": {},
+        "position": {
+          "x": 8686,
+          "y": 285
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "floor": {
+        "defId": "oneMinus",
+        "id": "floor",
+        "params": {},
+        "position": {
+          "x": 5186,
+          "y": 893
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g1": {
+        "defId": "multiply",
+        "id": "g1",
+        "params": {},
+        "position": {
+          "x": 8686,
+          "y": 569
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g2": {
+        "defId": "multiply",
+        "id": "g2",
+        "params": {},
+        "position": {
+          "x": 8992,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g3": {
+        "defId": "multiply",
+        "id": "g3",
+        "params": {},
+        "position": {
+          "x": 9298,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h": {
+        "defId": "remap",
+        "id": "h",
+        "params": {},
+        "position": {
+          "x": 8074,
+          "y": 355
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "h_b": {
+        "defId": "remap",
+        "id": "h_b",
+        "params": {},
+        "position": {
+          "x": 6410,
+          "y": 631
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1
+        }
+      },
+      "h_g": {
+        "defId": "remap",
+        "id": "h_g",
+        "params": {},
+        "position": {
+          "x": 6410,
+          "y": 845
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1
+        }
+      },
+      "h_r": {
+        "defId": "remap",
+        "id": "h_r",
+        "params": {},
+        "position": {
+          "x": 6410,
+          "y": 1059
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1
+        }
+      },
+      "inside": {
+        "defId": "oneMinus",
+        "id": "inside",
+        "params": {},
+        "position": {
+          "x": 3082,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "k": {
+        "defId": "add",
+        "id": "k",
+        "params": {},
+        "position": {
+          "x": 1246,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1
+        }
+      },
+      "kr": {
+        "defId": "multiply",
+        "id": "kr",
+        "params": {},
+        "position": {
+          "x": 940,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "len": {
+        "defId": "length",
+        "id": "len",
+        "params": {},
+        "position": {
+          "x": 7462,
+          "y": 627
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lit": {
+        "defId": "multiply",
+        "id": "lit",
+        "params": {},
+        "position": {
+          "x": 7022,
+          "y": 751
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "m": {
+        "defId": "combine",
+        "id": "m",
+        "params": {},
+        "position": {
+          "x": 6716,
+          "y": 703
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 9738,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mx": {
+        "defId": "maximum",
+        "id": "mx",
+        "params": {},
+        "position": {
+          "x": 2470,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "o_b": {
+        "defId": "subtract",
+        "id": "o_b",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 667
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.6666666666666666
+        }
+      },
+      "o_g": {
+        "defId": "subtract",
+        "id": "o_g",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 881
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.3333333333333333
+        }
+      },
+      "o_r": {
+        "defId": "subtract",
+        "id": "o_r",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 1095
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0
+        }
+      },
+      "p_aberration_tex": {
+        "defId": "property",
+        "id": "p_aberration_tex",
+        "params": {
+          "property": "aberration"
+        },
+        "position": {
+          "x": 3522,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_brightness_final": {
+        "defId": "property",
+        "id": "p_brightness_final",
+        "params": {
+          "property": "brightness"
+        },
+        "position": {
+          "x": 7462,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_curvature_curve": {
+        "defId": "property",
+        "id": "p_curvature_curve",
+        "params": {
+          "property": "curvature"
+        },
+        "position": {
+          "x": 22,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flicker_final": {
+        "defId": "property",
+        "id": "p_flicker_final",
+        "params": {
+          "property": "flicker"
+        },
+        "position": {
+          "x": 7462,
+          "y": 391
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lines_scan": {
+        "defId": "property",
+        "id": "p_lines_scan",
+        "params": {
+          "property": "lines"
+        },
+        "position": {
+          "x": 4880,
+          "y": 189
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_tex": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_tex",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 3522,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_maskDensity_scan": {
+        "defId": "property",
+        "id": "p_maskDensity_scan",
+        "params": {
+          "property": "maskDensity"
+        },
+        "position": {
+          "x": 4880,
+          "y": 1035
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_maskStrength_scan": {
+        "defId": "property",
+        "id": "p_maskStrength_scan",
+        "params": {
+          "property": "maskStrength"
+        },
+        "position": {
+          "x": 4880,
+          "y": 905
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_roll_scan": {
+        "defId": "property",
+        "id": "p_roll_scan",
+        "params": {
+          "property": "roll"
+        },
+        "position": {
+          "x": 4880,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_scanIntensity_scan": {
+        "defId": "property",
+        "id": "p_scanIntensity_scan",
+        "params": {
+          "property": "scanIntensity"
+        },
+        "position": {
+          "x": 4880,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_scanSharp_scan": {
+        "defId": "property",
+        "id": "p_scanSharp_scan",
+        "params": {
+          "property": "scanSharp"
+        },
+        "position": {
+          "x": 4880,
+          "y": 471
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_vignette_final": {
+        "defId": "property",
+        "id": "p_vignette_final",
+        "params": {
+          "property": "vignette"
+        },
+        "position": {
+          "x": 7462,
+          "y": 745
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "multiply",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 5186,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_screenuv": {
+        "defId": "portalIn",
+        "id": "pi_screenuv",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 2164,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 5186,
+          "y": 1410
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_screenuv_ca_uv": {
+        "defId": "portalOut",
+        "id": "po_screenuv_ca_uv",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 3522,
+          "y": 401
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ph_a": {
+        "defId": "portalOut",
+        "id": "po_time_ph_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 4880,
+          "y": 565
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "r2": {
+        "defId": "dot",
+        "id": "r2",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 4440,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sn": {
+        "defId": "sin",
+        "id": "sn",
+        "params": {},
+        "position": {
+          "x": 7768,
+          "y": 403
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp": {
+        "defId": "split",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 4134,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 4880,
+          "y": 1345
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t97": {
+        "defId": "multiply",
+        "id": "t97",
+        "params": {},
+        "position": {
+          "x": 7462,
+          "y": 485
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 97
+        }
+      },
+      "t_b": {
+        "defId": "multiply",
+        "id": "t_b",
+        "params": {},
+        "position": {
+          "x": 5798,
+          "y": 667
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.28318530718
+        }
+      },
+      "t_g": {
+        "defId": "multiply",
+        "id": "t_g",
+        "params": {},
+        "position": {
+          "x": 5798,
+          "y": 881
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.28318530718
+        }
+      },
+      "t_r": {
+        "defId": "multiply",
+        "id": "t_r",
+        "params": {},
+        "position": {
+          "x": 5798,
+          "y": 1095
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.28318530718
+        }
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uvc": {
+        "defId": "add",
+        "id": "uvc",
+        "params": {},
+        "position": {
+          "x": 1858,
+          "y": 336
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ux": {
+        "defId": "split",
+        "id": "ux",
+        "params": {},
+        "position": {
+          "x": 4880,
+          "y": 1129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vig": {
+        "defId": "oneMinus",
+        "id": "vig",
+        "params": {},
+        "position": {
+          "x": 8380,
+          "y": 581
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vk": {
+        "defId": "multiply",
+        "id": "vk",
+        "params": {},
+        "position": {
+          "x": 8074,
+          "y": 569
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vs": {
+        "defId": "smoothstep",
+        "id": "vs",
+        "params": {},
+        "position": {
+          "x": 7768,
+          "y": 557
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.2,
+          "edge2": 0.72
+        }
+      },
+      "x": {
+        "defId": "multiply",
+        "id": "x",
+        "params": {},
+        "position": {
+          "x": 5186,
+          "y": 1011
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "xy": {
+        "defId": "split",
+        "id": "xy",
+        "params": {},
+        "position": {
+          "x": 1858,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Screen",
+        "default": 0.22,
+        "displayName": "Curvature",
+        "exposed": true,
+        "id": "curvature",
+        "max": 0.8,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Curvature",
+        "slider": true,
+        "tooltip": "Barrel distortion of the screen (0 = flat).",
+        "type": "float"
+      },
+      {
+        "category": "Screen",
+        "default": 1.15,
+        "displayName": "Brightness",
+        "exposed": true,
+        "id": "brightness",
+        "max": 2.5,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_Brightness",
+        "slider": true,
+        "tooltip": "Overall brightness (compensates scanline / mask darkening).",
+        "type": "float"
+      },
+      {
+        "category": "Screen",
+        "default": 0.55,
+        "displayName": "Vignette",
+        "exposed": true,
+        "id": "vignette",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Vignette",
+        "slider": true,
+        "tooltip": "Darkening towards the screen corners.",
+        "type": "float"
+      },
+      {
+        "category": "Signal",
+        "default": 0.012,
+        "displayName": "Chromatic Aberration",
+        "exposed": true,
+        "id": "aberration",
+        "max": 0.05,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ChromaticAberration",
+        "slider": true,
+        "tooltip": "Radial colour fringing (fraction of the distance from the centre).",
+        "type": "float"
+      },
+      {
+        "category": "Signal",
+        "default": 0.06,
+        "displayName": "Flicker",
+        "exposed": true,
+        "id": "flicker",
+        "max": 0.3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Flicker",
+        "slider": true,
+        "tooltip": "Amplitude of the 50 Hz brightness flicker.",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 120,
+        "displayName": "Scanline Count",
+        "exposed": true,
+        "id": "lines",
+        "max": 480,
+        "min": 40,
+        "perInstance": false,
+        "referenceName": "_ScanlineCount",
+        "slider": true,
+        "tooltip": "Scanlines per sprite height.",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 0.45,
+        "displayName": "Scanline Intensity",
+        "exposed": true,
+        "id": "scanIntensity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ScanlineIntensity",
+        "slider": true,
+        "tooltip": "Darkness between scanlines.",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 1.4,
+        "displayName": "Scanline Sharpness",
+        "exposed": true,
+        "id": "scanSharp",
+        "max": 4,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_ScanlineSharpness",
+        "slider": true,
+        "tooltip": "Thinner bright lines with higher values.",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 0.12,
+        "displayName": "Roll Speed",
+        "exposed": true,
+        "id": "roll",
+        "max": 1,
+        "min": -1,
+        "perInstance": false,
+        "referenceName": "_RollSpeed",
+        "slider": true,
+        "tooltip": "How fast the scanline pattern crawls (lines per second; 0 = static).",
+        "type": "float"
+      },
+      {
+        "category": "Phosphor",
+        "default": 90,
+        "displayName": "Phosphor Density",
+        "exposed": true,
+        "id": "maskDensity",
+        "max": 400,
+        "min": 20,
+        "perInstance": false,
+        "referenceName": "_PhosphorDensity",
+        "slider": true,
+        "tooltip": "RGB phosphor triads across the sprite width.",
+        "type": "float"
+      },
+      {
+        "category": "Phosphor",
+        "default": 0.4,
+        "displayName": "Phosphor Strength",
+        "exposed": true,
+        "id": "maskStrength",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PhosphorStrength",
+        "slider": true,
+        "tooltip": "Visibility of the RGB mask (0 = off).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-crt.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

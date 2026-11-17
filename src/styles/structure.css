@@ -1,0 +1,600 @@
+/* reroutes, portals, groups, comments, subgraph UI */
+
+/* ── reroute ─────────────────────────────────────────────────────────── */
+.kk-node.kk-reroute {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 50%;
+}
+.kk-reroute:hover,
+.kk-reroute[data-selected] {
+  box-shadow: none;
+}
+.kk-reroute__knot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  cursor: grab;
+  border-radius: 50%;
+  background: var(--kk-st-color, #8b93a7);
+  border: 2px solid #12151c;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+  transition:
+    transform var(--kk-dur-fast) var(--kk-ease),
+    box-shadow var(--kk-dur-fast) var(--kk-ease);
+  pointer-events: none;
+}
+.kk-reroute:hover .kk-reroute__knot {
+  transform: scale(1.18);
+}
+.kk-reroute[data-selected] .kk-reroute__knot {
+  box-shadow:
+    0 0 0 2px var(--kk-accent),
+    0 0 12px var(--kk-accent-soft);
+}
+.kk-reroute .kk-port {
+  opacity: 0;
+  transition: opacity var(--kk-dur-fast) ease;
+}
+.kk-reroute:hover .kk-port,
+.kk-reroute[data-selected] .kk-port {
+  opacity: 0.9;
+}
+.kk-reroute__label {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-2);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── portal capsule ──────────────────────────────────────────────────── */
+.kk-node.kk-portal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--kk-text-1);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kk-portal-color) 16%, #20242f),
+    color-mix(in srgb, var(--kk-portal-color) 8%, #191d27)
+  );
+  border: 1.5px solid var(--kk-portal-color);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--kk-portal-color) 14%, transparent),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.kk-portal[data-portal="in"] {
+  border-radius: 999px 6px 6px 999px;
+}
+.kk-portal[data-portal="out"] {
+  border-radius: 6px 999px 999px 6px;
+}
+.kk-portal__glyph {
+  flex: none;
+  color: var(--kk-portal-color);
+}
+.kk-portal__name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--kk-text-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+.kk-portal__text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kk-portal[data-selected] {
+  box-shadow:
+    0 0 0 2px var(--kk-portal-color),
+    0 0 22px color-mix(in srgb, var(--kk-portal-color) 45%, transparent),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.kk-portal[data-orphan] {
+  border-style: dashed;
+  background: linear-gradient(180deg, rgba(248, 113, 113, 0.22), rgba(120, 30, 40, 0.35));
+  color: #ffd7d7;
+}
+.kk-portal[data-orphan] .kk-portal__text {
+  text-decoration: line-through wavy rgba(248, 113, 113, 0.8);
+}
+.kk-portal__pick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--kk-text-2);
+  cursor: pointer;
+  padding: 0;
+}
+.kk-portal__pick:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--kk-text-1);
+}
+.kk-portal__edit {
+  width: 100%;
+}
+
+/* ── dashed marching-ants links (above nodes) ────────────────────────── */
+.kk-portal-links {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 9;
+}
+.kk-portal-link {
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 9 7;
+  filter: drop-shadow(0 0 4px currentColor);
+  animation: kk-ants 700ms linear infinite;
+}
+@keyframes kk-ants {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kk-portal-link {
+    animation: none;
+  }
+}
+.kk-portal-indicator {
+  position: absolute;
+  z-index: 20;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: rgba(18, 21, 28, 0.92);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  padding: 0;
+  animation: kk-pop var(--kk-dur) var(--kk-ease-out);
+}
+.kk-portal-indicator:hover {
+  background: rgba(40, 45, 60, 0.98);
+}
+@keyframes kk-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* ── groups ──────────────────────────────────────────────────────────── */
+.kk-group,
+.kk-comment {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  --kk-frame: #7c8aa5;
+}
+.kk-group {
+  pointer-events: none;
+  border-radius: 14px;
+  border: 1.5px solid color-mix(in srgb, var(--kk-frame) 55%, transparent);
+  background: color-mix(in srgb, var(--kk-frame) 9%, transparent);
+  transition:
+    box-shadow var(--kk-dur) ease,
+    border-color var(--kk-dur) ease;
+}
+.kk-group[data-selected] {
+  border-color: var(--kk-frame);
+  box-shadow:
+    0 0 0 1px var(--kk-frame),
+    0 0 26px color-mix(in srgb, var(--kk-frame) 22%, transparent);
+}
+.kk-group__head {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  cursor: grab;
+  border-radius: 12px 12px 0 0;
+  background: color-mix(in srgb, var(--kk-frame) 22%, rgba(20, 23, 31, 0.85));
+  border-bottom: 1px solid color-mix(in srgb, var(--kk-frame) 40%, transparent);
+}
+.kk-group__title {
+  flex: 1;
+  font-size: var(--kk-text-md);
+  font-weight: 650;
+  color: var(--kk-text-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-group__count {
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-2);
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.kk-group__edit {
+  flex: 1;
+}
+
+/* ── comments (sticky notes) ─────────────────────────────────────────── */
+.kk-comment {
+  --kk-frame: #fbbf24;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: grab;
+  color: #1b1d24;
+  background: color-mix(in srgb, var(--kk-frame) 82%, #fff 6%);
+  border: 1px solid color-mix(in srgb, var(--kk-frame) 70%, #000);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.kk-comment[data-selected] {
+  box-shadow:
+    0 0 0 2px var(--kk-accent),
+    0 10px 26px rgba(0, 0, 0, 0.45);
+}
+.kk-comment__body {
+  padding: 10px 12px;
+  font-size: var(--kk-text-md);
+  line-height: 1.4;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  user-select: none;
+}
+.kk-comment__body h1 {
+  font-size: 17px;
+  margin: 0 0 4px;
+}
+.kk-comment__body h2 {
+  font-size: 15px;
+  margin: 0 0 4px;
+}
+.kk-comment__body h3 {
+  font-size: 13px;
+  margin: 0 0 3px;
+}
+.kk-comment__body p {
+  margin: 0;
+}
+.kk-comment__body code {
+  font-family: var(--kk-font-mono);
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.14);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+.kk-comment__body a {
+  color: #1d3a8a;
+  text-decoration: underline;
+}
+.kk-comment__body hr {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+  margin: 6px 0;
+}
+.kk-md-li {
+  padding-left: 14px;
+  position: relative;
+}
+.kk-md-li::before {
+  content: "•";
+  position: absolute;
+  left: 3px;
+}
+.kk-md-gap {
+  height: 6px;
+}
+.kk-comment__edit {
+  height: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  background: rgba(20, 23, 31, 0.92);
+}
+.kk-frame__resize {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 16px;
+  height: 16px;
+  pointer-events: auto;
+  cursor: nwse-resize;
+  border-radius: 4px;
+  background: linear-gradient(
+    135deg,
+    transparent 52%,
+    color-mix(in srgb, var(--kk-frame) 90%, #fff) 52% 60%,
+    transparent 60% 72%,
+    color-mix(in srgb, var(--kk-frame) 90%, #fff) 72% 80%,
+    transparent 80%
+  );
+  opacity: 0.7;
+}
+.kk-frame__resize:hover {
+  opacity: 1;
+}
+
+/* ── subgraph tabs / breadcrumb / library / I/O editor ───────────────── */
+.kk-gtab.is-sub::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--kk-accent);
+  margin-right: 6px;
+}
+.kk-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 10px;
+  font-size: var(--kk-text-sm);
+  border-bottom: 1px solid var(--kk-border-subtle);
+  background: rgba(20, 23, 31, 0.6);
+  color: var(--kk-text-2);
+}
+.kk-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  color: var(--kk-text-2);
+  padding: 2px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    background var(--kk-dur-fast) ease,
+    color var(--kk-dur-fast) ease;
+}
+.kk-crumb:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--kk-text-1);
+}
+.kk-crumb[data-current] {
+  color: var(--kk-text-1);
+  font-weight: 600;
+}
+.kk-crumbs__sep {
+  opacity: 0.5;
+}
+.kk-sglib {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.kk-sglib__bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.kk-sglib__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.kk-sglib__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--kk-dur-fast) ease;
+}
+.kk-sglib__item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.kk-sglib__item[data-selected] {
+  background: var(--kk-accent-softer);
+  border-color: var(--kk-accent-soft);
+}
+.kk-sglib__icon {
+  color: var(--kk-accent);
+  flex: none;
+}
+.kk-sglib__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.kk-sglib__uses {
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-2);
+  font-variant-numeric: tabular-nums;
+}
+.kk-sglib__actions {
+  display: none;
+  gap: 1px;
+}
+.kk-sglib__item:hover .kk-sglib__actions,
+.kk-sglib__item[data-selected] .kk-sglib__actions {
+  display: inline-flex;
+}
+.kk-sglib__confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--kk-text-sm);
+  color: var(--kk-danger);
+}
+.kk-sglib__detail {
+  border-top: 1px solid var(--kk-border-subtle);
+  padding-top: 8px;
+}
+.kk-sglib__detail-title {
+  font-size: var(--kk-text-sm);
+  color: var(--kk-text-2);
+  margin-bottom: 6px;
+}
+.kk-sgio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kk-sgio__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.kk-sgio__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--kk-text-sm);
+  font-weight: 650;
+  color: var(--kk-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.kk-sgio__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--kk-border-subtle);
+}
+.kk-sgio__line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.kk-sgio__line > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+.kk-sgio__line--sub {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.kk-sgio__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--kk-text-sm);
+  color: var(--kk-text-2);
+}
+.kk-sgio__none {
+  font-size: var(--kk-text-sm);
+  color: var(--kk-text-disabled);
+}
+.kk-sgio__actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* ── U4: hit-zone model ──────────────────────────────────────────────────────────────────
+   Reroute (14 px knob): centre 60 % = move handle, left ring (≤ 20 %) = input port, right ring (≥ 80 %) = output port.
+   The port dots are purely visual (pointer-events: none); only their ::after zones receive presses, so the centre can never start a wire.
+   Portal capsule: the 16 px at each end are the port ring, the rest of the capsule moves it. */
+.kk-reroute .kk-port,
+.kk-portal .kk-port {
+  pointer-events: none;
+}
+.kk-reroute .kk-port::after,
+.kk-portal .kk-port::after {
+  pointer-events: auto;
+  inset: auto;
+  top: -4px;
+  height: 18px;
+  width: 6.8px;
+}
+.kk-reroute .kk-port[data-port-dir="in"]::after {
+  left: 1px;
+}
+.kk-reroute .kk-port[data-port-dir="out"]::after {
+  left: 2.2px;
+}
+.kk-portal .kk-port::after {
+  top: -9px;
+  height: 28px;
+  width: 16px;
+}
+.kk-portal .kk-port[data-port-dir="in"]::after {
+  left: 1px;
+}
+.kk-portal .kk-port[data-port-dir="out"]::after {
+  left: -7px;
+}
+.kk-reroute .kk-port-plus,
+.kk-portal .kk-port-plus {
+  display: none;
+}
+.kk-reroute:hover .kk-port,
+.kk-reroute[data-selected] .kk-port,
+.kk-portal:hover .kk-port {
+  opacity: 0.9;
+}
+
+/* ── U11: collapsed group = title bar only ─────────────────────────────────────────────── */
+.kk-group[data-collapsed] {
+  border-radius: 12px;
+  background: transparent;
+}
+.kk-group[data-collapsed] .kk-group__head {
+  border-radius: 11px;
+  border-bottom-color: transparent;
+}
+.kk-group__fold {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--kk-text-2);
+  cursor: pointer;
+  transition:
+    background var(--kk-dur-fast) ease,
+    color var(--kk-dur-fast) ease;
+}
+.kk-group__fold:hover {
+  background: var(--kk-hover, color-mix(in srgb, currentColor 14%, transparent));
+  color: var(--kk-text-1);
+}
+.kk-group[data-collapsed] .kk-group__count::after {
+  content: " nodes";
+}

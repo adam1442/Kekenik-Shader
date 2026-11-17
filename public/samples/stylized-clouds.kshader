@@ -1,0 +1,1916 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAABA4klEQVR42nzd1bJswXGt4X4TO2yHLUtmZmZmZmZmZmYUMzMzhBgu9Ep94p+Ob5+h8pIvKpq7Z1dmJY7MvP3SL/3S/Zd/+Zfv3f7cz/3c/Sd/8ifvP/qjP3r/oR/6ofsP/uAPXrfWD//wD1+v/dRP/dT9F37hF+6/8Ru/cf+93/u9+x/90R/d/+zP/uz+l3/5l/e///u/v//rv/7r/b/+67/uT3nKU+7Pfvaz7y984Qvvr3jFK+6ve93r7m9+85vvb3nLW+5vetOb7q95zWuu51/5ylfeX/3qV99f//rXX6/ve/rMy1/+8vtzn/vc+9Oe9rT74x//+Ov7//mf//m6/fd///frfr/7N3/zN/e//du/vf/bv/3b9dt95kUvetH9ZS972fVbfd/b3/72+zvf+c5rvf/9779/8IMfvG7f8Y533N/61rde73njG9943XYdb3jDG+4vfelL709/+tOv3+73/uEf/uH6nX7T7/75n//5/S/+4i+uPfjDP/zD+2//9m/ff+u3fuv+m7/5m9c+tX7t137t/qu/+qv3X/zFX7z/7M/+7P2nf/qnr72059/7vd97//Zv//b7t33bt92/4zu+4/7d3/3d9+/5nu+5nvvmb/7m+7d+67de93vfj/zIj1z0WNr0/Hd+53det9HuB37gB+7f933fd//+7//+R6v39pvofkP8n//5n7//zM/8zP3Hf/zHry/rw33AF2GGfrgv6E/0p37/93//EQP81V/91bU5EeC///u/70996lPvz3nOcy4iRMSI0IYicsR91ateda0Y4LWvfe31eisitGKKmOR5z3ve/RnPeMb9CU94wv0//uM/LuL/y7/8y3X7j//4jxdB/u7v/u663+tPfvKTHzHfi1/84uv3+723ve1tFxNE8Pe+9733D3zgA/f3ve9993e9610XA/Tb/abbrq3PP+tZz7o/8YlPvBjgn/7pn67/ifh//dd/fRE+BogR/viP//j+B3/wB/ff/d3fvRghJvj1X//1a8UE7XkHKAaI+D/xEz9x7XnEioCt7/qu77qI3+pxhI8peh6B+0yr+302htn39NmeQ3j06/diwGh4w4092YsRuw/jvj7cl/e8L+jCY5r+UH8yjv+TP/mTayMiQAyQBMAAEaFTFCEjdJvb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",
+        "id": "sample.stylized-clouds.noiseMap",
+        "mime": "image/png",
+        "name": "cloud-noise.png"
+      }
+    ],
+    "bindings": {
+      "noiseMap": "sample.stylized-clouds.noiseMap"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Mesh position / normal / UV for the vertex lumps, world normal and view direction for the shading."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_lumps",
+        "position": {
+          "x": 1074,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 542
+        },
+        "text": "**Displacement Texture** (vertex stage, LOD sample): `position += normal × (noise − ½) × height`. A texture lookup is far cheaper than evaluating fbm per vertex, and the same texture is reused in the fragment stage."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_shade",
+        "position": {
+          "x": 1074,
+          "y": 597
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`wrap = ½·N·L + ½`; colour = `lerp(shadow, lit, smoothstep(½ − soft/2, ½ + soft/2, wrap))`. The fragment noise sample darkens the inside: `colour × (1 − (1 − noise) × noiseShade)`."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_lining",
+        "position": {
+          "x": 3350,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "`lining = (1 − N·V)^power × saturate(dot(L, −V) + 0.3)`: the rim is bright only where the sun is behind the cloud as seen from the camera. Added in HDR on top of the shaded colour."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_alpha",
+        "position": {
+          "x": 3350,
+          "y": 759
+        },
+        "size": {
+          "h": 56,
+          "w": 1154
+        },
+        "text": "`density = N·V + (noise − ½) × erosion`; `alpha = smoothstep(cutoff, cutoff + softness, density)`. Facing parts stay opaque; the silhouette dissolves along the noise instead of ending in a hard circle."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5932,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Alpha blend, ZWrite off; vertex position from the lump displacement."
+      }
+    ],
+    "edges": {
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "bl2:out>bls:in": {
+        "from": {
+          "node": "bl2",
+          "port": "out"
+        },
+        "id": "bl2:out>bls:in",
+        "to": {
+          "node": "bls",
+          "port": "in"
+        }
+      },
+      "bl:out>bl2:a": {
+        "from": {
+          "node": "bl",
+          "port": "out"
+        },
+        "id": "bl:out>bl2:a",
+        "to": {
+          "node": "bl2",
+          "port": "a"
+        }
+      },
+      "bls:out>lm:b": {
+        "from": {
+          "node": "bls",
+          "port": "out"
+        },
+        "id": "bls:out>lm:b",
+        "to": {
+          "node": "lm",
+          "port": "b"
+        }
+      },
+      "c2:out>al:edge2": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>al:edge2",
+        "to": {
+          "node": "al",
+          "port": "edge2"
+        }
+      },
+      "col:out>shaded:a": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>shaded:a",
+        "to": {
+          "node": "shaded",
+          "port": "a"
+        }
+      },
+      "disp:position>master:positionOS": {
+        "from": {
+          "node": "disp",
+          "port": "position"
+        },
+        "id": "disp:position>master:positionOS",
+        "to": {
+          "node": "master",
+          "port": "positionOS"
+        }
+      },
+      "dn:out>al:in": {
+        "from": {
+          "node": "dn",
+          "port": "out"
+        },
+        "id": "dn:out>al:in",
+        "to": {
+          "node": "al",
+          "port": "in"
+        }
+      },
+      "e1:out>e1b:a": {
+        "from": {
+          "node": "e1",
+          "port": "out"
+        },
+        "id": "e1:out>e1b:a",
+        "to": {
+          "node": "e1b",
+          "port": "a"
+        }
+      },
+      "e1b:out>ramp:edge1": {
+        "from": {
+          "node": "e1b",
+          "port": "out"
+        },
+        "id": "e1b:out>ramp:edge1",
+        "to": {
+          "node": "ramp",
+          "port": "edge1"
+        }
+      },
+      "e2:out>e2b:a": {
+        "from": {
+          "node": "e2",
+          "port": "out"
+        },
+        "id": "e2:out>e2b:a",
+        "to": {
+          "node": "e2b",
+          "port": "a"
+        }
+      },
+      "e2b:out>ramp:edge2": {
+        "from": {
+          "node": "e2b",
+          "port": "out"
+        },
+        "id": "e2b:out>ramp:edge2",
+        "to": {
+          "node": "ramp",
+          "port": "edge2"
+        }
+      },
+      "hl:out>wrap:a": {
+        "from": {
+          "node": "hl",
+          "port": "out"
+        },
+        "id": "hl:out>wrap:a",
+        "to": {
+          "node": "wrap",
+          "port": "a"
+        }
+      },
+      "inv:out>rim:a": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>rim:a",
+        "to": {
+          "node": "rim",
+          "port": "a"
+        }
+      },
+      "lc:out>sum:b": {
+        "from": {
+          "node": "lc",
+          "port": "out"
+        },
+        "id": "lc:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "ld:out>bl:a": {
+        "from": {
+          "node": "ld",
+          "port": "out"
+        },
+        "id": "ld:out>bl:a",
+        "to": {
+          "node": "bl",
+          "port": "a"
+        }
+      },
+      "ld:out>nl:b": {
+        "from": {
+          "node": "ld",
+          "port": "out"
+        },
+        "id": "ld:out>nl:b",
+        "to": {
+          "node": "nl",
+          "port": "b"
+        }
+      },
+      "lm:out>ls:a": {
+        "from": {
+          "node": "lm",
+          "port": "out"
+        },
+        "id": "lm:out>ls:a",
+        "to": {
+          "node": "ls",
+          "port": "a"
+        }
+      },
+      "ls:out>lc:b": {
+        "from": {
+          "node": "ls",
+          "port": "out"
+        },
+        "id": "ls:out>lc:b",
+        "to": {
+          "node": "lc",
+          "port": "b"
+        }
+      },
+      "nc:out>ne:a": {
+        "from": {
+          "node": "nc",
+          "port": "out"
+        },
+        "id": "nc:out>ne:a",
+        "to": {
+          "node": "ne",
+          "port": "a"
+        }
+      },
+      "ne:out>dn:b": {
+        "from": {
+          "node": "ne",
+          "port": "out"
+        },
+        "id": "ne:out>dn:b",
+        "to": {
+          "node": "dn",
+          "port": "b"
+        }
+      },
+      "ni:out>nk:a": {
+        "from": {
+          "node": "ni",
+          "port": "out"
+        },
+        "id": "ni:out>nk:a",
+        "to": {
+          "node": "nk",
+          "port": "a"
+        }
+      },
+      "nk:out>nm:in": {
+        "from": {
+          "node": "nk",
+          "port": "out"
+        },
+        "id": "nk:out>nm:in",
+        "to": {
+          "node": "nm",
+          "port": "in"
+        }
+      },
+      "nl:out>hl:a": {
+        "from": {
+          "node": "nl",
+          "port": "out"
+        },
+        "id": "nl:out>hl:a",
+        "to": {
+          "node": "hl",
+          "port": "a"
+        }
+      },
+      "nm:out>shaded:b": {
+        "from": {
+          "node": "nm",
+          "port": "out"
+        },
+        "id": "nm:out>shaded:b",
+        "to": {
+          "node": "shaded",
+          "port": "b"
+        }
+      },
+      "nos:out>disp:normal": {
+        "from": {
+          "node": "nos",
+          "port": "out"
+        },
+        "id": "nos:out>disp:normal",
+        "to": {
+          "node": "disp",
+          "port": "normal"
+        }
+      },
+      "nr:r>nc:a": {
+        "from": {
+          "node": "nr",
+          "port": "r"
+        },
+        "id": "nr:r>nc:a",
+        "to": {
+          "node": "nc",
+          "port": "a"
+        }
+      },
+      "nr:r>ni:in": {
+        "from": {
+          "node": "nr",
+          "port": "r"
+        },
+        "id": "nr:r>ni:in",
+        "to": {
+          "node": "ni",
+          "port": "in"
+        }
+      },
+      "nrm:out>nl:a": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>nl:a",
+        "to": {
+          "node": "nl",
+          "port": "a"
+        }
+      },
+      "nrm:out>nv:a": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>nv:a",
+        "to": {
+          "node": "nv",
+          "port": "a"
+        }
+      },
+      "ns:rgb>nr:in": {
+        "from": {
+          "node": "ns",
+          "port": "rgb"
+        },
+        "id": "ns:rgb>nr:in",
+        "to": {
+          "node": "nr",
+          "port": "in"
+        }
+      },
+      "nv:out>nvs:in": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>nvs:in",
+        "to": {
+          "node": "nvs",
+          "port": "in"
+        }
+      },
+      "nvd:out>bl:b": {
+        "from": {
+          "node": "nvd",
+          "port": "out"
+        },
+        "id": "nvd:out>bl:b",
+        "to": {
+          "node": "bl",
+          "port": "b"
+        }
+      },
+      "nvs:out>inv:in": {
+        "from": {
+          "node": "nvs",
+          "port": "out"
+        },
+        "id": "nvs:out>inv:in",
+        "to": {
+          "node": "inv",
+          "port": "in"
+        }
+      },
+      "nvs:out>pi_ndotv:in": {
+        "from": {
+          "node": "nvs",
+          "port": "out"
+        },
+        "id": "nvs:out>pi_ndotv:in",
+        "to": {
+          "node": "pi_ndotv",
+          "port": "in"
+        }
+      },
+      "p_bottomColor_shade:out>col:a": {
+        "from": {
+          "node": "p_bottomColor_shade",
+          "port": "out"
+        },
+        "id": "p_bottomColor_shade:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "p_cutoff_alpha:out>al:edge1": {
+        "from": {
+          "node": "p_cutoff_alpha",
+          "port": "out"
+        },
+        "id": "p_cutoff_alpha:out>al:edge1",
+        "to": {
+          "node": "al",
+          "port": "edge1"
+        }
+      },
+      "p_cutoff_alpha:out>c2:a": {
+        "from": {
+          "node": "p_cutoff_alpha",
+          "port": "out"
+        },
+        "id": "p_cutoff_alpha:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "p_erosion_alpha:out>ne:b": {
+        "from": {
+          "node": "p_erosion_alpha",
+          "port": "out"
+        },
+        "id": "p_erosion_alpha:out>ne:b",
+        "to": {
+          "node": "ne",
+          "port": "b"
+        }
+      },
+      "p_lightDir_inputs:out>ld:in": {
+        "from": {
+          "node": "p_lightDir_inputs",
+          "port": "out"
+        },
+        "id": "p_lightDir_inputs:out>ld:in",
+        "to": {
+          "node": "ld",
+          "port": "in"
+        }
+      },
+      "p_liningColor_lining:out>lc:a": {
+        "from": {
+          "node": "p_liningColor_lining",
+          "port": "out"
+        },
+        "id": "p_liningColor_lining:out>lc:a",
+        "to": {
+          "node": "lc",
+          "port": "a"
+        }
+      },
+      "p_liningPower_lining:out>rim:b": {
+        "from": {
+          "node": "p_liningPower_lining",
+          "port": "out"
+        },
+        "id": "p_liningPower_lining:out>rim:b",
+        "to": {
+          "node": "rim",
+          "port": "b"
+        }
+      },
+      "p_liningStrength_lining:out>ls:b": {
+        "from": {
+          "node": "p_liningStrength_lining",
+          "port": "out"
+        },
+        "id": "p_liningStrength_lining:out>ls:b",
+        "to": {
+          "node": "ls",
+          "port": "b"
+        }
+      },
+      "p_lumps_lumps:out>disp:scale": {
+        "from": {
+          "node": "p_lumps_lumps",
+          "port": "out"
+        },
+        "id": "p_lumps_lumps:out>disp:scale",
+        "to": {
+          "node": "disp",
+          "port": "scale"
+        }
+      },
+      "p_noiseMap_lumps:out>disp:tex": {
+        "from": {
+          "node": "p_noiseMap_lumps",
+          "port": "out"
+        },
+        "id": "p_noiseMap_lumps:out>disp:tex",
+        "to": {
+          "node": "disp",
+          "port": "tex"
+        }
+      },
+      "p_noiseMap_shade:out>ns:tex": {
+        "from": {
+          "node": "p_noiseMap_shade",
+          "port": "out"
+        },
+        "id": "p_noiseMap_shade:out>ns:tex",
+        "to": {
+          "node": "ns",
+          "port": "tex"
+        }
+      },
+      "p_noiseShade_shade:out>nk:b": {
+        "from": {
+          "node": "p_noiseShade_shade",
+          "port": "out"
+        },
+        "id": "p_noiseShade_shade:out>nk:b",
+        "to": {
+          "node": "nk",
+          "port": "b"
+        }
+      },
+      "p_rampSoftness_shade:out>e1:a": {
+        "from": {
+          "node": "p_rampSoftness_shade",
+          "port": "out"
+        },
+        "id": "p_rampSoftness_shade:out>e1:a",
+        "to": {
+          "node": "e1",
+          "port": "a"
+        }
+      },
+      "p_rampSoftness_shade:out>e2:a": {
+        "from": {
+          "node": "p_rampSoftness_shade",
+          "port": "out"
+        },
+        "id": "p_rampSoftness_shade:out>e2:a",
+        "to": {
+          "node": "e2",
+          "port": "a"
+        }
+      },
+      "p_softness_alpha:out>c2:b": {
+        "from": {
+          "node": "p_softness_alpha",
+          "port": "out"
+        },
+        "id": "p_softness_alpha:out>c2:b",
+        "to": {
+          "node": "c2",
+          "port": "b"
+        }
+      },
+      "p_tiling_inputs:out>tl:g": {
+        "from": {
+          "node": "p_tiling_inputs",
+          "port": "out"
+        },
+        "id": "p_tiling_inputs:out>tl:g",
+        "to": {
+          "node": "tl",
+          "port": "g"
+        }
+      },
+      "p_tiling_inputs:out>tl:r": {
+        "from": {
+          "node": "p_tiling_inputs",
+          "port": "out"
+        },
+        "id": "p_tiling_inputs:out>tl:r",
+        "to": {
+          "node": "tl",
+          "port": "r"
+        }
+      },
+      "p_topColor_shade:out>col:b": {
+        "from": {
+          "node": "p_topColor_shade",
+          "port": "out"
+        },
+        "id": "p_topColor_shade:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "po_ndotv_dn_a:out>dn:a": {
+        "from": {
+          "node": "po_ndotv_dn_a",
+          "port": "out"
+        },
+        "id": "po_ndotv_dn_a:out>dn:a",
+        "to": {
+          "node": "dn",
+          "port": "a"
+        }
+      },
+      "pos:out>disp:position": {
+        "from": {
+          "node": "pos",
+          "port": "out"
+        },
+        "id": "pos:out>disp:position",
+        "to": {
+          "node": "disp",
+          "port": "position"
+        }
+      },
+      "ramp:out>col:t": {
+        "from": {
+          "node": "ramp",
+          "port": "out"
+        },
+        "id": "ramp:out>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "rim:out>lm:a": {
+        "from": {
+          "node": "rim",
+          "port": "out"
+        },
+        "id": "rim:out>lm:a",
+        "to": {
+          "node": "lm",
+          "port": "a"
+        }
+      },
+      "shaded:out>sum:a": {
+        "from": {
+          "node": "shaded",
+          "port": "out"
+        },
+        "id": "shaded:out>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "sum:out>master:baseColor": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "tl:rg>uvt:tiling": {
+        "from": {
+          "node": "tl",
+          "port": "rg"
+        },
+        "id": "tl:rg>uvt:tiling",
+        "to": {
+          "node": "uvt",
+          "port": "tiling"
+        }
+      },
+      "uv:out>uvt:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>uvt:uv",
+        "to": {
+          "node": "uvt",
+          "port": "uv"
+        }
+      },
+      "uvt:out>disp:uv": {
+        "from": {
+          "node": "uvt",
+          "port": "out"
+        },
+        "id": "uvt:out>disp:uv",
+        "to": {
+          "node": "disp",
+          "port": "uv"
+        }
+      },
+      "uvt:out>ns:uv": {
+        "from": {
+          "node": "uvt",
+          "port": "out"
+        },
+        "id": "uvt:out>ns:uv",
+        "to": {
+          "node": "ns",
+          "port": "uv"
+        }
+      },
+      "vd:out>nv:b": {
+        "from": {
+          "node": "vd",
+          "port": "out"
+        },
+        "id": "vd:out>nv:b",
+        "to": {
+          "node": "nv",
+          "port": "b"
+        }
+      },
+      "vd:out>nvd:in": {
+        "from": {
+          "node": "vd",
+          "port": "out"
+        },
+        "id": "vd:out>nvd:in",
+        "to": {
+          "node": "nvd",
+          "port": "in"
+        }
+      },
+      "wrap:out>ramp:in": {
+        "from": {
+          "node": "wrap",
+          "port": "out"
+        },
+        "id": "wrap:out>ramp:in",
+        "to": {
+          "node": "ramp",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "pos",
+          "nos",
+          "uv",
+          "nrm",
+          "vd",
+          "ld",
+          "tl",
+          "uvt",
+          "p_lightDir_inputs",
+          "p_tiling_inputs"
+        ],
+        "rect": {
+          "h": 1105,
+          "w": 892,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_lumps",
+        "nodeIds": [
+          "disp",
+          "p_noiseMap_lumps",
+          "p_lumps_lumps"
+        ],
+        "rect": {
+          "h": 493,
+          "w": 586,
+          "x": 1052,
+          "y": 0
+        },
+        "title": "Vertex lumps (baked noise)"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_shade",
+        "nodeIds": [
+          "nl",
+          "hl",
+          "wrap",
+          "e1",
+          "e1b",
+          "e2",
+          "e2b",
+          "ramp",
+          "col",
+          "ns",
+          "nr",
+          "ni",
+          "nk",
+          "nm",
+          "shaded",
+          "p_rampSoftness_shade",
+          "p_bottomColor_shade",
+          "p_topColor_shade",
+          "p_noiseMap_shade",
+          "p_noiseShade_shade"
+        ],
+        "rect": {
+          "h": 897,
+          "w": 2116,
+          "x": 1052,
+          "y": 563
+        },
+        "title": "Half-Lambert ramp + noise shading"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_lining",
+        "nodeIds": [
+          "nv",
+          "nvs",
+          "inv",
+          "rim",
+          "nvd",
+          "bl",
+          "bl2",
+          "bls",
+          "lm",
+          "ls",
+          "lc",
+          "sum",
+          "p_liningPower_lining",
+          "p_liningStrength_lining",
+          "p_liningColor_lining",
+          "pi_ndotv"
+        ],
+        "rect": {
+          "h": 655,
+          "w": 2422,
+          "x": 3328,
+          "y": 0
+        },
+        "title": "Silver lining"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_alpha",
+        "nodeIds": [
+          "nc",
+          "ne",
+          "dn",
+          "c2",
+          "al",
+          "p_erosion_alpha",
+          "po_ndotv_dn_a",
+          "p_cutoff_alpha",
+          "p_softness_alpha"
+        ],
+        "rect": {
+          "h": 638,
+          "w": 1198,
+          "x": 3328,
+          "y": 725
+        },
+        "title": "Soft eroded edge"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 5910,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, alpha)"
+      }
+    ],
+    "id": "stylized-clouds",
+    "keywords": [],
+    "name": "Stylized Clouds",
+    "nodes": {
+      "al": {
+        "defId": "smoothstep",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 847
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "bl": {
+        "defId": "dot",
+        "id": "bl",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "bl2": {
+        "defId": "add",
+        "id": "bl2",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.3
+        }
+      },
+      "bls": {
+        "defId": "saturate",
+        "id": "bls",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c2": {
+        "defId": "add",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 859
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 668
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "disp": {
+        "defId": "displacementTexture",
+        "id": "disp",
+        "params": {
+          "channel": "r"
+        },
+        "position": {
+          "x": 1380,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {
+          "midpoint": 0.5
+        }
+      },
+      "dn": {
+        "defId": "add",
+        "id": "dn",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 1030
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "e1": {
+        "defId": "multiply",
+        "id": "e1",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 728
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": -0.5
+        }
+      },
+      "e1b": {
+        "defId": "add",
+        "id": "e1b",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 728
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "e2": {
+        "defId": "multiply",
+        "id": "e2",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 870
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "e2b": {
+        "defId": "add",
+        "id": "e2b",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 870
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "hl": {
+        "defId": "multiply",
+        "id": "hl",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 1012
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "inv": {
+        "defId": "oneMinus",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 425
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lc": {
+        "defId": "multiply",
+        "id": "lc",
+        "params": {},
+        "position": {
+          "x": 5186,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ld": {
+        "defId": "normalize",
+        "id": "ld",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lm": {
+        "defId": "multiply",
+        "id": "lm",
+        "params": {},
+        "position": {
+          "x": 4574,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ls": {
+        "defId": "multiply",
+        "id": "ls",
+        "params": {},
+        "position": {
+          "x": 4880,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5932,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nc": {
+        "defId": "subtract",
+        "id": "nc",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 1131
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ne": {
+        "defId": "multiply",
+        "id": "ne",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 1131
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ni": {
+        "defId": "oneMinus",
+        "id": "ni",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 1108
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nk": {
+        "defId": "multiply",
+        "id": "nk",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 834
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nl": {
+        "defId": "dot",
+        "id": "nl",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 1082
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nm": {
+        "defId": "oneMinus",
+        "id": "nm",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 692
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nos": {
+        "defId": "normal",
+        "id": "nos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 22,
+          "y": 249
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nr": {
+        "defId": "split",
+        "id": "nr",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 1154
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 393
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ns": {
+        "defId": "sampleTexture2D",
+        "id": "ns",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 1154
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv": {
+        "defId": "dot",
+        "id": "nv",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nvd": {
+        "defId": "negate",
+        "id": "nvd",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nvs": {
+        "defId": "saturate",
+        "id": "nvs",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bottomColor_shade": {
+        "defId": "property",
+        "id": "p_bottomColor_shade",
+        "params": {
+          "property": "bottomColor"
+        },
+        "position": {
+          "x": 1074,
+          "y": 704
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_cutoff_alpha": {
+        "defId": "property",
+        "id": "p_cutoff_alpha",
+        "params": {
+          "property": "cutoff"
+        },
+        "position": {
+          "x": 3350,
+          "y": 883
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_erosion_alpha": {
+        "defId": "property",
+        "id": "p_erosion_alpha",
+        "params": {
+          "property": "erosion"
+        },
+        "position": {
+          "x": 3350,
+          "y": 1273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lightDir_inputs": {
+        "defId": "property",
+        "id": "p_lightDir_inputs",
+        "params": {
+          "property": "lightDir"
+        },
+        "position": {
+          "x": 22,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_liningColor_lining": {
+        "defId": "property",
+        "id": "p_liningColor_lining",
+        "params": {
+          "property": "liningColor"
+        },
+        "position": {
+          "x": 3350,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_liningPower_lining": {
+        "defId": "property",
+        "id": "p_liningPower_lining",
+        "params": {
+          "property": "liningPower"
+        },
+        "position": {
+          "x": 3350,
+          "y": 565
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_liningStrength_lining": {
+        "defId": "property",
+        "id": "p_liningStrength_lining",
+        "params": {
+          "property": "liningStrength"
+        },
+        "position": {
+          "x": 3350,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lumps_lumps": {
+        "defId": "property",
+        "id": "p_lumps_lumps",
+        "params": {
+          "property": "lumps"
+        },
+        "position": {
+          "x": 1074,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseMap_lumps": {
+        "defId": "property",
+        "id": "p_noiseMap_lumps",
+        "params": {
+          "property": "noiseMap"
+        },
+        "position": {
+          "x": 1074,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseMap_shade": {
+        "defId": "property",
+        "id": "p_noiseMap_shade",
+        "params": {
+          "property": "noiseMap"
+        },
+        "position": {
+          "x": 1074,
+          "y": 1262
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseShade_shade": {
+        "defId": "property",
+        "id": "p_noiseShade_shade",
+        "params": {
+          "property": "noiseShade"
+        },
+        "position": {
+          "x": 1074,
+          "y": 988
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rampSoftness_shade": {
+        "defId": "property",
+        "id": "p_rampSoftness_shade",
+        "params": {
+          "property": "rampSoftness"
+        },
+        "position": {
+          "x": 1074,
+          "y": 894
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_alpha": {
+        "defId": "property",
+        "id": "p_softness_alpha",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 3350,
+          "y": 977
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tiling_inputs": {
+        "defId": "property",
+        "id": "p_tiling_inputs",
+        "params": {
+          "property": "tiling"
+        },
+        "position": {
+          "x": 22,
+          "y": 609
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_topColor_shade": {
+        "defId": "property",
+        "id": "p_topColor_shade",
+        "params": {
+          "property": "topColor"
+        },
+        "position": {
+          "x": 1074,
+          "y": 798
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_ndotv": {
+        "defId": "portalIn",
+        "id": "pi_ndotv",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 3962,
+          "y": 543
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_ndotv_dn_a": {
+        "defId": "portalOut",
+        "id": "po_ndotv_dn_a",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 3350,
+          "y": 1071
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pos": {
+        "defId": "position",
+        "id": "pos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 22,
+          "y": 847
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ramp": {
+        "defId": "smoothstep",
+        "id": "ramp",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 716
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rim": {
+        "defId": "power",
+        "id": "rim",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 413
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "shaded": {
+        "defId": "multiply",
+        "id": "shaded",
+        "params": {},
+        "position": {
+          "x": 2910,
+          "y": 680
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tl": {
+        "defId": "combine",
+        "id": "tl",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 537
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 703
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uvt": {
+        "defId": "uvTilingOffset",
+        "id": "uvt",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 573
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vd": {
+        "defId": "viewDirection",
+        "id": "vd",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 991
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wrap": {
+        "defId": "add",
+        "id": "wrap",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 1012
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Shape",
+        "default": null,
+        "displayName": "Cloud Noise",
+        "exposed": true,
+        "id": "noiseMap",
+        "perInstance": false,
+        "referenceName": "_CloudNoise",
+        "textureDefault": "grey",
+        "tooltip": "Tileable noise (grey) used for the lumps, the erosion and the shading. Linear data, wrap mode Repeat.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Shape",
+        "default": 0.28,
+        "displayName": "Lump Height",
+        "exposed": true,
+        "id": "lumps",
+        "max": 0.6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_LumpHeight",
+        "slider": true,
+        "tooltip": "Vertex displacement along the normal, in object units.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 2,
+        "displayName": "Noise Tiling",
+        "exposed": true,
+        "id": "tiling",
+        "max": 6,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_NoiseTiling",
+        "slider": true,
+        "tooltip": "Noise repeats around the mesh (bigger = smaller billows).",
+        "type": "float"
+      },
+      {
+        "category": "Soft Edge",
+        "default": 0.35,
+        "displayName": "Edge Erosion",
+        "exposed": true,
+        "id": "erosion",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeErosion",
+        "slider": true,
+        "tooltip": "How much the noise bites into the silhouette (0 = clean round edge).",
+        "type": "float"
+      },
+      {
+        "category": "Soft Edge",
+        "default": 0.08,
+        "displayName": "Edge Cutoff",
+        "exposed": true,
+        "id": "cutoff",
+        "max": 0.6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeCutoff",
+        "slider": true,
+        "tooltip": "Facing ratio (N·V) below which the cloud is fully transparent.",
+        "type": "float"
+      },
+      {
+        "category": "Soft Edge",
+        "default": 0.4,
+        "displayName": "Edge Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 1,
+        "min": 0.05,
+        "perInstance": false,
+        "referenceName": "_EdgeSoftness",
+        "slider": true,
+        "tooltip": "Width of the alpha fade at the edge.",
+        "type": "float"
+      },
+      {
+        "category": "Shading",
+        "colorSpace": "srgb",
+        "default": [
+          1,
+          0.97,
+          0.92
+        ],
+        "displayName": "Lit Color",
+        "exposed": true,
+        "id": "topColor",
+        "perInstance": false,
+        "referenceName": "_LitColor",
+        "tooltip": "Colour of the lit top (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Shading",
+        "colorSpace": "srgb",
+        "default": [
+          0.55,
+          0.62,
+          0.78
+        ],
+        "displayName": "Shadow Color",
+        "exposed": true,
+        "id": "bottomColor",
+        "perInstance": false,
+        "referenceName": "_ShadowColor",
+        "tooltip": "Colour of the shaded underside (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Shading",
+        "default": 0.35,
+        "displayName": "Shade Softness",
+        "exposed": true,
+        "id": "rampSoftness",
+        "max": 0.7,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_ShadeSoftness",
+        "slider": true,
+        "tooltip": "Width of the transition between shadow and lit colour.",
+        "type": "float"
+      },
+      {
+        "category": "Shading",
+        "default": 0.25,
+        "displayName": "Noise Shading",
+        "exposed": true,
+        "id": "noiseShade",
+        "max": 0.6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_NoiseShading",
+        "slider": true,
+        "tooltip": "How much the noise darkens the cloud inside (billow detail).",
+        "type": "float"
+      },
+      {
+        "category": "Shading",
+        "default": [
+          0.4,
+          0.8,
+          0.45
+        ],
+        "displayName": "Light Direction",
+        "exposed": true,
+        "id": "lightDir",
+        "perInstance": false,
+        "referenceName": "_LightDirection",
+        "tooltip": "Direction FROM the cloud TOWARDS the sun (world space, normalised in the graph).",
+        "type": "vec3"
+      },
+      {
+        "category": "Silver Lining",
+        "colorSpace": "linear",
+        "default": [
+          2.2,
+          1.9,
+          1.5
+        ],
+        "displayName": "Silver Lining",
+        "exposed": true,
+        "hdr": true,
+        "id": "liningColor",
+        "perInstance": false,
+        "referenceName": "_SilverLining",
+        "tooltip": "HDR colour of the backlit rim (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Silver Lining",
+        "default": 3,
+        "displayName": "Lining Power",
+        "exposed": true,
+        "id": "liningPower",
+        "max": 8,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_LiningPower",
+        "slider": true,
+        "tooltip": "Exponent of the rim: higher = thinner lining.",
+        "type": "float"
+      },
+      {
+        "category": "Silver Lining",
+        "default": 0.6,
+        "displayName": "Lining Strength",
+        "exposed": true,
+        "id": "liningStrength",
+        "max": 2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_LiningStrength",
+        "slider": true,
+        "tooltip": "Brightness of the silver lining (0 = off).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "alpha",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "noiseMap": "sample.stylized-clouds.noiseMap"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "grid": false,
+      "ground": "none",
+      "lightAzimuth": 40,
+      "lightElevation": 45,
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

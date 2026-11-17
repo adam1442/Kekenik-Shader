@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="kk-grad" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7c5cff" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0f1117" />
+  <polygon points="32,10 51,21 51,43 32,54 13,43 13,21" stroke="url(#kk-grad)" stroke-width="5" stroke-linejoin="round" fill="rgba(124,92,255,0.16)" />
+  <circle cx="32" cy="32" r="5" fill="#38bdf8" />
+</svg>

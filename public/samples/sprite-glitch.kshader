@@ -1,0 +1,1423 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "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",
+        "id": "sample.sprite-glitch.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "retro-scene.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-glitch.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#f87171",
+        "id": "note_band",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 762
+        },
+        "text": "The **Glitch** node cuts V into bands; per (band, time step) a hash decides whether the band is active (*mask*) and how far it slides. The pattern is constant within a step and jumps *Rate* times per second."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_split",
+        "position": {
+          "x": 988,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1460
+        },
+        "text": "Chromatic Aberration in *directional* mode (along x): strength = `split × (0.25 + mask)` — a small constant fringe everywhere, a big one inside active bands."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_flash",
+        "position": {
+          "x": 988,
+          "y": 595
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "A second hash `h(band, step)` selects the bands that flash inverted (`h > 1 − chance`, only where the band is active). Static = per-texel hash of `floor(uv × 96) + step` × mask × amount, added on top."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "`colour = lerp(colour, 1 − colour, flash) + static`. Alpha comes from the displaced sprite, so the silhouette tears together with the colour."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 4622,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Glitched colour and displaced alpha."
+      }
+    ],
+    "edges": {
+      "add:out>master:baseColor": {
+        "from": {
+          "node": "add",
+          "port": "out"
+        },
+        "id": "add:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "band:out>bi:in": {
+        "from": {
+          "node": "band",
+          "port": "out"
+        },
+        "id": "band:out>bi:in",
+        "to": {
+          "node": "bi",
+          "port": "in"
+        }
+      },
+      "bi:out>key:r": {
+        "from": {
+          "node": "bi",
+          "port": "out"
+        },
+        "id": "bi:out>key:r",
+        "to": {
+          "node": "key",
+          "port": "r"
+        }
+      },
+      "ca:rgba>sp:in": {
+        "from": {
+          "node": "ca",
+          "port": "rgba"
+        },
+        "id": "ca:rgba>sp:in",
+        "to": {
+          "node": "sp",
+          "port": "in"
+        }
+      },
+      "cell:out>cf:in": {
+        "from": {
+          "node": "cell",
+          "port": "out"
+        },
+        "id": "cell:out>cf:in",
+        "to": {
+          "node": "cf",
+          "port": "in"
+        }
+      },
+      "cf:out>tcell:a": {
+        "from": {
+          "node": "cf",
+          "port": "out"
+        },
+        "id": "cf:out>tcell:a",
+        "to": {
+          "node": "tcell",
+          "port": "a"
+        }
+      },
+      "flash:out>lr:t": {
+        "from": {
+          "node": "flash",
+          "port": "out"
+        },
+        "id": "flash:out>lr:t",
+        "to": {
+          "node": "lr",
+          "port": "t"
+        }
+      },
+      "gl:mask>flash:b": {
+        "from": {
+          "node": "gl",
+          "port": "mask"
+        },
+        "id": "gl:mask>flash:b",
+        "to": {
+          "node": "flash",
+          "port": "b"
+        }
+      },
+      "gl:mask>m:a": {
+        "from": {
+          "node": "gl",
+          "port": "mask"
+        },
+        "id": "gl:mask>m:a",
+        "to": {
+          "node": "m",
+          "port": "a"
+        }
+      },
+      "gl:mask>stat0:b": {
+        "from": {
+          "node": "gl",
+          "port": "mask"
+        },
+        "id": "gl:mask>stat0:b",
+        "to": {
+          "node": "stat0",
+          "port": "b"
+        }
+      },
+      "gl:uv>pi_glitchuv:in": {
+        "from": {
+          "node": "gl",
+          "port": "uv"
+        },
+        "id": "gl:uv>pi_glitchuv:in",
+        "to": {
+          "node": "pi_glitchuv",
+          "port": "in"
+        }
+      },
+      "hb:out>hit:in": {
+        "from": {
+          "node": "hb",
+          "port": "out"
+        },
+        "id": "hb:out>hit:in",
+        "to": {
+          "node": "hit",
+          "port": "in"
+        }
+      },
+      "hit:out>flash:a": {
+        "from": {
+          "node": "hit",
+          "port": "out"
+        },
+        "id": "hit:out>flash:a",
+        "to": {
+          "node": "flash",
+          "port": "a"
+        }
+      },
+      "inv:out>lr:b": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>lr:b",
+        "to": {
+          "node": "lr",
+          "port": "b"
+        }
+      },
+      "key:rg>hb:in": {
+        "from": {
+          "node": "key",
+          "port": "rg"
+        },
+        "id": "key:rg>hb:in",
+        "to": {
+          "node": "hb",
+          "port": "in"
+        }
+      },
+      "key:rg>tcell:b": {
+        "from": {
+          "node": "key",
+          "port": "rg"
+        },
+        "id": "key:rg>tcell:b",
+        "to": {
+          "node": "tcell",
+          "port": "b"
+        }
+      },
+      "lr:out>add:a": {
+        "from": {
+          "node": "lr",
+          "port": "out"
+        },
+        "id": "lr:out>add:a",
+        "to": {
+          "node": "add",
+          "port": "a"
+        }
+      },
+      "m:out>st:a": {
+        "from": {
+          "node": "m",
+          "port": "out"
+        },
+        "id": "m:out>st:a",
+        "to": {
+          "node": "st",
+          "port": "a"
+        }
+      },
+      "p_aberration_split:out>st:b": {
+        "from": {
+          "node": "p_aberration_split",
+          "port": "out"
+        },
+        "id": "p_aberration_split:out>st:b",
+        "to": {
+          "node": "st",
+          "port": "b"
+        }
+      },
+      "p_amount_band:out>gl:amount": {
+        "from": {
+          "node": "p_amount_band",
+          "port": "out"
+        },
+        "id": "p_amount_band:out>gl:amount",
+        "to": {
+          "node": "gl",
+          "port": "amount"
+        }
+      },
+      "p_bands_band:out>gl:bands": {
+        "from": {
+          "node": "p_bands_band",
+          "port": "out"
+        },
+        "id": "p_bands_band:out>gl:bands",
+        "to": {
+          "node": "gl",
+          "port": "bands"
+        }
+      },
+      "p_bands_flash:out>band:b": {
+        "from": {
+          "node": "p_bands_flash",
+          "port": "out"
+        },
+        "id": "p_bands_flash:out>band:b",
+        "to": {
+          "node": "band",
+          "port": "b"
+        }
+      },
+      "p_intensity_band:out>gl:intensity": {
+        "from": {
+          "node": "p_intensity_band",
+          "port": "out"
+        },
+        "id": "p_intensity_band:out>gl:intensity",
+        "to": {
+          "node": "gl",
+          "port": "intensity"
+        }
+      },
+      "p_invertChance_flash:out>thr:in": {
+        "from": {
+          "node": "p_invertChance_flash",
+          "port": "out"
+        },
+        "id": "p_invertChance_flash:out>thr:in",
+        "to": {
+          "node": "thr",
+          "port": "in"
+        }
+      },
+      "p_locked_sprite_texture_split:out>ca:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_split",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_split:out>ca:tex",
+        "to": {
+          "node": "ca",
+          "port": "tex"
+        }
+      },
+      "p_rate_band:out>gl:rate": {
+        "from": {
+          "node": "p_rate_band",
+          "port": "out"
+        },
+        "id": "p_rate_band:out>gl:rate",
+        "to": {
+          "node": "gl",
+          "port": "rate"
+        }
+      },
+      "p_rate_flash:out>tr:b": {
+        "from": {
+          "node": "p_rate_flash",
+          "port": "out"
+        },
+        "id": "p_rate_flash:out>tr:b",
+        "to": {
+          "node": "tr",
+          "port": "b"
+        }
+      },
+      "p_seed_band:out>gl:seed": {
+        "from": {
+          "node": "p_seed_band",
+          "port": "out"
+        },
+        "id": "p_seed_band:out>gl:seed",
+        "to": {
+          "node": "gl",
+          "port": "seed"
+        }
+      },
+      "p_staticAmount_flash:out>stat:b": {
+        "from": {
+          "node": "p_staticAmount_flash",
+          "port": "out"
+        },
+        "id": "p_staticAmount_flash:out>stat:b",
+        "to": {
+          "node": "stat",
+          "port": "b"
+        }
+      },
+      "po_glitchuv_ca_uv:out>ca:uv": {
+        "from": {
+          "node": "po_glitchuv_ca_uv",
+          "port": "out"
+        },
+        "id": "po_glitchuv_ca_uv:out>ca:uv",
+        "to": {
+          "node": "ca",
+          "port": "uv"
+        }
+      },
+      "po_time_gl_time:out>gl:time": {
+        "from": {
+          "node": "po_time_gl_time",
+          "port": "out"
+        },
+        "id": "po_time_gl_time:out>gl:time",
+        "to": {
+          "node": "gl",
+          "port": "time"
+        }
+      },
+      "rgb:rgb>inv:in": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>inv:in",
+        "to": {
+          "node": "inv",
+          "port": "in"
+        }
+      },
+      "rgb:rgb>lr:a": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>lr:a",
+        "to": {
+          "node": "lr",
+          "port": "a"
+        }
+      },
+      "sn:out>stat0:a": {
+        "from": {
+          "node": "sn",
+          "port": "out"
+        },
+        "id": "sn:out>stat0:a",
+        "to": {
+          "node": "stat0",
+          "port": "a"
+        }
+      },
+      "sp:a>master:alpha": {
+        "from": {
+          "node": "sp",
+          "port": "a"
+        },
+        "id": "sp:a>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "sp:b>rgb:b": {
+        "from": {
+          "node": "sp",
+          "port": "b"
+        },
+        "id": "sp:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "sp:g>rgb:g": {
+        "from": {
+          "node": "sp",
+          "port": "g"
+        },
+        "id": "sp:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "sp:r>rgb:r": {
+        "from": {
+          "node": "sp",
+          "port": "r"
+        },
+        "id": "sp:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "st:out>ca:strength": {
+        "from": {
+          "node": "st",
+          "port": "out"
+        },
+        "id": "st:out>ca:strength",
+        "to": {
+          "node": "ca",
+          "port": "strength"
+        }
+      },
+      "stat0:out>stat:a": {
+        "from": {
+          "node": "stat0",
+          "port": "out"
+        },
+        "id": "stat0:out>stat:a",
+        "to": {
+          "node": "stat",
+          "port": "a"
+        }
+      },
+      "stat:out>add:b": {
+        "from": {
+          "node": "stat",
+          "port": "out"
+        },
+        "id": "stat:out>add:b",
+        "to": {
+          "node": "add",
+          "port": "b"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "t:time>tr:a": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>tr:a",
+        "to": {
+          "node": "tr",
+          "port": "a"
+        }
+      },
+      "tcell:out>sn:in": {
+        "from": {
+          "node": "tcell",
+          "port": "out"
+        },
+        "id": "tcell:out>sn:in",
+        "to": {
+          "node": "sn",
+          "port": "in"
+        }
+      },
+      "thr:out>hit:edge": {
+        "from": {
+          "node": "thr",
+          "port": "out"
+        },
+        "id": "thr:out>hit:edge",
+        "to": {
+          "node": "hit",
+          "port": "edge"
+        }
+      },
+      "ti:out>key:g": {
+        "from": {
+          "node": "ti",
+          "port": "out"
+        },
+        "id": "ti:out>key:g",
+        "to": {
+          "node": "key",
+          "port": "g"
+        }
+      },
+      "tr:out>ti:in": {
+        "from": {
+          "node": "tr",
+          "port": "out"
+        },
+        "id": "tr:out>ti:in",
+        "to": {
+          "node": "ti",
+          "port": "in"
+        }
+      },
+      "us:g>band:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>band:a",
+        "to": {
+          "node": "band",
+          "port": "a"
+        }
+      },
+      "uv:out>cell:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>cell:a",
+        "to": {
+          "node": "cell",
+          "port": "a"
+        }
+      },
+      "uv:out>gl:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>gl:uv",
+        "to": {
+          "node": "gl",
+          "port": "uv"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#f87171",
+        "id": "grp_band",
+        "nodeIds": [
+          "uv",
+          "t",
+          "gl",
+          "pi_time",
+          "po_time_gl_time",
+          "p_seed_band",
+          "p_intensity_band",
+          "p_amount_band",
+          "p_bands_band",
+          "p_rate_band",
+          "pi_glitchuv"
+        ],
+        "rect": {
+          "h": 1090,
+          "w": 806,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Band displacement"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_split",
+        "nodeIds": [
+          "m",
+          "st",
+          "ca",
+          "sp",
+          "rgb",
+          "p_aberration_split",
+          "p_locked_sprite_texture_split",
+          "po_glitchuv_ca_uv"
+        ],
+        "rect": {
+          "h": 491,
+          "w": 1504,
+          "x": 966,
+          "y": 0
+        },
+        "title": "Colour split"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_flash",
+        "nodeIds": [
+          "us",
+          "band",
+          "bi",
+          "tr",
+          "ti",
+          "key",
+          "hb",
+          "thr",
+          "hit",
+          "flash",
+          "cell",
+          "cf",
+          "tcell",
+          "sn",
+          "stat0",
+          "stat",
+          "p_bands_flash",
+          "p_rate_flash",
+          "p_invertChance_flash",
+          "p_staticAmount_flash"
+        ],
+        "rect": {
+          "h": 975,
+          "w": 2422,
+          "x": 966,
+          "y": 561
+        },
+        "title": "Inversion flashes + static"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "inv",
+          "lr",
+          "add"
+        ],
+        "rect": {
+          "h": 284,
+          "w": 892,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Combine"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 4600,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-glitch",
+    "keywords": [],
+    "name": "Digital Glitch",
+    "nodes": {
+      "add": {
+        "defId": "add",
+        "id": "add",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "band": {
+        "defId": "multiply",
+        "id": "band",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 808
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "bi": {
+        "defId": "floor",
+        "id": "bi",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 820
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ca": {
+        "defId": "chromaticAberration",
+        "id": "ca",
+        "params": {
+          "mode": "directional"
+        },
+        "position": {
+          "x": 1600,
+          "y": 115
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cell": {
+        "defId": "multiply",
+        "id": "cell",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1304
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 96
+        }
+      },
+      "cf": {
+        "defId": "floor",
+        "id": "cf",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1126
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "flash": {
+        "defId": "multiply",
+        "id": "flash",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 666
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gl": {
+        "defId": "glitch",
+        "id": "gl",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hb": {
+        "defId": "hash2to1",
+        "id": "hb",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 666
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hit": {
+        "defId": "step",
+        "id": "hit",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 666
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "inv": {
+        "defId": "oneMinus",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "key": {
+        "defId": "combine",
+        "id": "key",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 760
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lr": {
+        "defId": "lerp",
+        "id": "lr",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "m": {
+        "defId": "add",
+        "id": "m",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_aberration_split": {
+        "defId": "property",
+        "id": "p_aberration_split",
+        "params": {
+          "property": "aberration"
+        },
+        "position": {
+          "x": 988,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_amount_band": {
+        "defId": "property",
+        "id": "p_amount_band",
+        "params": {
+          "property": "amount"
+        },
+        "position": {
+          "x": 22,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bands_band": {
+        "defId": "property",
+        "id": "p_bands_band",
+        "params": {
+          "property": "bands"
+        },
+        "position": {
+          "x": 22,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bands_flash": {
+        "defId": "property",
+        "id": "p_bands_flash",
+        "params": {
+          "property": "bands"
+        },
+        "position": {
+          "x": 988,
+          "y": 832
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_band": {
+        "defId": "property",
+        "id": "p_intensity_band",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 22,
+          "y": 418
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_invertChance_flash": {
+        "defId": "property",
+        "id": "p_invertChance_flash",
+        "params": {
+          "property": "invertChance"
+        },
+        "position": {
+          "x": 988,
+          "y": 1210
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_split": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_split",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 988,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rate_band": {
+        "defId": "property",
+        "id": "p_rate_band",
+        "params": {
+          "property": "rate"
+        },
+        "position": {
+          "x": 22,
+          "y": 512
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rate_flash": {
+        "defId": "property",
+        "id": "p_rate_flash",
+        "params": {
+          "property": "rate"
+        },
+        "position": {
+          "x": 988,
+          "y": 1446
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_seed_band": {
+        "defId": "property",
+        "id": "p_seed_band",
+        "params": {
+          "property": "seed"
+        },
+        "position": {
+          "x": 22,
+          "y": 606
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_staticAmount_flash": {
+        "defId": "property",
+        "id": "p_staticAmount_flash",
+        "params": {
+          "property": "staticAmount"
+        },
+        "position": {
+          "x": 988,
+          "y": 926
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_glitchuv": {
+        "defId": "portalIn",
+        "id": "pi_glitchuv",
+        "params": {
+          "channel": "GlitchUV"
+        },
+        "position": {
+          "x": 634,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 969
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_glitchuv_ca_uv": {
+        "defId": "portalOut",
+        "id": "po_glitchuv_ca_uv",
+        "params": {
+          "channel": "GlitchUV"
+        },
+        "position": {
+          "x": 988,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_gl_time": {
+        "defId": "portalOut",
+        "id": "po_time_gl_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 22,
+          "y": 700
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sn": {
+        "defId": "hash2to1",
+        "id": "sn",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 808
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp": {
+        "defId": "split",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 175
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "st": {
+        "defId": "multiply",
+        "id": "st",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "stat": {
+        "defId": "multiply",
+        "id": "stat",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 808
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "stat0": {
+        "defId": "multiply",
+        "id": "stat0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 808
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 904
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tcell": {
+        "defId": "add",
+        "id": "tcell",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 808
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "thr": {
+        "defId": "oneMinus",
+        "id": "thr",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1008
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ti": {
+        "defId": "floor",
+        "id": "ti",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1256
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tr": {
+        "defId": "multiply",
+        "id": "tr",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1244
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1020
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 760
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Glitch",
+        "default": 0.55,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Share of bands that glitch at any moment (0 = off).",
+        "type": "float"
+      },
+      {
+        "category": "Glitch",
+        "default": 0.08,
+        "displayName": "Slide Distance",
+        "exposed": true,
+        "id": "amount",
+        "max": 0.3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SlideDistance",
+        "slider": true,
+        "tooltip": "Maximum horizontal displacement of a band (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Glitch",
+        "default": 18,
+        "displayName": "Band Count",
+        "exposed": true,
+        "id": "bands",
+        "max": 64,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_BandCount",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Horizontal bands the sprite is cut into.",
+        "type": "float"
+      },
+      {
+        "category": "Glitch",
+        "default": 7,
+        "displayName": "Glitch Rate",
+        "exposed": true,
+        "id": "rate",
+        "max": 30,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_GlitchRate",
+        "slider": true,
+        "tooltip": "How many times per second the pattern jumps.",
+        "type": "float"
+      },
+      {
+        "category": "Glitch",
+        "default": 3,
+        "displayName": "Seed",
+        "exposed": true,
+        "id": "seed",
+        "max": 100,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Seed",
+        "slider": true,
+        "tooltip": "Selects a different random sequence.",
+        "type": "float"
+      },
+      {
+        "category": "Colour",
+        "default": 0.03,
+        "displayName": "Colour Split",
+        "exposed": true,
+        "id": "aberration",
+        "max": 0.12,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ColourSplit",
+        "slider": true,
+        "tooltip": "Red / blue ghost distance inside glitching bands.",
+        "type": "float"
+      },
+      {
+        "category": "Colour",
+        "default": 0.3,
+        "displayName": "Invert Chance",
+        "exposed": true,
+        "id": "invertChance",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_InvertChance",
+        "slider": true,
+        "tooltip": "Share of glitching bands that flash inverted colours.",
+        "type": "float"
+      },
+      {
+        "category": "Colour",
+        "default": 0.25,
+        "displayName": "Static",
+        "exposed": true,
+        "id": "staticAmount",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Static",
+        "slider": true,
+        "tooltip": "Brightness of the noise sprinkled inside glitching bands.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-glitch.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

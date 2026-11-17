@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussions
+    url: https://github.com/adam1442/kekenik-shader/discussions
+    about: Ask questions, share shaders, and discuss ideas with the community.
+  - name: Documentation & Known Issues
+    url: https://github.com/adam1442/kekenik-shader/blob/main/docs/KNOWN_ISSUES.md
+    about: Check documented limitations and experimental target features in v0.1.0.

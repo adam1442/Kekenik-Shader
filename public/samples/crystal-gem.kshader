@@ -1,0 +1,1641 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "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",
+        "id": "sample.crystal-gem.matcapMap",
+        "mime": "image/png",
+        "name": "gem-matcap.png"
+      }
+    ],
+    "bindings": {
+      "matcapMap": "sample.crystal-gem.matcapMap"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_geo",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 300
+        },
+        "text": "View-space normal (matcap space) and world normal / view direction (fresnel)."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_facet",
+        "position": {
+          "x": 526,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2292
+        },
+        "text": "`round(N × count) / count` snaps the normal to a coarse grid of directions; every grid cell is one flat facet. A small epsilon avoids a zero vector; *Facet Amount* blends from the smooth to the faceted normal."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_refl",
+        "position": {
+          "x": 3022,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "Matcap lookup with the faceted normal, weighted by fresnel `(1 − N·V)^power` so the reflection hugs the silhouette like a polished surface."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_inner",
+        "position": {
+          "x": 3022,
+          "y": 681
+        },
+        "size": {
+          "h": 39,
+          "w": 2990
+        },
+        "text": "Inner ray `d = normalize(lerp(I, −N, bend))` with `I = (0, 0, −1)` in view space. Red / green / blue use `bend × (1 − k)`, `bend`, `bend × (1 + k)` (k = dispersion), so the channels land on different matcap texels — the rainbow fringes of a real gem. One matcap fetch per channel."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 6216,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 542
+        },
+        "text": "`emission = inner × gem colour × gain + reflection`. The albedo is a dark version of the gem colour so real scene lights still add a glossy specular highlight."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 6962,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Dark tinted base, very smooth, everything else is emission."
+      }
+    ],
+    "edges": {
+      "bB:out>lB:t": {
+        "from": {
+          "node": "bB",
+          "port": "out"
+        },
+        "id": "bB:out>lB:t",
+        "to": {
+          "node": "lB",
+          "port": "t"
+        }
+      },
+      "bR:out>lR:t": {
+        "from": {
+          "node": "bR",
+          "port": "out"
+        },
+        "id": "bR:out>lR:t",
+        "to": {
+          "node": "lR",
+          "port": "t"
+        }
+      },
+      "base:out>master:baseColor": {
+        "from": {
+          "node": "base",
+          "port": "out"
+        },
+        "id": "base:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "dB:out>mB:normal": {
+        "from": {
+          "node": "dB",
+          "port": "out"
+        },
+        "id": "dB:out>mB:normal",
+        "to": {
+          "node": "mB",
+          "port": "normal"
+        }
+      },
+      "dG:out>mG:normal": {
+        "from": {
+          "node": "dG",
+          "port": "out"
+        },
+        "id": "dG:out>mG:normal",
+        "to": {
+          "node": "mG",
+          "port": "normal"
+        }
+      },
+      "dR:out>mR:normal": {
+        "from": {
+          "node": "dR",
+          "port": "out"
+        },
+        "id": "dR:out>mR:normal",
+        "to": {
+          "node": "mR",
+          "port": "normal"
+        }
+      },
+      "em:out>master:emission": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "eps:out>qn:in": {
+        "from": {
+          "node": "eps",
+          "port": "out"
+        },
+        "id": "eps:out>qn:in",
+        "to": {
+          "node": "qn",
+          "port": "in"
+        }
+      },
+      "fn:out>nn:in": {
+        "from": {
+          "node": "fn",
+          "port": "out"
+        },
+        "id": "fn:out>nn:in",
+        "to": {
+          "node": "nn",
+          "port": "in"
+        }
+      },
+      "fn:out>pi_facetnormal:in": {
+        "from": {
+          "node": "fn",
+          "port": "out"
+        },
+        "id": "fn:out>pi_facetnormal:in",
+        "to": {
+          "node": "pi_facetnormal",
+          "port": "in"
+        }
+      },
+      "fr:out>rf:b": {
+        "from": {
+          "node": "fr",
+          "port": "out"
+        },
+        "id": "fr:out>rf:b",
+        "to": {
+          "node": "rf",
+          "port": "b"
+        }
+      },
+      "inner:out>em:a": {
+        "from": {
+          "node": "inner",
+          "port": "out"
+        },
+        "id": "inner:out>em:a",
+        "to": {
+          "node": "em",
+          "port": "a"
+        }
+      },
+      "lB:out>dB:in": {
+        "from": {
+          "node": "lB",
+          "port": "out"
+        },
+        "id": "lB:out>dB:in",
+        "to": {
+          "node": "dB",
+          "port": "in"
+        }
+      },
+      "lG:out>dG:in": {
+        "from": {
+          "node": "lG",
+          "port": "out"
+        },
+        "id": "lG:out>dG:in",
+        "to": {
+          "node": "dG",
+          "port": "in"
+        }
+      },
+      "lR:out>dR:in": {
+        "from": {
+          "node": "lR",
+          "port": "out"
+        },
+        "id": "lR:out>dR:in",
+        "to": {
+          "node": "dR",
+          "port": "in"
+        }
+      },
+      "mB:color>sB:in": {
+        "from": {
+          "node": "mB",
+          "port": "color"
+        },
+        "id": "mB:color>sB:in",
+        "to": {
+          "node": "sB",
+          "port": "in"
+        }
+      },
+      "mG:color>sG:in": {
+        "from": {
+          "node": "mG",
+          "port": "color"
+        },
+        "id": "mG:color>sG:in",
+        "to": {
+          "node": "sG",
+          "port": "in"
+        }
+      },
+      "mR:color>sR:in": {
+        "from": {
+          "node": "mR",
+          "port": "color"
+        },
+        "id": "mR:color>sR:in",
+        "to": {
+          "node": "sR",
+          "port": "in"
+        }
+      },
+      "mc:color>rf:a": {
+        "from": {
+          "node": "mc",
+          "port": "color"
+        },
+        "id": "mc:color>rf:a",
+        "to": {
+          "node": "rf",
+          "port": "a"
+        }
+      },
+      "mix:out>fn:in": {
+        "from": {
+          "node": "mix",
+          "port": "out"
+        },
+        "id": "mix:out>fn:in",
+        "to": {
+          "node": "fn",
+          "port": "in"
+        }
+      },
+      "nn:out>lB:b": {
+        "from": {
+          "node": "nn",
+          "port": "out"
+        },
+        "id": "nn:out>lB:b",
+        "to": {
+          "node": "lB",
+          "port": "b"
+        }
+      },
+      "nn:out>lG:b": {
+        "from": {
+          "node": "nn",
+          "port": "out"
+        },
+        "id": "nn:out>lG:b",
+        "to": {
+          "node": "lG",
+          "port": "b"
+        }
+      },
+      "nn:out>lR:b": {
+        "from": {
+          "node": "nn",
+          "port": "out"
+        },
+        "id": "nn:out>lR:b",
+        "to": {
+          "node": "lR",
+          "port": "b"
+        }
+      },
+      "nv:out>mix:a": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>mix:a",
+        "to": {
+          "node": "mix",
+          "port": "a"
+        }
+      },
+      "nv:out>sc:a": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>sc:a",
+        "to": {
+          "node": "sc",
+          "port": "a"
+        }
+      },
+      "omd:out>bR:b": {
+        "from": {
+          "node": "omd",
+          "port": "out"
+        },
+        "id": "omd:out>bR:b",
+        "to": {
+          "node": "bR",
+          "port": "b"
+        }
+      },
+      "opd:out>bB:b": {
+        "from": {
+          "node": "opd",
+          "port": "out"
+        },
+        "id": "opd:out>bB:b",
+        "to": {
+          "node": "bB",
+          "port": "b"
+        }
+      },
+      "p_bend_inner:out>bB:a": {
+        "from": {
+          "node": "p_bend_inner",
+          "port": "out"
+        },
+        "id": "p_bend_inner:out>bB:a",
+        "to": {
+          "node": "bB",
+          "port": "a"
+        }
+      },
+      "p_bend_inner:out>bR:a": {
+        "from": {
+          "node": "p_bend_inner",
+          "port": "out"
+        },
+        "id": "p_bend_inner:out>bR:a",
+        "to": {
+          "node": "bR",
+          "port": "a"
+        }
+      },
+      "p_bend_inner:out>lG:t": {
+        "from": {
+          "node": "p_bend_inner",
+          "port": "out"
+        },
+        "id": "p_bend_inner:out>lG:t",
+        "to": {
+          "node": "lG",
+          "port": "t"
+        }
+      },
+      "p_dispersion_inner:out>omd:in": {
+        "from": {
+          "node": "p_dispersion_inner",
+          "port": "out"
+        },
+        "id": "p_dispersion_inner:out>omd:in",
+        "to": {
+          "node": "omd",
+          "port": "in"
+        }
+      },
+      "p_dispersion_inner:out>opd:a": {
+        "from": {
+          "node": "p_dispersion_inner",
+          "port": "out"
+        },
+        "id": "p_dispersion_inner:out>opd:a",
+        "to": {
+          "node": "opd",
+          "port": "a"
+        }
+      },
+      "p_facetBlend_facet:out>mix:t": {
+        "from": {
+          "node": "p_facetBlend_facet",
+          "port": "out"
+        },
+        "id": "p_facetBlend_facet:out>mix:t",
+        "to": {
+          "node": "mix",
+          "port": "t"
+        }
+      },
+      "p_facets_facet:out>sc:b": {
+        "from": {
+          "node": "p_facets_facet",
+          "port": "out"
+        },
+        "id": "p_facets_facet:out>sc:b",
+        "to": {
+          "node": "sc",
+          "port": "b"
+        }
+      },
+      "p_fresnelPower_refl:out>fr:power": {
+        "from": {
+          "node": "p_fresnelPower_refl",
+          "port": "out"
+        },
+        "id": "p_fresnelPower_refl:out>fr:power",
+        "to": {
+          "node": "fr",
+          "port": "power"
+        }
+      },
+      "p_gemColor_inner:out>tint:b": {
+        "from": {
+          "node": "p_gemColor_inner",
+          "port": "out"
+        },
+        "id": "p_gemColor_inner:out>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "p_gemColor_mix:out>base:a": {
+        "from": {
+          "node": "p_gemColor_mix",
+          "port": "out"
+        },
+        "id": "p_gemColor_mix:out>base:a",
+        "to": {
+          "node": "base",
+          "port": "a"
+        }
+      },
+      "p_innerGain_inner:out>inner:b": {
+        "from": {
+          "node": "p_innerGain_inner",
+          "port": "out"
+        },
+        "id": "p_innerGain_inner:out>inner:b",
+        "to": {
+          "node": "inner",
+          "port": "b"
+        }
+      },
+      "p_matcapMap_inner:out>mB:tex": {
+        "from": {
+          "node": "p_matcapMap_inner",
+          "port": "out"
+        },
+        "id": "p_matcapMap_inner:out>mB:tex",
+        "to": {
+          "node": "mB",
+          "port": "tex"
+        }
+      },
+      "p_matcapMap_inner:out>mG:tex": {
+        "from": {
+          "node": "p_matcapMap_inner",
+          "port": "out"
+        },
+        "id": "p_matcapMap_inner:out>mG:tex",
+        "to": {
+          "node": "mG",
+          "port": "tex"
+        }
+      },
+      "p_matcapMap_inner:out>mR:tex": {
+        "from": {
+          "node": "p_matcapMap_inner",
+          "port": "out"
+        },
+        "id": "p_matcapMap_inner:out>mR:tex",
+        "to": {
+          "node": "mR",
+          "port": "tex"
+        }
+      },
+      "p_matcapMap_refl:out>mc:tex": {
+        "from": {
+          "node": "p_matcapMap_refl",
+          "port": "out"
+        },
+        "id": "p_matcapMap_refl:out>mc:tex",
+        "to": {
+          "node": "mc",
+          "port": "tex"
+        }
+      },
+      "p_reflGain_refl:out>rg:b": {
+        "from": {
+          "node": "p_reflGain_refl",
+          "port": "out"
+        },
+        "id": "p_reflGain_refl:out>rg:b",
+        "to": {
+          "node": "rg",
+          "port": "b"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "po_facetnormal_mc_normal:out>mc:normal": {
+        "from": {
+          "node": "po_facetnormal_mc_normal",
+          "port": "out"
+        },
+        "id": "po_facetnormal_mc_normal:out>mc:normal",
+        "to": {
+          "node": "mc",
+          "port": "normal"
+        }
+      },
+      "qn:out>mix:b": {
+        "from": {
+          "node": "qn",
+          "port": "out"
+        },
+        "id": "qn:out>mix:b",
+        "to": {
+          "node": "mix",
+          "port": "b"
+        }
+      },
+      "rd:out>eps:a": {
+        "from": {
+          "node": "rd",
+          "port": "out"
+        },
+        "id": "rd:out>eps:a",
+        "to": {
+          "node": "eps",
+          "port": "a"
+        }
+      },
+      "rf:out>rg:a": {
+        "from": {
+          "node": "rf",
+          "port": "out"
+        },
+        "id": "rf:out>rg:a",
+        "to": {
+          "node": "rg",
+          "port": "a"
+        }
+      },
+      "rg:out>em:b": {
+        "from": {
+          "node": "rg",
+          "port": "out"
+        },
+        "id": "rg:out>em:b",
+        "to": {
+          "node": "em",
+          "port": "b"
+        }
+      },
+      "rgb:rgb>tint:a": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "sB:b>rgb:b": {
+        "from": {
+          "node": "sB",
+          "port": "b"
+        },
+        "id": "sB:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "sG:g>rgb:g": {
+        "from": {
+          "node": "sG",
+          "port": "g"
+        },
+        "id": "sG:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "sR:r>rgb:r": {
+        "from": {
+          "node": "sR",
+          "port": "r"
+        },
+        "id": "sR:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "sc:out>rd:in": {
+        "from": {
+          "node": "sc",
+          "port": "out"
+        },
+        "id": "sc:out>rd:in",
+        "to": {
+          "node": "rd",
+          "port": "in"
+        }
+      },
+      "tint:out>inner:a": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>inner:a",
+        "to": {
+          "node": "inner",
+          "port": "a"
+        }
+      },
+      "v:out>fr:viewDir": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>fr:viewDir",
+        "to": {
+          "node": "fr",
+          "port": "viewDir"
+        }
+      },
+      "wn:out>fr:normal": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>fr:normal",
+        "to": {
+          "node": "fr",
+          "port": "normal"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_geo",
+        "nodeIds": [
+          "nv",
+          "wn",
+          "v"
+        ],
+        "rect": {
+          "h": 541,
+          "w": 344,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Normals"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_facet",
+        "nodeIds": [
+          "sc",
+          "rd",
+          "eps",
+          "qn",
+          "mix",
+          "fn",
+          "p_facets_facet",
+          "p_facetBlend_facet",
+          "pi_facetnormal"
+        ],
+        "rect": {
+          "h": 349,
+          "w": 2336,
+          "x": 504,
+          "y": 0
+        },
+        "title": "Facets"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_refl",
+        "nodeIds": [
+          "mc",
+          "fr",
+          "rf",
+          "rg",
+          "p_matcapMap_refl",
+          "po_facetnormal_mc_normal",
+          "p_fresnelPower_refl",
+          "p_reflGain_refl"
+        ],
+        "rect": {
+          "h": 577,
+          "w": 1198,
+          "x": 3000,
+          "y": 0
+        },
+        "title": "Shell reflection"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_inner",
+        "nodeIds": [
+          "nn",
+          "omd",
+          "opd",
+          "bR",
+          "bB",
+          "lR",
+          "dR",
+          "mR",
+          "sR",
+          "lG",
+          "dG",
+          "mG",
+          "sG",
+          "lB",
+          "dB",
+          "mB",
+          "sB",
+          "rgb",
+          "tint",
+          "inner",
+          "p_dispersion_inner",
+          "p_bend_inner",
+          "p_matcapMap_inner",
+          "p_gemColor_inner",
+          "p_innerGain_inner"
+        ],
+        "rect": {
+          "h": 1271,
+          "w": 3034,
+          "x": 3000,
+          "y": 647
+        },
+        "title": "Fake refraction"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "em",
+          "base",
+          "p_gemColor_mix"
+        ],
+        "rect": {
+          "h": 445,
+          "w": 586,
+          "x": 6194,
+          "y": 0
+        },
+        "title": "Combine"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 531,
+          "w": 586,
+          "x": 6940,
+          "y": 0
+        },
+        "title": "Master output (URP Lit)"
+      }
+    ],
+    "id": "crystal-gem",
+    "keywords": [],
+    "name": "Crystal Gem (Matcap + Fake Refraction)",
+    "nodes": {
+      "bB": {
+        "defId": "multiply",
+        "id": "bB",
+        "params": {},
+        "position": {
+          "x": 3634,
+          "y": 1356
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "bR": {
+        "defId": "multiply",
+        "id": "bR",
+        "params": {},
+        "position": {
+          "x": 3634,
+          "y": 1734
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "base": {
+        "defId": "multiply",
+        "id": "base",
+        "params": {},
+        "position": {
+          "x": 6522,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "dB": {
+        "defId": "normalize",
+        "id": "dB",
+        "params": {},
+        "position": {
+          "x": 4246,
+          "y": 1262
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dG": {
+        "defId": "normalize",
+        "id": "dG",
+        "params": {},
+        "position": {
+          "x": 3634,
+          "y": 1616
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dR": {
+        "defId": "normalize",
+        "id": "dR",
+        "params": {},
+        "position": {
+          "x": 4246,
+          "y": 1690
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "em": {
+        "defId": "add",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 6216,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "eps": {
+        "defId": "add",
+        "id": "eps",
+        "params": {},
+        "position": {
+          "x": 1444,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.0001
+        }
+      },
+      "fn": {
+        "defId": "normalize",
+        "id": "fn",
+        "params": {},
+        "position": {
+          "x": 2362,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fr": {
+        "defId": "fresnel",
+        "id": "fr",
+        "params": {},
+        "position": {
+          "x": 3328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "inner": {
+        "defId": "multiply",
+        "id": "inner",
+        "params": {},
+        "position": {
+          "x": 5776,
+          "y": 752
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lB": {
+        "defId": "lerp",
+        "id": "lB",
+        "params": {},
+        "position": {
+          "x": 3940,
+          "y": 1238
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": [
+            0,
+            0,
+            -1
+          ]
+        }
+      },
+      "lG": {
+        "defId": "lerp",
+        "id": "lG",
+        "params": {},
+        "position": {
+          "x": 3328,
+          "y": 1592
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": [
+            0,
+            0,
+            -1
+          ]
+        }
+      },
+      "lR": {
+        "defId": "lerp",
+        "id": "lR",
+        "params": {},
+        "position": {
+          "x": 3940,
+          "y": 1666
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": [
+            0,
+            0,
+            -1
+          ]
+        }
+      },
+      "mB": {
+        "defId": "matcap",
+        "id": "mB",
+        "params": {},
+        "position": {
+          "x": 4552,
+          "y": 1190
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mG": {
+        "defId": "matcap",
+        "id": "mG",
+        "params": {},
+        "position": {
+          "x": 3940,
+          "y": 1404
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mR": {
+        "defId": "matcap",
+        "id": "mR",
+        "params": {},
+        "position": {
+          "x": 4552,
+          "y": 1502
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 7268,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mc": {
+        "defId": "matcap",
+        "id": "mc",
+        "params": {},
+        "position": {
+          "x": 3328,
+          "y": 319
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mix": {
+        "defId": "lerp",
+        "id": "mix",
+        "params": {},
+        "position": {
+          "x": 2056,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nn": {
+        "defId": "negate",
+        "id": "nn",
+        "params": {},
+        "position": {
+          "x": 3022,
+          "y": 1616
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv": {
+        "defId": "normal",
+        "id": "nv",
+        "params": {
+          "space": "view"
+        },
+        "position": {
+          "x": 22,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "omd": {
+        "defId": "oneMinus",
+        "id": "omd",
+        "params": {},
+        "position": {
+          "x": 3328,
+          "y": 1758
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "opd": {
+        "defId": "add",
+        "id": "opd",
+        "params": {},
+        "position": {
+          "x": 3328,
+          "y": 1450
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1
+        }
+      },
+      "p_bend_inner": {
+        "defId": "property",
+        "id": "p_bend_inner",
+        "params": {
+          "property": "bend"
+        },
+        "position": {
+          "x": 3022,
+          "y": 1734
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_dispersion_inner": {
+        "defId": "property",
+        "id": "p_dispersion_inner",
+        "params": {
+          "property": "dispersion"
+        },
+        "position": {
+          "x": 3022,
+          "y": 1828
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_facetBlend_facet": {
+        "defId": "property",
+        "id": "p_facetBlend_facet",
+        "params": {
+          "property": "facetBlend"
+        },
+        "position": {
+          "x": 526,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_facets_facet": {
+        "defId": "property",
+        "id": "p_facets_facet",
+        "params": {
+          "property": "facets"
+        },
+        "position": {
+          "x": 526,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_fresnelPower_refl": {
+        "defId": "property",
+        "id": "p_fresnelPower_refl",
+        "params": {
+          "property": "fresnelPower"
+        },
+        "position": {
+          "x": 3022,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_gemColor_inner": {
+        "defId": "property",
+        "id": "p_gemColor_inner",
+        "params": {
+          "property": "gemColor"
+        },
+        "position": {
+          "x": 3022,
+          "y": 776
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_gemColor_mix": {
+        "defId": "property",
+        "id": "p_gemColor_mix",
+        "params": {
+          "property": "gemColor"
+        },
+        "position": {
+          "x": 6216,
+          "y": 163
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_innerGain_inner": {
+        "defId": "property",
+        "id": "p_innerGain_inner",
+        "params": {
+          "property": "innerGain"
+        },
+        "position": {
+          "x": 3022,
+          "y": 870
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_matcapMap_inner": {
+        "defId": "property",
+        "id": "p_matcapMap_inner",
+        "params": {
+          "property": "matcapMap"
+        },
+        "position": {
+          "x": 3022,
+          "y": 1488
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_matcapMap_refl": {
+        "defId": "property",
+        "id": "p_matcapMap_refl",
+        "params": {
+          "property": "matcapMap"
+        },
+        "position": {
+          "x": 3022,
+          "y": 403
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_reflGain_refl": {
+        "defId": "property",
+        "id": "p_reflGain_refl",
+        "params": {
+          "property": "reflGain"
+        },
+        "position": {
+          "x": 3022,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 6962,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_facetnormal": {
+        "defId": "portalIn",
+        "id": "pi_facetnormal",
+        "params": {
+          "channel": "FacetNormal"
+        },
+        "position": {
+          "x": 2668,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_facetnormal_mc_normal": {
+        "defId": "portalOut",
+        "id": "po_facetnormal_mc_normal",
+        "params": {
+          "channel": "FacetNormal"
+        },
+        "position": {
+          "x": 3022,
+          "y": 497
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "qn": {
+        "defId": "normalize",
+        "id": "qn",
+        "params": {},
+        "position": {
+          "x": 1750,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rd": {
+        "defId": "round",
+        "id": "rd",
+        "params": {},
+        "position": {
+          "x": 1138,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rf": {
+        "defId": "multiply",
+        "id": "rf",
+        "params": {},
+        "position": {
+          "x": 3634,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rg": {
+        "defId": "multiply",
+        "id": "rg",
+        "params": {},
+        "position": {
+          "x": 3940,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 5164,
+          "y": 1324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sB": {
+        "defId": "split",
+        "id": "sB",
+        "params": {},
+        "position": {
+          "x": 4858,
+          "y": 1348
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sG": {
+        "defId": "split",
+        "id": "sG",
+        "params": {},
+        "position": {
+          "x": 4246,
+          "y": 1440
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sR": {
+        "defId": "split",
+        "id": "sR",
+        "params": {},
+        "position": {
+          "x": 4858,
+          "y": 1538
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sc": {
+        "defId": "multiply",
+        "id": "sc",
+        "params": {},
+        "position": {
+          "x": 832,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 5470,
+          "y": 752
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "v": {
+        "defId": "viewDirection",
+        "id": "v",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wn": {
+        "defId": "normal",
+        "id": "wn",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 427
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Maps",
+        "default": null,
+        "displayName": "Matcap Map",
+        "exposed": true,
+        "id": "matcapMap",
+        "perInstance": false,
+        "referenceName": "_MatcapMap",
+        "textureDefault": "grey",
+        "tooltip": "Sphere-shaded environment used for the reflection and the fake refraction.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Gem",
+        "colorSpace": "srgb",
+        "default": [
+          0.2,
+          0.65,
+          1
+        ],
+        "displayName": "Gem Color",
+        "exposed": true,
+        "id": "gemColor",
+        "perInstance": false,
+        "referenceName": "_GemColor",
+        "tooltip": "Colour of the stone (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Gem",
+        "default": 4,
+        "displayName": "Facet Count",
+        "exposed": true,
+        "id": "facets",
+        "max": 12,
+        "min": 1.5,
+        "perInstance": false,
+        "referenceName": "_FacetCount",
+        "slider": true,
+        "tooltip": "Normal quantisation steps per axis: lower = bigger flat facets.",
+        "type": "float"
+      },
+      {
+        "category": "Gem",
+        "default": 1,
+        "displayName": "Facet Amount",
+        "exposed": true,
+        "id": "facetBlend",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_FacetAmount",
+        "slider": true,
+        "tooltip": "0 = smooth sphere, 1 = fully faceted.",
+        "type": "float"
+      },
+      {
+        "category": "Refraction",
+        "default": 0.72,
+        "displayName": "Refraction Bend",
+        "exposed": true,
+        "id": "bend",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RefractionBend",
+        "slider": true,
+        "tooltip": "How far the inner ray bends away from the view direction.",
+        "type": "float"
+      },
+      {
+        "category": "Refraction",
+        "default": 0.22,
+        "displayName": "Dispersion",
+        "exposed": true,
+        "id": "dispersion",
+        "max": 0.6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Dispersion",
+        "slider": true,
+        "tooltip": "Per-channel difference of the bend (chromatic dispersion).",
+        "type": "float"
+      },
+      {
+        "category": "Refraction",
+        "default": 1.7,
+        "displayName": "Inner Light",
+        "exposed": true,
+        "id": "innerGain",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_InnerLight",
+        "slider": true,
+        "tooltip": "Brightness of the refracted light.",
+        "type": "float"
+      },
+      {
+        "category": "Reflection",
+        "default": 1.2,
+        "displayName": "Reflection",
+        "exposed": true,
+        "id": "reflGain",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Reflection",
+        "slider": true,
+        "tooltip": "Brightness of the shell reflection.",
+        "type": "float"
+      },
+      {
+        "category": "Reflection",
+        "default": 3,
+        "displayName": "Fresnel Power",
+        "exposed": true,
+        "id": "fresnelPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_FresnelPower",
+        "slider": true,
+        "tooltip": "Falloff of the outer reflection towards the centre of the stone.",
+        "type": "float"
+      },
+      {
+        "category": "Reflection",
+        "default": 0.95,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Specular smoothness (real light highlights on top of the matcap).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "matcapMap": "sample.crystal-gem.matcapMap"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "envIntensity": 1,
+      "grid": false,
+      "lightAzimuth": 40,
+      "lightElevation": 45,
+      "lightIntensity": 1.2,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

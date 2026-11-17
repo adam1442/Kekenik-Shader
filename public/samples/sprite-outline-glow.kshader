@@ -1,0 +1,1732 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABDElEQVR42u2Z3Q3DIAwGO0dfukoW6DRdo9t0pwzQBVK1EhKiQEwSiA13kh8j8V2Iw88FAAAAAAAAAAAAAACqcJ1ui6SGC9ydEDfw9zL/Kgw0ve5/9Zwf9kX4g3XhXcVCxyT4ZUpEOMhQgERCKCAnQ3X4b5gtM8CkhNy3XRp+TUBMhNrwe8qEBEl4SfeXPKdOgiRYrBlKJMQaaUrCaT2h9O37a4FSAepmgXRKp/7hpdN/TUBzCXvCHN0D1Avo8o/QMvwWCQjoUYBEQrc9oHSP0K2AnIRhBKQkqF0MtRCgYj9wlgQTO8JaAlSeCbQQof5UqJYIE4ejNUSYvSc46lKki9uiIUMDAAAAAABo5gN3RJBBDIO6/gAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-outline-glow.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-outline-glow.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_src",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 456
+        },
+        "text": "The sprite texture and its UV. The kit below samples the sprite itself (several taps), so only the texture *asset* and the UV are passed in."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_fx",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 542
+        },
+        "text": "The **Outline + Glow kit** samples the alpha on rings around each pixel: a thin ring gives the outline, three wider rings give a stepped, smooth glow. The result is composited *behind* the sprite with straight alpha."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 1428,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Splits the kit's RGBA into colour + alpha; the opacity slider only scales alpha, so the HDR glow keeps its colour."
+      }
+    ],
+    "edges": {
+      "alpha:out>master:alpha": {
+        "from": {
+          "node": "alpha",
+          "port": "out"
+        },
+        "id": "alpha:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "kit:final>split:in": {
+        "from": {
+          "node": "kit",
+          "port": "final"
+        },
+        "id": "kit:final>split:in",
+        "to": {
+          "node": "split",
+          "port": "in"
+        }
+      },
+      "p_glowColor_fx:out>kit:glowColor": {
+        "from": {
+          "node": "p_glowColor_fx",
+          "port": "out"
+        },
+        "id": "p_glowColor_fx:out>kit:glowColor",
+        "to": {
+          "node": "kit",
+          "port": "glowColor"
+        }
+      },
+      "p_glowSize_fx:out>kit:glowSize": {
+        "from": {
+          "node": "p_glowSize_fx",
+          "port": "out"
+        },
+        "id": "p_glowSize_fx:out>kit:glowSize",
+        "to": {
+          "node": "kit",
+          "port": "glowSize"
+        }
+      },
+      "p_locked_sprite_texture_src:out>pi_sprite:in": {
+        "from": {
+          "node": "p_locked_sprite_texture_src",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_src:out>pi_sprite:in",
+        "to": {
+          "node": "pi_sprite",
+          "port": "in"
+        }
+      },
+      "p_opacity_out:out>alpha:b": {
+        "from": {
+          "node": "p_opacity_out",
+          "port": "out"
+        },
+        "id": "p_opacity_out:out>alpha:b",
+        "to": {
+          "node": "alpha",
+          "port": "b"
+        }
+      },
+      "p_outlineColor_fx:out>kit:outlineColor": {
+        "from": {
+          "node": "p_outlineColor_fx",
+          "port": "out"
+        },
+        "id": "p_outlineColor_fx:out>kit:outlineColor",
+        "to": {
+          "node": "kit",
+          "port": "outlineColor"
+        }
+      },
+      "p_thickness_fx:out>kit:thickness": {
+        "from": {
+          "node": "p_thickness_fx",
+          "port": "out"
+        },
+        "id": "p_thickness_fx:out>kit:thickness",
+        "to": {
+          "node": "kit",
+          "port": "thickness"
+        }
+      },
+      "po_sprite_kit_tex:out>kit:tex": {
+        "from": {
+          "node": "po_sprite_kit_tex",
+          "port": "out"
+        },
+        "id": "po_sprite_kit_tex:out>kit:tex",
+        "to": {
+          "node": "kit",
+          "port": "tex"
+        }
+      },
+      "po_uv_kit_uv:out>kit:uv": {
+        "from": {
+          "node": "po_uv_kit_uv",
+          "port": "out"
+        },
+        "id": "po_uv_kit_uv:out>kit:uv",
+        "to": {
+          "node": "kit",
+          "port": "uv"
+        }
+      },
+      "rgb:rgb>master:baseColor": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "split:a>alpha:a": {
+        "from": {
+          "node": "split",
+          "port": "a"
+        },
+        "id": "split:a>alpha:a",
+        "to": {
+          "node": "alpha",
+          "port": "a"
+        }
+      },
+      "split:b>rgb:b": {
+        "from": {
+          "node": "split",
+          "port": "b"
+        },
+        "id": "split:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "split:g>rgb:g": {
+        "from": {
+          "node": "split",
+          "port": "g"
+        },
+        "id": "split:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "split:r>rgb:r": {
+        "from": {
+          "node": "split",
+          "port": "r"
+        },
+        "id": "split:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "uv:out>pi_uv:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>pi_uv:in",
+        "to": {
+          "node": "pi_uv",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_src",
+        "nodeIds": [
+          "uv",
+          "p_locked_sprite_texture_src",
+          "pi_sprite",
+          "pi_uv"
+        ],
+        "rect": {
+          "h": 373,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Sprite + UV"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_fx",
+        "nodeIds": [
+          "kit",
+          "po_sprite_kit_tex",
+          "po_uv_kit_uv",
+          "p_outlineColor_fx",
+          "p_thickness_fx",
+          "p_glowColor_fx",
+          "p_glowSize_fx"
+        ],
+        "rect": {
+          "h": 727,
+          "w": 586,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Outline + glow"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "split",
+          "rgb",
+          "alpha",
+          "master",
+          "p_opacity_out"
+        ],
+        "rect": {
+          "h": 481,
+          "w": 892,
+          "x": 1406,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-outline-glow",
+    "keywords": [],
+    "name": "Sprite Outline + Glow",
+    "nodes": {
+      "alpha": {
+        "defId": "multiply",
+        "id": "alpha",
+        "params": {},
+        "position": {
+          "x": 1734,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "kit": {
+        "defId": "subgraph",
+        "id": "kit",
+        "label": "Outline + Glow",
+        "params": {
+          "subgraph": "ks_outline_kit"
+        },
+        "position": {
+          "x": 988,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 2040,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowColor_fx": {
+        "defId": "property",
+        "id": "p_glowColor_fx",
+        "params": {
+          "property": "glowColor"
+        },
+        "position": {
+          "x": 682,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowSize_fx": {
+        "defId": "property",
+        "id": "p_glowSize_fx",
+        "params": {
+          "property": "glowSize"
+        },
+        "position": {
+          "x": 682,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_src": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_src",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 22,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_opacity_out": {
+        "defId": "property",
+        "id": "p_opacity_out",
+        "params": {
+          "property": "opacity"
+        },
+        "position": {
+          "x": 1428,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_outlineColor_fx": {
+        "defId": "property",
+        "id": "p_outlineColor_fx",
+        "params": {
+          "property": "outlineColor"
+        },
+        "position": {
+          "x": 682,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_thickness_fx": {
+        "defId": "property",
+        "id": "p_thickness_fx",
+        "params": {
+          "property": "thickness"
+        },
+        "position": {
+          "x": 682,
+          "y": 517
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_sprite": {
+        "defId": "portalIn",
+        "id": "pi_sprite",
+        "params": {
+          "channel": "Sprite"
+        },
+        "position": {
+          "x": 328,
+          "y": 156
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_uv": {
+        "defId": "portalIn",
+        "id": "pi_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 328,
+          "y": 288
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_sprite_kit_tex": {
+        "defId": "portalOut",
+        "id": "po_sprite_kit_tex",
+        "params": {
+          "channel": "Sprite"
+        },
+        "position": {
+          "x": 682,
+          "y": 611
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_uv_kit_uv": {
+        "defId": "portalOut",
+        "id": "po_uv_kit_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 682,
+          "y": 671
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 1734,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "split": {
+        "defId": "split",
+        "id": "split",
+        "params": {},
+        "position": {
+          "x": 1428,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Outline",
+        "colorSpace": "srgb",
+        "default": [
+          0.06,
+          0.03,
+          0.14,
+          1
+        ],
+        "displayName": "Outline Color",
+        "exposed": true,
+        "id": "outlineColor",
+        "perInstance": false,
+        "referenceName": "_OutlineColor",
+        "tooltip": "Colour and opacity (alpha) of the crisp outline.",
+        "type": "color4"
+      },
+      {
+        "category": "Outline",
+        "default": 1.5,
+        "displayName": "Outline Thickness",
+        "exposed": true,
+        "id": "thickness",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_OutlineThickness",
+        "slider": true,
+        "tooltip": "Outline width in texels of the sprite texture.",
+        "type": "float"
+      },
+      {
+        "category": "Glow",
+        "colorSpace": "linear",
+        "default": [
+          2.6,
+          1.7,
+          0.35,
+          1
+        ],
+        "displayName": "Glow Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "glowColor",
+        "perInstance": false,
+        "referenceName": "_GlowColor",
+        "tooltip": "HDR glow colour; alpha is the glow opacity. Values above 1 bloom with a Bloom post effect.",
+        "type": "color4"
+      },
+      {
+        "category": "Glow",
+        "default": 7,
+        "displayName": "Glow Size",
+        "exposed": true,
+        "id": "glowSize",
+        "max": 14,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_GlowSize",
+        "slider": true,
+        "tooltip": "Reach of the glow in texels (keep ≤ the transparent padding of the sprite).",
+        "type": "float"
+      },
+      {
+        "category": "Sprite",
+        "default": 1,
+        "displayName": "Opacity",
+        "exposed": true,
+        "id": "opacity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Opacity",
+        "slider": true,
+        "tooltip": "Overall opacity of sprite, outline and glow.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_outline_kit": {
+        "comments": [
+          {
+            "color": "#fbbf24",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 3908
+            },
+            "text": "**Outline + glow** — the Sprite Outline node samples the alpha on 8-direction rings (4 for the inner glow ring). The glow uses three rings (⅓, ⅔ and 1× the glow size) with weights 0.5 / 0.3 / 0.2, so coverage falls off in steps that read as a smooth halo.\nFinal = outline-sprite *over* glow: `α = a + g(1−a)`, `rgb = (rgb·a + glow·g(1−a)) / α`."
+          }
+        ],
+        "edges": {
+          "behind:out>ga:b": {
+            "from": {
+              "node": "behind",
+              "port": "out"
+            },
+            "id": "behind:out>ga:b",
+            "to": {
+              "node": "ga",
+              "port": "b"
+            }
+          },
+          "den:out>rgb:b": {
+            "from": {
+              "node": "den",
+              "port": "out"
+            },
+            "id": "den:out>rgb:b",
+            "to": {
+              "node": "rgb",
+              "port": "b"
+            }
+          },
+          "fin:rgba>outputs:final": {
+            "from": {
+              "node": "fin",
+              "port": "rgba"
+            },
+            "id": "fin:rgba>outputs:final",
+            "to": {
+              "node": "outputs",
+              "port": "final"
+            }
+          },
+          "g1:mask>m1:a": {
+            "from": {
+              "node": "g1",
+              "port": "mask"
+            },
+            "id": "g1:mask>m1:a",
+            "to": {
+              "node": "m1",
+              "port": "a"
+            }
+          },
+          "g2:mask>m2:a": {
+            "from": {
+              "node": "g2",
+              "port": "mask"
+            },
+            "id": "g2:mask>m2:a",
+            "to": {
+              "node": "m2",
+              "port": "a"
+            }
+          },
+          "g3:mask>m3:a": {
+            "from": {
+              "node": "g3",
+              "port": "mask"
+            },
+            "id": "g3:mask>m3:a",
+            "to": {
+              "node": "m3",
+              "port": "a"
+            }
+          },
+          "gAlpha:out>ga:a": {
+            "from": {
+              "node": "gAlpha",
+              "port": "out"
+            },
+            "id": "gAlpha:out>ga:a",
+            "to": {
+              "node": "ga",
+              "port": "a"
+            }
+          },
+          "ga0:out>ga1:a": {
+            "from": {
+              "node": "ga0",
+              "port": "out"
+            },
+            "id": "ga0:out>ga1:a",
+            "to": {
+              "node": "ga1",
+              "port": "a"
+            }
+          },
+          "ga1:out>gsat:in": {
+            "from": {
+              "node": "ga1",
+              "port": "out"
+            },
+            "id": "ga1:out>gsat:in",
+            "to": {
+              "node": "gsat",
+              "port": "in"
+            }
+          },
+          "ga:out>num2:b": {
+            "from": {
+              "node": "ga",
+              "port": "out"
+            },
+            "id": "ga:out>num2:b",
+            "to": {
+              "node": "num2",
+              "port": "b"
+            }
+          },
+          "ga:out>outA:b": {
+            "from": {
+              "node": "ga",
+              "port": "out"
+            },
+            "id": "ga:out>outA:b",
+            "to": {
+              "node": "outA",
+              "port": "b"
+            }
+          },
+          "gcol:rgb>num2:a": {
+            "from": {
+              "node": "gcol",
+              "port": "rgb"
+            },
+            "id": "gcol:rgb>num2:a",
+            "to": {
+              "node": "num2",
+              "port": "a"
+            }
+          },
+          "gs1:out>g1:thickness": {
+            "from": {
+              "node": "gs1",
+              "port": "out"
+            },
+            "id": "gs1:out>g1:thickness",
+            "to": {
+              "node": "g1",
+              "port": "thickness"
+            }
+          },
+          "gs2:out>g2:thickness": {
+            "from": {
+              "node": "gs2",
+              "port": "out"
+            },
+            "id": "gs2:out>g2:thickness",
+            "to": {
+              "node": "g2",
+              "port": "thickness"
+            }
+          },
+          "gs3:out>g3:thickness": {
+            "from": {
+              "node": "gs3",
+              "port": "out"
+            },
+            "id": "gs3:out>g3:thickness",
+            "to": {
+              "node": "g3",
+              "port": "thickness"
+            }
+          },
+          "gsat:out>gAlpha:a": {
+            "from": {
+              "node": "gsat",
+              "port": "out"
+            },
+            "id": "gsat:out>gAlpha:a",
+            "to": {
+              "node": "gAlpha",
+              "port": "a"
+            }
+          },
+          "gsat:out>outputs:glow": {
+            "from": {
+              "node": "gsat",
+              "port": "out"
+            },
+            "id": "gsat:out>outputs:glow",
+            "to": {
+              "node": "outputs",
+              "port": "glow"
+            }
+          },
+          "gsplit:a>gAlpha:b": {
+            "from": {
+              "node": "gsplit",
+              "port": "a"
+            },
+            "id": "gsplit:a>gAlpha:b",
+            "to": {
+              "node": "gAlpha",
+              "port": "b"
+            }
+          },
+          "gsplit:b>gcol:b": {
+            "from": {
+              "node": "gsplit",
+              "port": "b"
+            },
+            "id": "gsplit:b>gcol:b",
+            "to": {
+              "node": "gcol",
+              "port": "b"
+            }
+          },
+          "gsplit:g>gcol:g": {
+            "from": {
+              "node": "gsplit",
+              "port": "g"
+            },
+            "id": "gsplit:g>gcol:g",
+            "to": {
+              "node": "gcol",
+              "port": "g"
+            }
+          },
+          "gsplit:r>gcol:r": {
+            "from": {
+              "node": "gsplit",
+              "port": "r"
+            },
+            "id": "gsplit:r>gcol:r",
+            "to": {
+              "node": "gcol",
+              "port": "r"
+            }
+          },
+          "inputs:glowColor>gsplit:in": {
+            "from": {
+              "node": "inputs",
+              "port": "glowColor"
+            },
+            "id": "inputs:glowColor>gsplit:in",
+            "to": {
+              "node": "gsplit",
+              "port": "in"
+            }
+          },
+          "inputs:glowSize>gs1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "glowSize"
+            },
+            "id": "inputs:glowSize>gs1:a",
+            "to": {
+              "node": "gs1",
+              "port": "a"
+            }
+          },
+          "inputs:glowSize>gs2:a": {
+            "from": {
+              "node": "inputs",
+              "port": "glowSize"
+            },
+            "id": "inputs:glowSize>gs2:a",
+            "to": {
+              "node": "gs2",
+              "port": "a"
+            }
+          },
+          "inputs:glowSize>gs3:a": {
+            "from": {
+              "node": "inputs",
+              "port": "glowSize"
+            },
+            "id": "inputs:glowSize>gs3:a",
+            "to": {
+              "node": "gs3",
+              "port": "a"
+            }
+          },
+          "inputs:outlineColor>ol:color": {
+            "from": {
+              "node": "inputs",
+              "port": "outlineColor"
+            },
+            "id": "inputs:outlineColor>ol:color",
+            "to": {
+              "node": "ol",
+              "port": "color"
+            }
+          },
+          "inputs:tex>g1:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "tex"
+            },
+            "id": "inputs:tex>g1:tex",
+            "to": {
+              "node": "g1",
+              "port": "tex"
+            }
+          },
+          "inputs:tex>g2:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "tex"
+            },
+            "id": "inputs:tex>g2:tex",
+            "to": {
+              "node": "g2",
+              "port": "tex"
+            }
+          },
+          "inputs:tex>g3:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "tex"
+            },
+            "id": "inputs:tex>g3:tex",
+            "to": {
+              "node": "g3",
+              "port": "tex"
+            }
+          },
+          "inputs:tex>ol:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "tex"
+            },
+            "id": "inputs:tex>ol:tex",
+            "to": {
+              "node": "ol",
+              "port": "tex"
+            }
+          },
+          "inputs:thickness>ol:thickness": {
+            "from": {
+              "node": "inputs",
+              "port": "thickness"
+            },
+            "id": "inputs:thickness>ol:thickness",
+            "to": {
+              "node": "ol",
+              "port": "thickness"
+            }
+          },
+          "inputs:uv>g1:uv": {
+            "from": {
+              "node": "inputs",
+              "port": "uv"
+            },
+            "id": "inputs:uv>g1:uv",
+            "to": {
+              "node": "g1",
+              "port": "uv"
+            }
+          },
+          "inputs:uv>g2:uv": {
+            "from": {
+              "node": "inputs",
+              "port": "uv"
+            },
+            "id": "inputs:uv>g2:uv",
+            "to": {
+              "node": "g2",
+              "port": "uv"
+            }
+          },
+          "inputs:uv>g3:uv": {
+            "from": {
+              "node": "inputs",
+              "port": "uv"
+            },
+            "id": "inputs:uv>g3:uv",
+            "to": {
+              "node": "g3",
+              "port": "uv"
+            }
+          },
+          "inputs:uv>ol:uv": {
+            "from": {
+              "node": "inputs",
+              "port": "uv"
+            },
+            "id": "inputs:uv>ol:uv",
+            "to": {
+              "node": "ol",
+              "port": "uv"
+            }
+          },
+          "m1:out>ga0:a": {
+            "from": {
+              "node": "m1",
+              "port": "out"
+            },
+            "id": "m1:out>ga0:a",
+            "to": {
+              "node": "ga0",
+              "port": "a"
+            }
+          },
+          "m2:out>ga0:b": {
+            "from": {
+              "node": "m2",
+              "port": "out"
+            },
+            "id": "m2:out>ga0:b",
+            "to": {
+              "node": "ga0",
+              "port": "b"
+            }
+          },
+          "m3:out>ga1:b": {
+            "from": {
+              "node": "m3",
+              "port": "out"
+            },
+            "id": "m3:out>ga1:b",
+            "to": {
+              "node": "ga1",
+              "port": "b"
+            }
+          },
+          "num1:out>num:a": {
+            "from": {
+              "node": "num1",
+              "port": "out"
+            },
+            "id": "num1:out>num:a",
+            "to": {
+              "node": "num",
+              "port": "a"
+            }
+          },
+          "num2:out>num:b": {
+            "from": {
+              "node": "num2",
+              "port": "out"
+            },
+            "id": "num2:out>num:b",
+            "to": {
+              "node": "num",
+              "port": "b"
+            }
+          },
+          "num:out>rgb:a": {
+            "from": {
+              "node": "num",
+              "port": "out"
+            },
+            "id": "num:out>rgb:a",
+            "to": {
+              "node": "rgb",
+              "port": "a"
+            }
+          },
+          "ocol:rgb>num1:a": {
+            "from": {
+              "node": "ocol",
+              "port": "rgb"
+            },
+            "id": "ocol:rgb>num1:a",
+            "to": {
+              "node": "num1",
+              "port": "a"
+            }
+          },
+          "ol:rgba>osplit:in": {
+            "from": {
+              "node": "ol",
+              "port": "rgba"
+            },
+            "id": "ol:rgba>osplit:in",
+            "to": {
+              "node": "osplit",
+              "port": "in"
+            }
+          },
+          "ol:rgba>outputs:outline": {
+            "from": {
+              "node": "ol",
+              "port": "rgba"
+            },
+            "id": "ol:rgba>outputs:outline",
+            "to": {
+              "node": "outputs",
+              "port": "outline"
+            }
+          },
+          "osplit:a>behind:in": {
+            "from": {
+              "node": "osplit",
+              "port": "a"
+            },
+            "id": "osplit:a>behind:in",
+            "to": {
+              "node": "behind",
+              "port": "in"
+            }
+          },
+          "osplit:a>num1:b": {
+            "from": {
+              "node": "osplit",
+              "port": "a"
+            },
+            "id": "osplit:a>num1:b",
+            "to": {
+              "node": "num1",
+              "port": "b"
+            }
+          },
+          "osplit:a>outA:a": {
+            "from": {
+              "node": "osplit",
+              "port": "a"
+            },
+            "id": "osplit:a>outA:a",
+            "to": {
+              "node": "outA",
+              "port": "a"
+            }
+          },
+          "osplit:b>ocol:b": {
+            "from": {
+              "node": "osplit",
+              "port": "b"
+            },
+            "id": "osplit:b>ocol:b",
+            "to": {
+              "node": "ocol",
+              "port": "b"
+            }
+          },
+          "osplit:g>ocol:g": {
+            "from": {
+              "node": "osplit",
+              "port": "g"
+            },
+            "id": "osplit:g>ocol:g",
+            "to": {
+              "node": "ocol",
+              "port": "g"
+            }
+          },
+          "osplit:r>ocol:r": {
+            "from": {
+              "node": "osplit",
+              "port": "r"
+            },
+            "id": "osplit:r>ocol:r",
+            "to": {
+              "node": "ocol",
+              "port": "r"
+            }
+          },
+          "outA:out>den:a": {
+            "from": {
+              "node": "outA",
+              "port": "out"
+            },
+            "id": "outA:out>den:a",
+            "to": {
+              "node": "den",
+              "port": "a"
+            }
+          },
+          "outA:out>fin:a": {
+            "from": {
+              "node": "outA",
+              "port": "out"
+            },
+            "id": "outA:out>fin:a",
+            "to": {
+              "node": "fin",
+              "port": "a"
+            }
+          },
+          "rgb:out>rgbSplit:in": {
+            "from": {
+              "node": "rgb",
+              "port": "out"
+            },
+            "id": "rgb:out>rgbSplit:in",
+            "to": {
+              "node": "rgbSplit",
+              "port": "in"
+            }
+          },
+          "rgbSplit:b>fin:b": {
+            "from": {
+              "node": "rgbSplit",
+              "port": "b"
+            },
+            "id": "rgbSplit:b>fin:b",
+            "to": {
+              "node": "fin",
+              "port": "b"
+            }
+          },
+          "rgbSplit:g>fin:g": {
+            "from": {
+              "node": "rgbSplit",
+              "port": "g"
+            },
+            "id": "rgbSplit:g>fin:g",
+            "to": {
+              "node": "fin",
+              "port": "g"
+            }
+          },
+          "rgbSplit:r>fin:r": {
+            "from": {
+              "node": "rgbSplit",
+              "port": "r"
+            },
+            "id": "rgbSplit:r>fin:r",
+            "to": {
+              "node": "fin",
+              "port": "r"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fbbf24",
+            "id": "grp_body",
+            "nodeIds": [
+              "ol",
+              "gs1",
+              "g1",
+              "gs2",
+              "g2",
+              "gs3",
+              "g3",
+              "m1",
+              "m2",
+              "m3",
+              "ga0",
+              "ga1",
+              "gsat",
+              "gsplit",
+              "osplit",
+              "gcol",
+              "ocol",
+              "gAlpha",
+              "behind",
+              "ga",
+              "outA",
+              "den",
+              "num1",
+              "num2",
+              "num",
+              "rgb",
+              "rgbSplit",
+              "fin"
+            ],
+            "rect": {
+              "h": 1784,
+              "w": 3952,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Outline + Glow Kit"
+          }
+        ],
+        "id": "ks_outline_kit",
+        "inputs": [
+          {
+            "id": "tex",
+            "name": "Sprite",
+            "tooltip": "Sprite texture (alpha = silhouette).",
+            "type": "texture2D"
+          },
+          {
+            "default": [
+              0,
+              0
+            ],
+            "id": "uv",
+            "name": "UV",
+            "tooltip": "Sprite UV.",
+            "type": "vec2"
+          },
+          {
+            "default": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "id": "outlineColor",
+            "name": "Outline Color",
+            "tooltip": "Colour + opacity of the crisp outline.",
+            "type": "color4"
+          },
+          {
+            "default": 1,
+            "id": "thickness",
+            "name": "Outline Thickness",
+            "tooltip": "Outline width in texels.",
+            "type": "float"
+          },
+          {
+            "default": [
+              1,
+              0.9,
+              0.3,
+              1
+            ],
+            "id": "glowColor",
+            "name": "Glow Color",
+            "tooltip": "Glow colour (rgb, may exceed 1) × glow opacity (a).",
+            "type": "color4"
+          },
+          {
+            "default": 6,
+            "id": "glowSize",
+            "name": "Glow Size",
+            "tooltip": "Glow reach in texels (≥ outline thickness).",
+            "type": "float"
+          }
+        ],
+        "name": "Outline + Glow Kit",
+        "nodes": {
+          "behind": {
+            "defId": "oneMinus",
+            "id": "behind",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 396
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "den": {
+            "defId": "maximum",
+            "id": "den",
+            "params": {},
+            "position": {
+              "x": 3076,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.0001
+            }
+          },
+          "fin": {
+            "defId": "combine",
+            "id": "fin",
+            "params": {},
+            "position": {
+              "x": 3994,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "g1": {
+            "defId": "spriteOutline",
+            "id": "g1",
+            "params": {
+              "samples": "4",
+              "sampling": "implicit",
+              "unit": "texels"
+            },
+            "position": {
+              "x": 628,
+              "y": 430
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "g2": {
+            "defId": "spriteOutline",
+            "id": "g2",
+            "params": {
+              "samples": "8",
+              "sampling": "implicit",
+              "unit": "texels"
+            },
+            "position": {
+              "x": 628,
+              "y": 1168
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "g3": {
+            "defId": "spriteOutline",
+            "id": "g3",
+            "params": {
+              "samples": "8",
+              "sampling": "implicit",
+              "unit": "texels"
+            },
+            "position": {
+              "x": 628,
+              "y": 1478
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gAlpha": {
+            "defId": "multiply",
+            "id": "gAlpha",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 312
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ga": {
+            "defId": "multiply",
+            "id": "ga",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 312
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ga0": {
+            "defId": "add",
+            "id": "ga0",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 514
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ga1": {
+            "defId": "add",
+            "id": "ga1",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 514
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gcol": {
+            "defId": "combine",
+            "id": "gcol",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 740
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gs1": {
+            "defId": "multiply",
+            "id": "gs1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 514
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.34
+            }
+          },
+          "gs2": {
+            "defId": "multiply",
+            "id": "gs2",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 1264
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.67
+            }
+          },
+          "gs3": {
+            "defId": "multiply",
+            "id": "gs3",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 1562
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 1
+            }
+          },
+          "gsat": {
+            "defId": "saturate",
+            "id": "gsat",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 526
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gsplit": {
+            "defId": "split",
+            "id": "gsplit",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 764
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "m1": {
+            "defId": "multiply",
+            "id": "m1",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 514
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          },
+          "m2": {
+            "defId": "multiply",
+            "id": "m2",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 656
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.3
+            }
+          },
+          "m3": {
+            "defId": "multiply",
+            "id": "m3",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 956
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.2
+            }
+          },
+          "num": {
+            "defId": "add",
+            "id": "num",
+            "params": {},
+            "position": {
+              "x": 3076,
+              "y": 312
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "num1": {
+            "defId": "multiply",
+            "id": "num1",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 656
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "num2": {
+            "defId": "multiply",
+            "id": "num2",
+            "params": {},
+            "position": {
+              "x": 2770,
+              "y": 312
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ocol": {
+            "defId": "combine",
+            "id": "ocol",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 1098
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ol": {
+            "defId": "spriteOutline",
+            "id": "ol",
+            "params": {
+              "samples": "8",
+              "sampling": "implicit",
+              "unit": "texels"
+            },
+            "position": {
+              "x": 322,
+              "y": 954
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "osplit": {
+            "defId": "split",
+            "id": "osplit",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 978
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outA": {
+            "defId": "add",
+            "id": "outA",
+            "params": {},
+            "position": {
+              "x": 2770,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 4392,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "rgb": {
+            "defId": "divide",
+            "id": "rgb",
+            "params": {},
+            "position": {
+              "x": 3382,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "rgbSplit": {
+            "defId": "split",
+            "id": "rgbSplit",
+            "params": {},
+            "position": {
+              "x": 3688,
+              "y": 146
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "final",
+            "name": "Final",
+            "tooltip": "Sprite + outline over the glow (straight alpha).",
+            "type": "color4"
+          },
+          {
+            "id": "outline",
+            "name": "Outline Only",
+            "tooltip": "Sprite + outline, no glow.",
+            "type": "color4"
+          },
+          {
+            "id": "glow",
+            "name": "Glow Mask",
+            "tooltip": "Soft glow coverage 0…1 (outside the silhouette).",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-outline-glow.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "checker",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,759 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABDElEQVR42u2Z3Q3DIAwGO0dfukoW6DRdo9t0pwzQBVK1EhKiQEwSiA13kh8j8V2Iw88FAAAAAAAAAAAAAACqcJ1ui6SGC9ydEDfw9zL/Kgw0ve5/9Zwf9kX4g3XhXcVCxyT4ZUpEOMhQgERCKCAnQ3X4b5gtM8CkhNy3XRp+TUBMhNrwe8qEBEl4SfeXPKdOgiRYrBlKJMQaaUrCaT2h9O37a4FSAepmgXRKp/7hpdN/TUBzCXvCHN0D1Avo8o/QMvwWCQjoUYBEQrc9oHSP0K2AnIRhBKQkqF0MtRCgYj9wlgQTO8JaAlSeCbQQof5UqJYIE4ejNUSYvSc46lKki9uiIUMDAAAAAABo5gN3RJBBDIO6/gAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-pixelate.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-pixelate.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#4ade80",
+        "id": "note_grid",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "The **Pixel Snap** kit moves every UV to the centre of its grid cell: `uv' = (floor(uv × res) + 0.5) / res`. All screen pixels inside one cell then read the *same* texel."
+      },
+      {
+        "color": "#60a5fa",
+        "id": "note_tex",
+        "position": {
+          "x": 1074,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "Sprite fetch at the snapped UV, then **Posterize** limits each channel to *Color Steps* levels (round mode keeps pure black and white)."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_alpha",
+        "position": {
+          "x": 1074,
+          "y": 532
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "`alpha = step(threshold, a)` — partial alpha (from filtering or the source art) is snapped to 0 or 1, so the silhouette is made of whole pixels."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 2126,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Posterized colour with hard alpha."
+      }
+    ],
+    "edges": {
+      "cut:out>master:alpha": {
+        "from": {
+          "node": "cut",
+          "port": "out"
+        },
+        "id": "cut:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "p_alphaCut_alpha:out>cut:edge": {
+        "from": {
+          "node": "p_alphaCut_alpha",
+          "port": "out"
+        },
+        "id": "p_alphaCut_alpha:out>cut:edge",
+        "to": {
+          "node": "cut",
+          "port": "edge"
+        }
+      },
+      "p_locked_sprite_texture_tex:out>sprite:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_tex",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_tex:out>sprite:tex",
+        "to": {
+          "node": "sprite",
+          "port": "tex"
+        }
+      },
+      "p_pixels_grid:out>res:g": {
+        "from": {
+          "node": "p_pixels_grid",
+          "port": "out"
+        },
+        "id": "p_pixels_grid:out>res:g",
+        "to": {
+          "node": "res",
+          "port": "g"
+        }
+      },
+      "p_pixels_grid:out>res:r": {
+        "from": {
+          "node": "p_pixels_grid",
+          "port": "out"
+        },
+        "id": "p_pixels_grid:out>res:r",
+        "to": {
+          "node": "res",
+          "port": "r"
+        }
+      },
+      "p_steps_tex:out>poster:steps": {
+        "from": {
+          "node": "p_steps_tex",
+          "port": "out"
+        },
+        "id": "p_steps_tex:out>poster:steps",
+        "to": {
+          "node": "poster",
+          "port": "steps"
+        }
+      },
+      "po_uv_snap_uv:out>snap:uv": {
+        "from": {
+          "node": "po_uv_snap_uv",
+          "port": "out"
+        },
+        "id": "po_uv_snap_uv:out>snap:uv",
+        "to": {
+          "node": "snap",
+          "port": "uv"
+        }
+      },
+      "poster:out>split:in": {
+        "from": {
+          "node": "poster",
+          "port": "out"
+        },
+        "id": "poster:out>split:in",
+        "to": {
+          "node": "split",
+          "port": "in"
+        }
+      },
+      "res:rg>snap:resolution": {
+        "from": {
+          "node": "res",
+          "port": "rg"
+        },
+        "id": "res:rg>snap:resolution",
+        "to": {
+          "node": "snap",
+          "port": "resolution"
+        }
+      },
+      "rgb:rgb>master:baseColor": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "snap:uv>sprite:uv": {
+        "from": {
+          "node": "snap",
+          "port": "uv"
+        },
+        "id": "snap:uv>sprite:uv",
+        "to": {
+          "node": "sprite",
+          "port": "uv"
+        }
+      },
+      "split:b>rgb:b": {
+        "from": {
+          "node": "split",
+          "port": "b"
+        },
+        "id": "split:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "split:g>rgb:g": {
+        "from": {
+          "node": "split",
+          "port": "g"
+        },
+        "id": "split:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "split:r>rgb:r": {
+        "from": {
+          "node": "split",
+          "port": "r"
+        },
+        "id": "split:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "sprite:a>cut:in": {
+        "from": {
+          "node": "sprite",
+          "port": "a"
+        },
+        "id": "sprite:a>cut:in",
+        "to": {
+          "node": "cut",
+          "port": "in"
+        }
+      },
+      "sprite:rgba>poster:in": {
+        "from": {
+          "node": "sprite",
+          "port": "rgba"
+        },
+        "id": "sprite:rgba>poster:in",
+        "to": {
+          "node": "poster",
+          "port": "in"
+        }
+      },
+      "uv:out>pi_uv:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>pi_uv:in",
+        "to": {
+          "node": "pi_uv",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#4ade80",
+        "id": "grp_grid",
+        "nodeIds": [
+          "uv",
+          "res",
+          "snap",
+          "p_pixels_grid",
+          "pi_uv",
+          "po_uv_snap_uv"
+        ],
+        "rect": {
+          "h": 500,
+          "w": 892,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Snap UV to the pixel grid"
+      },
+      {
+        "color": "#60a5fa",
+        "id": "grp_tex",
+        "nodeIds": [
+          "sprite",
+          "poster",
+          "p_locked_sprite_texture_tex",
+          "p_steps_tex"
+        ],
+        "rect": {
+          "h": 428,
+          "w": 892,
+          "x": 1052,
+          "y": 0
+        },
+        "title": "Sample + posterize"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_alpha",
+        "nodeIds": [
+          "cut",
+          "p_alphaCut_alpha"
+        ],
+        "rect": {
+          "h": 260,
+          "w": 586,
+          "x": 1052,
+          "y": 498
+        },
+        "title": "Hard alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "split",
+          "rgb",
+          "master"
+        ],
+        "rect": {
+          "h": 339,
+          "w": 892,
+          "x": 2104,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-pixelate",
+    "keywords": [],
+    "name": "Pixelate / Pixel-Perfect Snap",
+    "nodes": {
+      "cut": {
+        "defId": "step",
+        "id": "cut",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_alphaCut_alpha": {
+        "defId": "property",
+        "id": "p_alphaCut_alpha",
+        "params": {
+          "property": "alphaCut"
+        },
+        "position": {
+          "x": 1074,
+          "y": 644
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_tex": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_tex",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 1074,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pixels_grid": {
+        "defId": "property",
+        "id": "p_pixels_grid",
+        "params": {
+          "property": "pixels"
+        },
+        "position": {
+          "x": 22,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_steps_tex": {
+        "defId": "property",
+        "id": "p_steps_tex",
+        "params": {
+          "property": "steps"
+        },
+        "position": {
+          "x": 1074,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_uv": {
+        "defId": "portalIn",
+        "id": "pi_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 328,
+          "y": 415
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_uv_snap_uv": {
+        "defId": "portalOut",
+        "id": "po_uv_snap_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 22,
+          "y": 288
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "poster": {
+        "defId": "colorPosterize",
+        "id": "poster",
+        "params": {
+          "mode": "round"
+        },
+        "position": {
+          "x": 1686,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "res": {
+        "defId": "combine",
+        "id": "res",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 2432,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "snap": {
+        "defId": "subgraph",
+        "id": "snap",
+        "label": "Pixel Snap",
+        "params": {
+          "subgraph": "ks_pixel_snap"
+        },
+        "position": {
+          "x": 634,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "split": {
+        "defId": "split",
+        "id": "split",
+        "params": {},
+        "position": {
+          "x": 2126,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sprite": {
+        "defId": "sampleTexture2D",
+        "id": "sprite",
+        "params": {
+          "mode": "lod"
+        },
+        "position": {
+          "x": 1380,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {
+          "lod": 0
+        }
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 386
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Pixelation",
+        "default": 24,
+        "displayName": "Pixel Grid",
+        "exposed": true,
+        "id": "pixels",
+        "max": 128,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_PixelGrid",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Pixels per axis of the snapping grid (the sprite's own pixel size = 1:1).",
+        "type": "float"
+      },
+      {
+        "category": "Pixelation",
+        "default": 5,
+        "displayName": "Color Steps",
+        "exposed": true,
+        "id": "steps",
+        "max": 16,
+        "min": 2,
+        "perInstance": false,
+        "referenceName": "_ColorSteps",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Levels per colour channel after posterizing.",
+        "type": "float"
+      },
+      {
+        "category": "Pixelation",
+        "default": 0.5,
+        "displayName": "Alpha Threshold",
+        "exposed": true,
+        "id": "alphaCut",
+        "max": 0.99,
+        "min": 0.01,
+        "perInstance": false,
+        "referenceName": "_AlphaThreshold",
+        "slider": true,
+        "tooltip": "Alpha at or above this becomes fully opaque, below it fully transparent (hard pixel edges).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_pixel_snap": {
+        "comments": [
+          {
+            "color": "#4ade80",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 107,
+              "w": 300
+            },
+            "text": "**Pixel snap** — `uv' = (floor(uv × res) + 0.5) / res`. Feed the snapped UV into the texture sample (point filtering) and every screen pixel inside a texel reads exactly that texel."
+          }
+        ],
+        "edges": {
+          "inputs:resolution>snap:resolution": {
+            "from": {
+              "node": "inputs",
+              "port": "resolution"
+            },
+            "id": "inputs:resolution>snap:resolution",
+            "to": {
+              "node": "snap",
+              "port": "resolution"
+            }
+          },
+          "inputs:uv>snap:uv": {
+            "from": {
+              "node": "inputs",
+              "port": "uv"
+            },
+            "id": "inputs:uv>snap:uv",
+            "to": {
+              "node": "snap",
+              "port": "uv"
+            }
+          },
+          "snap:texel>outputs:texel": {
+            "from": {
+              "node": "snap",
+              "port": "texel"
+            },
+            "id": "snap:texel>outputs:texel",
+            "to": {
+              "node": "outputs",
+              "port": "texel"
+            }
+          },
+          "snap:uv>outputs:uv": {
+            "from": {
+              "node": "snap",
+              "port": "uv"
+            },
+            "id": "snap:uv>outputs:uv",
+            "to": {
+              "node": "outputs",
+              "port": "uv"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#4ade80",
+            "id": "grp_body",
+            "nodeIds": [
+              "snap"
+            ],
+            "rect": {
+              "h": 383,
+              "w": 344,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Pixel Snap"
+          }
+        ],
+        "id": "ks_pixel_snap",
+        "inputs": [
+          {
+            "default": [
+              0,
+              0
+            ],
+            "id": "uv",
+            "name": "UV",
+            "tooltip": "UV to snap (origin bottom-left).",
+            "type": "vec2"
+          },
+          {
+            "default": [
+              64,
+              64
+            ],
+            "id": "resolution",
+            "name": "Resolution",
+            "tooltip": "Texels per axis of the grid (texture size for a 1:1 sprite).",
+            "type": "vec2"
+          }
+        ],
+        "name": "Pixel Snap",
+        "nodes": {
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 784,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "snap": {
+            "defId": "pixelSnap",
+            "id": "snap",
+            "params": {
+              "anchor": "center"
+            },
+            "position": {
+              "x": 322,
+              "y": 173
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "uv",
+            "name": "Snapped UV",
+            "tooltip": "UV at the centre of the texel containing the input.",
+            "type": "vec2"
+          },
+          {
+            "id": "texel",
+            "name": "Texel",
+            "tooltip": "Integer texel coordinate (as float).",
+            "type": "vec2"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-pixelate.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "checker",
+      "grid": false,
+      "mode": "2d",
+      "nearest": true,
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

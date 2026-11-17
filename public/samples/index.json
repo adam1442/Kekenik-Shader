@@ -1,0 +1,6819 @@
+{
+  "format": "kekenik-samples",
+  "version": 1,
+  "samples": [
+    {
+      "id": "stylized-toon",
+      "title": "Stylized Toon (Ramp + Rim + Outline)",
+      "description": "Three-band cel shading from the main light, a hard specular highlight, a fresnel rim and a view-dependent fake outline — all in one unlit pass, no extra geometry.",
+      "tags": [
+        "toon",
+        "cel",
+        "rim",
+        "outline",
+        "stylized"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The light direction is a material parameter (not the engine light), so the look is identical on every target; to follow a scene light, replace the Light Direction property by the Main Light Direction node (Unity / generic targets only — Godot has no main-light node in fragment())."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_toon_light",
+        "ks_fresnel_kit"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "unlit",
+          "azimuth": 40,
+          "elevation": 45
+        },
+        "background": {
+          "mode": "gradient"
+        }
+      },
+      "file": "stylized-toon.kshader",
+      "nodes": 45,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_fresnel_kit",
+        "ks_toon_light"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "lightDir",
+          "name": "Light Direction",
+          "type": "vec3",
+          "category": "Cel Shading",
+          "default": [
+            0.45,
+            0.8,
+            0.4
+          ],
+          "tooltip": "Direction FROM the surface TOWARDS the light (world space; normalised in the graph). Drive it from your light's script — the shader is engine-light independent and identical on every target."
+        },
+        {
+          "id": "lit",
+          "name": "Lit Color",
+          "type": "color",
+          "category": "Cel Shading",
+          "default": [
+            0.95,
+            0.62,
+            0.38
+          ],
+          "tooltip": "Colour of the brightest band (sRGB)."
+        },
+        {
+          "id": "shadow",
+          "name": "Shadow Color",
+          "type": "color",
+          "category": "Cel Shading",
+          "default": [
+            0.28,
+            0.2,
+            0.45
+          ],
+          "tooltip": "Colour of the darkest band (sRGB)."
+        },
+        {
+          "id": "softness",
+          "name": "Band Softness",
+          "type": "float",
+          "category": "Cel Shading",
+          "default": 0.02,
+          "min": 0,
+          "max": 0.3,
+          "tooltip": "Width of the band edges: 0 = hard cel, 0.3 = painterly."
+        },
+        {
+          "id": "specColor",
+          "name": "Specular Color",
+          "type": "color",
+          "category": "Specular",
+          "default": [
+            1,
+            0.95,
+            0.85
+          ],
+          "tooltip": "Colour of the hard highlight (sRGB)."
+        },
+        {
+          "id": "specSize",
+          "name": "Specular Size",
+          "type": "float",
+          "category": "Specular",
+          "default": 0.06,
+          "min": 0,
+          "max": 0.4,
+          "tooltip": "Size of the highlight (0 = off)."
+        },
+        {
+          "id": "rimColor",
+          "name": "Rim Color",
+          "type": "color",
+          "category": "Rim",
+          "default": [
+            1.2,
+            0.9,
+            0.7
+          ],
+          "hdr": true,
+          "tooltip": "HDR rim colour (values above 1 bloom)."
+        },
+        {
+          "id": "rimPower",
+          "name": "Rim Power",
+          "type": "float",
+          "category": "Rim",
+          "default": 3.5,
+          "min": 0.5,
+          "max": 10,
+          "tooltip": "Rim falloff: higher = thinner rim."
+        },
+        {
+          "id": "rimIntensity",
+          "name": "Rim Intensity",
+          "type": "float",
+          "category": "Rim",
+          "default": 0.6,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Strength of the rim light."
+        },
+        {
+          "id": "outlineColor",
+          "name": "Outline Color",
+          "type": "color",
+          "category": "Outline",
+          "default": [
+            0.08,
+            0.05,
+            0.12
+          ],
+          "tooltip": "Colour of the fake outline (sRGB)."
+        },
+        {
+          "id": "outlineWidth",
+          "name": "Outline Width",
+          "type": "float",
+          "category": "Outline",
+          "default": 0.16,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "Width of the silhouette line (0 = none). View-dependent: thicker on round shapes."
+        }
+      ],
+      "bytes": 47967
+    },
+    {
+      "id": "dissolve-glow-edge",
+      "title": "Dissolve with Glowing Edge",
+      "description": "Noise-driven dissolve with a soft, HDR glowing edge. The pattern is projected triplanar in world space, so it works on any mesh without UVs; alpha clip makes it shadow-correct.",
+      "tags": [
+        "dissolve",
+        "emission",
+        "alpha-clip",
+        "triplanar",
+        "vfx"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Alpha clip is on (threshold 0.5); the soft border is generated before the clip, so the edge band stays crisp."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_soft_dissolve",
+        "ks_triplanar"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "torus",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 30,
+          "elevation": 45
+        }
+      },
+      "file": "dissolve-glow-edge.kshader",
+      "nodes": 20,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [
+        "ks_soft_dissolve",
+        "ks_triplanar"
+      ],
+      "textures": [
+        "dissolve-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "noiseTex",
+          "name": "Dissolve Noise",
+          "type": "texture2D",
+          "category": "Dissolve",
+          "default": null,
+          "tooltip": "Greyscale pattern: dark areas dissolve first.",
+          "texture": "dissolve-noise"
+        },
+        {
+          "id": "amount",
+          "name": "Dissolve",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.4,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = fully visible, 1 = fully dissolved. Animate this from gameplay."
+        },
+        {
+          "id": "tile",
+          "name": "Noise Tiling",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 1.4,
+          "min": 0.2,
+          "max": 6,
+          "tooltip": "Noise repeats per world unit."
+        },
+        {
+          "id": "softness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.02,
+          "min": 0,
+          "max": 0.2,
+          "tooltip": "Feathering of the cut."
+        },
+        {
+          "id": "edgeWidth",
+          "name": "Edge Width",
+          "type": "float",
+          "category": "Edge",
+          "default": 0.09,
+          "min": 0,
+          "max": 0.4,
+          "tooltip": "Width of the glowing band."
+        },
+        {
+          "id": "edgeColor",
+          "name": "Edge Color",
+          "type": "color",
+          "category": "Edge",
+          "default": [
+            5,
+            1.4,
+            0.25
+          ],
+          "hdr": true,
+          "tooltip": "HDR emission of the edge (values above 1 bloom)."
+        },
+        {
+          "id": "baseTint",
+          "name": "Base Color",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            0.62,
+            0.66,
+            0.74
+          ],
+          "tooltip": "Surface colour (sRGB)."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.45,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Surface smoothness."
+        }
+      ],
+      "bytes": 55393
+    },
+    {
+      "id": "hologram",
+      "title": "Hologram",
+      "description": "Additive sci-fi hologram: scrolling scan-lines in world space, fresnel rim, electric flicker and a small vertex wobble. One unlit additive pass.",
+      "tags": [
+        "hologram",
+        "additive",
+        "scanlines",
+        "fresnel",
+        "sci-fi",
+        "vfx"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Additive blend, no depth write (set in the graph settings)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_fresnel_kit"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "capsule",
+        "lighting": {
+          "lit": "unlit"
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "hologram.kshader",
+      "nodes": 54,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_fresnel_kit"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "holoColor",
+          "name": "Hologram Color",
+          "type": "color",
+          "category": "Look",
+          "default": [
+            0.15,
+            0.75,
+            1.4
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the hologram."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Look",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Overall brightness."
+        },
+        {
+          "id": "density",
+          "name": "Scanline Density",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 38,
+          "min": 4,
+          "max": 120,
+          "tooltip": "Scan-lines per world unit (vertical)."
+        },
+        {
+          "id": "speed",
+          "name": "Scanline Speed",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 0.6,
+          "min": -3,
+          "max": 3,
+          "tooltip": "Scroll speed in lines per second (negative = down)."
+        },
+        {
+          "id": "lineSharp",
+          "name": "Scanline Sharpness",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 0.35,
+          "min": 0.02,
+          "max": 0.5,
+          "tooltip": "Smaller = harder lines."
+        },
+        {
+          "id": "rimPower",
+          "name": "Rim Power",
+          "type": "float",
+          "category": "Rim",
+          "default": 2.2,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Rim falloff."
+        },
+        {
+          "id": "flicker",
+          "name": "Flicker",
+          "type": "float",
+          "category": "Motion",
+          "default": 0.12,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "Amount of electric flicker (0 = steady)."
+        },
+        {
+          "id": "wobble",
+          "name": "Vertex Wobble",
+          "type": "float",
+          "category": "Motion",
+          "default": 0.012,
+          "min": 0,
+          "max": 0.08,
+          "tooltip": "Amplitude of the vertex wobble (object units)."
+        }
+      ],
+      "bytes": 42387
+    },
+    {
+      "id": "snow-sparkle",
+      "title": "Snow with Sparkle",
+      "description": "Soft snow with a fbm bump and view-dependent ice glints: every grid cell holds a tiny mirror flake with a random orientation that only lights up when it reflects the sun towards the camera, so the sparkles twinkle as you orbit.",
+      "tags": [
+        "snow",
+        "sparkle",
+        "glitter",
+        "flakes",
+        "lit",
+        "procedural"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The sun direction is a material parameter (like the Toon sample) so the look is identical on every target; drive it from your light's script.",
+        "Flake cells are a jittered 3D grid in object space (one hash per cell, no neighbour search) — no UVs, no seams, sparkles stay glued to the mesh."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 35,
+          "elevation": 38,
+          "intensity": 1.2
+        },
+        "background": {
+          "mode": "gradient"
+        }
+      },
+      "file": "snow-sparkle.kshader",
+      "nodes": 72,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "snowColor",
+          "name": "Snow Color",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            0.93,
+            0.96,
+            1
+          ],
+          "tooltip": "Albedo of the snow in light areas."
+        },
+        {
+          "id": "shadeColor",
+          "name": "Shade Color",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            0.62,
+            0.72,
+            0.9
+          ],
+          "tooltip": "Cool blue-ish albedo in the dips of the bump (fake sub-surface scattering)."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.3,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Specular smoothness of the snow surface."
+        },
+        {
+          "id": "bumpScale",
+          "name": "Bump Scale",
+          "type": "float",
+          "category": "Bump",
+          "default": 14,
+          "min": 2,
+          "max": 48,
+          "tooltip": "Frequency of the snow bumps (UV space)."
+        },
+        {
+          "id": "bumpStrength",
+          "name": "Bump Strength",
+          "type": "float",
+          "category": "Bump",
+          "default": 0.8,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Strength of the bump normal."
+        },
+        {
+          "id": "sparkleColor",
+          "name": "Sparkle Color",
+          "type": "color",
+          "category": "Sparkle",
+          "default": [
+            1.5,
+            1.7,
+            2.2
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the glints (values above 1 bloom)."
+        },
+        {
+          "id": "lightDir",
+          "name": "Light Direction",
+          "type": "vec3",
+          "category": "Sparkle",
+          "default": [
+            0.5,
+            0.65,
+            0.55
+          ],
+          "tooltip": "Direction FROM the surface TOWARDS the sun (world space, normalised in the graph). Drive it from your light's script."
+        },
+        {
+          "id": "density",
+          "name": "Flake Density",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 40,
+          "min": 8,
+          "max": 160,
+          "tooltip": "Grid cells per object unit — more cells = finer glitter."
+        },
+        {
+          "id": "size",
+          "name": "Flake Size",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 0.2,
+          "min": 0.03,
+          "max": 0.25,
+          "tooltip": "Radius of one flake as a fraction of its cell (max 0.25 keeps the flake inside its cell)."
+        },
+        {
+          "id": "sharpness",
+          "name": "Glint Sharpness",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 90,
+          "min": 8,
+          "max": 400,
+          "tooltip": "Exponent of the glint: higher = narrower range of view angles that sparkle."
+        },
+        {
+          "id": "flakeTilt",
+          "name": "Flake Tilt",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 1.4,
+          "min": 0.1,
+          "max": 4,
+          "tooltip": "How far random flakes tilt away from the surface normal (larger = more glints, less coherent)."
+        },
+        {
+          "id": "intensity",
+          "name": "Sparkle Intensity",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 4,
+          "min": 0,
+          "max": 12,
+          "tooltip": "Brightness of the glints."
+        },
+        {
+          "id": "twinkle",
+          "name": "Twinkle",
+          "type": "float",
+          "category": "Sparkle",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Per-flake brightness flicker over time (0 = none)."
+        }
+      ],
+      "bytes": 46660
+    },
+    {
+      "id": "parallax-brick",
+      "title": "Parallax Brick Wall",
+      "description": "Brick wall with steep parallax occlusion mapping: the height map is ray-marched along the tangent-space view vector so mortar joints sink behind the bricks with real depth. Normal map, mortar-aware smoothness and height-based occlusion complete the PBR set.",
+      "tags": [
+        "parallax",
+        "brick",
+        "height-map",
+        "normal-map",
+        "pbr",
+        "tangent-space",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs mesh tangents (all preview primitives, Unity and Godot meshes provide them).",
+        "Parallax ray-marches 12 steps per pixel — Desktop class. Lower the Depth value on grazing angles to avoid swimming."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "cube",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 60,
+          "elevation": 35,
+          "intensity": 1.3
+        }
+      },
+      "file": "parallax-brick.kshader",
+      "nodes": 34,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "brick-albedo (128×128)",
+        "brick-height (128×128)",
+        "brick-normal (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "albedoMap",
+          "name": "Albedo Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "Brick colour (sRGB).",
+          "texture": "brick-albedo"
+        },
+        {
+          "id": "heightMap",
+          "name": "Height Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "Height in R (1 = brick face, 0 = mortar bottom). Import as linear data.",
+          "texture": "brick-height"
+        },
+        {
+          "id": "normalMap",
+          "name": "Normal Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "Tangent-space normal map. Import as normal map / linear data.",
+          "texture": "brick-normal"
+        },
+        {
+          "id": "tint",
+          "name": "Tint",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            1,
+            1,
+            1
+          ],
+          "tooltip": "Multiplies the albedo."
+        },
+        {
+          "id": "tiling",
+          "name": "Tiling",
+          "type": "float",
+          "category": "Surface",
+          "default": 3,
+          "min": 1,
+          "max": 12,
+          "tooltip": "Number of brick-texture repeats across the UV range."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.3,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness of the brick faces (mortar is rougher)."
+        },
+        {
+          "id": "normalStrength",
+          "name": "Normal Strength",
+          "type": "float",
+          "category": "Surface",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Strength of the normal map."
+        },
+        {
+          "id": "depth",
+          "name": "Parallax Depth",
+          "type": "float",
+          "category": "Parallax",
+          "default": 0.055,
+          "min": 0,
+          "max": 0.12,
+          "tooltip": "Apparent depth of the mortar joints (UV units)."
+        },
+        {
+          "id": "aoStrength",
+          "name": "Occlusion",
+          "type": "float",
+          "category": "Parallax",
+          "default": 0.8,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How strongly low (mortar) areas are darkened."
+        }
+      ],
+      "bytes": 116684
+    },
+    {
+      "id": "iridescent-thin-film",
+      "title": "Iridescent Thin Film",
+      "description": "Soap-bubble / oil-slick / beetle-shell colours from thin-film interference: a drifting fbm thickness field and the viewing angle select the hue through a reusable Thin Film subgraph, on a glossy metallic base with a faint rim glow.",
+      "tags": [
+        "iridescent",
+        "thin-film",
+        "oil-slick",
+        "interference",
+        "fresnel",
+        "metallic",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Art-directable approximation (3 wavelengths as phase offsets), not a spectral simulation.",
+        "The film tint drives Base Color of a metallic surface, so reflections pick up the colour in every engine."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_thin_film"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 50,
+          "elevation": 40,
+          "intensity": 1.2,
+          "envIntensity": 1.2
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "iridescent-thin-film.kshader",
+      "nodes": 36,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [
+        "ks_thin_film"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "baseTone",
+          "name": "Base Tone",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            0.03,
+            0.03,
+            0.05
+          ],
+          "tooltip": "Colour of the surface without the film (where Film Strength is low)."
+        },
+        {
+          "id": "strength",
+          "name": "Film Strength",
+          "type": "float",
+          "category": "Surface",
+          "default": 1,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Blend between the base tone and the interference colours."
+        },
+        {
+          "id": "metallic",
+          "name": "Metallic",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.85,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Metallic factor: high values make reflections carry the film colour."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.92,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Surface smoothness."
+        },
+        {
+          "id": "thickMin",
+          "name": "Thickness Min",
+          "type": "float",
+          "category": "Film",
+          "default": 0.15,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Thinnest film (arbitrary units)."
+        },
+        {
+          "id": "thickMax",
+          "name": "Thickness Max",
+          "type": "float",
+          "category": "Film",
+          "default": 0.85,
+          "min": 0,
+          "max": 1.5,
+          "tooltip": "Thickest film (arbitrary units)."
+        },
+        {
+          "id": "ior",
+          "name": "Film IOR",
+          "type": "float",
+          "category": "Film",
+          "default": 1.45,
+          "min": 1,
+          "max": 2.6,
+          "tooltip": "Refractive index of the film (soap ≈ 1.33, oxide ≈ 2)."
+        },
+        {
+          "id": "bands",
+          "name": "Colour Bands",
+          "type": "float",
+          "category": "Film",
+          "default": 2.2,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "How many colour cycles the thickness range sweeps."
+        },
+        {
+          "id": "noiseScale",
+          "name": "Pattern Scale",
+          "type": "float",
+          "category": "Pattern",
+          "default": 3.5,
+          "min": 0.5,
+          "max": 16,
+          "tooltip": "Size of the thickness swirls (UV space)."
+        },
+        {
+          "id": "drift",
+          "name": "Drift Speed",
+          "type": "float",
+          "category": "Pattern",
+          "default": 0.05,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "How fast the thickness pattern flows (0 = frozen)."
+        },
+        {
+          "id": "rimGlow",
+          "name": "Rim Glow",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.5,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Emission of the film colour at grazing angles."
+        }
+      ],
+      "bytes": 45077
+    },
+    {
+      "id": "foliage-wind",
+      "title": "Foliage: Wind + Translucency",
+      "description": "A procedural leaf card with alpha-clipped outline, midrib and side veins. The Wind Foliage node sways it from the base to the tip, and the Lit master's Translucency + Thickness blocks let sunlight glow through the thin blade — thicker veins stay dark.",
+      "tags": [
+        "foliage",
+        "wind",
+        "translucency",
+        "leaf",
+        "alpha-clip",
+        "vertex",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Translucency is a portable approximation: back light = translucency × (1 − thickness) × albedo × main light × saturate(−N·L). URP Lit has no native translucency (added to emission), Godot maps it to BACKLIGHT.",
+        "Alpha Clip + two-sided (Render Face = Both, double-sided normals) are set in the graph settings.",
+        "Wind runs in the vertex stage: the leaf needs enough subdivisions to bend smoothly (the preview plane has them)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "plane",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 200,
+          "elevation": 30,
+          "intensity": 1.5
+        },
+        "background": {
+          "mode": "gradient"
+        }
+      },
+      "file": "foliage-wind.kshader",
+      "nodes": 56,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "baseColor",
+          "name": "Base Color",
+          "type": "color",
+          "category": "Leaf",
+          "default": [
+            0.1,
+            0.38,
+            0.06
+          ],
+          "tooltip": "Leaf colour at the stem end (sRGB)."
+        },
+        {
+          "id": "tipColor",
+          "name": "Tip Color",
+          "type": "color",
+          "category": "Leaf",
+          "default": [
+            0.5,
+            0.72,
+            0.14
+          ],
+          "tooltip": "Leaf colour at the tip (sRGB)."
+        },
+        {
+          "id": "veinColor",
+          "name": "Vein Color",
+          "type": "color",
+          "category": "Leaf",
+          "default": [
+            0.62,
+            0.75,
+            0.3
+          ],
+          "tooltip": "Colour of the midrib and side veins (sRGB)."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Leaf",
+          "default": 0.28,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Specular smoothness (waxy leaves are higher)."
+        },
+        {
+          "id": "width",
+          "name": "Leaf Width",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.46,
+          "min": 0.2,
+          "max": 0.5,
+          "tooltip": "Half-width of the leaf at its widest point (UV units)."
+        },
+        {
+          "id": "veins",
+          "name": "Side Vein Count",
+          "type": "float",
+          "category": "Shape",
+          "default": 7,
+          "min": 3,
+          "max": 14,
+          "tooltip": "Number of side veins along the blade."
+        },
+        {
+          "id": "transColor",
+          "name": "Translucency Color",
+          "type": "color",
+          "category": "Translucency",
+          "default": [
+            0.5,
+            0.85,
+            0.15
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the light that shines through the leaf."
+        },
+        {
+          "id": "transStrength",
+          "name": "Translucency Strength",
+          "type": "float",
+          "category": "Translucency",
+          "default": 1.6,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Multiplier of the back light."
+        },
+        {
+          "id": "thickness",
+          "name": "Blade Thickness",
+          "type": "float",
+          "category": "Translucency",
+          "default": 0.15,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = paper-thin (full back light), 1 = opaque. Veins add extra thickness."
+        },
+        {
+          "id": "windStrength",
+          "name": "Wind Strength",
+          "type": "float",
+          "category": "Wind",
+          "default": 0.12,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "Maximum sway distance at the tip (object units)."
+        },
+        {
+          "id": "windFreq",
+          "name": "Wind Frequency",
+          "type": "float",
+          "category": "Wind",
+          "default": 0.9,
+          "min": 0.1,
+          "max": 4,
+          "tooltip": "Sway cycles per second."
+        },
+        {
+          "id": "turbulence",
+          "name": "Turbulence",
+          "type": "float",
+          "category": "Wind",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Amount of high-frequency flutter on top of the sway."
+        },
+        {
+          "id": "windDir",
+          "name": "Wind Direction",
+          "type": "vec3",
+          "category": "Wind",
+          "default": [
+            1,
+            0,
+            0.3
+          ],
+          "tooltip": "Direction of the wind (object space)."
+        }
+      ],
+      "bytes": 40043
+    },
+    {
+      "id": "stylized-clouds",
+      "title": "Stylized Clouds",
+      "description": "Soft toon cloud puff on a sphere: a precomputed tileable noise texture (what Bake To Texture produces) displaces the vertices into lumps and erodes the silhouette, a half-Lambert ramp shades it from a blue-grey underside to a warm top, a backlit rim adds the silver lining, and the alpha fades smoothly at the edge.",
+      "tags": [
+        "clouds",
+        "stylized",
+        "noise",
+        "vertex-displacement",
+        "silver-lining",
+        "rim",
+        "soft-edge",
+        "bake"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The noise is a texture, not per-pixel fbm: one vertex fetch (lumps) and one fragment fetch (shading + erosion) make the shader Mobile-class. Replace the texture with the output of a Bake To Texture node (or any tileable cloud noise) to change the cloud style.",
+        "Alpha blended, ZWrite off, back faces culled: draw clouds back-to-front (sort by distance). Light direction is a material parameter (identical on every target); the vertex texture fetch needs vertex texture support (every desktop and modern mobile GPU)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "unlit",
+          "azimuth": 40,
+          "elevation": 45
+        },
+        "background": {
+          "mode": "gradient",
+          "ground": "none"
+        }
+      },
+      "file": "stylized-clouds.kshader",
+      "nodes": 59,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [
+        "cloud-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "noiseMap",
+          "name": "Cloud Noise",
+          "type": "texture2D",
+          "category": "Shape",
+          "default": null,
+          "tooltip": "Tileable noise (grey) used for the lumps, the erosion and the shading. Linear data, wrap mode Repeat.",
+          "texture": "cloud-noise"
+        },
+        {
+          "id": "lumps",
+          "name": "Lump Height",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.28,
+          "min": 0,
+          "max": 0.6,
+          "tooltip": "Vertex displacement along the normal, in object units."
+        },
+        {
+          "id": "tiling",
+          "name": "Noise Tiling",
+          "type": "float",
+          "category": "Shape",
+          "default": 2,
+          "min": 0.5,
+          "max": 6,
+          "tooltip": "Noise repeats around the mesh (bigger = smaller billows)."
+        },
+        {
+          "id": "erosion",
+          "name": "Edge Erosion",
+          "type": "float",
+          "category": "Soft Edge",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How much the noise bites into the silhouette (0 = clean round edge)."
+        },
+        {
+          "id": "cutoff",
+          "name": "Edge Cutoff",
+          "type": "float",
+          "category": "Soft Edge",
+          "default": 0.08,
+          "min": 0,
+          "max": 0.6,
+          "tooltip": "Facing ratio (N·V) below which the cloud is fully transparent."
+        },
+        {
+          "id": "softness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Soft Edge",
+          "default": 0.4,
+          "min": 0.05,
+          "max": 1,
+          "tooltip": "Width of the alpha fade at the edge."
+        },
+        {
+          "id": "topColor",
+          "name": "Lit Color",
+          "type": "color",
+          "category": "Shading",
+          "default": [
+            1,
+            0.97,
+            0.92
+          ],
+          "tooltip": "Colour of the lit top (sRGB)."
+        },
+        {
+          "id": "bottomColor",
+          "name": "Shadow Color",
+          "type": "color",
+          "category": "Shading",
+          "default": [
+            0.55,
+            0.62,
+            0.78
+          ],
+          "tooltip": "Colour of the shaded underside (sRGB)."
+        },
+        {
+          "id": "rampSoftness",
+          "name": "Shade Softness",
+          "type": "float",
+          "category": "Shading",
+          "default": 0.35,
+          "min": 0.02,
+          "max": 0.7,
+          "tooltip": "Width of the transition between shadow and lit colour."
+        },
+        {
+          "id": "noiseShade",
+          "name": "Noise Shading",
+          "type": "float",
+          "category": "Shading",
+          "default": 0.25,
+          "min": 0,
+          "max": 0.6,
+          "tooltip": "How much the noise darkens the cloud inside (billow detail)."
+        },
+        {
+          "id": "lightDir",
+          "name": "Light Direction",
+          "type": "vec3",
+          "category": "Shading",
+          "default": [
+            0.4,
+            0.8,
+            0.45
+          ],
+          "tooltip": "Direction FROM the cloud TOWARDS the sun (world space, normalised in the graph)."
+        },
+        {
+          "id": "liningColor",
+          "name": "Silver Lining",
+          "type": "color",
+          "category": "Silver Lining",
+          "default": [
+            2.2,
+            1.9,
+            1.5
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the backlit rim (linear)."
+        },
+        {
+          "id": "liningPower",
+          "name": "Lining Power",
+          "type": "float",
+          "category": "Silver Lining",
+          "default": 3,
+          "min": 1,
+          "max": 8,
+          "tooltip": "Exponent of the rim: higher = thinner lining."
+        },
+        {
+          "id": "liningStrength",
+          "name": "Lining Strength",
+          "type": "float",
+          "category": "Silver Lining",
+          "default": 0.6,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Brightness of the silver lining (0 = off)."
+        }
+      ],
+      "bytes": 63983
+    },
+    {
+      "id": "pbr-triplanar-rock",
+      "title": "PBR Triplanar Rock + Moss",
+      "description": "World-space triplanar rock (albedo, height, normal) with moss that collects on up-facing surfaces and in crevices through a height-aware blend. No UVs needed — drop it on any mesh.",
+      "tags": [
+        "pbr",
+        "triplanar",
+        "terrain",
+        "height-blend",
+        "moss",
+        "procedural"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Textures are procedural 128² PNGs embedded in the sample (seeded, tileable)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_triplanar",
+        "ks_height_blend"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 40,
+          "elevation": 50,
+          "intensity": 1.1
+        }
+      },
+      "file": "pbr-triplanar-rock.kshader",
+      "nodes": 68,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [
+        "ks_height_blend",
+        "ks_triplanar"
+      ],
+      "textures": [
+        "rock-albedo (128×128)",
+        "rock-height (128×128)",
+        "rock-normal (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "rockAlbedo",
+          "name": "Rock Albedo",
+          "type": "texture2D",
+          "category": "Rock",
+          "default": null,
+          "tooltip": "Rock colour (sRGB). Projected triplanar in world space.",
+          "texture": "rock-albedo"
+        },
+        {
+          "id": "rockHeight",
+          "name": "Rock Height",
+          "type": "texture2D",
+          "category": "Rock",
+          "default": null,
+          "tooltip": "Rock height field (R). Drives the moss blend and the cavity occlusion.",
+          "texture": "rock-height"
+        },
+        {
+          "id": "rockNormal",
+          "name": "Rock Normal",
+          "type": "texture2D",
+          "category": "Rock",
+          "default": null,
+          "tooltip": "Tangent-space normal map of the rock (OpenGL / +Y up).",
+          "texture": "rock-normal"
+        },
+        {
+          "id": "tile",
+          "name": "Tiling",
+          "type": "float",
+          "category": "Rock",
+          "default": 0.6,
+          "min": 0.1,
+          "max": 4,
+          "tooltip": "Texture repeats per world unit."
+        },
+        {
+          "id": "sharpness",
+          "name": "Blend Sharpness",
+          "type": "float",
+          "category": "Rock",
+          "default": 4,
+          "min": 1,
+          "max": 16,
+          "tooltip": "Triplanar seam sharpness: 1 = soft, 16 = nearly hard."
+        },
+        {
+          "id": "normalStrength",
+          "name": "Normal Strength",
+          "type": "float",
+          "category": "Rock",
+          "default": 1,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Strength of the rock normal map."
+        },
+        {
+          "id": "rockSmoothness",
+          "name": "Rock Smoothness",
+          "type": "float",
+          "category": "Rock",
+          "default": 0.28,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness of bare rock (0 = rough)."
+        },
+        {
+          "id": "mossColor",
+          "name": "Moss Color",
+          "type": "color",
+          "category": "Moss",
+          "default": [
+            0.2,
+            0.38,
+            0.09
+          ],
+          "tooltip": "Base colour of the moss layer (sRGB)."
+        },
+        {
+          "id": "mossAmount",
+          "name": "Moss Amount",
+          "type": "float",
+          "category": "Moss",
+          "default": 0.55,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = bare rock, 1 = almost fully covered."
+        },
+        {
+          "id": "mossScale",
+          "name": "Moss Patch Scale",
+          "type": "float",
+          "category": "Moss",
+          "default": 1.8,
+          "min": 0.2,
+          "max": 8,
+          "tooltip": "Size of the moss patches (higher = smaller patches)."
+        },
+        {
+          "id": "mossDepth",
+          "name": "Height Influence",
+          "type": "float",
+          "category": "Moss",
+          "default": 0.6,
+          "min": 0,
+          "max": 0.95,
+          "tooltip": "How much rock height steers the moss: higher = moss fills crevices first."
+        },
+        {
+          "id": "mossSoftness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Moss",
+          "default": 0.12,
+          "min": 0.01,
+          "max": 0.5,
+          "tooltip": "Transition width between rock and moss."
+        }
+      ],
+      "bytes": 169121
+    },
+    {
+      "id": "stylized-water",
+      "title": "Stylized Water (Gerstner, Foam, Refraction)",
+      "description": "Three summed Gerstner waves displace the vertices, a flow-mapped ripple normal map shades the surface, depth intersection draws shore foam and the deep/shallow gradient, Scene Color gives fake refraction and a fresnel term adds a sky reflection.",
+      "tags": [
+        "water",
+        "gerstner",
+        "depth-foam",
+        "refraction",
+        "fresnel",
+        "transparent"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Scene Depth / Scene Color are engine resources: not available in the HLSL / WGSL snippet targets (no host to supply them).",
+        "The preview emulates both; drop the Depth-Intersector object into the Preview to see foam."
+      ],
+      "requiredFeatures": [
+        "URP Depth Texture",
+        "URP Opaque Texture",
+        "Material set to Transparent"
+      ],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_gerstner_wave",
+        "ks_depth_intersect",
+        "ks_flow_sample",
+        "ks_fresnel_kit"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 35,
+          "elevation": 55
+        },
+        "intersector": {
+          "kind": "sphere",
+          "position": [
+            0.35,
+            -0.1,
+            0.25
+          ],
+          "scale": 0.55
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "stylized-water.kshader",
+      "nodes": 86,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_depth_intersect",
+        "ks_flow_sample",
+        "ks_fresnel_kit",
+        "ks_gerstner_wave"
+      ],
+      "textures": [
+        "water-ripples (128×128)",
+        "water-flow (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "steepness",
+          "name": "Wave Steepness",
+          "type": "float",
+          "category": "Waves",
+          "default": 0.3,
+          "min": 0,
+          "max": 0.9,
+          "tooltip": "Total steepness of the three waves (0 = flat, 0.9 = sharp crests)."
+        },
+        {
+          "id": "wavelength",
+          "name": "Wavelength",
+          "type": "float",
+          "category": "Waves",
+          "default": 0.9,
+          "min": 0.2,
+          "max": 4,
+          "tooltip": "Length of the longest wave (object units)."
+        },
+        {
+          "id": "waveSpeed",
+          "name": "Wave Speed",
+          "type": "float",
+          "category": "Waves",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Time multiplier of all waves."
+        },
+        {
+          "id": "shallow",
+          "name": "Shallow Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.2,
+            0.75,
+            0.75
+          ],
+          "tooltip": "Colour where the water is thin (sRGB)."
+        },
+        {
+          "id": "deep",
+          "name": "Deep Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.02,
+            0.18,
+            0.4
+          ],
+          "tooltip": "Colour where the water is deep (sRGB)."
+        },
+        {
+          "id": "depthRange",
+          "name": "Depth Range",
+          "type": "float",
+          "category": "Color",
+          "default": 1.2,
+          "min": 0.1,
+          "max": 6,
+          "tooltip": "Distance over which shallow turns into deep (world units)."
+        },
+        {
+          "id": "refraction",
+          "name": "Refraction",
+          "type": "float",
+          "category": "Color",
+          "default": 0.04,
+          "min": 0,
+          "max": 0.2,
+          "tooltip": "Screen-space distortion strength of the background."
+        },
+        {
+          "id": "sky",
+          "name": "Sky Reflection",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.55,
+            0.75,
+            1
+          ],
+          "hdr": true,
+          "tooltip": "Colour reflected at grazing angles (fresnel)."
+        },
+        {
+          "id": "fresnelPower",
+          "name": "Fresnel Power",
+          "type": "float",
+          "category": "Color",
+          "default": 4,
+          "min": 0.5,
+          "max": 10,
+          "tooltip": "Fresnel falloff."
+        },
+        {
+          "id": "foamColor",
+          "name": "Foam Color",
+          "type": "color",
+          "category": "Foam",
+          "default": [
+            0.95,
+            0.98,
+            1
+          ],
+          "tooltip": "Colour of the shoreline foam (sRGB)."
+        },
+        {
+          "id": "foamWidth",
+          "name": "Foam Width",
+          "type": "float",
+          "category": "Foam",
+          "default": 0.35,
+          "min": 0.02,
+          "max": 2,
+          "tooltip": "Reach of the foam from intersecting geometry."
+        },
+        {
+          "id": "foamNoise",
+          "name": "Foam Breakup",
+          "type": "float",
+          "category": "Foam",
+          "default": 7,
+          "min": 1,
+          "max": 24,
+          "tooltip": "Scale of the noise that breaks the foam line."
+        },
+        {
+          "id": "ripples",
+          "name": "Ripple Normal",
+          "type": "texture2D",
+          "category": "Ripples",
+          "default": null,
+          "tooltip": "Tangent-space ripple normal map (tileable).",
+          "texture": "water-ripples"
+        },
+        {
+          "id": "flow",
+          "name": "Flow Map",
+          "type": "texture2D",
+          "category": "Ripples",
+          "default": null,
+          "tooltip": "Flow vectors (RG, 0.5 = still). Linear data.",
+          "texture": "water-flow"
+        },
+        {
+          "id": "rippleTile",
+          "name": "Ripple Tiling",
+          "type": "float",
+          "category": "Ripples",
+          "default": 3,
+          "min": 0.5,
+          "max": 12,
+          "tooltip": "Ripple repeats per world unit."
+        },
+        {
+          "id": "rippleStrength",
+          "name": "Ripple Strength",
+          "type": "float",
+          "category": "Ripples",
+          "default": 0.8,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Strength of the ripple normals."
+        }
+      ],
+      "bytes": 207594
+    },
+    {
+      "id": "force-field",
+      "title": "Force Field (Depth Intersection)",
+      "description": "Additive energy shield: scrolling hexagon grid, fresnel rim, a pulse, and a bright contact line wherever other geometry intersects the shield (scene-depth based).",
+      "tags": [
+        "force-field",
+        "shield",
+        "depth",
+        "intersection",
+        "additive",
+        "vfx"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Scene Depth is an engine resource: not available in the HLSL / WGSL snippet targets.",
+        "Add the Depth-Intersector object in the Preview toolbar to see the contact line."
+      ],
+      "requiredFeatures": [
+        "URP Depth Texture"
+      ],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_depth_intersect",
+        "ks_fresnel_kit"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "unlit"
+        },
+        "background": {
+          "mode": "dark"
+        },
+        "intersector": {
+          "kind": "box",
+          "position": [
+            0.1,
+            -0.05,
+            0.3
+          ],
+          "scale": 0.5
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "force-field.kshader",
+      "nodes": 43,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_depth_intersect",
+        "ks_fresnel_kit"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "fieldColor",
+          "name": "Field Color",
+          "type": "color",
+          "category": "Look",
+          "default": [
+            0.1,
+            0.65,
+            1.6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the shield."
+        },
+        {
+          "id": "contactColor",
+          "name": "Contact Color",
+          "type": "color",
+          "category": "Look",
+          "default": [
+            1.6,
+            2.2,
+            3
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the intersection line."
+        },
+        {
+          "id": "baseOpacity",
+          "name": "Base Opacity",
+          "type": "float",
+          "category": "Look",
+          "default": 0.06,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "Faint fill so the shield is visible between the lines."
+        },
+        {
+          "id": "hexScale",
+          "name": "Hex Scale",
+          "type": "float",
+          "category": "Grid",
+          "default": 7,
+          "min": 1,
+          "max": 24,
+          "tooltip": "Hexagon cells across the UV range."
+        },
+        {
+          "id": "hexWidth",
+          "name": "Line Width",
+          "type": "float",
+          "category": "Grid",
+          "default": 0.1,
+          "min": 0.01,
+          "max": 0.4,
+          "tooltip": "Width of the hexagon lines."
+        },
+        {
+          "id": "scroll",
+          "name": "Scroll",
+          "type": "vec2",
+          "category": "Grid",
+          "default": [
+            0,
+            0.12
+          ],
+          "tooltip": "UV scroll speed of the grid (units per second)."
+        },
+        {
+          "id": "contactDistance",
+          "name": "Contact Distance",
+          "type": "float",
+          "category": "Intersection",
+          "default": 0.3,
+          "min": 0.02,
+          "max": 1.5,
+          "tooltip": "World-space reach of the intersection glow."
+        },
+        {
+          "id": "rimPower",
+          "name": "Rim Power",
+          "type": "float",
+          "category": "Rim",
+          "default": 2.5,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Rim falloff."
+        },
+        {
+          "id": "rimIntensity",
+          "name": "Rim Intensity",
+          "type": "float",
+          "category": "Rim",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Strength of the rim."
+        },
+        {
+          "id": "pulseSpeed",
+          "name": "Pulse Speed",
+          "type": "float",
+          "category": "Rim",
+          "default": 1.6,
+          "min": 0,
+          "max": 6,
+          "tooltip": "Speed of the brightness pulse (0 = steady)."
+        }
+      ],
+      "bytes": 44520
+    },
+    {
+      "id": "brushed-metal",
+      "title": "Brushed Anisotropic Metal",
+      "description": "Brushed steel on a torus: stretched streak noise modulates smoothness and tint, and two Kajiya–Kay highlights (a white primary and a tinted secondary, shifted along the normal) form the long anisotropic streak that follows the tangent direction.",
+      "tags": [
+        "anisotropic",
+        "brushed",
+        "metal",
+        "kajiya-kay",
+        "tangent",
+        "specular",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "URP Lit and Godot have no anisotropy: the highlight is analytic and added as emission (portable). Light direction is a material parameter, like the Toon sample.",
+        "Needs mesh tangents; the streak runs perpendicular to the brush direction (the U direction of the UVs)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_aniso_spec"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "torus",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 40,
+          "elevation": 45,
+          "intensity": 1.2,
+          "envIntensity": 1
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "brushed-metal.kshader",
+      "nodes": 50,
+      "groups": 4,
+      "comments": 4,
+      "subgraphs": [
+        "ks_aniso_spec"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "metalColor",
+          "name": "Metal Color",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            0.78,
+            0.8,
+            0.84
+          ],
+          "tooltip": "Tint of the metal (sRGB)."
+        },
+        {
+          "id": "metallic",
+          "name": "Metallic",
+          "type": "float",
+          "category": "Surface",
+          "default": 1,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Metallic factor."
+        },
+        {
+          "id": "smoothness",
+          "name": "Base Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.55,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Average smoothness before the brush streaks."
+        },
+        {
+          "id": "density",
+          "name": "Brush Density",
+          "type": "float",
+          "category": "Brush",
+          "default": 160,
+          "min": 20,
+          "max": 600,
+          "tooltip": "Streaks across the brushing direction (V)."
+        },
+        {
+          "id": "stretch",
+          "name": "Brush Length",
+          "type": "float",
+          "category": "Brush",
+          "default": 1.5,
+          "min": 0.25,
+          "max": 8,
+          "tooltip": "Noise cells along the brushing direction (U): lower = longer streaks."
+        },
+        {
+          "id": "contrast",
+          "name": "Brush Contrast",
+          "type": "float",
+          "category": "Brush",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How much the streaks vary smoothness and tint."
+        },
+        {
+          "id": "lightDir",
+          "name": "Light Direction",
+          "type": "vec3",
+          "category": "Highlight",
+          "default": [
+            0.5,
+            0.7,
+            0.5
+          ],
+          "tooltip": "Direction FROM the surface TOWARDS the light (world space, normalised in the graph). Drive it from your light's script."
+        },
+        {
+          "id": "lightColor",
+          "name": "Light Color",
+          "type": "color",
+          "category": "Highlight",
+          "default": [
+            1.4,
+            1.35,
+            1.25
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the highlight light."
+        },
+        {
+          "id": "exponent",
+          "name": "Highlight Tightness",
+          "type": "float",
+          "category": "Highlight",
+          "default": 90,
+          "min": 8,
+          "max": 400,
+          "tooltip": "Exponent of the primary highlight (higher = thinner streak)."
+        },
+        {
+          "id": "shift",
+          "name": "Highlight Shift",
+          "type": "float",
+          "category": "Highlight",
+          "default": 0.15,
+          "min": -1,
+          "max": 1,
+          "tooltip": "Moves the primary highlight along the normal; the secondary uses the opposite sign."
+        },
+        {
+          "id": "intensity",
+          "name": "Highlight Intensity",
+          "type": "float",
+          "category": "Highlight",
+          "default": 1.4,
+          "min": 0,
+          "max": 6,
+          "tooltip": "Brightness of both highlights."
+        },
+        {
+          "id": "secondary",
+          "name": "Secondary Strength",
+          "type": "float",
+          "category": "Highlight",
+          "default": 0.6,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Strength of the tinted second highlight (0 = off)."
+        }
+      ],
+      "bytes": 46799
+    },
+    {
+      "id": "terrain-4-layer",
+      "title": "4-Layer Vertex-Color Terrain",
+      "description": "Grass, dirt, rock and snow blended by a weight vector — painted vertex colors (RGBA) or, by default, procedural weights from slope, height and a dirt-patch noise so it also looks right on unpainted meshes. A reusable Height Blend subgraph lets stones and tufts poke through each other.",
+      "tags": [
+        "terrain",
+        "vertex-color",
+        "height-blend",
+        "splat",
+        "4-layer",
+        "slope",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Use Vertex Colors = on reads RGBA weights (R grass, G dirt, B rock, A snow) from the mesh colour channel — paint them in your DCC tool or with a vertex painter.",
+        "Layer heights are the albedo luminance, so no extra height maps are needed.",
+        "Four texture fetches + one noise: Desktop class."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_height_blend4"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 45,
+          "elevation": 50,
+          "intensity": 1.3
+        }
+      },
+      "file": "terrain-4-layer.kshader",
+      "nodes": 57,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_height_blend4"
+      ],
+      "textures": [
+        "terrain-grass (128×128)",
+        "terrain-dirt (128×128)",
+        "terrain-rock (128×128)",
+        "terrain-snow (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "grassMap",
+          "name": "Grass",
+          "type": "texture2D",
+          "category": "Layers",
+          "default": null,
+          "tooltip": "Layer 1 albedo (vertex colour R).",
+          "texture": "terrain-grass"
+        },
+        {
+          "id": "dirtMap",
+          "name": "Dirt",
+          "type": "texture2D",
+          "category": "Layers",
+          "default": null,
+          "tooltip": "Layer 2 albedo (vertex colour G).",
+          "texture": "terrain-dirt"
+        },
+        {
+          "id": "rockMap",
+          "name": "Rock",
+          "type": "texture2D",
+          "category": "Layers",
+          "default": null,
+          "tooltip": "Layer 3 albedo (vertex colour B).",
+          "texture": "terrain-rock"
+        },
+        {
+          "id": "snowMap",
+          "name": "Snow",
+          "type": "texture2D",
+          "category": "Layers",
+          "default": null,
+          "tooltip": "Layer 4 albedo (vertex colour A).",
+          "texture": "terrain-snow"
+        },
+        {
+          "id": "tiling",
+          "name": "Layer Tiling",
+          "type": "float",
+          "category": "Layers",
+          "default": 9,
+          "min": 1,
+          "max": 40,
+          "tooltip": "Texture repeats across the UV range."
+        },
+        {
+          "id": "blendDepth",
+          "name": "Blend Depth",
+          "type": "float",
+          "category": "Layers",
+          "default": 0.22,
+          "min": 0.01,
+          "max": 1,
+          "tooltip": "Height-blend transition depth: small = crisp stone / grass boundaries."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Layers",
+          "default": 0.12,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness of grass, dirt and rock."
+        },
+        {
+          "id": "snowSmoothness",
+          "name": "Snow Smoothness",
+          "type": "float",
+          "category": "Layers",
+          "default": 0.4,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness where snow dominates."
+        },
+        {
+          "id": "useVertexColor",
+          "name": "Use Vertex Colors",
+          "type": "bool",
+          "category": "Weights",
+          "default": false,
+          "tooltip": "On = RGBA weights from the mesh vertex colours; off = procedural weights below."
+        },
+        {
+          "id": "snowLine",
+          "name": "Snow Line",
+          "type": "float",
+          "category": "Weights",
+          "default": 0.12,
+          "min": -0.5,
+          "max": 0.5,
+          "tooltip": "Object-space height where snow starts (procedural weights)."
+        },
+        {
+          "id": "snowSoft",
+          "name": "Snow Softness",
+          "type": "float",
+          "category": "Weights",
+          "default": 0.18,
+          "min": 0.01,
+          "max": 0.6,
+          "tooltip": "Height range over which snow fades in."
+        },
+        {
+          "id": "slopeStart",
+          "name": "Rock Slope",
+          "type": "float",
+          "category": "Weights",
+          "default": 0.3,
+          "min": 0,
+          "max": 0.9,
+          "tooltip": "Slope (1 − N·up) from which rock takes over (procedural weights)."
+        },
+        {
+          "id": "dirtAmount",
+          "name": "Dirt Amount",
+          "type": "float",
+          "category": "Weights",
+          "default": 0.8,
+          "min": 0,
+          "max": 1.5,
+          "tooltip": "Strength of the noise-driven dirt patches."
+        },
+        {
+          "id": "dirtScale",
+          "name": "Dirt Scale",
+          "type": "float",
+          "category": "Weights",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "tooltip": "Frequency of the dirt patches (UV space)."
+        }
+      ],
+      "bytes": 188860
+    },
+    {
+      "id": "lava-flow",
+      "title": "Lava with Flow Map",
+      "description": "Molten rock: cooled crust plates drift along a flow map while glowing cracks pulse underneath. Two flow-map layers at different speeds give depth, a 3-stop HDR colour ramp turns heat into emission, and the crust gets a derivative bump so the plates feel solid.",
+      "tags": [
+        "lava",
+        "flow-map",
+        "emission",
+        "heat",
+        "hdr",
+        "crust",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Import the flow map and the crust map as linear data (no sRGB). Flow vectors live in R, G (0.5 = still).",
+        "Emission is HDR; enable Bloom (preview default) to get the glow."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "thumbnailSlot": "emission",
+      "reusableSubgraphs": [
+        "ks_flow_sample",
+        "ks_color_ramp3"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 30,
+          "elevation": 40,
+          "intensity": 0.7,
+          "envIntensity": 0.5
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "lava-flow.kshader",
+      "nodes": 50,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_color_ramp3",
+        "ks_flow_sample"
+      ],
+      "textures": [
+        "lava-crust (128×128)",
+        "lava-flow (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "crustMap",
+          "name": "Crust Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "R = heat (1 in the cracks), G = fine detail. Linear data.",
+          "texture": "lava-crust"
+        },
+        {
+          "id": "flowMap",
+          "name": "Flow Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "RG flow vectors (0.5 = still). Linear data.",
+          "texture": "lava-flow"
+        },
+        {
+          "id": "tiling",
+          "name": "Tiling",
+          "type": "float",
+          "category": "Maps",
+          "default": 2.5,
+          "min": 0.5,
+          "max": 10,
+          "tooltip": "Texture repeats across the UV range."
+        },
+        {
+          "id": "flowStrength",
+          "name": "Flow Distance",
+          "type": "float",
+          "category": "Flow",
+          "default": 0.22,
+          "min": 0,
+          "max": 0.8,
+          "tooltip": "UV distance the crust travels per cycle."
+        },
+        {
+          "id": "flowSpeed",
+          "name": "Flow Speed",
+          "type": "float",
+          "category": "Flow",
+          "default": 0.12,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Flow cycles per second."
+        },
+        {
+          "id": "heatBias",
+          "name": "Heat Bias",
+          "type": "float",
+          "category": "Heat",
+          "default": 0,
+          "min": -0.5,
+          "max": 0.5,
+          "tooltip": "Positive = wider glowing cracks, negative = more crust."
+        },
+        {
+          "id": "crustColor",
+          "name": "Crust Color",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            0.05,
+            0.035,
+            0.03
+          ],
+          "tooltip": "Albedo of the cooled rock."
+        },
+        {
+          "id": "coldColor",
+          "name": "Cool Glow",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            0.35,
+            0.02,
+            0
+          ],
+          "hdr": true,
+          "tooltip": "HDR emission at the cool edge of a crack."
+        },
+        {
+          "id": "midColor",
+          "name": "Mid Glow",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            2.2,
+            0.55,
+            0.05
+          ],
+          "hdr": true,
+          "tooltip": "HDR emission in the middle of a crack."
+        },
+        {
+          "id": "hotColor",
+          "name": "Hot Glow",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            4,
+            2.6,
+            0.7
+          ],
+          "hdr": true,
+          "tooltip": "HDR emission in the hottest spots."
+        },
+        {
+          "id": "intensity",
+          "name": "Glow Intensity",
+          "type": "float",
+          "category": "Heat",
+          "default": 1.4,
+          "min": 0,
+          "max": 6,
+          "tooltip": "Overall emission multiplier."
+        },
+        {
+          "id": "pulse",
+          "name": "Pulse",
+          "type": "float",
+          "category": "Heat",
+          "default": 0.3,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Breathing of the glow over time (0 = steady)."
+        },
+        {
+          "id": "bump",
+          "name": "Crust Bump",
+          "type": "float",
+          "category": "Surface",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Strength of the crust normal bump."
+        },
+        {
+          "id": "smoothness",
+          "name": "Crust Smoothness",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.12,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness of the crust (molten parts are glossier)."
+        }
+      ],
+      "bytes": 151103
+    },
+    {
+      "id": "crystal-gem",
+      "title": "Crystal Gem (Matcap + Fake Refraction)",
+      "description": "Faceted gem without ray tracing: the normal is quantised into flat facets, a matcap supplies the shell reflection, and three matcap lookups along per-channel bent directions fake the light refracted inside the stone — with chromatic dispersion — plus a fresnel-weighted outer reflection.",
+      "tags": [
+        "gem",
+        "crystal",
+        "matcap",
+        "refraction",
+        "dispersion",
+        "facets",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "No scene-colour or screen-space resources are used: works on every target and in every render pipeline.",
+        "Any matcap texture can be dropped into the Matcap Map slot (view-space normal lookup)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "thumbnailSlot": "emission",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 40,
+          "elevation": 45,
+          "intensity": 1.2,
+          "envIntensity": 1
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "crystal-gem.kshader",
+      "nodes": 50,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [
+        "gem-matcap (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "matcapMap",
+          "name": "Matcap Map",
+          "type": "texture2D",
+          "category": "Maps",
+          "default": null,
+          "tooltip": "Sphere-shaded environment used for the reflection and the fake refraction.",
+          "texture": "gem-matcap"
+        },
+        {
+          "id": "gemColor",
+          "name": "Gem Color",
+          "type": "color",
+          "category": "Gem",
+          "default": [
+            0.2,
+            0.65,
+            1
+          ],
+          "tooltip": "Colour of the stone (sRGB)."
+        },
+        {
+          "id": "facets",
+          "name": "Facet Count",
+          "type": "float",
+          "category": "Gem",
+          "default": 4,
+          "min": 1.5,
+          "max": 12,
+          "tooltip": "Normal quantisation steps per axis: lower = bigger flat facets."
+        },
+        {
+          "id": "facetBlend",
+          "name": "Facet Amount",
+          "type": "float",
+          "category": "Gem",
+          "default": 1,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = smooth sphere, 1 = fully faceted."
+        },
+        {
+          "id": "bend",
+          "name": "Refraction Bend",
+          "type": "float",
+          "category": "Refraction",
+          "default": 0.72,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How far the inner ray bends away from the view direction."
+        },
+        {
+          "id": "dispersion",
+          "name": "Dispersion",
+          "type": "float",
+          "category": "Refraction",
+          "default": 0.22,
+          "min": 0,
+          "max": 0.6,
+          "tooltip": "Per-channel difference of the bend (chromatic dispersion)."
+        },
+        {
+          "id": "innerGain",
+          "name": "Inner Light",
+          "type": "float",
+          "category": "Refraction",
+          "default": 1.7,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Brightness of the refracted light."
+        },
+        {
+          "id": "reflGain",
+          "name": "Reflection",
+          "type": "float",
+          "category": "Reflection",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Brightness of the shell reflection."
+        },
+        {
+          "id": "fresnelPower",
+          "name": "Fresnel Power",
+          "type": "float",
+          "category": "Reflection",
+          "default": 3,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Falloff of the outer reflection towards the centre of the stone."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Reflection",
+          "default": 0.95,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Specular smoothness (real light highlights on top of the matcap)."
+        }
+      ],
+      "bytes": 53411
+    },
+    {
+      "id": "cloth-sheen",
+      "title": "Cloth Sheen (Velvet)",
+      "description": "Velvet and satin look on the Lit profile: a grazing-angle sheen lobe (1 − N·V)^power brightens the silhouette instead of the centre, the face-on colour is darkened, and a fine thread weave modulates the albedo. An Anisotropy slider blends in a Kajiya–Kay highlight along the mesh tangent for satin-like streaks.",
+      "tags": [
+        "cloth",
+        "velvet",
+        "sheen",
+        "fabric",
+        "anisotropic",
+        "kajiya-kay",
+        "lit"
+      ],
+      "category": "3D / Lit",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "URP Lit and Godot's standard material have no sheen lobe: the sheen is analytic and added through Emission (portable, but not shadowed by the scene lights). Light direction is a material parameter, like the Toon and Brushed Metal samples.",
+        "Anisotropy > 0 needs mesh tangents; the streak runs along the tangent direction (U of the UVs). At 0 the shader is a pure isotropic velvet."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_aniso_spec"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 40,
+          "elevation": 45,
+          "intensity": 1.1,
+          "envIntensity": 0.8
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "cloth-sheen.kshader",
+      "nodes": 47,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_aniso_spec"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "fabricColor",
+          "name": "Fabric Color",
+          "type": "color",
+          "category": "Fabric",
+          "default": [
+            0.45,
+            0.03,
+            0.09
+          ],
+          "tooltip": "Base colour of the cloth (sRGB)."
+        },
+        {
+          "id": "smoothness",
+          "name": "Smoothness",
+          "type": "float",
+          "category": "Fabric",
+          "default": 0.2,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Smoothness of the base layer: cloth is rough, keep it low."
+        },
+        {
+          "id": "faceDarken",
+          "name": "Face-On Darkening",
+          "type": "float",
+          "category": "Fabric",
+          "default": 0.5,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Darkens the albedo where the surface faces the camera: velvet is darkest head-on."
+        },
+        {
+          "id": "weaveScale",
+          "name": "Weave Scale",
+          "type": "float",
+          "category": "Weave",
+          "default": 120,
+          "min": 20,
+          "max": 300,
+          "tooltip": "Threads per UV unit."
+        },
+        {
+          "id": "weaveAmount",
+          "name": "Weave Amount",
+          "type": "float",
+          "category": "Weave",
+          "default": 0.12,
+          "min": 0,
+          "max": 0.4,
+          "tooltip": "Brightness difference between the two thread directions (0 = smooth cloth)."
+        },
+        {
+          "id": "sheenColor",
+          "name": "Sheen Color",
+          "type": "color",
+          "category": "Sheen",
+          "default": [
+            1.7,
+            0.55,
+            0.45
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the grazing-angle sheen (linear)."
+        },
+        {
+          "id": "sheenPower",
+          "name": "Sheen Power",
+          "type": "float",
+          "category": "Sheen",
+          "default": 3,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Exponent of (1 − N·V): higher = thinner sheen at the silhouette."
+        },
+        {
+          "id": "sheenIntensity",
+          "name": "Sheen Intensity",
+          "type": "float",
+          "category": "Sheen",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the sheen."
+        },
+        {
+          "id": "lightDir",
+          "name": "Light Direction",
+          "type": "vec3",
+          "category": "Sheen",
+          "default": [
+            0.45,
+            0.8,
+            0.4
+          ],
+          "tooltip": "Direction FROM the surface TOWARDS the light (world space, normalised in the graph). Lit side gets more sheen."
+        },
+        {
+          "id": "anisotropy",
+          "name": "Anisotropy",
+          "type": "float",
+          "category": "Anisotropic Option",
+          "default": 0,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Blend towards a satin-like streak along the tangent (0 = isotropic velvet)."
+        },
+        {
+          "id": "anisoExponent",
+          "name": "Streak Tightness",
+          "type": "float",
+          "category": "Anisotropic Option",
+          "default": 40,
+          "min": 10,
+          "max": 120,
+          "tooltip": "Exponent of the Kajiya–Kay streak (larger = narrower)."
+        },
+        {
+          "id": "anisoShift",
+          "name": "Streak Shift",
+          "type": "float",
+          "category": "Anisotropic Option",
+          "default": 0.15,
+          "min": -1,
+          "max": 1,
+          "tooltip": "Moves the streak along the normal."
+        }
+      ],
+      "bytes": 45642
+    },
+    {
+      "id": "sprite-outline-glow",
+      "title": "Sprite Outline + Glow",
+      "description": "Crisp outline and soft HDR glow around any sprite silhouette, built from the alpha channel only. Thickness and glow reach are measured in texels, so the look stays consistent for every sprite size.",
+      "tags": [
+        "outline",
+        "glow",
+        "sprite",
+        "2d",
+        "hdr",
+        "selection"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs transparent padding around the sprite (≥ glow size texels) — the mesh quad clips the glow otherwise (use Full Rect mesh type + padding in the Sprite importer).",
+        "Cost: about 30 texture fetches per pixel — declared Desktop. On mobile lower Glow Size to 0 (glow off) or bake the outline into the sprite.",
+        "Reads the texture size (Texture Size node): Unity needs `_MainTex_TexelSize`, which the SpriteRenderer fills."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.canvasitem",
+      "reusableSubgraphs": [
+        "ks_outline_kit"
+      ],
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "checker"
+        }
+      },
+      "file": "sprite-outline-glow.kshader",
+      "nodes": 16,
+      "groups": 3,
+      "comments": 3,
+      "subgraphs": [
+        "ks_outline_kit"
+      ],
+      "textures": [
+        "slime-sprite (64×64)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite"
+        },
+        {
+          "id": "outlineColor",
+          "name": "Outline Color",
+          "type": "color4",
+          "category": "Outline",
+          "default": [
+            0.06,
+            0.03,
+            0.14,
+            1
+          ],
+          "tooltip": "Colour and opacity (alpha) of the crisp outline."
+        },
+        {
+          "id": "thickness",
+          "name": "Outline Thickness",
+          "type": "float",
+          "category": "Outline",
+          "default": 1.5,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Outline width in texels of the sprite texture."
+        },
+        {
+          "id": "glowColor",
+          "name": "Glow Color",
+          "type": "color4",
+          "category": "Glow",
+          "default": [
+            2.6,
+            1.7,
+            0.35,
+            1
+          ],
+          "hdr": true,
+          "tooltip": "HDR glow colour; alpha is the glow opacity. Values above 1 bloom with a Bloom post effect."
+        },
+        {
+          "id": "glowSize",
+          "name": "Glow Size",
+          "type": "float",
+          "category": "Glow",
+          "default": 7,
+          "min": 0,
+          "max": 14,
+          "tooltip": "Reach of the glow in texels (keep ≤ the transparent padding of the sprite)."
+        },
+        {
+          "id": "opacity",
+          "name": "Opacity",
+          "type": "float",
+          "category": "Sprite",
+          "default": 1,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Overall opacity of sprite, outline and glow."
+        }
+      ],
+      "bytes": 42294
+    },
+    {
+      "id": "sprite-dissolve",
+      "title": "Sprite Dissolve",
+      "description": "Noise dissolve for sprites with a glowing HDR burn edge and an optional direction bias (bottom-up / top-down). Animate one slider from gameplay for death, spawn and teleport effects.",
+      "tags": [
+        "dissolve",
+        "sprite",
+        "2d",
+        "emission",
+        "death-effect"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Alpha-blended: no alpha clip, so the soft border stays smooth. Noise texture should repeat (Wrap Mode Repeat)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "reusableSubgraphs": [
+        "ks_soft_dissolve"
+      ],
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-dissolve.kshader",
+      "nodes": 22,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [
+        "ks_soft_dissolve"
+      ],
+      "textures": [
+        "slime-sprite (64×64)",
+        "dissolve-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite"
+        },
+        {
+          "id": "noiseTex",
+          "name": "Dissolve Noise",
+          "type": "texture2D",
+          "category": "Dissolve",
+          "default": null,
+          "tooltip": "Greyscale pattern: dark areas dissolve first.",
+          "texture": "dissolve-noise"
+        },
+        {
+          "id": "amount",
+          "name": "Dissolve",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.45,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = fully visible, 1 = fully dissolved. Animate this from gameplay."
+        },
+        {
+          "id": "noiseScale",
+          "name": "Noise Scale",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 1.5,
+          "min": 0.25,
+          "max": 8,
+          "tooltip": "How often the noise repeats across the sprite."
+        },
+        {
+          "id": "direction",
+          "name": "Direction Bias",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = pure noise, 1 = a clean bottom-up sweep. In between the noise rides on the sweep."
+        },
+        {
+          "id": "softness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Edge",
+          "default": 0.03,
+          "min": 0,
+          "max": 0.2,
+          "tooltip": "Feathering of the cut."
+        },
+        {
+          "id": "edgeWidth",
+          "name": "Edge Width",
+          "type": "float",
+          "category": "Edge",
+          "default": 0.1,
+          "min": 0,
+          "max": 0.4,
+          "tooltip": "Width of the glowing burn band."
+        },
+        {
+          "id": "edgeColor",
+          "name": "Edge Color",
+          "type": "color",
+          "category": "Edge",
+          "default": [
+            4.5,
+            1.5,
+            0.3
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the burn edge (above 1 = bloom)."
+        }
+      ],
+      "bytes": 52610
+    },
+    {
+      "id": "sprite-hit-flash",
+      "title": "Hit Flash",
+      "description": "Classic damage flash: the sprite blends to a flash colour (mix) and optionally over-brightens with an HDR add so Bloom makes it pop. Alpha is always preserved, so the flash never fills transparent pixels. The SpriteRenderer colour still tints the result.",
+      "tags": [
+        "hit-flash",
+        "damage",
+        "sprite",
+        "2d",
+        "feedback",
+        "hdr"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Drive Flash Amount from a script with `MaterialPropertyBlock` (Unity) / `set_shader_parameter` (Godot) and ease it back to 0 over ~0.1 s.",
+        "The SpriteRenderer colour arrives through the vertex colour (Unity) / `COLOR` (Godot)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-hit-flash.kshader",
+      "nodes": 14,
+      "groups": 3,
+      "comments": 3,
+      "subgraphs": [],
+      "textures": [
+        "slime-sprite (64×64)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite"
+        },
+        {
+          "id": "flash",
+          "name": "Flash Amount",
+          "type": "float",
+          "category": "Flash",
+          "default": 0.6,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = normal sprite, 1 = solid flash colour. Animate from gameplay."
+        },
+        {
+          "id": "flashColor",
+          "name": "Flash Color",
+          "type": "color",
+          "category": "Flash",
+          "default": [
+            1,
+            1,
+            1
+          ],
+          "tooltip": "Colour the sprite flashes towards (sRGB)."
+        },
+        {
+          "id": "overbright",
+          "name": "HDR Overbright",
+          "type": "float",
+          "category": "Flash",
+          "default": 0.8,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Extra additive flash in HDR (> 1 blooms). 0 disables it."
+        }
+      ],
+      "bytes": 13447
+    },
+    {
+      "id": "sprite-shine-sweep",
+      "title": "Shine Sweep",
+      "description": "A glossy diagonal band sweeps across the sprite on a timer with a configurable pause between sweeps, masked to the silhouette. Use the manual progress slider to trigger it from gameplay instead of the clock.",
+      "tags": [
+        "shine",
+        "sweep",
+        "glint",
+        "sprite",
+        "2d",
+        "ui"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The band travels across the 0…1 UV square of the sprite; for sprites packed in an atlas, feed per-sprite 0…1 UVs (UV node, Sprite Sheet nodes)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-shine-sweep.kshader",
+      "nodes": 22,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "slime-sprite (64×64)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite"
+        },
+        {
+          "id": "auto",
+          "name": "Auto Animate",
+          "type": "bool",
+          "category": "Timing",
+          "default": true,
+          "tooltip": "On = the band sweeps on a timer; off = Manual Progress is used."
+        },
+        {
+          "id": "manual",
+          "name": "Manual Progress",
+          "type": "float",
+          "category": "Timing",
+          "default": 0.5,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Band position when Auto Animate is off (0 = before the sprite, 1 = past it)."
+        },
+        {
+          "id": "period",
+          "name": "Sweep Duration",
+          "type": "float",
+          "category": "Timing",
+          "default": 1.6,
+          "min": 0.2,
+          "max": 6,
+          "tooltip": "Seconds one sweep takes."
+        },
+        {
+          "id": "pause",
+          "name": "Pause Between Sweeps",
+          "type": "float",
+          "category": "Timing",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Idle time between sweeps, as a multiple of the sweep duration."
+        },
+        {
+          "id": "angle",
+          "name": "Angle",
+          "type": "float",
+          "category": "Band",
+          "default": 30,
+          "min": -90,
+          "max": 90,
+          "tooltip": "Direction the band travels, in degrees (0 = left → right)."
+        },
+        {
+          "id": "width",
+          "name": "Width",
+          "type": "float",
+          "category": "Band",
+          "default": 0.28,
+          "min": 0.02,
+          "max": 1,
+          "tooltip": "Width of the band (UV units)."
+        },
+        {
+          "id": "softness",
+          "name": "Softness",
+          "type": "float",
+          "category": "Band",
+          "default": 0.1,
+          "min": 0,
+          "max": 0.5,
+          "tooltip": "Feathering of the band edges."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Band",
+          "default": 1.4,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Brightness of the band (HDR; > 1 blooms)."
+        },
+        {
+          "id": "tint",
+          "name": "Shine Color",
+          "type": "color",
+          "category": "Band",
+          "default": [
+            1,
+            0.95,
+            0.8
+          ],
+          "hdr": true,
+          "tooltip": "Colour of the band (linear HDR)."
+        }
+      ],
+      "bytes": 20209
+    },
+    {
+      "id": "sprite-wavy-shake",
+      "title": "Wavy Sway + Shake",
+      "description": "UV displacement for sprites: a travelling sine wave sways the sprite (flags, banners, plants, underwater look) with an optional bottom anchor so the base stays put, and a stepped random shake jolts the whole sprite for hit reactions. Samples outside the sprite are transparent, so nothing smears at the border.",
+      "tags": [
+        "wave",
+        "sway",
+        "shake",
+        "uv-displacement",
+        "flag",
+        "hit-reaction",
+        "sprite",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Displacement moves pixels inside the quad: keep transparent padding around the sprite of at least Wave Amount × sprite size (Full Rect mesh type), otherwise the quad clips the motion.",
+        "Drive Shake Amount from gameplay (damage) and ease it back to 0; the shake pattern jumps Shake Rate times per second, so it is deterministic and never blurs."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "checker"
+        }
+      },
+      "file": "sprite-wavy-shake.kshader",
+      "nodes": 46,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "slime (96×96)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime"
+        },
+        {
+          "id": "tint",
+          "name": "Tint",
+          "type": "color",
+          "category": "Sprite",
+          "default": [
+            1,
+            1,
+            1
+          ],
+          "tooltip": "Colour multiplied onto the sprite (sRGB)."
+        },
+        {
+          "id": "amount",
+          "name": "Wave Amount",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.025,
+          "min": 0,
+          "max": 0.1,
+          "tooltip": "Maximum sideways displacement of the wave (UV units)."
+        },
+        {
+          "id": "frequency",
+          "name": "Wave Frequency",
+          "type": "float",
+          "category": "Wave",
+          "default": 3,
+          "min": 0.5,
+          "max": 12,
+          "tooltip": "Number of wave crests across the sprite height."
+        },
+        {
+          "id": "speed",
+          "name": "Wave Speed",
+          "type": "float",
+          "category": "Wave",
+          "default": 3,
+          "min": 0,
+          "max": 10,
+          "tooltip": "Travel speed of the wave in radians per second; a negative value reverses the direction."
+        },
+        {
+          "id": "vertical",
+          "name": "Vertical Wobble",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.4,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Share of the amount applied vertically (a second wave across the width)."
+        },
+        {
+          "id": "anchor",
+          "name": "Bottom Anchor",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.8,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = the whole sprite sways equally, 1 = the base (V = 0) stays still and the top sways most."
+        },
+        {
+          "id": "anchorPower",
+          "name": "Anchor Falloff",
+          "type": "float",
+          "category": "Wave",
+          "default": 1.5,
+          "min": 0.5,
+          "max": 4,
+          "tooltip": "Curve of the anchor weight: higher = more of the lower part stays calm."
+        },
+        {
+          "id": "shake",
+          "name": "Shake Amount",
+          "type": "float",
+          "category": "Shake",
+          "default": 0.006,
+          "min": 0,
+          "max": 0.05,
+          "tooltip": "Distance of the random jolt in UV units (0 = off). Drive it from gameplay."
+        },
+        {
+          "id": "shakeRate",
+          "name": "Shake Rate",
+          "type": "float",
+          "category": "Shake",
+          "default": 24,
+          "min": 4,
+          "max": 60,
+          "tooltip": "How many times per second the shake direction changes."
+        },
+        {
+          "id": "seed",
+          "name": "Shake Seed",
+          "type": "float",
+          "category": "Shake",
+          "default": 5,
+          "min": 0,
+          "max": 100,
+          "tooltip": "Selects a different random shake sequence per sprite."
+        }
+      ],
+      "bytes": 32764
+    },
+    {
+      "id": "sprite-palette-swap",
+      "title": "Palette Swap (LUT)",
+      "description": "Recolour an indexed (4-level greyscale) sprite through a palette ramp texture: one row per palette. Pick any two palettes and cross-fade between them — team colours, damage states, day / night variants from a single sprite.",
+      "tags": [
+        "palette",
+        "lut",
+        "recolor",
+        "sprite",
+        "2d",
+        "pixel-art"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The sprite must use the grey index levels 0, ⅓, ⅔, 1 (after rounding); the sample's slime does.",
+        "Import the ramp with Filter = Point / Nearest is NOT required — the ramp is sampled on texel centres — but disable mip-maps and compression.",
+        "Sprite filter should be Point for pixel art."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "reusableSubgraphs": [
+        "ks_palette_ramp"
+      ],
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "nearest": true,
+        "background": {
+          "mode": "checker"
+        }
+      },
+      "file": "sprite-palette-swap.kshader",
+      "nodes": 22,
+      "groups": 4,
+      "comments": 4,
+      "subgraphs": [
+        "ks_palette_ramp"
+      ],
+      "textures": [
+        "slime-sprite-indexed (64×64)",
+        "palette-lut (64×4)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite-indexed"
+        },
+        {
+          "id": "ramp",
+          "name": "Palette Ramp",
+          "type": "texture2D",
+          "category": "Palette",
+          "default": null,
+          "tooltip": "Palette texture: one palette per row, dark → light, left → right.",
+          "texture": "palette-lut"
+        },
+        {
+          "id": "paletteA",
+          "name": "Palette A",
+          "type": "float",
+          "category": "Palette",
+          "default": 0,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Row of the first palette (0-based)."
+        },
+        {
+          "id": "paletteB",
+          "name": "Palette B",
+          "type": "float",
+          "category": "Palette",
+          "default": 2,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Row of the second palette (0-based)."
+        },
+        {
+          "id": "blend",
+          "name": "Blend A → B",
+          "type": "float",
+          "category": "Palette",
+          "default": 0,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = palette A, 1 = palette B. Animate it for a smooth recolour."
+        },
+        {
+          "id": "rows",
+          "name": "Palette Count",
+          "type": "float",
+          "category": "Ramp texture",
+          "default": 4,
+          "min": 1,
+          "max": 16,
+          "tooltip": "Number of rows (palettes) in the ramp texture."
+        },
+        {
+          "id": "width",
+          "name": "Ramp Width",
+          "type": "float",
+          "category": "Ramp texture",
+          "default": 64,
+          "min": 4,
+          "max": 256,
+          "tooltip": "Texels per row of the ramp texture."
+        }
+      ],
+      "bytes": 31353
+    },
+    {
+      "id": "sprite-pixelate",
+      "title": "Pixelate / Pixel-Perfect Snap",
+      "description": "Snaps the sprite UV to a coarse texel grid (retro pixelation or pixel-perfect rendering at any scale and rotation), reduces the colour count with a posterize step and keeps alpha hard so the silhouette stays crisp.",
+      "tags": [
+        "pixelate",
+        "pixel-perfect",
+        "retro",
+        "posterize",
+        "sprite",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Import the sprite with Filter = Point (no filter) for true pixel art; the snapping itself works with any filter.",
+        "Pixel Grid = the sprite's pixel size gives a 1:1 pixel-perfect result."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "reusableSubgraphs": [
+        "ks_pixel_snap"
+      ],
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "nearest": true,
+        "background": {
+          "mode": "checker"
+        }
+      },
+      "file": "sprite-pixelate.kshader",
+      "nodes": 15,
+      "groups": 4,
+      "comments": 4,
+      "subgraphs": [
+        "ks_pixel_snap"
+      ],
+      "textures": [
+        "slime-sprite (64×64)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime-sprite"
+        },
+        {
+          "id": "pixels",
+          "name": "Pixel Grid",
+          "type": "float",
+          "category": "Pixelation",
+          "default": 24,
+          "min": 4,
+          "max": 128,
+          "tooltip": "Pixels per axis of the snapping grid (the sprite's own pixel size = 1:1)."
+        },
+        {
+          "id": "steps",
+          "name": "Color Steps",
+          "type": "float",
+          "category": "Pixelation",
+          "default": 5,
+          "min": 2,
+          "max": 16,
+          "tooltip": "Levels per colour channel after posterizing."
+        },
+        {
+          "id": "alphaCut",
+          "name": "Alpha Threshold",
+          "type": "float",
+          "category": "Pixelation",
+          "default": 0.5,
+          "min": 0.01,
+          "max": 0.99,
+          "tooltip": "Alpha at or above this becomes fully opaque, below it fully transparent (hard pixel edges)."
+        }
+      ],
+      "bytes": 17984
+    },
+    {
+      "id": "sprite-crt",
+      "title": "CRT Monitor",
+      "description": "Old tube-TV look for any sprite or full-screen quad: barrel distortion with a rounded-off screen edge, radial chromatic aberration, scanlines that roll, an RGB phosphor mask, vignette and a faint power flicker.",
+      "tags": [
+        "crt",
+        "scanlines",
+        "retro",
+        "barrel",
+        "chromatic-aberration",
+        "phosphor",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Scanline and phosphor frequencies are in UV space (lines per sprite height): set Scanline Count to the sprite's pixel height for true pixel-aligned lines.",
+        "Pixels outside the curved screen become transparent."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-crt.kshader",
+      "nodes": 66,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "retro-scene (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "retro-scene"
+        },
+        {
+          "id": "curvature",
+          "name": "Curvature",
+          "type": "float",
+          "category": "Screen",
+          "default": 0.22,
+          "min": 0,
+          "max": 0.8,
+          "tooltip": "Barrel distortion of the screen (0 = flat)."
+        },
+        {
+          "id": "brightness",
+          "name": "Brightness",
+          "type": "float",
+          "category": "Screen",
+          "default": 1.15,
+          "min": 0.5,
+          "max": 2.5,
+          "tooltip": "Overall brightness (compensates scanline / mask darkening)."
+        },
+        {
+          "id": "vignette",
+          "name": "Vignette",
+          "type": "float",
+          "category": "Screen",
+          "default": 0.55,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Darkening towards the screen corners."
+        },
+        {
+          "id": "aberration",
+          "name": "Chromatic Aberration",
+          "type": "float",
+          "category": "Signal",
+          "default": 0.012,
+          "min": 0,
+          "max": 0.05,
+          "tooltip": "Radial colour fringing (fraction of the distance from the centre)."
+        },
+        {
+          "id": "flicker",
+          "name": "Flicker",
+          "type": "float",
+          "category": "Signal",
+          "default": 0.06,
+          "min": 0,
+          "max": 0.3,
+          "tooltip": "Amplitude of the 50 Hz brightness flicker."
+        },
+        {
+          "id": "lines",
+          "name": "Scanline Count",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 120,
+          "min": 40,
+          "max": 480,
+          "tooltip": "Scanlines per sprite height."
+        },
+        {
+          "id": "scanIntensity",
+          "name": "Scanline Intensity",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 0.45,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Darkness between scanlines."
+        },
+        {
+          "id": "scanSharp",
+          "name": "Scanline Sharpness",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 1.4,
+          "min": 0.5,
+          "max": 4,
+          "tooltip": "Thinner bright lines with higher values."
+        },
+        {
+          "id": "roll",
+          "name": "Roll Speed",
+          "type": "float",
+          "category": "Scanlines",
+          "default": 0.12,
+          "min": -1,
+          "max": 1,
+          "tooltip": "How fast the scanline pattern crawls (lines per second; 0 = static)."
+        },
+        {
+          "id": "maskDensity",
+          "name": "Phosphor Density",
+          "type": "float",
+          "category": "Phosphor",
+          "default": 90,
+          "min": 20,
+          "max": 400,
+          "tooltip": "RGB phosphor triads across the sprite width."
+        },
+        {
+          "id": "maskStrength",
+          "name": "Phosphor Strength",
+          "type": "float",
+          "category": "Phosphor",
+          "default": 0.4,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Visibility of the RGB mask (0 = off)."
+        }
+      ],
+      "bytes": 51963
+    },
+    {
+      "id": "sprite-glitch",
+      "title": "Digital Glitch",
+      "description": "Horizontal band glitch that jumps a few times per second: random bands slide sideways, split into red / blue ghosts along the slide direction, flash inverted colours and sprinkle static. Deterministic per time step and seed, so it can be driven from gameplay.",
+      "tags": [
+        "glitch",
+        "digital",
+        "chromatic-aberration",
+        "bands",
+        "static",
+        "damage",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Drive Intensity from gameplay (damage, hacking) for hit reactions — at 0 the sprite is untouched.",
+        "Pattern changes Glitch Rate times per second; the Seed picks a different sequence per sprite."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-glitch.kshader",
+      "nodes": 43,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "retro-scene (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "retro-scene"
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Glitch",
+          "default": 0.55,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Share of bands that glitch at any moment (0 = off)."
+        },
+        {
+          "id": "amount",
+          "name": "Slide Distance",
+          "type": "float",
+          "category": "Glitch",
+          "default": 0.08,
+          "min": 0,
+          "max": 0.3,
+          "tooltip": "Maximum horizontal displacement of a band (UV units)."
+        },
+        {
+          "id": "bands",
+          "name": "Band Count",
+          "type": "float",
+          "category": "Glitch",
+          "default": 18,
+          "min": 4,
+          "max": 64,
+          "tooltip": "Horizontal bands the sprite is cut into."
+        },
+        {
+          "id": "rate",
+          "name": "Glitch Rate",
+          "type": "float",
+          "category": "Glitch",
+          "default": 7,
+          "min": 1,
+          "max": 30,
+          "tooltip": "How many times per second the pattern jumps."
+        },
+        {
+          "id": "seed",
+          "name": "Seed",
+          "type": "float",
+          "category": "Glitch",
+          "default": 3,
+          "min": 0,
+          "max": 100,
+          "tooltip": "Selects a different random sequence."
+        },
+        {
+          "id": "aberration",
+          "name": "Colour Split",
+          "type": "float",
+          "category": "Colour",
+          "default": 0.03,
+          "min": 0,
+          "max": 0.12,
+          "tooltip": "Red / blue ghost distance inside glitching bands."
+        },
+        {
+          "id": "invertChance",
+          "name": "Invert Chance",
+          "type": "float",
+          "category": "Colour",
+          "default": 0.3,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Share of glitching bands that flash inverted colours."
+        },
+        {
+          "id": "staticAmount",
+          "name": "Static",
+          "type": "float",
+          "category": "Colour",
+          "default": 0.25,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Brightness of the noise sprinkled inside glitching bands."
+        }
+      ],
+      "bytes": 38561
+    },
+    {
+      "id": "sprite-silhouette-shadow",
+      "title": "Silhouette + Drop Shadow",
+      "description": "Two sprite effects from the alpha channel: a soft drop shadow (offset, flattened towards a ground line, blurred with a 5-tap cross) drawn behind the sprite, and a silhouette switch that replaces the sprite colours with one flat colour (occlusion outlines, hit marks, hidden-unit indicators).",
+      "tags": [
+        "shadow",
+        "drop-shadow",
+        "silhouette",
+        "blur",
+        "alpha",
+        "sprite",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs transparent padding where the shadow falls (offset + blur reach) — the quad clips it otherwise (Full Rect mesh type).",
+        "Five texture fetches per pixel. The shadow is built in the same pass as the sprite, so it needs no extra geometry or sorting; Flatten < 1 squashes it towards the Ground Line for a cast-on-the-floor look."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "light"
+        }
+      },
+      "file": "sprite-silhouette-shadow.kshader",
+      "nodes": 45,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [
+        "slime (96×96)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime"
+        },
+        {
+          "id": "shadowColor",
+          "name": "Shadow Color",
+          "type": "color",
+          "category": "Shadow",
+          "default": [
+            0.04,
+            0.03,
+            0.1
+          ],
+          "tooltip": "Colour of the shadow (sRGB)."
+        },
+        {
+          "id": "shadowOpacity",
+          "name": "Shadow Opacity",
+          "type": "float",
+          "category": "Shadow",
+          "default": 0.6,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Maximum opacity of the shadow."
+        },
+        {
+          "id": "offset",
+          "name": "Shadow Offset",
+          "type": "vec2",
+          "category": "Shadow",
+          "default": [
+            0.05,
+            -0.06
+          ],
+          "tooltip": "Shadow position relative to the sprite, in UV units (+x right, +y up)."
+        },
+        {
+          "id": "blur",
+          "name": "Shadow Blur",
+          "type": "float",
+          "category": "Shadow",
+          "default": 0.012,
+          "min": 0,
+          "max": 0.04,
+          "tooltip": "Radius of the 5-tap blur in UV units (0 = hard shadow)."
+        },
+        {
+          "id": "flatten",
+          "name": "Flatten",
+          "type": "float",
+          "category": "Shadow",
+          "default": 0.55,
+          "min": 0.2,
+          "max": 1,
+          "tooltip": "Vertical scale of the shadow around the Ground Line: 1 = unchanged, lower = squashed onto the floor."
+        },
+        {
+          "id": "ground",
+          "name": "Ground Line",
+          "type": "float",
+          "category": "Shadow",
+          "default": 0.2,
+          "min": 0,
+          "max": 1,
+          "tooltip": "V coordinate (0 = bottom of the sprite) the shadow is squashed towards."
+        },
+        {
+          "id": "silhouette",
+          "name": "Silhouette",
+          "type": "float",
+          "category": "Silhouette",
+          "default": 0,
+          "min": 0,
+          "max": 1,
+          "tooltip": "0 = normal sprite, 1 = flat silhouette colour. Drive it from gameplay."
+        },
+        {
+          "id": "silhouetteColor",
+          "name": "Silhouette Color",
+          "type": "color",
+          "category": "Silhouette",
+          "default": [
+            0.95,
+            0.2,
+            0.35
+          ],
+          "tooltip": "Flat colour of the silhouette (sRGB)."
+        }
+      ],
+      "bytes": 35158
+    },
+    {
+      "id": "sprite-water-reflection",
+      "title": "2D Water Reflection",
+      "description": "Sprite standing on water: the upper part of the quad shows the sprite, the lower part its mirror image. The reflection is rippled by two travelling sines whose strength grows with depth, fades out with distance from the waterline, is tinted by the water colour, and a thin bright line marks the surface.",
+      "tags": [
+        "water",
+        "reflection",
+        "ripple",
+        "mirror",
+        "waterline",
+        "sprite",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The quad is split at the Waterline: V above it shows the sprite (stretched to fill that part), V below shows the reflection. With Waterline 0.5 use a quad twice as tall as the sprite so nothing is distorted; lower values give a shorter, cropped reflection.",
+        "Two texture fetches (sprite + reflection), but only one is visible per pixel; no screen texture is used, so it works in every 2D pipeline."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-water-reflection.kshader",
+      "nodes": 66,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [
+        "slime (96×96)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "slime"
+        },
+        {
+          "id": "waterline",
+          "name": "Waterline",
+          "type": "float",
+          "category": "Water",
+          "default": 0.5,
+          "min": 0.2,
+          "max": 0.7,
+          "tooltip": "V coordinate where the water starts (0 = bottom of the quad)."
+        },
+        {
+          "id": "waterColor",
+          "name": "Water Tint",
+          "type": "color",
+          "category": "Water",
+          "default": [
+            0.35,
+            0.65,
+            0.9
+          ],
+          "tooltip": "Colour multiplied onto the reflection (sRGB)."
+        },
+        {
+          "id": "reflectOpacity",
+          "name": "Reflection Opacity",
+          "type": "float",
+          "category": "Water",
+          "default": 0.65,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Opacity of the reflection right below the waterline."
+        },
+        {
+          "id": "fadeLength",
+          "name": "Fade Length",
+          "type": "float",
+          "category": "Water",
+          "default": 0.4,
+          "min": 0.05,
+          "max": 1,
+          "tooltip": "Depth (UV units) over which the reflection fades out."
+        },
+        {
+          "id": "rippleAmount",
+          "name": "Ripple Amount",
+          "type": "float",
+          "category": "Ripples",
+          "default": 0.03,
+          "min": 0,
+          "max": 0.1,
+          "tooltip": "Sideways displacement of the reflection at full depth (UV units)."
+        },
+        {
+          "id": "rippleFrequency",
+          "name": "Ripple Frequency",
+          "type": "float",
+          "category": "Ripples",
+          "default": 28,
+          "min": 4,
+          "max": 80,
+          "tooltip": "Ripples per unit of depth (radians)."
+        },
+        {
+          "id": "rippleSpeed",
+          "name": "Ripple Speed",
+          "type": "float",
+          "category": "Ripples",
+          "default": 2.5,
+          "min": 0,
+          "max": 8,
+          "tooltip": "Travel speed of the ripples in radians per second."
+        },
+        {
+          "id": "lineColor",
+          "name": "Surface Line Color",
+          "type": "color",
+          "category": "Surface",
+          "default": [
+            2.2,
+            3,
+            3.6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the bright line on the water surface (linear)."
+        },
+        {
+          "id": "lineWidth",
+          "name": "Surface Line Width",
+          "type": "float",
+          "category": "Surface",
+          "default": 0.012,
+          "min": 0,
+          "max": 0.05,
+          "tooltip": "Thickness of the surface line in UV units (0 = off)."
+        }
+      ],
+      "bytes": 45566
+    },
+    {
+      "id": "sprite-normal-lit",
+      "title": "Normal-Mapped 2D Lit (Height to Normal)",
+      "description": "Gives a flat sprite relief for 2D lights without a normal-map texture: the sprite's luminance is read as a height field and the Height To Normal node turns its screen-space slope into a tangent-space normal. Built for the Sprite Lit profile (2D Renderer); a debug switch shows the generated normals.",
+      "tags": [
+        "normal-map",
+        "height-to-normal",
+        "2d-lights",
+        "sprite-lit",
+        "relief",
+        "sprite",
+        "2d"
+      ],
+      "category": "2D / Sprites",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Authored for URP Sprite Lit (2D Renderer): the Normal output is lit by 2D Lights; in the Preview the light comes from the lighting controls. The Godot canvas-item target feeds the same normal to NORMAL_MAP.",
+        "The normal comes from screen-space derivatives of the luminance (quality: derivative), so it needs no extra texture fetch and stays crisp at any zoom, but it is 2×2-pixel quantised; for a hand-painted look use a real normal-map texture."
+      ],
+      "requiredFeatures": [
+        "URP 2D Renderer with 2D Lights"
+      ],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.canvasitem",
+      "previewConfig": {
+        "mode": "2d",
+        "sprite": true,
+        "lighting": {
+          "lit": "lit",
+          "azimuth": 35,
+          "elevation": 40,
+          "intensity": 1.2
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "sprite-normal-lit.kshader",
+      "nodes": 17,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [
+        "brick (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "locked_sprite_texture",
+          "name": "Sprite Texture",
+          "type": "texture2D",
+          "category": "Sprite",
+          "default": null,
+          "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+          "texture": "brick"
+        },
+        {
+          "id": "tint",
+          "name": "Tint",
+          "type": "color",
+          "category": "Sprite",
+          "default": [
+            1,
+            1,
+            1
+          ],
+          "tooltip": "Colour multiplied onto the sprite (sRGB)."
+        },
+        {
+          "id": "strength",
+          "name": "Relief Strength",
+          "type": "float",
+          "category": "Relief",
+          "default": 2.5,
+          "min": -6,
+          "max": 6,
+          "tooltip": "Bump height. Negative values invert the relief (dark = high); 0 = flat."
+        },
+        {
+          "id": "contrast",
+          "name": "Height Contrast",
+          "type": "float",
+          "category": "Relief",
+          "default": 1.4,
+          "min": 0.2,
+          "max": 4,
+          "tooltip": "Contrast of the luminance before it becomes height: higher = deeper grooves."
+        },
+        {
+          "id": "heightScale",
+          "name": "Detail Scale",
+          "type": "float",
+          "category": "Relief",
+          "default": 1,
+          "min": 0.25,
+          "max": 4,
+          "tooltip": "Scales the sampling distance of the slope: higher = broader, softer relief."
+        },
+        {
+          "id": "showNormals",
+          "name": "Show Normals",
+          "type": "bool",
+          "category": "Debug",
+          "default": false,
+          "tooltip": "Debug: output the packed normal (RGB) instead of the sprite colour."
+        }
+      ],
+      "bytes": 40688
+    },
+    {
+      "id": "vfx-glow-orb",
+      "title": "Glow Orb",
+      "description": "Additive energy orb on a billboard quad. A fake sphere normal is rebuilt from the quad UV: a white-hot HDR core and a coloured halo follow the facing ratio, a thin fresnel ring accents the silhouette, and a per-particle phase pulses the brightness.",
+      "tags": [
+        "orb",
+        "glow",
+        "hdr",
+        "fresnel",
+        "pulse",
+        "additive",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Beginner",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "HDR colours are linear and need a Bloom post effect to glow (Unity: Volume → Bloom; Godot: Environment → Glow).",
+        "Particle colour multiplies the result and its alpha fades the orb, so Color over Lifetime still works; the per-particle random number offsets the pulse phase."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial.vfx",
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        },
+        "emitter": {
+          "rate": 2.5,
+          "lifetime": 4,
+          "lifetimeVar": 0,
+          "sizeStart": 1.4,
+          "sizeEnd": 1.4,
+          "speed": 0.15,
+          "spread": 25,
+          "gravity": [
+            0,
+            0,
+            0
+          ],
+          "maxParticles": 8,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.12,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "file": "vfx-glow-orb.kshader",
+      "nodes": 44,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "coreColor",
+          "name": "Core Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            6,
+            5.2,
+            3.2
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the white-hot centre (linear; values above 1 bloom)."
+        },
+        {
+          "id": "glowColor",
+          "name": "Glow Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.25,
+            0.9,
+            3.5
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the halo around the core (linear)."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Color",
+          "default": 1,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Overall brightness multiplier."
+        },
+        {
+          "id": "corePower",
+          "name": "Core Tightness",
+          "type": "float",
+          "category": "Shape",
+          "default": 14,
+          "min": 2,
+          "max": 60,
+          "tooltip": "Facing-ratio exponent of the core: higher = smaller white-hot spot."
+        },
+        {
+          "id": "haloPower",
+          "name": "Halo Falloff",
+          "type": "float",
+          "category": "Shape",
+          "default": 2.2,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Facing-ratio exponent of the halo: higher = tighter glow."
+        },
+        {
+          "id": "rimPower",
+          "name": "Rim Power",
+          "type": "float",
+          "category": "Rim",
+          "default": 3,
+          "min": 1,
+          "max": 10,
+          "tooltip": "Fresnel exponent of the silhouette ring: higher = thinner ring."
+        },
+        {
+          "id": "rimGain",
+          "name": "Rim Gain",
+          "type": "float",
+          "category": "Rim",
+          "default": 0.5,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the silhouette ring (0 = off)."
+        },
+        {
+          "id": "pulseAmount",
+          "name": "Pulse Amount",
+          "type": "float",
+          "category": "Pulse",
+          "default": 0.25,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Depth of the brightness pulse (0 = steady)."
+        },
+        {
+          "id": "pulseSpeed",
+          "name": "Pulse Speed",
+          "type": "float",
+          "category": "Pulse",
+          "default": 3,
+          "min": 0,
+          "max": 12,
+          "tooltip": "Pulse frequency in radians per second."
+        }
+      ],
+      "bytes": 30472
+    },
+    {
+      "id": "vfx-smoke",
+      "title": "Soft Smoke",
+      "description": "Billowing smoke puffs: two rotating, drifting layers of tileable noise form the body, a round falloff keeps the quad edge invisible, the cloud erodes into wisps as the particle ages, and soft depth fading removes the hard intersection with geometry.",
+      "tags": [
+        "smoke",
+        "soft-particles",
+        "erosion",
+        "billow",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs the scene depth texture (Unity URP asset → Depth Texture on; Godot hint_depth_texture). Not available in the HLSL / WGSL snippet targets.",
+        "Particle colour multiplies the smoke tint and its alpha drives the fade-in / fade-out; the per-particle random number rotates and offsets the noise so puffs never repeat."
+      ],
+      "requiredFeatures": [
+        "URP Depth Texture"
+      ],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial.vfx",
+      "reusableSubgraphs": [
+        "ks_depth_intersect"
+      ],
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "gradient",
+          "ground": "grid"
+        },
+        "emitter": {
+          "rate": 14,
+          "lifetime": 3.6,
+          "lifetimeVar": 0.25,
+          "sizeStart": 0.55,
+          "sizeEnd": 1.9,
+          "speed": 0.45,
+          "spread": 12,
+          "gravity": [
+            0,
+            0.14,
+            0
+          ],
+          "maxParticles": 80,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.18,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.85
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.68
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        "intersector": {
+          "kind": "sphere",
+          "position": [
+            0.2,
+            0.15,
+            0
+          ],
+          "scale": 0.4
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "vfx-smoke.kshader",
+      "nodes": 51,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_depth_intersect"
+      ],
+      "textures": [
+        "smoke-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "smokeMap",
+          "name": "Smoke Noise",
+          "type": "texture2D",
+          "category": "Shape",
+          "default": null,
+          "tooltip": "Tileable cloud noise (grey). Import as linear data, wrap mode Repeat.",
+          "texture": "smoke-noise"
+        },
+        {
+          "id": "tiling",
+          "name": "Noise Tiling",
+          "type": "float",
+          "category": "Shape",
+          "default": 1.4,
+          "min": 0.4,
+          "max": 5,
+          "tooltip": "Noise repeats across the particle quad (bigger = finer billows)."
+        },
+        {
+          "id": "spin",
+          "name": "Spin",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.25,
+          "min": -1,
+          "max": 1,
+          "tooltip": "Rotation of the noise over the particle's life, in turns."
+        },
+        {
+          "id": "erode",
+          "name": "Erosion",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.5,
+          "min": 0,
+          "max": 0.9,
+          "tooltip": "How far the cloud has eaten away at the end of its life."
+        },
+        {
+          "id": "edgeSoft",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.35,
+          "min": 0.05,
+          "max": 0.8,
+          "tooltip": "Width of the transition at the erosion edge."
+        },
+        {
+          "id": "darkColor",
+          "name": "Shadow Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.1,
+            0.1,
+            0.12
+          ],
+          "tooltip": "Smoke colour in the dense, shaded parts (sRGB)."
+        },
+        {
+          "id": "lightColor",
+          "name": "Light Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.62,
+            0.6,
+            0.58
+          ],
+          "tooltip": "Smoke colour in the lit, thin parts (sRGB)."
+        },
+        {
+          "id": "opacity",
+          "name": "Opacity",
+          "type": "float",
+          "category": "Color",
+          "default": 0.9,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Maximum opacity of a puff."
+        },
+        {
+          "id": "softDistance",
+          "name": "Soft Distance",
+          "type": "float",
+          "category": "Soft Particles",
+          "default": 0.6,
+          "min": 0.05,
+          "max": 3,
+          "tooltip": "World-space fade distance where smoke meets geometry."
+        }
+      ],
+      "bytes": 66669
+    },
+    {
+      "id": "vfx-energy-beam",
+      "title": "Energy Beam (Scrolling)",
+      "description": "Additive energy beam for a cylinder / beam mesh: 3D noise sampled around the tube scrolls along the beam, travelling pulses race down it, a view-facing core glows white-hot against a coloured halo, the ends fade out and a small vertex wobble makes the beam alive.",
+      "tags": [
+        "beam",
+        "laser",
+        "energy",
+        "scrolling",
+        "additive",
+        "pulse",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "UV: U around the tube, V along it (the preview cylinder). The noise uses the cylinder angle as a circle, so there is no seam.",
+        "Additive blend, no depth write, two-sided (set in the graph settings). Bloom makes the HDR core glow."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial.vfx",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "cylinder",
+        "lighting": {
+          "lit": "unlit"
+        },
+        "background": {
+          "mode": "dark"
+        }
+      },
+      "file": "vfx-energy-beam.kshader",
+      "nodes": 61,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "glowColor",
+          "name": "Glow Color",
+          "type": "color",
+          "category": "Look",
+          "default": [
+            0.1,
+            0.55,
+            2.8
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the outer halo."
+        },
+        {
+          "id": "coreColor",
+          "name": "Core Color",
+          "type": "color",
+          "category": "Look",
+          "default": [
+            2.2,
+            2.8,
+            3.4
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the hot core."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Look",
+          "default": 1.5,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Overall brightness."
+        },
+        {
+          "id": "coreSharp",
+          "name": "Core Sharpness",
+          "type": "float",
+          "category": "Look",
+          "default": 2.4,
+          "min": 0.5,
+          "max": 10,
+          "tooltip": "Exponent of the view-facing core falloff (higher = thinner core)."
+        },
+        {
+          "id": "speed",
+          "name": "Scroll Speed",
+          "type": "float",
+          "category": "Motion",
+          "default": 1.6,
+          "min": -6,
+          "max": 6,
+          "tooltip": "Speed at which the energy travels along the beam (negative = reverse)."
+        },
+        {
+          "id": "noiseFreq",
+          "name": "Noise Length",
+          "type": "float",
+          "category": "Energy",
+          "default": 3.5,
+          "min": 0.5,
+          "max": 12,
+          "tooltip": "Noise cells along the beam."
+        },
+        {
+          "id": "swirl",
+          "name": "Noise Swirl",
+          "type": "float",
+          "category": "Energy",
+          "default": 0.9,
+          "min": 0.1,
+          "max": 3,
+          "tooltip": "Radius of the noise circle around the tube: larger = more variation around the tube."
+        },
+        {
+          "id": "noiseAmount",
+          "name": "Noise Amount",
+          "type": "float",
+          "category": "Energy",
+          "default": 0.65,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How much the noise modulates the brightness."
+        },
+        {
+          "id": "pulses",
+          "name": "Pulse Count",
+          "type": "float",
+          "category": "Pulses",
+          "default": 4,
+          "min": 1,
+          "max": 12,
+          "tooltip": "Travelling pulses along the beam."
+        },
+        {
+          "id": "pulseStrength",
+          "name": "Pulse Strength",
+          "type": "float",
+          "category": "Pulses",
+          "default": 0.9,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the pulses (0 = off)."
+        },
+        {
+          "id": "endFade",
+          "name": "End Fade",
+          "type": "float",
+          "category": "Look",
+          "default": 0.12,
+          "min": 0.01,
+          "max": 0.5,
+          "tooltip": "Fraction of the beam length over which each end fades out."
+        },
+        {
+          "id": "wobble",
+          "name": "Vertex Wobble",
+          "type": "float",
+          "category": "Motion",
+          "default": 0.015,
+          "min": 0,
+          "max": 0.08,
+          "tooltip": "Amplitude of the radial vertex wobble (object units)."
+        }
+      ],
+      "bytes": 41493
+    },
+    {
+      "id": "vfx-shockwave",
+      "title": "Shockwave Ripple Distortion",
+      "description": "Expanding shockwave on a billboard quad: a gaussian ring travels outwards and displaces the screen behind it (opaque scene colour sampled at a ripple-offset screen UV) while a thin HDR ring highlights the wavefront. The ring fades out over the particle's lifetime and the quad edge is masked by a round falloff.",
+      "tags": [
+        "shockwave",
+        "ripple",
+        "distortion",
+        "refraction",
+        "explosion",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs the opaque scene colour: Unity URP asset → Opaque Texture on; Godot hint_screen_texture. Not available in the HLSL / WGSL snippet targets.",
+        "Ring speed is in quad-UV units per second: set it to about 0.5 / Lifetime so the ring just reaches the quad edge as the particle dies; grow the quad with Size over Lifetime."
+      ],
+      "requiredFeatures": [
+        "URP Opaque Texture"
+      ],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial.vfx",
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "gradient",
+          "ground": "grid"
+        },
+        "emitter": {
+          "rate": 0.55,
+          "lifetime": 1.8,
+          "lifetimeVar": 0,
+          "sizeStart": 0.5,
+          "sizeEnd": 3.4,
+          "speed": 0,
+          "spread": 0,
+          "gravity": [
+            0,
+            0,
+            0
+          ],
+          "maxParticles": 4,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.02,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "vfx-shockwave.kshader",
+      "nodes": 31,
+      "groups": 5,
+      "comments": 5,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "lifetime",
+          "name": "Lifetime",
+          "type": "float",
+          "category": "Wave",
+          "default": 1.8,
+          "min": 0.3,
+          "max": 6,
+          "tooltip": "Particle lifetime in seconds (must match the emitter): converts the normalised age to seconds."
+        },
+        {
+          "id": "speed",
+          "name": "Ring Speed",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.26,
+          "min": 0.05,
+          "max": 1.5,
+          "tooltip": "Ring radius growth in quad-UV units per second (≈ 0.5 / Lifetime reaches the quad edge)."
+        },
+        {
+          "id": "width",
+          "name": "Ring Width",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.07,
+          "min": 0.01,
+          "max": 0.3,
+          "tooltip": "Width of the wavefront (UV units)."
+        },
+        {
+          "id": "frequency",
+          "name": "Ripple Frequency",
+          "type": "float",
+          "category": "Wave",
+          "default": 16,
+          "min": 2,
+          "max": 60,
+          "tooltip": "Oscillations inside the ring envelope."
+        },
+        {
+          "id": "amplitude",
+          "name": "Amplitude",
+          "type": "float",
+          "category": "Distortion",
+          "default": 0.04,
+          "min": 0,
+          "max": 0.2,
+          "tooltip": "UV displacement of the ripple."
+        },
+        {
+          "id": "screenScale",
+          "name": "Screen Scale",
+          "type": "float",
+          "category": "Distortion",
+          "default": 0.6,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Converts the quad-local displacement to screen UV (grows with the on-screen size of the quad)."
+        },
+        {
+          "id": "ringColor",
+          "name": "Ring Color",
+          "type": "color",
+          "category": "Highlight",
+          "default": [
+            0.5,
+            0.8,
+            1.6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the wavefront highlight."
+        },
+        {
+          "id": "glow",
+          "name": "Ring Glow",
+          "type": "float",
+          "category": "Highlight",
+          "default": 0.5,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the wavefront highlight (0 = pure distortion)."
+        },
+        {
+          "id": "edgeFade",
+          "name": "Edge Fade",
+          "type": "float",
+          "category": "Wave",
+          "default": 0.4,
+          "min": 0.2,
+          "max": 0.49,
+          "tooltip": "Distance from the quad centre where the effect starts fading out (UV units)."
+        }
+      ],
+      "bytes": 24495
+    },
+    {
+      "id": "vfx-shield-aura",
+      "title": "Shield Aura with Hit Ripple",
+      "description": "Energy shield on a sphere: a fresnel rim, a flickering hexagon grid and an expanding hit ripple. The ripple is driven by two parameters (impact position in object space and seconds since the hit), so gameplay code can trigger it on any point; an Auto Hit switch replays it in the preview.",
+      "tags": [
+        "shield",
+        "fresnel",
+        "hex-grid",
+        "ripple",
+        "hit",
+        "hdr",
+        "additive",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Additive, two-sided, ZWrite off. Needs Bloom for the HDR glow.",
+        "Hit Position is in OBJECT space (the shield's local coordinates); set Hit Time = Time.time − impactTime from a script, or switch Auto Hit on for a looping demo.",
+        "The hex grid uses mesh UVs scaled 2:1 (U wraps the equator), so cells pinch slightly at the poles of a UV sphere."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial",
+      "reusableSubgraphs": [
+        "ks_fresnel_kit"
+      ],
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "sphere",
+        "lighting": {
+          "lit": "unlit"
+        },
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        }
+      },
+      "file": "vfx-shield-aura.kshader",
+      "nodes": 71,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_fresnel_kit"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "shieldColor",
+          "name": "Shield Color",
+          "type": "color",
+          "category": "Shield",
+          "default": [
+            0.2,
+            0.8,
+            3
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the rim and the hex grid (linear)."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Shield",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Overall brightness of the shield."
+        },
+        {
+          "id": "rimPower",
+          "name": "Rim Power",
+          "type": "float",
+          "category": "Rim",
+          "default": 3,
+          "min": 0.5,
+          "max": 8,
+          "tooltip": "Fresnel exponent: higher = thinner rim."
+        },
+        {
+          "id": "rimStrength",
+          "name": "Rim Strength",
+          "type": "float",
+          "category": "Rim",
+          "default": 0.9,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the fresnel rim."
+        },
+        {
+          "id": "hexDensity",
+          "name": "Hex Density",
+          "type": "float",
+          "category": "Hex Grid",
+          "default": 5,
+          "min": 1,
+          "max": 14,
+          "tooltip": "Hexagons per UV unit (vertical); the horizontal count is doubled."
+        },
+        {
+          "id": "lineWidth",
+          "name": "Line Width",
+          "type": "float",
+          "category": "Hex Grid",
+          "default": 0.12,
+          "min": 0.02,
+          "max": 0.4,
+          "tooltip": "Width of the hexagon outlines (share of the cell)."
+        },
+        {
+          "id": "lineStrength",
+          "name": "Line Strength",
+          "type": "float",
+          "category": "Hex Grid",
+          "default": 0.7,
+          "min": 0,
+          "max": 2,
+          "tooltip": "Brightness of the hexagon outlines."
+        },
+        {
+          "id": "cellFlicker",
+          "name": "Cell Flicker",
+          "type": "float",
+          "category": "Hex Grid",
+          "default": 0.35,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Brightness of the randomly pulsing cell fills (0 = off)."
+        },
+        {
+          "id": "flickerSpeed",
+          "name": "Flicker Speed",
+          "type": "float",
+          "category": "Hex Grid",
+          "default": 2,
+          "min": 0,
+          "max": 8,
+          "tooltip": "Speed of the cell pulsing in radians per second."
+        },
+        {
+          "id": "hitColor",
+          "name": "Hit Color",
+          "type": "color",
+          "category": "Hit Ripple",
+          "default": [
+            3,
+            2.2,
+            1
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the impact ripple (linear)."
+        },
+        {
+          "id": "hitPos",
+          "name": "Hit Position",
+          "type": "vec3",
+          "category": "Hit Ripple",
+          "default": [
+            0.5,
+            0.3,
+            0.8
+          ],
+          "tooltip": "Impact point in OBJECT space (local coordinates of the shield mesh)."
+        },
+        {
+          "id": "hitTime",
+          "name": "Hit Time",
+          "type": "float",
+          "category": "Hit Ripple",
+          "default": 0.4,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Seconds since the hit. Set from a script: Time.time − impact time."
+        },
+        {
+          "id": "rippleSpeed",
+          "name": "Ripple Speed",
+          "type": "float",
+          "category": "Hit Ripple",
+          "default": 1.6,
+          "min": 0.1,
+          "max": 5,
+          "tooltip": "Expansion speed of the ripple in object units per second."
+        },
+        {
+          "id": "rippleWidth",
+          "name": "Ripple Width",
+          "type": "float",
+          "category": "Hit Ripple",
+          "default": 0.16,
+          "min": 0.02,
+          "max": 0.6,
+          "tooltip": "Thickness of the ripple ring (object units)."
+        },
+        {
+          "id": "rippleLife",
+          "name": "Ripple Life",
+          "type": "float",
+          "category": "Hit Ripple",
+          "default": 1.6,
+          "min": 0.3,
+          "max": 5,
+          "tooltip": "Seconds until the ripple has faded out."
+        },
+        {
+          "id": "autoHit",
+          "name": "Auto Hit (demo)",
+          "type": "bool",
+          "category": "Hit Ripple",
+          "default": true,
+          "tooltip": "On: Hit Time loops by itself every Ripple Life + 0.8 s (preview demo). Off: Hit Time is used."
+        }
+      ],
+      "bytes": 56200
+    },
+    {
+      "id": "vfx-portal-swirl",
+      "title": "Portal Swirl",
+      "description": "Swirling portal on a billboard quad. A twirl bends the UVs into spiral arms, two counter-rotating value-noise layers churn inside it, a three-colour ramp paints the vortex, a bright core sits in the middle and a ragged HDR rim glows where the noise eats into the disc edge.",
+      "tags": [
+        "portal",
+        "swirl",
+        "twirl",
+        "noise",
+        "rim-glow",
+        "hdr",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Alpha blended, two-sided, ZWrite off. The rim and core colours are HDR (linear) and need Bloom to glow.",
+        "Particle colour multiplies the whole portal and its alpha fades it in and out, so open / close animations come from Color over Lifetime and Size over Lifetime."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial.vfx",
+      "reusableSubgraphs": [
+        "ks_color_ramp3"
+      ],
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        },
+        "emitter": {
+          "rate": 0.5,
+          "lifetime": 5,
+          "lifetimeVar": 0,
+          "sizeStart": 2,
+          "sizeEnd": 2,
+          "speed": 0,
+          "spread": 0,
+          "gravity": [
+            0,
+            0,
+            0
+          ],
+          "maxParticles": 3,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.08,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "file": "vfx-portal-swirl.kshader",
+      "nodes": 62,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_color_ramp3"
+      ],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "radius",
+          "name": "Portal Radius",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.8,
+          "min": 0.3,
+          "max": 0.95,
+          "tooltip": "Radius of the disc as a share of the quad half-width."
+        },
+        {
+          "id": "softness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.05,
+          "min": 0.005,
+          "max": 0.3,
+          "tooltip": "Width of the alpha fade at the disc edge."
+        },
+        {
+          "id": "wobble",
+          "name": "Edge Wobble",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.12,
+          "min": 0,
+          "max": 0.4,
+          "tooltip": "How far the noise bites into the disc edge (0 = perfect circle)."
+        },
+        {
+          "id": "twist",
+          "name": "Twist",
+          "type": "float",
+          "category": "Swirl",
+          "default": 6,
+          "min": -20,
+          "max": 20,
+          "tooltip": "Strength of the UV twirl: sign sets the spiral direction, 0 = straight noise."
+        },
+        {
+          "id": "spin",
+          "name": "Spin Speed",
+          "type": "float",
+          "category": "Swirl",
+          "default": 0.12,
+          "min": -1,
+          "max": 1,
+          "tooltip": "Rotation speed of the vortex in turns per second."
+        },
+        {
+          "id": "noiseScale",
+          "name": "Noise Scale",
+          "type": "float",
+          "category": "Swirl",
+          "default": 3,
+          "min": 1,
+          "max": 8,
+          "tooltip": "Frequency of the vortex noise (bigger = finer arms)."
+        },
+        {
+          "id": "coldColor",
+          "name": "Outer Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.05,
+            0.02,
+            0.18
+          ],
+          "tooltip": "Vortex colour where the noise is low (sRGB)."
+        },
+        {
+          "id": "midColor",
+          "name": "Mid Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.4,
+            0.1,
+            0.85
+          ],
+          "tooltip": "Vortex colour in the middle of the noise range (sRGB)."
+        },
+        {
+          "id": "hotColor",
+          "name": "Bright Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.5,
+            0.9,
+            1
+          ],
+          "tooltip": "Vortex colour where the noise is high (sRGB)."
+        },
+        {
+          "id": "rimColor",
+          "name": "Rim Color",
+          "type": "color",
+          "category": "Glow",
+          "default": [
+            1.2,
+            2.4,
+            6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the glowing rim (linear)."
+        },
+        {
+          "id": "rimWidth",
+          "name": "Rim Width",
+          "type": "float",
+          "category": "Glow",
+          "default": 0.18,
+          "min": 0.03,
+          "max": 0.5,
+          "tooltip": "Width of the glowing rim, measured inwards from the edge."
+        },
+        {
+          "id": "rimIntensity",
+          "name": "Rim Intensity",
+          "type": "float",
+          "category": "Glow",
+          "default": 1.5,
+          "min": 0,
+          "max": 5,
+          "tooltip": "Brightness of the rim."
+        },
+        {
+          "id": "coreColor",
+          "name": "Core Color",
+          "type": "color",
+          "category": "Glow",
+          "default": [
+            4,
+            3.2,
+            6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the centre of the vortex (linear)."
+        },
+        {
+          "id": "coreSize",
+          "name": "Core Size",
+          "type": "float",
+          "category": "Glow",
+          "default": 0.3,
+          "min": 0.05,
+          "max": 0.8,
+          "tooltip": "Radius of the bright centre (share of the quad half-width)."
+        }
+      ],
+      "bytes": 50709
+    },
+    {
+      "id": "vfx-lightning",
+      "title": "Lightning Bolt",
+      "description": "Animated lightning on a billboard quad. A signed 1-D value noise displaces a horizontal line, pinned to zero at both ends; a second, finer displacement forms a branch. Each time step re-seeds the noise so the bolt jumps, a hash flickers it and a sawtooth flash decays between strikes. Core and glow are HDR.",
+      "tags": [
+        "lightning",
+        "electric",
+        "noise",
+        "displacement",
+        "flicker",
+        "hdr",
+        "additive",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "The bolt runs along the quad's U axis; rotate / stretch the particle (Stretched Billboard or Rotation over Lifetime) to aim it. Additive, ZWrite off, two-sided; needs Bloom for the HDR glow.",
+        "Jump Rate is the number of different bolt shapes per second (a stepped time, not a continuous one — a smoothly wiggling bolt does not read as lightning)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial.vfx",
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        },
+        "emitter": {
+          "rate": 0.6,
+          "lifetime": 4,
+          "lifetimeVar": 0,
+          "sizeStart": 3.2,
+          "sizeEnd": 3.2,
+          "speed": 0,
+          "spread": 0,
+          "gravity": [
+            0,
+            0,
+            0
+          ],
+          "maxParticles": 3,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.04,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "file": "vfx-lightning.kshader",
+      "nodes": 88,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "rate",
+          "name": "Jump Rate",
+          "type": "float",
+          "category": "Motion",
+          "default": 12,
+          "min": 1,
+          "max": 30,
+          "tooltip": "Different bolt shapes per second."
+        },
+        {
+          "id": "frequency",
+          "name": "Jag Frequency",
+          "type": "float",
+          "category": "Shape",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "tooltip": "How many bends the bolt has across the quad."
+        },
+        {
+          "id": "amplitude",
+          "name": "Jag Amplitude",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.16,
+          "min": 0.02,
+          "max": 0.35,
+          "tooltip": "Maximum sideways displacement (UV units)."
+        },
+        {
+          "id": "branchStrength",
+          "name": "Branch Strength",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.5,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Brightness of the second, finer bolt (0 = single bolt)."
+        },
+        {
+          "id": "coreWidth",
+          "name": "Core Width",
+          "type": "float",
+          "category": "Look",
+          "default": 0.008,
+          "min": 0.002,
+          "max": 0.03,
+          "tooltip": "Half-width of the white-hot core (UV units)."
+        },
+        {
+          "id": "glowWidth",
+          "name": "Glow Width",
+          "type": "float",
+          "category": "Look",
+          "default": 0.06,
+          "min": 0.01,
+          "max": 0.2,
+          "tooltip": "Reach of the glow around the core (UV units)."
+        },
+        {
+          "id": "glowStrength",
+          "name": "Glow Strength",
+          "type": "float",
+          "category": "Look",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the glow relative to the core."
+        },
+        {
+          "id": "coreColor",
+          "name": "Core Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            7,
+            7.5,
+            10
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the core (linear)."
+        },
+        {
+          "id": "glowColor",
+          "name": "Glow Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.5,
+            1.1,
+            5
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the glow (linear)."
+        },
+        {
+          "id": "flicker",
+          "name": "Flicker",
+          "type": "float",
+          "category": "Flash",
+          "default": 0.5,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Random brightness change per time step (0 = steady)."
+        },
+        {
+          "id": "strikePeriod",
+          "name": "Strike Period",
+          "type": "float",
+          "category": "Flash",
+          "default": 1.1,
+          "min": 0.2,
+          "max": 3,
+          "tooltip": "Seconds between flashes."
+        },
+        {
+          "id": "flashDecay",
+          "name": "Flash Decay",
+          "type": "float",
+          "category": "Flash",
+          "default": 2,
+          "min": 0.5,
+          "max": 6,
+          "tooltip": "How fast each flash fades (exponent of the decay curve)."
+        }
+      ],
+      "bytes": 57610
+    },
+    {
+      "id": "vfx-dissolve-trail",
+      "title": "Dissolve Trail (Particle Age)",
+      "description": "Comet-shaped spark whose body dissolves with the particle's age. The normalised age and a stable random number come from custom vertex streams; the noise scrolls down the tail, the tail dissolves before the head, and the cut line glows in HDR. Built on the shared Soft Edge Dissolve subgraph.",
+      "tags": [
+        "dissolve",
+        "trail",
+        "spark",
+        "particle-age",
+        "custom-vertex-streams",
+        "hdr",
+        "additive",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Intermediate",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "REQUIRED custom vertex streams — Unity: Particle System → Renderer → Custom Vertex Streams: UV (default), then Age Percent → TEXCOORD1.x and Stable Random → TEXCOORD1.y. Godot: copy INSTANCE_CUSTOM.x (age) and .y (random) into UV2.x / UV2.y in vertex().",
+        "Without the streams the age reads 0 and nothing dissolves. The quad's V axis is the length of the comet (head at V = 1): orient the particle along its velocity (Stretched Billboard in Unity) to get a real trail.",
+        "Additive, ZWrite off, two-sided; HDR colours need Bloom. One texture fetch per pixel."
+      ],
+      "requiredFeatures": [
+        "Custom Vertex Streams (Age Percent, Stable Random)"
+      ],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial.vfx",
+      "reusableSubgraphs": [
+        "ks_soft_dissolve"
+      ],
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        },
+        "emitter": {
+          "rate": 7,
+          "lifetime": 2.2,
+          "lifetimeVar": 0.15,
+          "sizeStart": 1.3,
+          "sizeEnd": 1.3,
+          "speed": 0.7,
+          "spread": 18,
+          "gravity": [
+            0,
+            0,
+            0
+          ],
+          "maxParticles": 24,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.04,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "file": "vfx-dissolve-trail.kshader",
+      "nodes": 54,
+      "groups": 6,
+      "comments": 6,
+      "subgraphs": [
+        "ks_soft_dissolve"
+      ],
+      "textures": [
+        "trail-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "noiseMap",
+          "name": "Dissolve Noise",
+          "type": "texture2D",
+          "category": "Dissolve",
+          "default": null,
+          "tooltip": "Tileable noise (grey) that decides which parts dissolve first. Linear data, wrap mode Repeat.",
+          "texture": "trail-noise"
+        },
+        {
+          "id": "ageCurve",
+          "name": "Age Curve",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 1.2,
+          "min": 0.3,
+          "max": 3,
+          "tooltip": "Shapes the dissolve over the particle's life: below 1 = fast start, above 1 = holds, then collapses."
+        },
+        {
+          "id": "tailBias",
+          "name": "Tail Bias",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.45,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How much the tail dissolves before the head (0 = pure noise, 1 = a clean wipe from the tail)."
+        },
+        {
+          "id": "edgeWidth",
+          "name": "Edge Width",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.12,
+          "min": 0.02,
+          "max": 0.4,
+          "tooltip": "Width of the glowing band along the cut line (noise units)."
+        },
+        {
+          "id": "softness",
+          "name": "Edge Softness",
+          "type": "float",
+          "category": "Dissolve",
+          "default": 0.04,
+          "min": 0.005,
+          "max": 0.2,
+          "tooltip": "Feathering of the cut line."
+        },
+        {
+          "id": "tileX",
+          "name": "Noise Tiling X",
+          "type": "float",
+          "category": "Noise",
+          "default": 1,
+          "min": 0.25,
+          "max": 4,
+          "tooltip": "Noise repeats across the width of the comet."
+        },
+        {
+          "id": "tileY",
+          "name": "Noise Tiling Y",
+          "type": "float",
+          "category": "Noise",
+          "default": 2,
+          "min": 0.25,
+          "max": 6,
+          "tooltip": "Noise repeats along the length of the comet."
+        },
+        {
+          "id": "scroll",
+          "name": "Scroll Speed",
+          "type": "float",
+          "category": "Noise",
+          "default": 1.5,
+          "min": 0,
+          "max": 5,
+          "tooltip": "How far the noise slides down the tail over the particle's life (texture repeats)."
+        },
+        {
+          "id": "tailWidth",
+          "name": "Tail Width",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.14,
+          "min": 0.02,
+          "max": 0.6,
+          "tooltip": "Width of the very tip of the tail relative to the head."
+        },
+        {
+          "id": "tailColor",
+          "name": "Tail Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.9,
+            0.25,
+            0.08
+          ],
+          "tooltip": "Body colour at the tail (sRGB)."
+        },
+        {
+          "id": "headColor",
+          "name": "Head Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            2.2,
+            1.4,
+            0.5
+          ],
+          "hdr": true,
+          "tooltip": "HDR body colour at the head (linear)."
+        },
+        {
+          "id": "edgeColor",
+          "name": "Edge Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            7,
+            2.6,
+            0.5
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the glowing cut line (linear)."
+        },
+        {
+          "id": "edgeIntensity",
+          "name": "Edge Intensity",
+          "type": "float",
+          "category": "Color",
+          "default": 1,
+          "min": 0,
+          "max": 3,
+          "tooltip": "Brightness of the cut line."
+        }
+      ],
+      "bytes": 74458
+    },
+    {
+      "id": "vfx-fire",
+      "title": "Fire (Flipbook + Soft Particles + Heat Haze)",
+      "description": "Particle fire: a looping 4×4 flipbook of flame intensity with frame cross-fade and a random start frame per particle, mapped through a 3-stop HDR colour ramp; soft depth fade where particles touch geometry; and a heat-haze halo that distorts the scene colour behind the flame.",
+      "tags": [
+        "fire",
+        "flipbook",
+        "soft-particles",
+        "distortion",
+        "heat-haze",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs the scene depth and opaque colour textures: Unity URP asset → Depth Texture + Opaque Texture on; Godot hint_depth_texture / hint_screen_texture. Not available in the HLSL / WGSL snippet targets.",
+        "The flipbook is advanced inside the graph from the particle age (no custom vertex streams needed); keep the sheet's grid at 4 × 4 or edit the Flipbook node.",
+        "Particle colour (vertex colour) multiplies the flame: use it for per-particle tint and the alpha fade-in / fade-out."
+      ],
+      "requiredFeatures": [
+        "URP Depth Texture",
+        "URP Opaque Texture"
+      ],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial.vfx",
+      "reusableSubgraphs": [
+        "ks_depth_intersect",
+        "ks_color_ramp3"
+      ],
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "dark",
+          "ground": "grid"
+        },
+        "emitter": {
+          "rate": 26,
+          "lifetime": 1.3,
+          "lifetimeVar": 0.3,
+          "sizeStart": 0.85,
+          "sizeEnd": 0.55,
+          "speed": 0.35,
+          "spread": 8,
+          "gravity": [
+            0,
+            0.35,
+            0
+          ],
+          "maxParticles": 90,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.08,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        "intersector": {
+          "kind": "box",
+          "position": [
+            0,
+            -0.25,
+            0
+          ],
+          "scale": 0.45
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "vfx-fire.kshader",
+      "nodes": 41,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_color_ramp3",
+        "ks_depth_intersect"
+      ],
+      "textures": [
+        "flame-flipbook (256×256)"
+      ],
+      "parameters": [
+        {
+          "id": "flameSheet",
+          "name": "Flame Flipbook",
+          "type": "texture2D",
+          "category": "Flame",
+          "default": null,
+          "tooltip": "4 × 4 flipbook of flame intensity (grey, frame 0 top-left, row-major). Import as linear data.",
+          "texture": "flame-flipbook"
+        },
+        {
+          "id": "flipSpeed",
+          "name": "Flipbook Speed",
+          "type": "float",
+          "category": "Flame",
+          "default": 1.6,
+          "min": 0.2,
+          "max": 6,
+          "tooltip": "Flipbook loops per particle lifetime."
+        },
+        {
+          "id": "coldColor",
+          "name": "Flame Edge",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.5,
+            0.04,
+            0
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour at the flame's cool edge."
+        },
+        {
+          "id": "midColor",
+          "name": "Flame Body",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            2.6,
+            0.75,
+            0.08
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the flame body."
+        },
+        {
+          "id": "hotColor",
+          "name": "Flame Core",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            4.5,
+            3.4,
+            1.4
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the hottest core."
+        },
+        {
+          "id": "intensity",
+          "name": "Intensity",
+          "type": "float",
+          "category": "Color",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Brightness multiplier of the flame colour."
+        },
+        {
+          "id": "softDistance",
+          "name": "Soft Distance",
+          "type": "float",
+          "category": "Soft Particles",
+          "default": 0.5,
+          "min": 0.05,
+          "max": 3,
+          "tooltip": "World-space fade distance where the particle meets geometry."
+        },
+        {
+          "id": "distortion",
+          "name": "Heat Haze",
+          "type": "float",
+          "category": "Distortion",
+          "default": 0.03,
+          "min": 0,
+          "max": 0.15,
+          "tooltip": "Screen-UV distortion of the scene behind the flame (0 = off)."
+        }
+      ],
+      "bytes": 86948
+    },
+    {
+      "id": "vfx-magic-circle",
+      "title": "Magic Circle",
+      "description": "Ground sigil built only from signed distance fields: concentric rings, a counter-rotating star and triangle, and a ring of runes. Each rune is three strokes whose end points come from a hash of its sector, so no two runes match. All shapes merge into one SDF that drives a crisp HDR line and a pulsing glow.",
+      "tags": [
+        "magic-circle",
+        "sdf",
+        "runes",
+        "polar",
+        "glow",
+        "hdr",
+        "additive",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "hlsl",
+        "wgsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Designed for a flat quad / plane decal with UV 0…1 (Unity: a Quad lying on the ground; Godot: PlaneMesh). Additive, ZWrite off, two-sided; needs Bloom for the HDR glow.",
+        "Rune Count must be a whole number (the sectors would not meet at the seam otherwise); line anti-aliasing uses screen derivatives (fragment stage)."
+      ],
+      "requiredFeatures": [],
+      "budgetClass": "Desktop",
+      "godotProfile": "godot.spatial",
+      "previewConfig": {
+        "mode": "3d",
+        "mesh": "plane",
+        "lighting": {
+          "lit": "unlit"
+        },
+        "background": {
+          "mode": "dark",
+          "ground": "none"
+        }
+      },
+      "file": "vfx-magic-circle.kshader",
+      "nodes": 86,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [],
+      "textures": [],
+      "parameters": [
+        {
+          "id": "lineColor",
+          "name": "Line Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            2.4,
+            1.1,
+            6
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the crisp lines (linear)."
+        },
+        {
+          "id": "glowColor",
+          "name": "Glow Color",
+          "type": "color",
+          "category": "Color",
+          "default": [
+            0.5,
+            0.18,
+            2.4
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the soft glow around every line (linear)."
+        },
+        {
+          "id": "glowSize",
+          "name": "Glow Size",
+          "type": "float",
+          "category": "Glow",
+          "default": 0.035,
+          "min": 0.005,
+          "max": 0.15,
+          "tooltip": "Reach of the glow around the lines, in UV units."
+        },
+        {
+          "id": "glowStrength",
+          "name": "Glow Strength",
+          "type": "float",
+          "category": "Glow",
+          "default": 1.2,
+          "min": 0,
+          "max": 4,
+          "tooltip": "Brightness of the glow (0 = crisp lines only)."
+        },
+        {
+          "id": "pulseSpeed",
+          "name": "Glow Pulse Speed",
+          "type": "float",
+          "category": "Glow",
+          "default": 2,
+          "min": 0,
+          "max": 10,
+          "tooltip": "Speed of the breathing glow in radians per second (0 = steady)."
+        },
+        {
+          "id": "spinSpeed",
+          "name": "Sigil Spin",
+          "type": "float",
+          "category": "Motion",
+          "default": 25,
+          "min": -120,
+          "max": 120,
+          "tooltip": "Rotation speed of the star in degrees per second; the triangle turns the other way."
+        },
+        {
+          "id": "runeSpeed",
+          "name": "Rune Ring Speed",
+          "type": "float",
+          "category": "Motion",
+          "default": 0.03,
+          "min": -0.3,
+          "max": 0.3,
+          "tooltip": "Rotation speed of the rune ring in turns per second."
+        },
+        {
+          "id": "runeCount",
+          "name": "Rune Count",
+          "type": "float",
+          "category": "Runes",
+          "default": 10,
+          "min": 4,
+          "max": 20,
+          "tooltip": "Number of runes around the ring (whole numbers)."
+        },
+        {
+          "id": "runeThickness",
+          "name": "Rune Thickness",
+          "type": "float",
+          "category": "Runes",
+          "default": 0.07,
+          "min": 0.02,
+          "max": 0.2,
+          "tooltip": "Stroke width of the runes (share of the rune cell)."
+        }
+      ],
+      "bytes": 54703
+    },
+    {
+      "id": "vfx-explosion",
+      "title": "Stylized Explosion",
+      "description": "Flipbook-free fireball: two rotating layers of tileable noise form the puff, its heat falls over the particle's age and picks a colour from a white-hot → orange → soot ramp, an erosion threshold eats the puff away, soft depth fading removes the geometry cut and the opaque scene is bent behind it as heat haze.",
+      "tags": [
+        "explosion",
+        "fireball",
+        "noise",
+        "gradient-over-age",
+        "soft-particles",
+        "distortion",
+        "heat-haze",
+        "particles",
+        "vfx"
+      ],
+      "category": "VFX / Particles",
+      "difficulty": "Advanced",
+      "targets": [
+        "glsl",
+        "unity",
+        "godot"
+      ],
+      "compatNotes": [
+        "Needs the scene depth texture (Unity URP asset → Depth Texture; Godot hint_depth_texture) and the opaque texture (Unity: Opaque Texture; Godot hint_screen_texture). Not available in the HLSL / WGSL snippet targets.",
+        "Alpha blended, ZWrite off. The heat ramp is HDR (linear) — use Bloom. Age comes from the Age Percent custom vertex stream (TEXCOORD1.x) and the per-particle random from Stable Random (TEXCOORD1.y)."
+      ],
+      "requiredFeatures": [
+        "URP Depth Texture",
+        "URP Opaque Texture"
+      ],
+      "budgetClass": "Mobile",
+      "godotProfile": "godot.spatial.vfx",
+      "reusableSubgraphs": [
+        "ks_color_ramp3",
+        "ks_depth_intersect"
+      ],
+      "previewConfig": {
+        "mode": "vfx",
+        "mesh": "quad",
+        "background": {
+          "mode": "gradient",
+          "ground": "grid"
+        },
+        "emitter": {
+          "rate": 0.7,
+          "lifetime": 2.4,
+          "lifetimeVar": 0,
+          "sizeStart": 0.9,
+          "sizeEnd": 3.2,
+          "speed": 0.2,
+          "spread": 8,
+          "gravity": [
+            0,
+            0.1,
+            0
+          ],
+          "maxParticles": 5,
+          "colorOverLife": [
+            {
+              "t": 0,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            },
+            {
+              "t": 0.03,
+              "rgba": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "t": 0.75,
+              "rgba": [
+                1,
+                1,
+                1,
+                0.8
+              ]
+            },
+            {
+              "t": 1,
+              "rgba": [
+                1,
+                1,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        "intersector": {
+          "kind": "box",
+          "position": [
+            0,
+            -0.1,
+            0
+          ],
+          "scale": 0.7
+        },
+        "simulation": {
+          "depthTexture": true,
+          "opaqueTexture": true
+        }
+      },
+      "file": "vfx-explosion.kshader",
+      "nodes": 70,
+      "groups": 7,
+      "comments": 7,
+      "subgraphs": [
+        "ks_color_ramp3",
+        "ks_depth_intersect"
+      ],
+      "textures": [
+        "fire-noise (128×128)"
+      ],
+      "parameters": [
+        {
+          "id": "noiseMap",
+          "name": "Fire Noise",
+          "type": "texture2D",
+          "category": "Shape",
+          "default": null,
+          "tooltip": "Tileable cloud noise (grey). Linear data, wrap mode Repeat.",
+          "texture": "fire-noise"
+        },
+        {
+          "id": "tiling",
+          "name": "Noise Tiling",
+          "type": "float",
+          "category": "Shape",
+          "default": 1.3,
+          "min": 0.4,
+          "max": 4,
+          "tooltip": "Noise repeats across the quad (bigger = finer billows)."
+        },
+        {
+          "id": "spin",
+          "name": "Spin",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.3,
+          "min": -1,
+          "max": 1,
+          "tooltip": "Rotation of the noise over the particle's life, in turns."
+        },
+        {
+          "id": "density",
+          "name": "Density",
+          "type": "float",
+          "category": "Shape",
+          "default": 2.2,
+          "min": 0.5,
+          "max": 4,
+          "tooltip": "Multiplier of noise × round falloff: higher = a fuller, harder fireball."
+        },
+        {
+          "id": "erosion",
+          "name": "Erosion",
+          "type": "float",
+          "category": "Shape",
+          "default": 0.75,
+          "min": 0,
+          "max": 0.95,
+          "tooltip": "How far the puff has eaten away at the end of its life."
+        },
+        {
+          "id": "heatFall",
+          "name": "Heat Falloff",
+          "type": "float",
+          "category": "Heat",
+          "default": 1.6,
+          "min": 0.3,
+          "max": 4,
+          "tooltip": "How fast the fire cools with age: heat = (1 − age)^falloff."
+        },
+        {
+          "id": "hotColor",
+          "name": "Hot Color",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            4.5,
+            3.4,
+            1.4
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the hottest part, at birth (linear)."
+        },
+        {
+          "id": "midColor",
+          "name": "Flame Color",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            2.4,
+            0.6,
+            0.06
+          ],
+          "hdr": true,
+          "tooltip": "HDR colour of the flame body (linear)."
+        },
+        {
+          "id": "coldColor",
+          "name": "Soot Color",
+          "type": "color",
+          "category": "Heat",
+          "default": [
+            0.07,
+            0.06,
+            0.06
+          ],
+          "tooltip": "Colour of the cooled smoke at the end of life (sRGB)."
+        },
+        {
+          "id": "distortion",
+          "name": "Distortion",
+          "type": "float",
+          "category": "Heat Haze",
+          "default": 0.06,
+          "min": 0,
+          "max": 0.2,
+          "tooltip": "Screen-space bending of the scene behind the explosion (UV units)."
+        },
+        {
+          "id": "haze",
+          "name": "Haze Opacity",
+          "type": "float",
+          "category": "Heat Haze",
+          "default": 0.8,
+          "min": 0,
+          "max": 1,
+          "tooltip": "How much of the bent scene replaces the background around the fireball (0 = no haze)."
+        },
+        {
+          "id": "softDistance",
+          "name": "Soft Distance",
+          "type": "float",
+          "category": "Soft Particles",
+          "default": 0.7,
+          "min": 0.05,
+          "max": 3,
+          "tooltip": "World-space fade distance where the explosion meets geometry."
+        },
+        {
+          "id": "opacity",
+          "name": "Opacity",
+          "type": "float",
+          "category": "Soft Particles",
+          "default": 1,
+          "min": 0,
+          "max": 1,
+          "tooltip": "Maximum opacity of the fireball."
+        }
+      ],
+      "bytes": 85902
+    }
+  ]
+}

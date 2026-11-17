@@ -1,0 +1,2612 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Plane UV (0…1, centre ½) and time."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_rings",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1068
+        },
+        "text": "Exact ring SDFs (`abs(|p − c| − r) − thickness/2`): an outer double ring and one inner ring. A negative SDF is inside the line, so the *union* of several shapes is simply their minimum."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_sigils",
+        "position": {
+          "x": 768,
+          "y": 864
+        },
+        "size": {
+          "h": 39,
+          "w": 2292
+        },
+        "text": "A 5-point star and a triangle share the centre and rotate in opposite directions (`rotation = ± time × spin`, degrees). Filled-shape SDFs become outlines with `abs(sdf) − thickness`."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_runes",
+        "position": {
+          "x": 3264,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 4434
+        },
+        "text": "`polar.x` (turns) + `time × speed` is cut into *Rune Count* sectors: `id = floor(a × N)`, `local.x = fract(a × N)`, `local.y` = radius remapped from 0.29…0.39 to 0…1. Three hashes of the sector id give three points `0.15 + 0.7·h`; the rune is the segment A–B, the segment B–C and a fixed vertical stem — a different glyph for every sector. The result (in rune-cell units) is scaled by 0.1 to world units."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_merge",
+        "position": {
+          "x": 7902,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2990
+        },
+        "text": "One SDF for the whole sigil (`min` of everything). *Line* = anti-aliased coverage (`sdfMask`, 1.5 px). *Glow* = `(1 − max(sdf, 0) / size)²` — a quadratic falloff — modulated by a slow `sin` pulse. Both fade out towards the plane's edge so the quad never shows."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_color",
+        "position": {
+          "x": 11096,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "`colour = (line colour × line + glow colour × glow) × edge fade`; alpha = saturate(line + glow) × edge fade."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 12454,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Additive blend, ZWrite off, two-sided."
+      }
+    ],
+    "edges": {
+      "a0:out>a1:in": {
+        "from": {
+          "node": "a0",
+          "port": "out"
+        },
+        "id": "a0:out>a1:in",
+        "to": {
+          "node": "a1",
+          "port": "in"
+        }
+      },
+      "a1:out>al:a": {
+        "from": {
+          "node": "a1",
+          "port": "out"
+        },
+        "id": "a1:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "aN:out>fx:in": {
+        "from": {
+          "node": "aN",
+          "port": "out"
+        },
+        "id": "aN:out>fx:in",
+        "to": {
+          "node": "fx",
+          "port": "in"
+        }
+      },
+      "aN:out>id:in": {
+        "from": {
+          "node": "aN",
+          "port": "out"
+        },
+        "id": "aN:out>id:in",
+        "to": {
+          "node": "id",
+          "port": "in"
+        }
+      },
+      "aRot0:out>aRot:in": {
+        "from": {
+          "node": "aRot0",
+          "port": "out"
+        },
+        "id": "aRot0:out>aRot:in",
+        "to": {
+          "node": "aRot",
+          "port": "in"
+        }
+      },
+      "aRot:out>aN:a": {
+        "from": {
+          "node": "aRot",
+          "port": "out"
+        },
+        "id": "aRot:out>aN:a",
+        "to": {
+          "node": "aN",
+          "port": "a"
+        }
+      },
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "ang:r>aRot0:a": {
+        "from": {
+          "node": "ang",
+          "port": "r"
+        },
+        "id": "ang:r>aRot0:a",
+        "to": {
+          "node": "aRot0",
+          "port": "a"
+        }
+      },
+      "c1:out>cs:a": {
+        "from": {
+          "node": "c1",
+          "port": "out"
+        },
+        "id": "c1:out>cs:a",
+        "to": {
+          "node": "cs",
+          "port": "a"
+        }
+      },
+      "c2:out>cs:b": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>cs:b",
+        "to": {
+          "node": "cs",
+          "port": "b"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "cs:out>col:a": {
+        "from": {
+          "node": "cs",
+          "port": "out"
+        },
+        "id": "cs:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "drift:out>aRot0:b": {
+        "from": {
+          "node": "drift",
+          "port": "out"
+        },
+        "id": "drift:out>aRot0:b",
+        "to": {
+          "node": "aRot0",
+          "port": "b"
+        }
+      },
+      "ef:out>fade:in": {
+        "from": {
+          "node": "ef",
+          "port": "out"
+        },
+        "id": "ef:out>fade:in",
+        "to": {
+          "node": "fade",
+          "port": "in"
+        }
+      },
+      "fade:out>al:b": {
+        "from": {
+          "node": "fade",
+          "port": "out"
+        },
+        "id": "fade:out>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "fade:out>col:b": {
+        "from": {
+          "node": "fade",
+          "port": "out"
+        },
+        "id": "fade:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "fx:out>local:r": {
+        "from": {
+          "node": "fx",
+          "port": "out"
+        },
+        "id": "fx:out>local:r",
+        "to": {
+          "node": "local",
+          "port": "r"
+        }
+      },
+      "g2:out>gl:a": {
+        "from": {
+          "node": "g2",
+          "port": "out"
+        },
+        "id": "g2:out>gl:a",
+        "to": {
+          "node": "gl",
+          "port": "a"
+        }
+      },
+      "gd:out>gi:in": {
+        "from": {
+          "node": "gd",
+          "port": "out"
+        },
+        "id": "gd:out>gi:in",
+        "to": {
+          "node": "gi",
+          "port": "in"
+        }
+      },
+      "gi:out>gs:in": {
+        "from": {
+          "node": "gi",
+          "port": "out"
+        },
+        "id": "gi:out>gs:in",
+        "to": {
+          "node": "gs",
+          "port": "in"
+        }
+      },
+      "gl2:out>a0:b": {
+        "from": {
+          "node": "gl2",
+          "port": "out"
+        },
+        "id": "gl2:out>a0:b",
+        "to": {
+          "node": "a0",
+          "port": "b"
+        }
+      },
+      "gl2:out>c2:b": {
+        "from": {
+          "node": "gl2",
+          "port": "out"
+        },
+        "id": "gl2:out>c2:b",
+        "to": {
+          "node": "c2",
+          "port": "b"
+        }
+      },
+      "gl:out>gl2:a": {
+        "from": {
+          "node": "gl",
+          "port": "out"
+        },
+        "id": "gl:out>gl2:a",
+        "to": {
+          "node": "gl2",
+          "port": "a"
+        }
+      },
+      "gs:out>g2:a": {
+        "from": {
+          "node": "gs",
+          "port": "out"
+        },
+        "id": "gs:out>g2:a",
+        "to": {
+          "node": "g2",
+          "port": "a"
+        }
+      },
+      "ha:out>ma:a": {
+        "from": {
+          "node": "ha",
+          "port": "out"
+        },
+        "id": "ha:out>ma:a",
+        "to": {
+          "node": "ma",
+          "port": "a"
+        }
+      },
+      "hb:out>mb:a": {
+        "from": {
+          "node": "hb",
+          "port": "out"
+        },
+        "id": "hb:out>mb:a",
+        "to": {
+          "node": "mb",
+          "port": "a"
+        }
+      },
+      "hc:out>mc:a": {
+        "from": {
+          "node": "hc",
+          "port": "out"
+        },
+        "id": "hc:out>mc:a",
+        "to": {
+          "node": "mc",
+          "port": "a"
+        }
+      },
+      "id:out>ka:r": {
+        "from": {
+          "node": "id",
+          "port": "out"
+        },
+        "id": "id:out>ka:r",
+        "to": {
+          "node": "ka",
+          "port": "r"
+        }
+      },
+      "id:out>kb:r": {
+        "from": {
+          "node": "id",
+          "port": "out"
+        },
+        "id": "id:out>kb:r",
+        "to": {
+          "node": "kb",
+          "port": "r"
+        }
+      },
+      "id:out>kc:r": {
+        "from": {
+          "node": "id",
+          "port": "out"
+        },
+        "id": "id:out>kc:r",
+        "to": {
+          "node": "kc",
+          "port": "r"
+        }
+      },
+      "ka:rg>ha:in": {
+        "from": {
+          "node": "ka",
+          "port": "rg"
+        },
+        "id": "ka:rg>ha:in",
+        "to": {
+          "node": "ha",
+          "port": "in"
+        }
+      },
+      "kb:rg>hb:in": {
+        "from": {
+          "node": "kb",
+          "port": "rg"
+        },
+        "id": "kb:rg>hb:in",
+        "to": {
+          "node": "hb",
+          "port": "in"
+        }
+      },
+      "kc:rg>hc:in": {
+        "from": {
+          "node": "kc",
+          "port": "rg"
+        },
+        "id": "kc:rg>hc:in",
+        "to": {
+          "node": "hc",
+          "port": "in"
+        }
+      },
+      "line:mask>a0:a": {
+        "from": {
+          "node": "line",
+          "port": "mask"
+        },
+        "id": "line:mask>a0:a",
+        "to": {
+          "node": "a0",
+          "port": "a"
+        }
+      },
+      "line:mask>c1:b": {
+        "from": {
+          "node": "line",
+          "port": "mask"
+        },
+        "id": "line:mask>c1:b",
+        "to": {
+          "node": "c1",
+          "port": "b"
+        }
+      },
+      "local:rg>s1:p": {
+        "from": {
+          "node": "local",
+          "port": "rg"
+        },
+        "id": "local:rg>s1:p",
+        "to": {
+          "node": "s1",
+          "port": "p"
+        }
+      },
+      "local:rg>s2:p": {
+        "from": {
+          "node": "local",
+          "port": "rg"
+        },
+        "id": "local:rg>s2:p",
+        "to": {
+          "node": "s2",
+          "port": "p"
+        }
+      },
+      "local:rg>s3:p": {
+        "from": {
+          "node": "local",
+          "port": "rg"
+        },
+        "id": "local:rg>s3:p",
+        "to": {
+          "node": "s3",
+          "port": "p"
+        }
+      },
+      "ly:out>local:g": {
+        "from": {
+          "node": "ly",
+          "port": "out"
+        },
+        "id": "ly:out>local:g",
+        "to": {
+          "node": "local",
+          "port": "g"
+        }
+      },
+      "m1:out>m2:a": {
+        "from": {
+          "node": "m1",
+          "port": "out"
+        },
+        "id": "m1:out>m2:a",
+        "to": {
+          "node": "m2",
+          "port": "a"
+        }
+      },
+      "m2:out>line:sdf": {
+        "from": {
+          "node": "m2",
+          "port": "out"
+        },
+        "id": "m2:out>line:sdf",
+        "to": {
+          "node": "line",
+          "port": "sdf"
+        }
+      },
+      "m2:out>pos:a": {
+        "from": {
+          "node": "m2",
+          "port": "out"
+        },
+        "id": "m2:out>pos:a",
+        "to": {
+          "node": "pos",
+          "port": "a"
+        }
+      },
+      "ma:out>pa:a": {
+        "from": {
+          "node": "ma",
+          "port": "out"
+        },
+        "id": "ma:out>pa:a",
+        "to": {
+          "node": "pa",
+          "port": "a"
+        }
+      },
+      "mb:out>pb:a": {
+        "from": {
+          "node": "mb",
+          "port": "out"
+        },
+        "id": "mb:out>pb:a",
+        "to": {
+          "node": "pb",
+          "port": "a"
+        }
+      },
+      "mc:out>pc:a": {
+        "from": {
+          "node": "mc",
+          "port": "out"
+        },
+        "id": "mc:out>pc:a",
+        "to": {
+          "node": "pc",
+          "port": "a"
+        }
+      },
+      "p_glowColor_color:out>c2:a": {
+        "from": {
+          "node": "p_glowColor_color",
+          "port": "out"
+        },
+        "id": "p_glowColor_color:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "p_glowSize_merge:out>gd:b": {
+        "from": {
+          "node": "p_glowSize_merge",
+          "port": "out"
+        },
+        "id": "p_glowSize_merge:out>gd:b",
+        "to": {
+          "node": "gd",
+          "port": "b"
+        }
+      },
+      "p_glowStrength_merge:out>gl2:b": {
+        "from": {
+          "node": "p_glowStrength_merge",
+          "port": "out"
+        },
+        "id": "p_glowStrength_merge:out>gl2:b",
+        "to": {
+          "node": "gl2",
+          "port": "b"
+        }
+      },
+      "p_lineColor_color:out>c1:a": {
+        "from": {
+          "node": "p_lineColor_color",
+          "port": "out"
+        },
+        "id": "p_lineColor_color:out>c1:a",
+        "to": {
+          "node": "c1",
+          "port": "a"
+        }
+      },
+      "p_pulseSpeed_merge:out>ps:b": {
+        "from": {
+          "node": "p_pulseSpeed_merge",
+          "port": "out"
+        },
+        "id": "p_pulseSpeed_merge:out>ps:b",
+        "to": {
+          "node": "ps",
+          "port": "b"
+        }
+      },
+      "p_runeCount_runes:out>aN:b": {
+        "from": {
+          "node": "p_runeCount_runes",
+          "port": "out"
+        },
+        "id": "p_runeCount_runes:out>aN:b",
+        "to": {
+          "node": "aN",
+          "port": "b"
+        }
+      },
+      "p_runeSpeed_runes:out>drift:b": {
+        "from": {
+          "node": "p_runeSpeed_runes",
+          "port": "out"
+        },
+        "id": "p_runeSpeed_runes:out>drift:b",
+        "to": {
+          "node": "drift",
+          "port": "b"
+        }
+      },
+      "p_runeThickness_runes:out>s1:thickness": {
+        "from": {
+          "node": "p_runeThickness_runes",
+          "port": "out"
+        },
+        "id": "p_runeThickness_runes:out>s1:thickness",
+        "to": {
+          "node": "s1",
+          "port": "thickness"
+        }
+      },
+      "p_runeThickness_runes:out>s2:thickness": {
+        "from": {
+          "node": "p_runeThickness_runes",
+          "port": "out"
+        },
+        "id": "p_runeThickness_runes:out>s2:thickness",
+        "to": {
+          "node": "s2",
+          "port": "thickness"
+        }
+      },
+      "p_runeThickness_runes:out>s3:thickness": {
+        "from": {
+          "node": "p_runeThickness_runes",
+          "port": "out"
+        },
+        "id": "p_runeThickness_runes:out>s3:thickness",
+        "to": {
+          "node": "s3",
+          "port": "thickness"
+        }
+      },
+      "p_spinSpeed_sigils:out>rotA:b": {
+        "from": {
+          "node": "p_spinSpeed_sigils",
+          "port": "out"
+        },
+        "id": "p_spinSpeed_sigils:out>rotA:b",
+        "to": {
+          "node": "rotA",
+          "port": "b"
+        }
+      },
+      "pa:out>s1:a": {
+        "from": {
+          "node": "pa",
+          "port": "out"
+        },
+        "id": "pa:out>s1:a",
+        "to": {
+          "node": "s1",
+          "port": "a"
+        }
+      },
+      "pb:out>s1:b": {
+        "from": {
+          "node": "pb",
+          "port": "out"
+        },
+        "id": "pb:out>s1:b",
+        "to": {
+          "node": "s1",
+          "port": "b"
+        }
+      },
+      "pb:out>s2:a": {
+        "from": {
+          "node": "pb",
+          "port": "out"
+        },
+        "id": "pb:out>s2:a",
+        "to": {
+          "node": "s2",
+          "port": "a"
+        }
+      },
+      "pc:out>s2:b": {
+        "from": {
+          "node": "pc",
+          "port": "out"
+        },
+        "id": "pc:out>s2:b",
+        "to": {
+          "node": "s2",
+          "port": "b"
+        }
+      },
+      "pk:out>gl:b": {
+        "from": {
+          "node": "pk",
+          "port": "out"
+        },
+        "id": "pk:out>gl:b",
+        "to": {
+          "node": "gl",
+          "port": "b"
+        }
+      },
+      "po_rings_m1_a:out>m1:a": {
+        "from": {
+          "node": "po_rings_m1_a",
+          "port": "out"
+        },
+        "id": "po_rings_m1_a:out>m1:a",
+        "to": {
+          "node": "m1",
+          "port": "a"
+        }
+      },
+      "po_runes_m2_b:out>m2:b": {
+        "from": {
+          "node": "po_runes_m2_b",
+          "port": "out"
+        },
+        "id": "po_runes_m2_b:out>m2:b",
+        "to": {
+          "node": "m2",
+          "port": "b"
+        }
+      },
+      "po_sigils_m1_b:out>m1:b": {
+        "from": {
+          "node": "po_sigils_m1_b",
+          "port": "out"
+        },
+        "id": "po_sigils_m1_b:out>m1:b",
+        "to": {
+          "node": "m1",
+          "port": "b"
+        }
+      },
+      "po_time_drift_a:out>drift:a": {
+        "from": {
+          "node": "po_time_drift_a",
+          "port": "out"
+        },
+        "id": "po_time_drift_a:out>drift:a",
+        "to": {
+          "node": "drift",
+          "port": "a"
+        }
+      },
+      "po_time_ps_a:out>ps:a": {
+        "from": {
+          "node": "po_time_ps_a",
+          "port": "out"
+        },
+        "id": "po_time_ps_a:out>ps:a",
+        "to": {
+          "node": "ps",
+          "port": "a"
+        }
+      },
+      "po_time_rotA_a:out>rotA:a": {
+        "from": {
+          "node": "po_time_rotA_a",
+          "port": "out"
+        },
+        "id": "po_time_rotA_a:out>rotA:a",
+        "to": {
+          "node": "rotA",
+          "port": "a"
+        }
+      },
+      "polar:out>ang:in": {
+        "from": {
+          "node": "polar",
+          "port": "out"
+        },
+        "id": "polar:out>ang:in",
+        "to": {
+          "node": "ang",
+          "port": "in"
+        }
+      },
+      "polar:radius>ef:in": {
+        "from": {
+          "node": "polar",
+          "port": "radius"
+        },
+        "id": "polar:radius>ef:in",
+        "to": {
+          "node": "ef",
+          "port": "in"
+        }
+      },
+      "polar:radius>ly:in": {
+        "from": {
+          "node": "polar",
+          "port": "radius"
+        },
+        "id": "polar:radius>ly:in",
+        "to": {
+          "node": "ly",
+          "port": "in"
+        }
+      },
+      "pos:out>gd:a": {
+        "from": {
+          "node": "pos",
+          "port": "out"
+        },
+        "id": "pos:out>gd:a",
+        "to": {
+          "node": "gd",
+          "port": "a"
+        }
+      },
+      "ps:out>pu:in": {
+        "from": {
+          "node": "ps",
+          "port": "out"
+        },
+        "id": "ps:out>pu:in",
+        "to": {
+          "node": "pu",
+          "port": "in"
+        }
+      },
+      "pu:out>pk:in": {
+        "from": {
+          "node": "pu",
+          "port": "out"
+        },
+        "id": "pu:out>pk:in",
+        "to": {
+          "node": "pk",
+          "port": "in"
+        }
+      },
+      "r1:sdf>u1:a": {
+        "from": {
+          "node": "r1",
+          "port": "sdf"
+        },
+        "id": "r1:sdf>u1:a",
+        "to": {
+          "node": "u1",
+          "port": "a"
+        }
+      },
+      "r2:sdf>u1:b": {
+        "from": {
+          "node": "r2",
+          "port": "sdf"
+        },
+        "id": "r2:sdf>u1:b",
+        "to": {
+          "node": "u1",
+          "port": "b"
+        }
+      },
+      "r3:sdf>u2:b": {
+        "from": {
+          "node": "r3",
+          "port": "sdf"
+        },
+        "id": "r3:sdf>u2:b",
+        "to": {
+          "node": "u2",
+          "port": "b"
+        }
+      },
+      "rotA:out>rotB:a": {
+        "from": {
+          "node": "rotA",
+          "port": "out"
+        },
+        "id": "rotA:out>rotB:a",
+        "to": {
+          "node": "rotB",
+          "port": "a"
+        }
+      },
+      "rotA:out>star:rotation": {
+        "from": {
+          "node": "rotA",
+          "port": "out"
+        },
+        "id": "rotA:out>star:rotation",
+        "to": {
+          "node": "star",
+          "port": "rotation"
+        }
+      },
+      "rotB:out>tri:rotation": {
+        "from": {
+          "node": "rotB",
+          "port": "out"
+        },
+        "id": "rotB:out>tri:rotation",
+        "to": {
+          "node": "tri",
+          "port": "rotation"
+        }
+      },
+      "ru1:out>ru2:a": {
+        "from": {
+          "node": "ru1",
+          "port": "out"
+        },
+        "id": "ru1:out>ru2:a",
+        "to": {
+          "node": "ru2",
+          "port": "a"
+        }
+      },
+      "ru2:out>runeW:a": {
+        "from": {
+          "node": "ru2",
+          "port": "out"
+        },
+        "id": "ru2:out>runeW:a",
+        "to": {
+          "node": "runeW",
+          "port": "a"
+        }
+      },
+      "runeW:out>pi_runes:in": {
+        "from": {
+          "node": "runeW",
+          "port": "out"
+        },
+        "id": "runeW:out>pi_runes:in",
+        "to": {
+          "node": "pi_runes",
+          "port": "in"
+        }
+      },
+      "s1:sdf>ru1:a": {
+        "from": {
+          "node": "s1",
+          "port": "sdf"
+        },
+        "id": "s1:sdf>ru1:a",
+        "to": {
+          "node": "ru1",
+          "port": "a"
+        }
+      },
+      "s2:sdf>ru1:b": {
+        "from": {
+          "node": "s2",
+          "port": "sdf"
+        },
+        "id": "s2:sdf>ru1:b",
+        "to": {
+          "node": "ru1",
+          "port": "b"
+        }
+      },
+      "s3:sdf>ru2:b": {
+        "from": {
+          "node": "s3",
+          "port": "sdf"
+        },
+        "id": "s3:sdf>ru2:b",
+        "to": {
+          "node": "ru2",
+          "port": "b"
+        }
+      },
+      "sa:out>so:a": {
+        "from": {
+          "node": "sa",
+          "port": "out"
+        },
+        "id": "sa:out>so:a",
+        "to": {
+          "node": "so",
+          "port": "a"
+        }
+      },
+      "so:out>u3:a": {
+        "from": {
+          "node": "so",
+          "port": "out"
+        },
+        "id": "so:out>u3:a",
+        "to": {
+          "node": "u3",
+          "port": "a"
+        }
+      },
+      "star:sdf>sa:in": {
+        "from": {
+          "node": "star",
+          "port": "sdf"
+        },
+        "id": "star:sdf>sa:in",
+        "to": {
+          "node": "sa",
+          "port": "in"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "ta:out>to:a": {
+        "from": {
+          "node": "ta",
+          "port": "out"
+        },
+        "id": "ta:out>to:a",
+        "to": {
+          "node": "to",
+          "port": "a"
+        }
+      },
+      "to:out>u3:b": {
+        "from": {
+          "node": "to",
+          "port": "out"
+        },
+        "id": "to:out>u3:b",
+        "to": {
+          "node": "u3",
+          "port": "b"
+        }
+      },
+      "tri:sdf>ta:in": {
+        "from": {
+          "node": "tri",
+          "port": "sdf"
+        },
+        "id": "tri:sdf>ta:in",
+        "to": {
+          "node": "ta",
+          "port": "in"
+        }
+      },
+      "u1:out>u2:a": {
+        "from": {
+          "node": "u1",
+          "port": "out"
+        },
+        "id": "u1:out>u2:a",
+        "to": {
+          "node": "u2",
+          "port": "a"
+        }
+      },
+      "u2:out>pi_rings:in": {
+        "from": {
+          "node": "u2",
+          "port": "out"
+        },
+        "id": "u2:out>pi_rings:in",
+        "to": {
+          "node": "pi_rings",
+          "port": "in"
+        }
+      },
+      "u3:out>pi_sigils:in": {
+        "from": {
+          "node": "u3",
+          "port": "out"
+        },
+        "id": "u3:out>pi_sigils:in",
+        "to": {
+          "node": "pi_sigils",
+          "port": "in"
+        }
+      },
+      "uv:out>polar:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>polar:uv",
+        "to": {
+          "node": "polar",
+          "port": "uv"
+        }
+      },
+      "uv:out>r1:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>r1:p",
+        "to": {
+          "node": "r1",
+          "port": "p"
+        }
+      },
+      "uv:out>r2:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>r2:p",
+        "to": {
+          "node": "r2",
+          "port": "p"
+        }
+      },
+      "uv:out>r3:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>r3:p",
+        "to": {
+          "node": "r3",
+          "port": "p"
+        }
+      },
+      "uv:out>star:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>star:p",
+        "to": {
+          "node": "star",
+          "port": "p"
+        }
+      },
+      "uv:out>tri:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>tri:p",
+        "to": {
+          "node": "tri",
+          "port": "p"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "t",
+          "polar",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 555,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_rings",
+        "nodeIds": [
+          "r1",
+          "r2",
+          "r3",
+          "u1",
+          "u2",
+          "pi_rings"
+        ],
+        "rect": {
+          "h": 760,
+          "w": 1112,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Rings"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_sigils",
+        "nodeIds": [
+          "rotA",
+          "rotB",
+          "star",
+          "tri",
+          "sa",
+          "ta",
+          "so",
+          "to",
+          "u3",
+          "po_time_rotA_a",
+          "p_spinSpeed_sigils",
+          "pi_sigils"
+        ],
+        "rect": {
+          "h": 517,
+          "w": 2336,
+          "x": 746,
+          "y": 830
+        },
+        "title": "Counter-rotating star + triangle"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_runes",
+        "nodeIds": [
+          "ang",
+          "drift",
+          "aRot0",
+          "aRot",
+          "aN",
+          "id",
+          "fx",
+          "ly",
+          "local",
+          "po_time_drift_a",
+          "p_runeSpeed_runes",
+          "p_runeCount_runes",
+          "ka",
+          "ha",
+          "ma",
+          "pa",
+          "kb",
+          "hb",
+          "mb",
+          "pb",
+          "kc",
+          "hc",
+          "mc",
+          "pc",
+          "s1",
+          "s2",
+          "s3",
+          "ru1",
+          "ru2",
+          "runeW",
+          "p_runeThickness_runes",
+          "pi_runes"
+        ],
+        "rect": {
+          "h": 1183,
+          "w": 4478,
+          "x": 3242,
+          "y": 0
+        },
+        "title": "Rune ring (procedural runes)"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_merge",
+        "nodeIds": [
+          "m1",
+          "m2",
+          "line",
+          "pos",
+          "gd",
+          "gi",
+          "gs",
+          "g2",
+          "ps",
+          "pu",
+          "pk",
+          "gl",
+          "gl2",
+          "ef",
+          "fade",
+          "po_rings_m1_a",
+          "po_sigils_m1_b",
+          "po_runes_m2_b",
+          "p_glowSize_merge",
+          "po_time_ps_a",
+          "p_pulseSpeed_merge",
+          "p_glowStrength_merge"
+        ],
+        "rect": {
+          "h": 940,
+          "w": 3034,
+          "x": 7880,
+          "y": 0
+        },
+        "title": "Merge + line + glow"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_color",
+        "nodeIds": [
+          "c1",
+          "c2",
+          "cs",
+          "col",
+          "a0",
+          "a1",
+          "al",
+          "p_lineColor_color",
+          "p_glowColor_color"
+        ],
+        "rect": {
+          "h": 553,
+          "w": 1198,
+          "x": 11074,
+          "y": 0
+        },
+        "title": "Colour + alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 12432,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, additive)"
+      }
+    ],
+    "id": "vfx-magic-circle",
+    "keywords": [],
+    "name": "Magic Circle",
+    "nodes": {
+      "a0": {
+        "defId": "add",
+        "id": "a0",
+        "params": {},
+        "position": {
+          "x": 11096,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a1": {
+        "defId": "saturate",
+        "id": "a1",
+        "params": {},
+        "position": {
+          "x": 11402,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "aN": {
+        "defId": "multiply",
+        "id": "aN",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 521
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "aRot": {
+        "defId": "fract",
+        "id": "aRot",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 533
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "aRot0": {
+        "defId": "add",
+        "id": "aRot0",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "al": {
+        "defId": "multiply",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 11708,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ang": {
+        "defId": "split",
+        "id": "ang",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c1": {
+        "defId": "multiply",
+        "id": "c1",
+        "params": {},
+        "position": {
+          "x": 11402,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c2": {
+        "defId": "multiply",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 11402,
+          "y": 415
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "multiply",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 12014,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cs": {
+        "defId": "add",
+        "id": "cs",
+        "params": {},
+        "position": {
+          "x": 11708,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "drift": {
+        "defId": "multiply",
+        "id": "drift",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ef": {
+        "defId": "smoothstep",
+        "id": "ef",
+        "params": {},
+        "position": {
+          "x": 7902,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.46,
+          "edge2": 0.5
+        }
+      },
+      "fade": {
+        "defId": "oneMinus",
+        "id": "fade",
+        "params": {},
+        "position": {
+          "x": 8208,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fx": {
+        "defId": "fract",
+        "id": "fx",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 533
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g2": {
+        "defId": "power",
+        "id": "g2",
+        "params": {},
+        "position": {
+          "x": 10044,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2
+        }
+      },
+      "gd": {
+        "defId": "divide",
+        "id": "gd",
+        "params": {},
+        "position": {
+          "x": 9126,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gi": {
+        "defId": "oneMinus",
+        "id": "gi",
+        "params": {},
+        "position": {
+          "x": 9432,
+          "y": 309
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gl": {
+        "defId": "multiply",
+        "id": "gl",
+        "params": {},
+        "position": {
+          "x": 10350,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gl2": {
+        "defId": "multiply",
+        "id": "gl2",
+        "params": {},
+        "position": {
+          "x": 10656,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gs": {
+        "defId": "saturate",
+        "id": "gs",
+        "params": {},
+        "position": {
+          "x": 9738,
+          "y": 309
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ha": {
+        "defId": "hash2to2",
+        "id": "ha",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hb": {
+        "defId": "hash2to2",
+        "id": "hb",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 749
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hc": {
+        "defId": "hash2to2",
+        "id": "hc",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 987
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "id": {
+        "defId": "floor",
+        "id": "id",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 771
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ka": {
+        "defId": "combine",
+        "id": "ka",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {
+          "g": 1.7
+        }
+      },
+      "kb": {
+        "defId": "combine",
+        "id": "kb",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 711
+        },
+        "previewEnabled": false,
+        "values": {
+          "g": 5.3
+        }
+      },
+      "kc": {
+        "defId": "combine",
+        "id": "kc",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 949
+        },
+        "previewEnabled": false,
+        "values": {
+          "g": 9.1
+        }
+      },
+      "line": {
+        "defId": "sdfMask",
+        "id": "line",
+        "params": {},
+        "position": {
+          "x": 8820,
+          "y": 730
+        },
+        "previewEnabled": false,
+        "values": {
+          "softness": 1.5
+        }
+      },
+      "local": {
+        "defId": "combine",
+        "id": "local",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 473
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ly": {
+        "defId": "remap",
+        "id": "ly",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 887
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 0.39,
+          "inMin": 0.29,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "m1": {
+        "defId": "sdfUnion",
+        "id": "m1",
+        "params": {},
+        "position": {
+          "x": 8208,
+          "y": 588
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "m2": {
+        "defId": "sdfUnion",
+        "id": "m2",
+        "params": {},
+        "position": {
+          "x": 8514,
+          "y": 588
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ma": {
+        "defId": "multiply",
+        "id": "ma",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.7
+        }
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 12454,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mb": {
+        "defId": "multiply",
+        "id": "mb",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 749
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.7
+        }
+      },
+      "mc": {
+        "defId": "multiply",
+        "id": "mc",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 987
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.7
+        }
+      },
+      "p_glowColor_color": {
+        "defId": "property",
+        "id": "p_glowColor_color",
+        "params": {
+          "property": "glowColor"
+        },
+        "position": {
+          "x": 11096,
+          "y": 439
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowSize_merge": {
+        "defId": "property",
+        "id": "p_glowSize_merge",
+        "params": {
+          "property": "glowSize"
+        },
+        "position": {
+          "x": 7902,
+          "y": 321
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowStrength_merge": {
+        "defId": "property",
+        "id": "p_glowStrength_merge",
+        "params": {
+          "property": "glowStrength"
+        },
+        "position": {
+          "x": 7902,
+          "y": 415
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineColor_color": {
+        "defId": "property",
+        "id": "p_lineColor_color",
+        "params": {
+          "property": "lineColor"
+        },
+        "position": {
+          "x": 11096,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulseSpeed_merge": {
+        "defId": "property",
+        "id": "p_pulseSpeed_merge",
+        "params": {
+          "property": "pulseSpeed"
+        },
+        "position": {
+          "x": 7902,
+          "y": 509
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_runeCount_runes": {
+        "defId": "property",
+        "id": "p_runeCount_runes",
+        "params": {
+          "property": "runeCount"
+        },
+        "position": {
+          "x": 3264,
+          "y": 545
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_runeSpeed_runes": {
+        "defId": "property",
+        "id": "p_runeSpeed_runes",
+        "params": {
+          "property": "runeSpeed"
+        },
+        "position": {
+          "x": 3264,
+          "y": 639
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_runeThickness_runes": {
+        "defId": "property",
+        "id": "p_runeThickness_runes",
+        "params": {
+          "property": "runeThickness"
+        },
+        "position": {
+          "x": 3264,
+          "y": 793
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_spinSpeed_sigils": {
+        "defId": "property",
+        "id": "p_spinSpeed_sigils",
+        "params": {
+          "property": "spinSpeed"
+        },
+        "position": {
+          "x": 768,
+          "y": 1007
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pa": {
+        "defId": "add",
+        "id": "pa",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.15
+        }
+      },
+      "pb": {
+        "defId": "add",
+        "id": "pb",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 473
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.15
+        }
+      },
+      "pc": {
+        "defId": "add",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 987
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.15
+        }
+      },
+      "pi_rings": {
+        "defId": "portalIn",
+        "id": "pi_rings",
+        "params": {
+          "channel": "Rings"
+        },
+        "position": {
+          "x": 1686,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_runes": {
+        "defId": "portalIn",
+        "id": "pi_runes",
+        "params": {
+          "channel": "Runes"
+        },
+        "position": {
+          "x": 7548,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_sigils": {
+        "defId": "portalIn",
+        "id": "pi_sigils",
+        "params": {
+          "channel": "Sigils"
+        },
+        "position": {
+          "x": 2910,
+          "y": 1024
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pk": {
+        "defId": "remap",
+        "id": "pk",
+        "params": {},
+        "position": {
+          "x": 8820,
+          "y": 355
+        },
+        "previewEnabled": false,
+        "values": {
+          "outMax": 1,
+          "outMin": 0.6
+        }
+      },
+      "po_rings_m1_a": {
+        "defId": "portalOut",
+        "id": "po_rings_m1_a",
+        "params": {
+          "channel": "Rings"
+        },
+        "position": {
+          "x": 7902,
+          "y": 663
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_runes_m2_b": {
+        "defId": "portalOut",
+        "id": "po_runes_m2_b",
+        "params": {
+          "channel": "Runes"
+        },
+        "position": {
+          "x": 7902,
+          "y": 723
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_sigils_m1_b": {
+        "defId": "portalOut",
+        "id": "po_sigils_m1_b",
+        "params": {
+          "channel": "Sigils"
+        },
+        "position": {
+          "x": 7902,
+          "y": 783
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_drift_a": {
+        "defId": "portalOut",
+        "id": "po_time_drift_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 3264,
+          "y": 733
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ps_a": {
+        "defId": "portalOut",
+        "id": "po_time_ps_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 7902,
+          "y": 603
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_rotA_a": {
+        "defId": "portalOut",
+        "id": "po_time_rotA_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 768,
+          "y": 1101
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "polar": {
+        "defId": "uvPolar",
+        "id": "polar",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 321
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pos": {
+        "defId": "maximum",
+        "id": "pos",
+        "params": {},
+        "position": {
+          "x": 8820,
+          "y": 588
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0
+        }
+      },
+      "ps": {
+        "defId": "multiply",
+        "id": "ps",
+        "params": {},
+        "position": {
+          "x": 8208,
+          "y": 391
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pu": {
+        "defId": "sin",
+        "id": "pu",
+        "params": {},
+        "position": {
+          "x": 8514,
+          "y": 403
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "r1": {
+        "defId": "sdfRing",
+        "id": "r1",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {
+          "radius": 0.46,
+          "thickness": 0.014
+        }
+      },
+      "r2": {
+        "defId": "sdfRing",
+        "id": "r2",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 336
+        },
+        "previewEnabled": false,
+        "values": {
+          "radius": 0.425,
+          "thickness": 0.005
+        }
+      },
+      "r3": {
+        "defId": "sdfRing",
+        "id": "r3",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 550
+        },
+        "previewEnabled": false,
+        "values": {
+          "radius": 0.25,
+          "thickness": 0.008
+        }
+      },
+      "rotA": {
+        "defId": "multiply",
+        "id": "rotA",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 983
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rotB": {
+        "defId": "multiply",
+        "id": "rotB",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 1173
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": -0.6
+        }
+      },
+      "ru1": {
+        "defId": "sdfUnion",
+        "id": "ru1",
+        "params": {},
+        "position": {
+          "x": 6630,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ru2": {
+        "defId": "sdfUnion",
+        "id": "ru2",
+        "params": {},
+        "position": {
+          "x": 6936,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "runeW": {
+        "defId": "multiply",
+        "id": "runeW",
+        "params": {},
+        "position": {
+          "x": 7242,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.1
+        }
+      },
+      "s1": {
+        "defId": "sdfSegment",
+        "id": "s1",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "sdfSegment",
+        "id": "s2",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 449
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s3": {
+        "defId": "sdfSegment",
+        "id": "s3",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 425
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": [
+            0.5,
+            0.05
+          ],
+          "b": [
+            0.5,
+            0.95
+          ]
+        }
+      },
+      "sa": {
+        "defId": "abs",
+        "id": "sa",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 995
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "so": {
+        "defId": "subtract",
+        "id": "so",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 983
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.004
+        }
+      },
+      "star": {
+        "defId": "sdfStar",
+        "id": "star",
+        "params": {
+          "sides": 5
+        },
+        "position": {
+          "x": 1380,
+          "y": 935
+        },
+        "previewEnabled": false,
+        "values": {
+          "radius": 0.23,
+          "sharpness": 2.4
+        }
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ta": {
+        "defId": "abs",
+        "id": "ta",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 1185
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "to": {
+        "defId": "subtract",
+        "id": "to",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 1173
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.004
+        }
+      },
+      "tri": {
+        "defId": "sdfPolygon",
+        "id": "tri",
+        "params": {
+          "sides": 3
+        },
+        "position": {
+          "x": 1686,
+          "y": 1137
+        },
+        "previewEnabled": false,
+        "values": {
+          "radius": 0.25
+        }
+      },
+      "u1": {
+        "defId": "sdfUnion",
+        "id": "u1",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "u2": {
+        "defId": "sdfUnion",
+        "id": "u2",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "u3": {
+        "defId": "sdfUnion",
+        "id": "u3",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 983
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 381
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          2.4,
+          1.1,
+          6
+        ],
+        "displayName": "Line Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "lineColor",
+        "perInstance": false,
+        "referenceName": "_LineColor",
+        "tooltip": "HDR colour of the crisp lines (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          0.5,
+          0.18,
+          2.4
+        ],
+        "displayName": "Glow Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "glowColor",
+        "perInstance": false,
+        "referenceName": "_GlowColor",
+        "tooltip": "HDR colour of the soft glow around every line (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Glow",
+        "default": 0.035,
+        "displayName": "Glow Size",
+        "exposed": true,
+        "id": "glowSize",
+        "max": 0.15,
+        "min": 0.005,
+        "perInstance": false,
+        "referenceName": "_GlowSize",
+        "slider": true,
+        "tooltip": "Reach of the glow around the lines, in UV units.",
+        "type": "float"
+      },
+      {
+        "category": "Glow",
+        "default": 1.2,
+        "displayName": "Glow Strength",
+        "exposed": true,
+        "id": "glowStrength",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_GlowStrength",
+        "slider": true,
+        "tooltip": "Brightness of the glow (0 = crisp lines only).",
+        "type": "float"
+      },
+      {
+        "category": "Glow",
+        "default": 2,
+        "displayName": "Glow Pulse Speed",
+        "exposed": true,
+        "id": "pulseSpeed",
+        "max": 10,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_GlowPulseSpeed",
+        "slider": true,
+        "tooltip": "Speed of the breathing glow in radians per second (0 = steady).",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 25,
+        "displayName": "Sigil Spin",
+        "exposed": true,
+        "id": "spinSpeed",
+        "max": 120,
+        "min": -120,
+        "perInstance": false,
+        "referenceName": "_SigilSpin",
+        "slider": true,
+        "tooltip": "Rotation speed of the star in degrees per second; the triangle turns the other way.",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 0.03,
+        "displayName": "Rune Ring Speed",
+        "exposed": true,
+        "id": "runeSpeed",
+        "max": 0.3,
+        "min": -0.3,
+        "perInstance": false,
+        "referenceName": "_RuneRingSpeed",
+        "slider": true,
+        "tooltip": "Rotation speed of the rune ring in turns per second.",
+        "type": "float"
+      },
+      {
+        "category": "Runes",
+        "default": 10,
+        "displayName": "Rune Count",
+        "exposed": true,
+        "id": "runeCount",
+        "max": 20,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_RuneCount",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Number of runes around the ring (whole numbers).",
+        "type": "float"
+      },
+      {
+        "category": "Runes",
+        "default": 0.07,
+        "displayName": "Rune Thickness",
+        "exposed": true,
+        "id": "runeThickness",
+        "max": 0.2,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_RuneThickness",
+        "slider": true,
+        "tooltip": "Stroke width of the runes (share of the rune cell).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "ground": "none",
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "plane",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,2507 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 456
+        },
+        "text": "World normal / view direction for the fresnel, mesh UV for the hex grid and the OBJECT-space position for the ripple distance."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_rim",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 762
+        },
+        "text": "The shared **Fresnel Rim Kit**: `(1 − N·V)^power`, scaled by *Rim Strength*. The rim makes the shield read as a volume."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_hex",
+        "position": {
+          "x": 682,
+          "y": 494
+        },
+        "size": {
+          "h": 39,
+          "w": 3296
+        },
+        "text": "`uv × (2, 1)` keeps the hexagons round on a 2:1 UV sphere. *Edge* is 0 in the cell centre and 1 on the border, so the outline is `smoothstep(1 − width, 1, edge)`. Every cell gets a random phase from a hash of its ID, so the fills pulse out of sync. The sum is weighted by `0.25 + rim`: the grid shows mostly towards the silhouette."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_ripple",
+        "position": {
+          "x": 4182,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 3602
+        },
+        "text": "Time since the hit is `T` (the *Hit Time* parameter, or a looping sawtooth when *Auto Hit* is on). The wavefront radius is `T × speed`; the ring is `1 − smoothstep(0, width, |distance(pos, hitPos) − radius|)` and it fades with `1 − T / life`. Inside the ring the hex outlines flash brighter (`ring × (0.6 + 1.6 × line)`), which makes the wave read as travelling through the grid."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_color",
+        "position": {
+          "x": 7988,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1460
+        },
+        "text": "`base = rim + grid`; colour = (`shield × base + hit × ripple`) × intensity, alpha = saturate(base + ripple). The ripple has its own HDR colour so a hit reads as a different energy from the idle shield."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 9652,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Additive blend, ZWrite off, two-sided."
+      }
+    ],
+    "edges": {
+      "T:out>age:a": {
+        "from": {
+          "node": "T",
+          "port": "out"
+        },
+        "id": "T:out>age:a",
+        "to": {
+          "node": "age",
+          "port": "a"
+        }
+      },
+      "T:out>rad:a": {
+        "from": {
+          "node": "T",
+          "port": "out"
+        },
+        "id": "T:out>rad:a",
+        "to": {
+          "node": "rad",
+          "port": "a"
+        }
+      },
+      "a0:out>a:in": {
+        "from": {
+          "node": "a0",
+          "port": "out"
+        },
+        "id": "a0:out>a:in",
+        "to": {
+          "node": "a",
+          "port": "in"
+        }
+      },
+      "a:out>master:alpha": {
+        "from": {
+          "node": "a",
+          "port": "out"
+        },
+        "id": "a:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "ad:out>band:in": {
+        "from": {
+          "node": "ad",
+          "port": "out"
+        },
+        "id": "ad:out>band:in",
+        "to": {
+          "node": "band",
+          "port": "in"
+        }
+      },
+      "age:out>ageI:in": {
+        "from": {
+          "node": "age",
+          "port": "out"
+        },
+        "id": "age:out>ageI:in",
+        "to": {
+          "node": "ageI",
+          "port": "in"
+        }
+      },
+      "ageI:out>fade:in": {
+        "from": {
+          "node": "ageI",
+          "port": "out"
+        },
+        "id": "ageI:out>fade:in",
+        "to": {
+          "node": "fade",
+          "port": "in"
+        }
+      },
+      "arg:out>sn:in": {
+        "from": {
+          "node": "arg",
+          "port": "out"
+        },
+        "id": "arg:out>sn:in",
+        "to": {
+          "node": "sn",
+          "port": "in"
+        }
+      },
+      "autoT:out>T:true": {
+        "from": {
+          "node": "autoT",
+          "port": "out"
+        },
+        "id": "autoT:out>T:true",
+        "to": {
+          "node": "T",
+          "port": "true"
+        }
+      },
+      "band:out>ring:in": {
+        "from": {
+          "node": "band",
+          "port": "out"
+        },
+        "id": "band:out>ring:in",
+        "to": {
+          "node": "ring",
+          "port": "in"
+        }
+      },
+      "base:out>a0:a": {
+        "from": {
+          "node": "base",
+          "port": "out"
+        },
+        "id": "base:out>a0:a",
+        "to": {
+          "node": "a0",
+          "port": "a"
+        }
+      },
+      "base:out>c1:b": {
+        "from": {
+          "node": "base",
+          "port": "out"
+        },
+        "id": "base:out>c1:b",
+        "to": {
+          "node": "c1",
+          "port": "b"
+        }
+      },
+      "c1:out>csum:a": {
+        "from": {
+          "node": "c1",
+          "port": "out"
+        },
+        "id": "c1:out>csum:a",
+        "to": {
+          "node": "csum",
+          "port": "a"
+        }
+      },
+      "c2:out>csum:b": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>csum:b",
+        "to": {
+          "node": "csum",
+          "port": "b"
+        }
+      },
+      "cid:out>fill0:b": {
+        "from": {
+          "node": "cid",
+          "port": "out"
+        },
+        "id": "cid:out>fill0:b",
+        "to": {
+          "node": "fill0",
+          "port": "b"
+        }
+      },
+      "cid:out>ph:a": {
+        "from": {
+          "node": "cid",
+          "port": "out"
+        },
+        "id": "cid:out>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "csum:out>col:a": {
+        "from": {
+          "node": "csum",
+          "port": "out"
+        },
+        "id": "csum:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "cyc:out>autoT:b": {
+        "from": {
+          "node": "cyc",
+          "port": "out"
+        },
+        "id": "cyc:out>autoT:b",
+        "to": {
+          "node": "autoT",
+          "port": "b"
+        }
+      },
+      "cyc:out>saw:period": {
+        "from": {
+          "node": "cyc",
+          "port": "out"
+        },
+        "id": "cyc:out>saw:period",
+        "to": {
+          "node": "saw",
+          "port": "period"
+        }
+      },
+      "dd:out>diff:a": {
+        "from": {
+          "node": "dd",
+          "port": "out"
+        },
+        "id": "dd:out>diff:a",
+        "to": {
+          "node": "diff",
+          "port": "a"
+        }
+      },
+      "diff:out>ad:in": {
+        "from": {
+          "node": "diff",
+          "port": "out"
+        },
+        "id": "diff:out>ad:in",
+        "to": {
+          "node": "ad",
+          "port": "in"
+        }
+      },
+      "fade:out>rf:b": {
+        "from": {
+          "node": "fade",
+          "port": "out"
+        },
+        "id": "fade:out>rf:b",
+        "to": {
+          "node": "rf",
+          "port": "b"
+        }
+      },
+      "fill0:out>fill:a": {
+        "from": {
+          "node": "fill0",
+          "port": "out"
+        },
+        "id": "fill0:out>fill:a",
+        "to": {
+          "node": "fill",
+          "port": "a"
+        }
+      },
+      "fill:out>sum:b": {
+        "from": {
+          "node": "fill",
+          "port": "out"
+        },
+        "id": "fill:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "fr:rim>pi_rim:in": {
+        "from": {
+          "node": "fr",
+          "port": "rim"
+        },
+        "id": "fr:rim>pi_rim:in",
+        "to": {
+          "node": "pi_rim",
+          "port": "in"
+        }
+      },
+      "gridTerm:out>base:b": {
+        "from": {
+          "node": "gridTerm",
+          "port": "out"
+        },
+        "id": "gridTerm:out>base:b",
+        "to": {
+          "node": "base",
+          "port": "b"
+        }
+      },
+      "hexn:edge>line:in": {
+        "from": {
+          "node": "hexn",
+          "port": "edge"
+        },
+        "id": "hexn:edge>line:in",
+        "to": {
+          "node": "line",
+          "port": "in"
+        }
+      },
+      "hexn:id>cid:in": {
+        "from": {
+          "node": "hexn",
+          "port": "id"
+        },
+        "id": "hexn:id>cid:in",
+        "to": {
+          "node": "cid",
+          "port": "in"
+        }
+      },
+      "lb2:out>rippleTerm:b": {
+        "from": {
+          "node": "lb2",
+          "port": "out"
+        },
+        "id": "lb2:out>rippleTerm:b",
+        "to": {
+          "node": "rippleTerm",
+          "port": "b"
+        }
+      },
+      "lb:out>lb2:a": {
+        "from": {
+          "node": "lb",
+          "port": "out"
+        },
+        "id": "lb:out>lb2:a",
+        "to": {
+          "node": "lb2",
+          "port": "a"
+        }
+      },
+      "line:out>lines:a": {
+        "from": {
+          "node": "line",
+          "port": "out"
+        },
+        "id": "line:out>lines:a",
+        "to": {
+          "node": "lines",
+          "port": "a"
+        }
+      },
+      "line:out>pi_hexline:in": {
+        "from": {
+          "node": "line",
+          "port": "out"
+        },
+        "id": "line:out>pi_hexline:in",
+        "to": {
+          "node": "pi_hexline",
+          "port": "in"
+        }
+      },
+      "lines:out>sum:a": {
+        "from": {
+          "node": "lines",
+          "port": "out"
+        },
+        "id": "lines:out>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "lw:out>line:edge1": {
+        "from": {
+          "node": "lw",
+          "port": "out"
+        },
+        "id": "lw:out>line:edge1",
+        "to": {
+          "node": "line",
+          "port": "edge1"
+        }
+      },
+      "nrm:out>fr:normal": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>fr:normal",
+        "to": {
+          "node": "fr",
+          "port": "normal"
+        }
+      },
+      "p_autoHit_ripple:out>T:predicate": {
+        "from": {
+          "node": "p_autoHit_ripple",
+          "port": "out"
+        },
+        "id": "p_autoHit_ripple:out>T:predicate",
+        "to": {
+          "node": "T",
+          "port": "predicate"
+        }
+      },
+      "p_cellFlicker_hex:out>fill:b": {
+        "from": {
+          "node": "p_cellFlicker_hex",
+          "port": "out"
+        },
+        "id": "p_cellFlicker_hex:out>fill:b",
+        "to": {
+          "node": "fill",
+          "port": "b"
+        }
+      },
+      "p_flickerSpeed_hex:out>ts:b": {
+        "from": {
+          "node": "p_flickerSpeed_hex",
+          "port": "out"
+        },
+        "id": "p_flickerSpeed_hex:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_hexDensity_hex:out>hexn:scale": {
+        "from": {
+          "node": "p_hexDensity_hex",
+          "port": "out"
+        },
+        "id": "p_hexDensity_hex:out>hexn:scale",
+        "to": {
+          "node": "hexn",
+          "port": "scale"
+        }
+      },
+      "p_hitColor_color:out>c2:a": {
+        "from": {
+          "node": "p_hitColor_color",
+          "port": "out"
+        },
+        "id": "p_hitColor_color:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "p_hitPos_ripple:out>dd:b": {
+        "from": {
+          "node": "p_hitPos_ripple",
+          "port": "out"
+        },
+        "id": "p_hitPos_ripple:out>dd:b",
+        "to": {
+          "node": "dd",
+          "port": "b"
+        }
+      },
+      "p_hitTime_ripple:out>T:false": {
+        "from": {
+          "node": "p_hitTime_ripple",
+          "port": "out"
+        },
+        "id": "p_hitTime_ripple:out>T:false",
+        "to": {
+          "node": "T",
+          "port": "false"
+        }
+      },
+      "p_intensity_color:out>col:b": {
+        "from": {
+          "node": "p_intensity_color",
+          "port": "out"
+        },
+        "id": "p_intensity_color:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_lineStrength_hex:out>lines:b": {
+        "from": {
+          "node": "p_lineStrength_hex",
+          "port": "out"
+        },
+        "id": "p_lineStrength_hex:out>lines:b",
+        "to": {
+          "node": "lines",
+          "port": "b"
+        }
+      },
+      "p_lineWidth_hex:out>lw:in": {
+        "from": {
+          "node": "p_lineWidth_hex",
+          "port": "out"
+        },
+        "id": "p_lineWidth_hex:out>lw:in",
+        "to": {
+          "node": "lw",
+          "port": "in"
+        }
+      },
+      "p_rimPower_rim:out>fr:power": {
+        "from": {
+          "node": "p_rimPower_rim",
+          "port": "out"
+        },
+        "id": "p_rimPower_rim:out>fr:power",
+        "to": {
+          "node": "fr",
+          "port": "power"
+        }
+      },
+      "p_rimStrength_rim:out>fr:intensity": {
+        "from": {
+          "node": "p_rimStrength_rim",
+          "port": "out"
+        },
+        "id": "p_rimStrength_rim:out>fr:intensity",
+        "to": {
+          "node": "fr",
+          "port": "intensity"
+        }
+      },
+      "p_rippleLife_ripple:out>age:b": {
+        "from": {
+          "node": "p_rippleLife_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleLife_ripple:out>age:b",
+        "to": {
+          "node": "age",
+          "port": "b"
+        }
+      },
+      "p_rippleLife_ripple:out>cyc:a": {
+        "from": {
+          "node": "p_rippleLife_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleLife_ripple:out>cyc:a",
+        "to": {
+          "node": "cyc",
+          "port": "a"
+        }
+      },
+      "p_rippleSpeed_ripple:out>rad:b": {
+        "from": {
+          "node": "p_rippleSpeed_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleSpeed_ripple:out>rad:b",
+        "to": {
+          "node": "rad",
+          "port": "b"
+        }
+      },
+      "p_rippleWidth_ripple:out>band:edge2": {
+        "from": {
+          "node": "p_rippleWidth_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleWidth_ripple:out>band:edge2",
+        "to": {
+          "node": "band",
+          "port": "edge2"
+        }
+      },
+      "p_shieldColor_color:out>c1:a": {
+        "from": {
+          "node": "p_shieldColor_color",
+          "port": "out"
+        },
+        "id": "p_shieldColor_color:out>c1:a",
+        "to": {
+          "node": "c1",
+          "port": "a"
+        }
+      },
+      "ph:out>arg:b": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>arg:b",
+        "to": {
+          "node": "arg",
+          "port": "b"
+        }
+      },
+      "po_hexline_lb_a:out>lb:a": {
+        "from": {
+          "node": "po_hexline_lb_a",
+          "port": "out"
+        },
+        "id": "po_hexline_lb_a:out>lb:a",
+        "to": {
+          "node": "lb",
+          "port": "a"
+        }
+      },
+      "po_rim_base_a:out>base:a": {
+        "from": {
+          "node": "po_rim_base_a",
+          "port": "out"
+        },
+        "id": "po_rim_base_a:out>base:a",
+        "to": {
+          "node": "base",
+          "port": "a"
+        }
+      },
+      "po_rim_wt_b:out>wt:b": {
+        "from": {
+          "node": "po_rim_wt_b",
+          "port": "out"
+        },
+        "id": "po_rim_wt_b:out>wt:b",
+        "to": {
+          "node": "wt",
+          "port": "b"
+        }
+      },
+      "po_time_saw_t:out>saw:t": {
+        "from": {
+          "node": "po_time_saw_t",
+          "port": "out"
+        },
+        "id": "po_time_saw_t:out>saw:t",
+        "to": {
+          "node": "saw",
+          "port": "t"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "pos01:out>fill0:a": {
+        "from": {
+          "node": "pos01",
+          "port": "out"
+        },
+        "id": "pos01:out>fill0:a",
+        "to": {
+          "node": "fill0",
+          "port": "a"
+        }
+      },
+      "pos:out>dd:a": {
+        "from": {
+          "node": "pos",
+          "port": "out"
+        },
+        "id": "pos:out>dd:a",
+        "to": {
+          "node": "dd",
+          "port": "a"
+        }
+      },
+      "rad:out>diff:b": {
+        "from": {
+          "node": "rad",
+          "port": "out"
+        },
+        "id": "rad:out>diff:b",
+        "to": {
+          "node": "diff",
+          "port": "b"
+        }
+      },
+      "rf:out>rippleTerm:a": {
+        "from": {
+          "node": "rf",
+          "port": "out"
+        },
+        "id": "rf:out>rippleTerm:a",
+        "to": {
+          "node": "rippleTerm",
+          "port": "a"
+        }
+      },
+      "ring:out>rf:a": {
+        "from": {
+          "node": "ring",
+          "port": "out"
+        },
+        "id": "ring:out>rf:a",
+        "to": {
+          "node": "rf",
+          "port": "a"
+        }
+      },
+      "rippleTerm:out>a0:b": {
+        "from": {
+          "node": "rippleTerm",
+          "port": "out"
+        },
+        "id": "rippleTerm:out>a0:b",
+        "to": {
+          "node": "a0",
+          "port": "b"
+        }
+      },
+      "rippleTerm:out>c2:b": {
+        "from": {
+          "node": "rippleTerm",
+          "port": "out"
+        },
+        "id": "rippleTerm:out>c2:b",
+        "to": {
+          "node": "c2",
+          "port": "b"
+        }
+      },
+      "saw:out>autoT:a": {
+        "from": {
+          "node": "saw",
+          "port": "out"
+        },
+        "id": "saw:out>autoT:a",
+        "to": {
+          "node": "autoT",
+          "port": "a"
+        }
+      },
+      "sn:out>pos01:in": {
+        "from": {
+          "node": "sn",
+          "port": "out"
+        },
+        "id": "sn:out>pos01:in",
+        "to": {
+          "node": "pos01",
+          "port": "in"
+        }
+      },
+      "sum:out>gridTerm:a": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>gridTerm:a",
+        "to": {
+          "node": "gridTerm",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "ts:out>arg:a": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>arg:a",
+        "to": {
+          "node": "arg",
+          "port": "a"
+        }
+      },
+      "uv2:out>hexn:p": {
+        "from": {
+          "node": "uv2",
+          "port": "out"
+        },
+        "id": "uv2:out>hexn:p",
+        "to": {
+          "node": "hexn",
+          "port": "p"
+        }
+      },
+      "uv:out>uv2:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>uv2:a",
+        "to": {
+          "node": "uv2",
+          "port": "a"
+        }
+      },
+      "vd:out>fr:viewDir": {
+        "from": {
+          "node": "vd",
+          "port": "out"
+        },
+        "id": "vd:out>fr:viewDir",
+        "to": {
+          "node": "fr",
+          "port": "viewDir"
+        }
+      },
+      "wt:out>gridTerm:b": {
+        "from": {
+          "node": "wt",
+          "port": "out"
+        },
+        "id": "wt:out>gridTerm:b",
+        "to": {
+          "node": "gridTerm",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "nrm",
+          "vd",
+          "uv",
+          "pos",
+          "t",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 901,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Surface inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_rim",
+        "nodeIds": [
+          "fr",
+          "p_rimPower_rim",
+          "p_rimStrength_rim",
+          "pi_rim"
+        ],
+        "rect": {
+          "h": 390,
+          "w": 806,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Fresnel rim"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_hex",
+        "nodeIds": [
+          "uv2",
+          "hexn",
+          "lw",
+          "line",
+          "lines",
+          "cid",
+          "ph",
+          "ts",
+          "arg",
+          "sn",
+          "pos01",
+          "fill0",
+          "fill",
+          "sum",
+          "wt",
+          "gridTerm",
+          "p_hexDensity_hex",
+          "p_lineWidth_hex",
+          "p_lineStrength_hex",
+          "po_time_ts_a",
+          "p_flickerSpeed_hex",
+          "p_cellFlicker_hex",
+          "po_rim_wt_b",
+          "pi_hexline"
+        ],
+        "rect": {
+          "h": 900,
+          "w": 3340,
+          "x": 660,
+          "y": 460
+        },
+        "title": "Hex grid + cell flicker"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_ripple",
+        "nodeIds": [
+          "cyc",
+          "saw",
+          "autoT",
+          "T",
+          "rad",
+          "dd",
+          "diff",
+          "ad",
+          "band",
+          "ring",
+          "age",
+          "ageI",
+          "fade",
+          "rf",
+          "lb",
+          "lb2",
+          "rippleTerm",
+          "p_rippleLife_ripple",
+          "po_time_saw_t",
+          "p_autoHit_ripple",
+          "p_hitTime_ripple",
+          "p_rippleSpeed_ripple",
+          "p_hitPos_ripple",
+          "p_rippleWidth_ripple",
+          "po_hexline_lb_a"
+        ],
+        "rect": {
+          "h": 821,
+          "w": 3646,
+          "x": 4160,
+          "y": 0
+        },
+        "title": "Hit ripple"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_color",
+        "nodeIds": [
+          "base",
+          "c1",
+          "c2",
+          "csum",
+          "col",
+          "a0",
+          "a",
+          "po_rim_base_a",
+          "p_shieldColor_color",
+          "p_hitColor_color",
+          "p_intensity_color"
+        ],
+        "rect": {
+          "h": 609,
+          "w": 1504,
+          "x": 7966,
+          "y": 0
+        },
+        "title": "Colour + alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 9630,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, additive)"
+      }
+    ],
+    "id": "vfx-shield-aura",
+    "keywords": [],
+    "name": "Shield Aura with Hit Ripple",
+    "nodes": {
+      "T": {
+        "defId": "branch",
+        "id": "T",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a": {
+        "defId": "saturate",
+        "id": "a",
+        "params": {},
+        "position": {
+          "x": 8906,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a0": {
+        "defId": "add",
+        "id": "a0",
+        "params": {},
+        "position": {
+          "x": 8600,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ad": {
+        "defId": "abs",
+        "id": "ad",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "age": {
+        "defId": "divide",
+        "id": "age",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ageI": {
+        "defId": "oneMinus",
+        "id": "ageI",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 389
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "arg": {
+        "defId": "add",
+        "id": "arg",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 601
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "autoT": {
+        "defId": "multiply",
+        "id": "autoT",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "band": {
+        "defId": "smoothstep",
+        "id": "band",
+        "params": {},
+        "position": {
+          "x": 6630,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "base": {
+        "defId": "add",
+        "id": "base",
+        "params": {},
+        "position": {
+          "x": 8294,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c1": {
+        "defId": "multiply",
+        "id": "c1",
+        "params": {},
+        "position": {
+          "x": 8600,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c2": {
+        "defId": "multiply",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 8294,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cid": {
+        "defId": "hash2to1",
+        "id": "cid",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 837
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "multiply",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 9212,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "csum": {
+        "defId": "add",
+        "id": "csum",
+        "params": {},
+        "position": {
+          "x": 8906,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cyc": {
+        "defId": "add",
+        "id": "cyc",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.8
+        }
+      },
+      "dd": {
+        "defId": "distance",
+        "id": "dd",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "diff": {
+        "defId": "subtract",
+        "id": "diff",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fade": {
+        "defId": "saturate",
+        "id": "fade",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 389
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fill": {
+        "defId": "multiply",
+        "id": "fill",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 601
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fill0": {
+        "defId": "multiply",
+        "id": "fill0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 601
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fr": {
+        "defId": "subgraph",
+        "id": "fr",
+        "label": "Rim",
+        "params": {
+          "subgraph": "ks_fresnel_kit"
+        },
+        "position": {
+          "x": 988,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gridTerm": {
+        "defId": "multiply",
+        "id": "gridTerm",
+        "params": {},
+        "position": {
+          "x": 3742,
+          "y": 832
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hexn": {
+        "defId": "patternHex",
+        "id": "hexn",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 974
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lb": {
+        "defId": "multiply",
+        "id": "lb",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 382
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1.6
+        }
+      },
+      "lb2": {
+        "defId": "add",
+        "id": "lb2",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 382
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.6
+        }
+      },
+      "line": {
+        "defId": "smoothstep",
+        "id": "line",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 998
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge2": 1
+        }
+      },
+      "lines": {
+        "defId": "multiply",
+        "id": "lines",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 695
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lw": {
+        "defId": "oneMinus",
+        "id": "lw",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1188
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 9652,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_autoHit_ripple": {
+        "defId": "property",
+        "id": "p_autoHit_ripple",
+        "params": {
+          "property": "autoHit"
+        },
+        "position": {
+          "x": 4182,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_cellFlicker_hex": {
+        "defId": "property",
+        "id": "p_cellFlicker_hex",
+        "params": {
+          "property": "cellFlicker"
+        },
+        "position": {
+          "x": 682,
+          "y": 625
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flickerSpeed_hex": {
+        "defId": "property",
+        "id": "p_flickerSpeed_hex",
+        "params": {
+          "property": "flickerSpeed"
+        },
+        "position": {
+          "x": 682,
+          "y": 719
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hexDensity_hex": {
+        "defId": "property",
+        "id": "p_hexDensity_hex",
+        "params": {
+          "property": "hexDensity"
+        },
+        "position": {
+          "x": 682,
+          "y": 1034
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hitColor_color": {
+        "defId": "property",
+        "id": "p_hitColor_color",
+        "params": {
+          "property": "hitColor"
+        },
+        "position": {
+          "x": 7988,
+          "y": 425
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hitPos_ripple": {
+        "defId": "property",
+        "id": "p_hitPos_ripple",
+        "params": {
+          "property": "hitPos"
+        },
+        "position": {
+          "x": 4182,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hitTime_ripple": {
+        "defId": "property",
+        "id": "p_hitTime_ripple",
+        "params": {
+          "property": "hitTime"
+        },
+        "position": {
+          "x": 4182,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_color": {
+        "defId": "property",
+        "id": "p_intensity_color",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 7988,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineStrength_hex": {
+        "defId": "property",
+        "id": "p_lineStrength_hex",
+        "params": {
+          "property": "lineStrength"
+        },
+        "position": {
+          "x": 682,
+          "y": 813
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineWidth_hex": {
+        "defId": "property",
+        "id": "p_lineWidth_hex",
+        "params": {
+          "property": "lineWidth"
+        },
+        "position": {
+          "x": 682,
+          "y": 1270
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimPower_rim": {
+        "defId": "property",
+        "id": "p_rimPower_rim",
+        "params": {
+          "property": "rimPower"
+        },
+        "position": {
+          "x": 682,
+          "y": 206
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimStrength_rim": {
+        "defId": "property",
+        "id": "p_rimStrength_rim",
+        "params": {
+          "property": "rimStrength"
+        },
+        "position": {
+          "x": 682,
+          "y": 300
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleLife_ripple": {
+        "defId": "property",
+        "id": "p_rippleLife_ripple",
+        "params": {
+          "property": "rippleLife"
+        },
+        "position": {
+          "x": 4182,
+          "y": 731
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleSpeed_ripple": {
+        "defId": "property",
+        "id": "p_rippleSpeed_ripple",
+        "params": {
+          "property": "rippleSpeed"
+        },
+        "position": {
+          "x": 4182,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleWidth_ripple": {
+        "defId": "property",
+        "id": "p_rippleWidth_ripple",
+        "params": {
+          "property": "rippleWidth"
+        },
+        "position": {
+          "x": 4182,
+          "y": 517
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shieldColor_color": {
+        "defId": "property",
+        "id": "p_shieldColor_color",
+        "params": {
+          "property": "shieldColor"
+        },
+        "position": {
+          "x": 7988,
+          "y": 519
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "multiply",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 837
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.2832
+        }
+      },
+      "pi_hexline": {
+        "defId": "portalIn",
+        "id": "pi_hexline",
+        "params": {
+          "channel": "HexLine"
+        },
+        "position": {
+          "x": 1600,
+          "y": 1051
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_rim": {
+        "defId": "portalIn",
+        "id": "pi_rim",
+        "params": {
+          "channel": "Rim"
+        },
+        "position": {
+          "x": 1294,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 348
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_hexline_lb_a": {
+        "defId": "portalOut",
+        "id": "po_hexline_lb_a",
+        "params": {
+          "channel": "HexLine"
+        },
+        "position": {
+          "x": 4182,
+          "y": 611
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_rim_base_a": {
+        "defId": "portalOut",
+        "id": "po_rim_base_a",
+        "params": {
+          "channel": "Rim"
+        },
+        "position": {
+          "x": 7988,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_rim_wt_b": {
+        "defId": "portalOut",
+        "id": "po_rim_wt_b",
+        "params": {
+          "channel": "Rim"
+        },
+        "position": {
+          "x": 682,
+          "y": 967
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_saw_t": {
+        "defId": "portalOut",
+        "id": "po_time_saw_t",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 4182,
+          "y": 671
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 907
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pos": {
+        "defId": "position",
+        "id": "pos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 22,
+          "y": 499
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pos01": {
+        "defId": "remap",
+        "id": "pos01",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 565
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rad": {
+        "defId": "multiply",
+        "id": "rad",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rf": {
+        "defId": "multiply",
+        "id": "rf",
+        "params": {},
+        "position": {
+          "x": 7242,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ring": {
+        "defId": "oneMinus",
+        "id": "ring",
+        "params": {},
+        "position": {
+          "x": 6936,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rippleTerm": {
+        "defId": "multiply",
+        "id": "rippleTerm",
+        "params": {},
+        "position": {
+          "x": 7548,
+          "y": 382
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "saw": {
+        "defId": "timeSawtooth",
+        "id": "saw",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sn": {
+        "defId": "sin",
+        "id": "sn",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 613
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 695
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 601
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 643
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv2": {
+        "defId": "multiply",
+        "id": "uv2",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 1128
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": [
+            2,
+            1
+          ]
+        }
+      },
+      "vd": {
+        "defId": "viewDirection",
+        "id": "vd",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 787
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wt": {
+        "defId": "add",
+        "id": "wt",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 832
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 0.25
+        }
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Shield",
+        "colorSpace": "linear",
+        "default": [
+          0.2,
+          0.8,
+          3
+        ],
+        "displayName": "Shield Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "shieldColor",
+        "perInstance": false,
+        "referenceName": "_ShieldColor",
+        "tooltip": "HDR colour of the rim and the hex grid (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Shield",
+        "default": 1,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Overall brightness of the shield.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 3,
+        "displayName": "Rim Power",
+        "exposed": true,
+        "id": "rimPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_RimPower",
+        "slider": true,
+        "tooltip": "Fresnel exponent: higher = thinner rim.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 0.9,
+        "displayName": "Rim Strength",
+        "exposed": true,
+        "id": "rimStrength",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimStrength",
+        "slider": true,
+        "tooltip": "Brightness of the fresnel rim.",
+        "type": "float"
+      },
+      {
+        "category": "Hex Grid",
+        "default": 5,
+        "displayName": "Hex Density",
+        "exposed": true,
+        "id": "hexDensity",
+        "max": 14,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_HexDensity",
+        "slider": true,
+        "tooltip": "Hexagons per UV unit (vertical); the horizontal count is doubled.",
+        "type": "float"
+      },
+      {
+        "category": "Hex Grid",
+        "default": 0.12,
+        "displayName": "Line Width",
+        "exposed": true,
+        "id": "lineWidth",
+        "max": 0.4,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_LineWidth",
+        "slider": true,
+        "tooltip": "Width of the hexagon outlines (share of the cell).",
+        "type": "float"
+      },
+      {
+        "category": "Hex Grid",
+        "default": 0.7,
+        "displayName": "Line Strength",
+        "exposed": true,
+        "id": "lineStrength",
+        "max": 2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_LineStrength",
+        "slider": true,
+        "tooltip": "Brightness of the hexagon outlines.",
+        "type": "float"
+      },
+      {
+        "category": "Hex Grid",
+        "default": 0.35,
+        "displayName": "Cell Flicker",
+        "exposed": true,
+        "id": "cellFlicker",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_CellFlicker",
+        "slider": true,
+        "tooltip": "Brightness of the randomly pulsing cell fills (0 = off).",
+        "type": "float"
+      },
+      {
+        "category": "Hex Grid",
+        "default": 2,
+        "displayName": "Flicker Speed",
+        "exposed": true,
+        "id": "flickerSpeed",
+        "max": 8,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_FlickerSpeed",
+        "slider": true,
+        "tooltip": "Speed of the cell pulsing in radians per second.",
+        "type": "float"
+      },
+      {
+        "category": "Hit Ripple",
+        "colorSpace": "linear",
+        "default": [
+          3,
+          2.2,
+          1
+        ],
+        "displayName": "Hit Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "hitColor",
+        "perInstance": false,
+        "referenceName": "_HitColor",
+        "tooltip": "HDR colour of the impact ripple (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": [
+          0.5,
+          0.3,
+          0.8
+        ],
+        "displayName": "Hit Position",
+        "exposed": true,
+        "id": "hitPos",
+        "perInstance": false,
+        "referenceName": "_HitPosition",
+        "tooltip": "Impact point in OBJECT space (local coordinates of the shield mesh).",
+        "type": "vec3"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": 0.4,
+        "displayName": "Hit Time",
+        "exposed": true,
+        "id": "hitTime",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_HitTime",
+        "slider": true,
+        "tooltip": "Seconds since the hit. Set from a script: Time.time − impact time.",
+        "type": "float"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": 1.6,
+        "displayName": "Ripple Speed",
+        "exposed": true,
+        "id": "rippleSpeed",
+        "max": 5,
+        "min": 0.1,
+        "perInstance": false,
+        "referenceName": "_RippleSpeed",
+        "slider": true,
+        "tooltip": "Expansion speed of the ripple in object units per second.",
+        "type": "float"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": 0.16,
+        "displayName": "Ripple Width",
+        "exposed": true,
+        "id": "rippleWidth",
+        "max": 0.6,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_RippleWidth",
+        "slider": true,
+        "tooltip": "Thickness of the ripple ring (object units).",
+        "type": "float"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": 1.6,
+        "displayName": "Ripple Life",
+        "exposed": true,
+        "id": "rippleLife",
+        "max": 5,
+        "min": 0.3,
+        "perInstance": false,
+        "referenceName": "_RippleLife",
+        "slider": true,
+        "tooltip": "Seconds until the ripple has faded out.",
+        "type": "float"
+      },
+      {
+        "category": "Hit Ripple",
+        "default": true,
+        "displayName": "Auto Hit (demo)",
+        "exposed": true,
+        "id": "autoHit",
+        "perInstance": false,
+        "referenceName": "_AutoHitDemo",
+        "tooltip": "On: Hit Time loops by itself every Ripple Life + 0.8 s (preview demo). Off: Hit Time is used.",
+        "type": "bool"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {
+      "ks_fresnel_kit": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1154
+            },
+            "text": "**Fresnel kit** — `(1 − N·V)^power × intensity`.\nThe Fresnel node gives the view-dependent term; the mask is saturated so it can drive alpha, emission or a ramp directly. Glow = colour × mask."
+          }
+        ],
+        "edges": {
+          "fres:out>scale:a": {
+            "from": {
+              "node": "fres",
+              "port": "out"
+            },
+            "id": "fres:out>scale:a",
+            "to": {
+              "node": "scale",
+              "port": "a"
+            }
+          },
+          "inputs:color>tint:a": {
+            "from": {
+              "node": "inputs",
+              "port": "color"
+            },
+            "id": "inputs:color>tint:a",
+            "to": {
+              "node": "tint",
+              "port": "a"
+            }
+          },
+          "inputs:intensity>scale:b": {
+            "from": {
+              "node": "inputs",
+              "port": "intensity"
+            },
+            "id": "inputs:intensity>scale:b",
+            "to": {
+              "node": "scale",
+              "port": "b"
+            }
+          },
+          "inputs:normal>fres:normal": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>fres:normal",
+            "to": {
+              "node": "fres",
+              "port": "normal"
+            }
+          },
+          "inputs:power>fres:power": {
+            "from": {
+              "node": "inputs",
+              "port": "power"
+            },
+            "id": "inputs:power>fres:power",
+            "to": {
+              "node": "fres",
+              "port": "power"
+            }
+          },
+          "inputs:viewDir>fres:viewDir": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>fres:viewDir",
+            "to": {
+              "node": "fres",
+              "port": "viewDir"
+            }
+          },
+          "inv:out>outputs:faceOn": {
+            "from": {
+              "node": "inv",
+              "port": "out"
+            },
+            "id": "inv:out>outputs:faceOn",
+            "to": {
+              "node": "outputs",
+              "port": "faceOn"
+            }
+          },
+          "sat:out>inv:in": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>inv:in",
+            "to": {
+              "node": "inv",
+              "port": "in"
+            }
+          },
+          "sat:out>outputs:rim": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>outputs:rim",
+            "to": {
+              "node": "outputs",
+              "port": "rim"
+            }
+          },
+          "sat:out>tint:b": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>tint:b",
+            "to": {
+              "node": "tint",
+              "port": "b"
+            }
+          },
+          "scale:out>sat:in": {
+            "from": {
+              "node": "scale",
+              "port": "out"
+            },
+            "id": "scale:out>sat:in",
+            "to": {
+              "node": "sat",
+              "port": "in"
+            }
+          },
+          "tint:out>outputs:glow": {
+            "from": {
+              "node": "tint",
+              "port": "out"
+            },
+            "id": "tint:out>outputs:glow",
+            "to": {
+              "node": "outputs",
+              "port": "glow"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "fres",
+              "scale",
+              "sat",
+              "tint",
+              "inv"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 1198,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Fresnel Rim Kit"
+          }
+        ],
+        "id": "ks_fresnel_kit",
+        "inputs": [
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Direction",
+            "tooltip": "Unit vector from the surface to the camera (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              1,
+              1,
+              1
+            ],
+            "id": "color",
+            "name": "Rim Color",
+            "tooltip": "Colour of the glow output (linear, may exceed 1 for HDR bloom).",
+            "type": "color"
+          },
+          {
+            "default": 3,
+            "id": "power",
+            "name": "Power",
+            "tooltip": "Fresnel exponent: higher = thinner rim.",
+            "type": "float"
+          },
+          {
+            "default": 1,
+            "id": "intensity",
+            "name": "Intensity",
+            "tooltip": "Multiplier of the rim mask.",
+            "type": "float"
+          }
+        ],
+        "name": "Fresnel Rim Kit",
+        "nodes": {
+          "fres": {
+            "defId": "fresnel",
+            "id": "fres",
+            "params": {
+              "mode": "power"
+            },
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inv": {
+            "defId": "oneMinus",
+            "id": "inv",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1638,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sat": {
+            "defId": "saturate",
+            "id": "sat",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scale": {
+            "defId": "multiply",
+            "id": "scale",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 158
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tint": {
+            "defId": "multiply",
+            "id": "tint",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "rim",
+            "name": "Rim",
+            "tooltip": "Rim mask 0…1 (1 on silhouettes).",
+            "type": "float"
+          },
+          {
+            "id": "glow",
+            "name": "Glow",
+            "tooltip": "Rim colour × rim mask.",
+            "type": "color"
+          },
+          {
+            "id": "faceOn",
+            "name": "Face-On",
+            "tooltip": "1 − rim: strongest where the surface faces the camera.",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "ground": "none",
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

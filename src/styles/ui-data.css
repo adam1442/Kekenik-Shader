@@ -1,0 +1,402 @@
+/* Design-system: data & layout (Tabs, Tree, PropertyRow, EmptyState, Scroll, Splitter) */
+
+/* ── Tabs ────────────────────────────────────────────────────────────── */
+.kk-tabs {
+  display: flex;
+  gap: var(--kk-space-1);
+}
+.kk-tabs--underline {
+  border-bottom: 1px solid var(--kk-border);
+}
+.kk-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kk-space-3);
+  height: 28px;
+  padding: 0 var(--kk-space-5);
+  border: 0;
+  background: none;
+  color: var(--kk-text-2);
+  font-weight: 500;
+  transition:
+    color var(--kk-dur-fast) var(--kk-ease),
+    background var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-tab:hover:not(:disabled) {
+  color: var(--kk-text-1);
+}
+.kk-tab:disabled {
+  color: var(--kk-text-disabled);
+}
+.kk-tabs--underline .kk-tab::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--kk-accent);
+  transform: scaleX(0);
+  transition: transform var(--kk-dur) var(--kk-ease-out);
+}
+.kk-tabs--underline .kk-tab.is-selected {
+  color: var(--kk-text-1);
+}
+.kk-tabs--underline .kk-tab.is-selected::after {
+  transform: scaleX(1);
+}
+.kk-tabs--pill {
+  padding: 2px;
+  background: var(--kk-surface-1);
+  border-radius: var(--kk-radius-md);
+  border: 1px solid var(--kk-border);
+  width: fit-content;
+}
+.kk-tabs--pill .kk-tab {
+  height: 22px;
+  border-radius: var(--kk-radius-sm);
+}
+.kk-tabs--pill .kk-tab.is-selected {
+  background: var(--kk-surface-4);
+  color: var(--kk-text-1);
+  box-shadow: var(--kk-shadow-1);
+}
+.kk-tab__badge {
+  padding: 0 5px;
+  border-radius: var(--kk-radius-full);
+  background: var(--kk-surface-4);
+  font-size: var(--kk-text-xs);
+}
+
+/* ── TreeView ────────────────────────────────────────────────────────── */
+.kk-tree {
+  display: flex;
+  flex-direction: column;
+  padding: var(--kk-space-2);
+  outline: none;
+}
+.kk-tree__row {
+  display: flex;
+  align-items: center;
+  gap: var(--kk-space-3);
+  height: 24px;
+  padding-right: var(--kk-space-4);
+  border-radius: var(--kk-radius-sm);
+  color: var(--kk-text-2);
+  cursor: default;
+  transition: background var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-tree__row:hover {
+  background: var(--kk-surface-3);
+  color: var(--kk-text-1);
+}
+.kk-tree__row.is-selected {
+  background: var(--kk-accent-soft);
+  color: var(--kk-text-1);
+}
+.kk-tree:focus-visible .kk-tree__row.is-active {
+  outline: 1px solid var(--kk-focus-ring);
+  outline-offset: -1px;
+}
+.kk-tree__chev {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  flex: none;
+  color: var(--kk-text-3);
+}
+.kk-tree__chev svg {
+  transition: transform var(--kk-dur) var(--kk-ease);
+}
+.kk-tree__chev.is-open svg {
+  transform: rotate(90deg);
+}
+.kk-tree__icon {
+  flex: none;
+  color: var(--kk-text-3);
+}
+.kk-tree__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-tree__badge {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+}
+
+/* ── PropertyRow ─────────────────────────────────────────────────────── */
+
+/* ── EmptyState ──────────────────────────────────────────────────────── */
+.kk-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kk-space-4);
+  height: 100%;
+  min-height: 120px;
+  padding: var(--kk-space-7);
+  text-align: center;
+  color: var(--kk-text-2);
+}
+.kk-empty__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--kk-radius-lg);
+  background: linear-gradient(145deg, var(--kk-accent-soft), var(--kk-accent-2-soft));
+  border: 1px solid var(--kk-border);
+  color: var(--kk-accent-hover);
+}
+.kk-empty__title {
+  color: var(--kk-text-1);
+  font-size: var(--kk-text-lg);
+  font-weight: 600;
+}
+.kk-empty__desc {
+  max-width: 300px;
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-sm);
+  line-height: 1.55;
+}
+.kk-empty__actions {
+  display: flex;
+  gap: var(--kk-space-4);
+  margin-top: var(--kk-space-3);
+}
+
+/* ── ScrollArea ──────────────────────────────────────────────────────── */
+.kk-scroll {
+  min-height: 0;
+  min-width: 0;
+}
+.kk-scroll--y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.kk-scroll--x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.kk-scroll--both {
+  overflow: auto;
+}
+
+/* ── Splitter / SplitPane ────────────────────────────────────────────── */
+.kk-splitter {
+  position: relative;
+  flex: none;
+  background: var(--kk-border);
+  transition: background var(--kk-dur) var(--kk-ease);
+  touch-action: none;
+}
+.kk-splitter--vertical {
+  width: 1px;
+  cursor: col-resize;
+}
+.kk-splitter--horizontal {
+  height: 1px;
+  cursor: row-resize;
+}
+.kk-splitter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.kk-splitter--vertical::after {
+  inset: 0 -3px;
+}
+.kk-splitter--horizontal::after {
+  inset: -3px 0;
+}
+.kk-splitter:hover,
+body.kk-resizing-h .kk-splitter--vertical,
+body.kk-resizing-v .kk-splitter--horizontal {
+  background: var(--kk-accent);
+}
+.kk-splitpane {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+.kk-splitpane--column {
+  flex-direction: column;
+}
+.kk-splitpane__first {
+  flex: none;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.kk-splitpane__second {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── CodeView (CodeMirror 6 host) ───────────────────────────────── */
+.kk-codeview {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--kk-surface-1);
+}
+.kk-codeview .cm-editor {
+  height: 100%;
+}
+
+/* ── Code Output panel ──────────────────────────────────────────── */
+.kk-codepanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--kk-surface-1);
+}
+.kk-codepanel__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--kk-space-4);
+  padding: 0 var(--kk-space-4);
+  height: 32px;
+  flex: none;
+  background: var(--kk-surface-2);
+  border-bottom: 1px solid var(--kk-border);
+}
+.kk-codepanel__bar .kk-tabs {
+  flex: 1;
+  min-width: 0;
+}
+.kk-codepanel__target {
+  width: 168px;
+  flex: none;
+}
+.kk-codepanel__body {
+  flex: 1;
+  min-height: 0;
+}
+.kk-codepanel__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--kk-space-4);
+  flex: none;
+  height: 24px;
+  padding: 0 var(--kk-space-5);
+  background: var(--kk-surface-2);
+  border-top: 1px solid var(--kk-border-subtle);
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.kk-codepanel__foot .is-error {
+  color: var(--kk-danger);
+}
+.kk-codepanel__foot .is-warn {
+  color: var(--kk-warning);
+}
+.kk-codepanel__foot .is-ok {
+  color: var(--kk-success);
+}
+.kk-codepanel__diag {
+  flex: none;
+  max-height: 84px;
+  overflow: auto;
+  padding: var(--kk-space-3) var(--kk-space-5);
+  background: var(--kk-danger-soft);
+  color: var(--kk-text-1);
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-xs);
+  line-height: 1.5;
+  border-top: 1px solid var(--kk-border);
+}
+.kk-code-linked {
+  background: color-mix(in srgb, var(--kk-accent, #6aa7ff) 16%, transparent);
+  box-shadow: inset 2px 0 0 var(--kk-accent, #6aa7ff);
+}
+.kk-codepanel__panes {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.kk-codepane {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  border-left: 1px solid var(--kk-border);
+}
+.kk-codepane:first-child {
+  border-left: none;
+}
+.kk-codepanel__top {
+  display: flex;
+  align-items: center;
+  gap: var(--kk-space-3);
+  padding: 0 var(--kk-space-4);
+  height: 28px;
+  flex: none;
+  background: var(--kk-surface-1);
+  border-bottom: 1px solid var(--kk-border-subtle);
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+}
+.kk-codepanel__top .kk-spacer {
+  flex: 1;
+}
+.kk-codepanel__jump {
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-2);
+  background: none;
+  border: 0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.kk-codepanel__jump:hover {
+  background: var(--kk-surface-3);
+  color: var(--kk-text-1);
+}
+.kk-codepanel__opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kk-space-4);
+  padding: var(--kk-space-4);
+  min-width: 220px;
+}
+.kk-diff {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  font-family: var(--kk-font-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.kk-diff__col {
+  min-width: 0;
+}
+.kk-diff__line {
+  white-space: pre;
+  padding: 0 8px;
+  min-height: 1.5em;
+}
+.kk-diff__line.is-del {
+  background: var(--kk-danger-soft);
+}
+.kk-diff__line.is-add {
+  background: color-mix(in srgb, var(--kk-success) 14%, transparent);
+}
+.kk-diff__line.is-gap {
+  background: var(--kk-surface-2);
+}

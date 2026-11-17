@@ -1,0 +1,1349 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABDElEQVR42u2Z3Q3DIAwGO0dfukoW6DRdo9t0pwzQBVK1EhKiQEwSiA13kh8j8V2Iw88FAAAAAAAAAAAAAACqcJ1ui6SGC9ydEDfw9zL/Kgw0ve5/9Zwf9kX4g3XhXcVCxyT4ZUpEOMhQgERCKCAnQ3X4b5gtM8CkhNy3XRp+TUBMhNrwe8qEBEl4SfeXPKdOgiRYrBlKJMQaaUrCaT2h9O37a4FSAepmgXRKp/7hpdN/TUBzCXvCHN0D1Avo8o/QMvwWCQjoUYBEQrc9oHSP0K2AnIRhBKQkqF0MtRCgYj9wlgQTO8JaAlSeCbQQof5UqJYIE4ejNUSYvSc46lKki9uiIUMDAAAAAABo5gN3RJBBDIO6/gAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-dissolve.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite.png"
+      },
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAA6j0lEQVR42p2d5ZIkyxFm673EuszMIGZmZmZmZmZmZmaWTPwYuXbS7LSd8Y3qq90fMVNdkJkR/jmGu8fhLW95y/bWt751e9vb3ra9853v3N773vduH/rQh7aPf/zj22c+85nt85///PaFL3xh//+zn/3s/h6D14xPf/rT28c+9rHtfe97336d17zmNdtLXvKS7dnPfvb2xCc+cXvkIx+5PehBD9rud7/7bfe85z23W2+9dbvxxhu36667brv22mv3wesbbrhhu/nmm7e73e1u293vfvd93OMe99juc5/7bA95yEO2xzzmMdvTnva07bnPfe5+fe7zpje9aXvHO96xvetd79re8573nDz7Jz7xie1zn/vc9qUvfWn78pe/vH31q1/dvvnNb27f+973tu9///vbd7/73e3b3/729o1vfGP7+te/vg++85WvfGX/zRe/+MUz5vzJT35yv+673/3ufY5vfOMbt9e+9rXbq171qu2lL33p9sIXvnB73vOet8/56U9/+vakJz1pf96HPexh2wMf+MB9DsyH+THXq666arv00ku3Cy+8cLvgggu2888/fzv33HO3s88+ezvrrLO28847b7vsssu266+/fv8dv7///e+/PfjBD94e/vCHb4997GO3Jz/5ydsznvGMfT1e8IIXbC960Yu2F7/4xfvavOIVr9jX5/Wvf/2+RtBY+rJWDNaNuRz4gOFCsogf/OAHd6JCXBaAxWQUAA4W5yMf+cj+uxUAHvGIR5wA4F73utdO4JtuummfHIvhAAC8f8stt5yAgO/zu4c+9KHb4x73uB0ALDSLLgDe/va3nwAAEH74wx/en2kFgO985ztnEP9rX/vaCeEZfFcAMAAA1/nUpz61X5d7sFbc93Wve90ZAIAQz3zmM7enPvWp2xOe8ITt0Y9+9P7cD3jAA7Z73/veJ/MG8FdeeeVRADD4m8/5LgzjOrCOAgCQTQCw7i972cvOAABgffOb37zThrUCBAzozVwOvsEignAWEQBAVKQAi8kCAIYO3oPTPvrRj+7f57cgTQA861nP2heCBxYAIBmuhshIAUDgAAT8z/t8zvfue9/77qh/1KMetYOJCT//+c/fJzkBAAA/8IEP7M8tACAiRIW4EBuiAwQ4nvflcqWchO/g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",
+        "id": "sample.sprite-dissolve.noiseTex",
+        "mime": "image/png",
+        "name": "dissolve-noise.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-dissolve.locked_sprite_texture",
+      "noiseTex": "sample.sprite-dissolve.noiseTex"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_src",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "Plain sprite fetch. Its alpha is multiplied with the dissolve mask later, so the transparent pixels stay transparent."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_pattern",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1680
+        },
+        "text": "Noise is sampled with scaled UV, then blended towards the V coordinate by **Direction Bias**: `pattern = lerp(noise, v, bias)`. A pure gradient dissolves as a clean sweep; some noise keeps it organic."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_cut",
+        "position": {
+          "x": 2652,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Soft Dissolve** kit converts *pattern + amount* into a feathered alpha mask and a thin edge band (the burn)."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_comp",
+        "position": {
+          "x": 3398,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "`colour = sprite + edge × edge colour` (HDR, so it glows) and `alpha = sprite alpha × dissolve alpha`."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 4450,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Colour and alpha of the burning sprite."
+      }
+    ],
+    "edges": {
+      "alpha:out>master:alpha": {
+        "from": {
+          "node": "alpha",
+          "port": "out"
+        },
+        "id": "alpha:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "dis:alpha>alpha:b": {
+        "from": {
+          "node": "dis",
+          "port": "alpha"
+        },
+        "id": "dis:alpha>alpha:b",
+        "to": {
+          "node": "alpha",
+          "port": "b"
+        }
+      },
+      "dis:edge>glow:a": {
+        "from": {
+          "node": "dis",
+          "port": "edge"
+        },
+        "id": "dis:edge>glow:a",
+        "to": {
+          "node": "glow",
+          "port": "a"
+        }
+      },
+      "glow:out>col:b": {
+        "from": {
+          "node": "glow",
+          "port": "out"
+        },
+        "id": "glow:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "mix:out>pi_pattern:in": {
+        "from": {
+          "node": "mix",
+          "port": "out"
+        },
+        "id": "mix:out>pi_pattern:in",
+        "to": {
+          "node": "pi_pattern",
+          "port": "in"
+        }
+      },
+      "noise:rgb>nsplit:in": {
+        "from": {
+          "node": "noise",
+          "port": "rgb"
+        },
+        "id": "noise:rgb>nsplit:in",
+        "to": {
+          "node": "nsplit",
+          "port": "in"
+        }
+      },
+      "nsplit:r>mix:a": {
+        "from": {
+          "node": "nsplit",
+          "port": "r"
+        },
+        "id": "nsplit:r>mix:a",
+        "to": {
+          "node": "mix",
+          "port": "a"
+        }
+      },
+      "p_amount_cut:out>dis:amount": {
+        "from": {
+          "node": "p_amount_cut",
+          "port": "out"
+        },
+        "id": "p_amount_cut:out>dis:amount",
+        "to": {
+          "node": "dis",
+          "port": "amount"
+        }
+      },
+      "p_direction_pattern:out>mix:t": {
+        "from": {
+          "node": "p_direction_pattern",
+          "port": "out"
+        },
+        "id": "p_direction_pattern:out>mix:t",
+        "to": {
+          "node": "mix",
+          "port": "t"
+        }
+      },
+      "p_edgeColor_comp:out>glow:b": {
+        "from": {
+          "node": "p_edgeColor_comp",
+          "port": "out"
+        },
+        "id": "p_edgeColor_comp:out>glow:b",
+        "to": {
+          "node": "glow",
+          "port": "b"
+        }
+      },
+      "p_edgeWidth_cut:out>dis:edgeWidth": {
+        "from": {
+          "node": "p_edgeWidth_cut",
+          "port": "out"
+        },
+        "id": "p_edgeWidth_cut:out>dis:edgeWidth",
+        "to": {
+          "node": "dis",
+          "port": "edgeWidth"
+        }
+      },
+      "p_locked_sprite_texture_src:out>sprite:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_src",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_src:out>sprite:tex",
+        "to": {
+          "node": "sprite",
+          "port": "tex"
+        }
+      },
+      "p_noiseScale_pattern:out>scaled:b": {
+        "from": {
+          "node": "p_noiseScale_pattern",
+          "port": "out"
+        },
+        "id": "p_noiseScale_pattern:out>scaled:b",
+        "to": {
+          "node": "scaled",
+          "port": "b"
+        }
+      },
+      "p_noiseTex_pattern:out>noise:tex": {
+        "from": {
+          "node": "p_noiseTex_pattern",
+          "port": "out"
+        },
+        "id": "p_noiseTex_pattern:out>noise:tex",
+        "to": {
+          "node": "noise",
+          "port": "tex"
+        }
+      },
+      "p_softness_cut:out>dis:softness": {
+        "from": {
+          "node": "p_softness_cut",
+          "port": "out"
+        },
+        "id": "p_softness_cut:out>dis:softness",
+        "to": {
+          "node": "dis",
+          "port": "softness"
+        }
+      },
+      "po_pattern_dis_noise:out>dis:noise": {
+        "from": {
+          "node": "po_pattern_dis_noise",
+          "port": "out"
+        },
+        "id": "po_pattern_dis_noise:out>dis:noise",
+        "to": {
+          "node": "dis",
+          "port": "noise"
+        }
+      },
+      "scaled:out>noise:uv": {
+        "from": {
+          "node": "scaled",
+          "port": "out"
+        },
+        "id": "scaled:out>noise:uv",
+        "to": {
+          "node": "noise",
+          "port": "uv"
+        }
+      },
+      "sprite:a>alpha:a": {
+        "from": {
+          "node": "sprite",
+          "port": "a"
+        },
+        "id": "sprite:a>alpha:a",
+        "to": {
+          "node": "alpha",
+          "port": "a"
+        }
+      },
+      "sprite:rgb>col:a": {
+        "from": {
+          "node": "sprite",
+          "port": "rgb"
+        },
+        "id": "sprite:rgb>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "uv:out>scaled:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>scaled:a",
+        "to": {
+          "node": "scaled",
+          "port": "a"
+        }
+      },
+      "uv:out>sprite:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>sprite:uv",
+        "to": {
+          "node": "sprite",
+          "port": "uv"
+        }
+      },
+      "uv:out>vsplit:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>vsplit:in",
+        "to": {
+          "node": "vsplit",
+          "port": "in"
+        }
+      },
+      "vsplit:g>mix:b": {
+        "from": {
+          "node": "vsplit",
+          "port": "g"
+        },
+        "id": "vsplit:g>mix:b",
+        "to": {
+          "node": "mix",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_src",
+        "nodeIds": [
+          "uv",
+          "sprite",
+          "p_locked_sprite_texture_src"
+        ],
+        "rect": {
+          "h": 438,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Sprite sample"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_pattern",
+        "nodeIds": [
+          "scaled",
+          "noise",
+          "vsplit",
+          "nsplit",
+          "mix",
+          "p_noiseScale_pattern",
+          "p_noiseTex_pattern",
+          "p_direction_pattern",
+          "pi_pattern"
+        ],
+        "rect": {
+          "h": 681,
+          "w": 1724,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Dissolve pattern"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_cut",
+        "nodeIds": [
+          "dis",
+          "po_pattern_dis_noise",
+          "p_amount_cut",
+          "p_edgeWidth_cut",
+          "p_softness_cut"
+        ],
+        "rect": {
+          "h": 520,
+          "w": 586,
+          "x": 2630,
+          "y": 0
+        },
+        "title": "Soft dissolve"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_comp",
+        "nodeIds": [
+          "glow",
+          "col",
+          "alpha",
+          "p_edgeColor_comp"
+        ],
+        "rect": {
+          "h": 411,
+          "w": 892,
+          "x": 3376,
+          "y": 0
+        },
+        "title": "Compose"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 4428,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-dissolve",
+    "keywords": [],
+    "name": "Sprite Dissolve",
+    "nodes": {
+      "alpha": {
+        "defId": "multiply",
+        "id": "alpha",
+        "params": {},
+        "position": {
+          "x": 3398,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "add",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 4010,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dis": {
+        "defId": "subgraph",
+        "id": "dis",
+        "label": "Dissolve",
+        "params": {
+          "subgraph": "ks_soft_dissolve"
+        },
+        "position": {
+          "x": 2958,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "glow": {
+        "defId": "multiply",
+        "id": "glow",
+        "params": {},
+        "position": {
+          "x": 3704,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 4450,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mix": {
+        "defId": "lerp",
+        "id": "mix",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "noise": {
+        "defId": "sampleTexture2D",
+        "id": "noise",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nsplit": {
+        "defId": "split",
+        "id": "nsplit",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_amount_cut": {
+        "defId": "property",
+        "id": "p_amount_cut",
+        "params": {
+          "property": "amount"
+        },
+        "position": {
+          "x": 2652,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_direction_pattern": {
+        "defId": "property",
+        "id": "p_direction_pattern",
+        "params": {
+          "property": "direction"
+        },
+        "position": {
+          "x": 768,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_edgeColor_comp": {
+        "defId": "property",
+        "id": "p_edgeColor_comp",
+        "params": {
+          "property": "edgeColor"
+        },
+        "position": {
+          "x": 3398,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_edgeWidth_cut": {
+        "defId": "property",
+        "id": "p_edgeWidth_cut",
+        "params": {
+          "property": "edgeWidth"
+        },
+        "position": {
+          "x": 2652,
+          "y": 276
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_src": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_src",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 22,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseScale_pattern": {
+        "defId": "property",
+        "id": "p_noiseScale_pattern",
+        "params": {
+          "property": "noiseScale"
+        },
+        "position": {
+          "x": 768,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseTex_pattern": {
+        "defId": "property",
+        "id": "p_noiseTex_pattern",
+        "params": {
+          "property": "noiseTex"
+        },
+        "position": {
+          "x": 768,
+          "y": 401
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_cut": {
+        "defId": "property",
+        "id": "p_softness_cut",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 2652,
+          "y": 370
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_pattern": {
+        "defId": "portalIn",
+        "id": "pi_pattern",
+        "params": {
+          "channel": "Pattern"
+        },
+        "position": {
+          "x": 2298,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_pattern_dis_noise": {
+        "defId": "portalOut",
+        "id": "po_pattern_dis_noise",
+        "params": {
+          "channel": "Pattern"
+        },
+        "position": {
+          "x": 2652,
+          "y": 464
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "scaled": {
+        "defId": "multiply",
+        "id": "scaled",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 189
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sprite": {
+        "defId": "sampleTexture2D",
+        "id": "sprite",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vsplit": {
+        "defId": "split",
+        "id": "vsplit",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 495
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Dissolve",
+        "default": null,
+        "displayName": "Dissolve Noise",
+        "exposed": true,
+        "id": "noiseTex",
+        "perInstance": false,
+        "referenceName": "_DissolveNoise",
+        "textureDefault": "grey",
+        "tooltip": "Greyscale pattern: dark areas dissolve first.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Dissolve",
+        "default": 0.45,
+        "displayName": "Dissolve",
+        "exposed": true,
+        "id": "amount",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Dissolve",
+        "slider": true,
+        "tooltip": "0 = fully visible, 1 = fully dissolved. Animate this from gameplay.",
+        "type": "float"
+      },
+      {
+        "category": "Dissolve",
+        "default": 1.5,
+        "displayName": "Noise Scale",
+        "exposed": true,
+        "id": "noiseScale",
+        "max": 8,
+        "min": 0.25,
+        "perInstance": false,
+        "referenceName": "_NoiseScale",
+        "slider": true,
+        "tooltip": "How often the noise repeats across the sprite.",
+        "type": "float"
+      },
+      {
+        "category": "Dissolve",
+        "default": 0.35,
+        "displayName": "Direction Bias",
+        "exposed": true,
+        "id": "direction",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_DirectionBias",
+        "slider": true,
+        "tooltip": "0 = pure noise, 1 = a clean bottom-up sweep. In between the noise rides on the sweep.",
+        "type": "float"
+      },
+      {
+        "category": "Edge",
+        "default": 0.03,
+        "displayName": "Edge Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 0.2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeSoftness",
+        "slider": true,
+        "tooltip": "Feathering of the cut.",
+        "type": "float"
+      },
+      {
+        "category": "Edge",
+        "default": 0.1,
+        "displayName": "Edge Width",
+        "exposed": true,
+        "id": "edgeWidth",
+        "max": 0.4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeWidth",
+        "slider": true,
+        "tooltip": "Width of the glowing burn band.",
+        "type": "float"
+      },
+      {
+        "category": "Edge",
+        "colorSpace": "linear",
+        "default": [
+          4.5,
+          1.5,
+          0.3
+        ],
+        "displayName": "Edge Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "edgeColor",
+        "perInstance": false,
+        "referenceName": "_EdgeColor",
+        "tooltip": "HDR colour of the burn edge (above 1 = bloom).",
+        "type": "color"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_soft_dissolve": {
+        "comments": [
+          {
+            "color": "#fb923c",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 2378
+            },
+            "text": "**Soft dissolve** — the cut line is `t = amount × (1 + width) − width`, so amount 0 hides nothing and amount 1 hides everything, edge band included.\n`alpha = smoothstep(t, t+soft, noise)`; the band is `alpha × (1 − smoothstep(t+width, t+width+soft, noise))`."
+          }
+        ],
+        "edges": {
+          "alpha:out>edge:a": {
+            "from": {
+              "node": "alpha",
+              "port": "out"
+            },
+            "id": "alpha:out>edge:a",
+            "to": {
+              "node": "edge",
+              "port": "a"
+            }
+          },
+          "alpha:out>outputs:alpha": {
+            "from": {
+              "node": "alpha",
+              "port": "out"
+            },
+            "id": "alpha:out>outputs:alpha",
+            "to": {
+              "node": "outputs",
+              "port": "alpha"
+            }
+          },
+          "bandA:out>bandB:a": {
+            "from": {
+              "node": "bandA",
+              "port": "out"
+            },
+            "id": "bandA:out>bandB:a",
+            "to": {
+              "node": "bandB",
+              "port": "a"
+            }
+          },
+          "bandA:out>upper:edge1": {
+            "from": {
+              "node": "bandA",
+              "port": "out"
+            },
+            "id": "bandA:out>upper:edge1",
+            "to": {
+              "node": "upper",
+              "port": "edge1"
+            }
+          },
+          "bandB:out>upper:edge2": {
+            "from": {
+              "node": "bandB",
+              "port": "out"
+            },
+            "id": "bandB:out>upper:edge2",
+            "to": {
+              "node": "upper",
+              "port": "edge2"
+            }
+          },
+          "below:out>edge:b": {
+            "from": {
+              "node": "below",
+              "port": "out"
+            },
+            "id": "below:out>edge:b",
+            "to": {
+              "node": "edge",
+              "port": "b"
+            }
+          },
+          "cut0:out>t:a": {
+            "from": {
+              "node": "cut0",
+              "port": "out"
+            },
+            "id": "cut0:out>t:a",
+            "to": {
+              "node": "t",
+              "port": "a"
+            }
+          },
+          "edge:out>outputs:edge": {
+            "from": {
+              "node": "edge",
+              "port": "out"
+            },
+            "id": "edge:out>outputs:edge",
+            "to": {
+              "node": "outputs",
+              "port": "edge"
+            }
+          },
+          "inputs:amount>cut0:a": {
+            "from": {
+              "node": "inputs",
+              "port": "amount"
+            },
+            "id": "inputs:amount>cut0:a",
+            "to": {
+              "node": "cut0",
+              "port": "a"
+            }
+          },
+          "inputs:edgeWidth>bandA:b": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>bandA:b",
+            "to": {
+              "node": "bandA",
+              "port": "b"
+            }
+          },
+          "inputs:edgeWidth>t:b": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>t:b",
+            "to": {
+              "node": "t",
+              "port": "b"
+            }
+          },
+          "inputs:edgeWidth>w1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>w1:a",
+            "to": {
+              "node": "w1",
+              "port": "a"
+            }
+          },
+          "inputs:noise>alpha:in": {
+            "from": {
+              "node": "inputs",
+              "port": "noise"
+            },
+            "id": "inputs:noise>alpha:in",
+            "to": {
+              "node": "alpha",
+              "port": "in"
+            }
+          },
+          "inputs:noise>upper:in": {
+            "from": {
+              "node": "inputs",
+              "port": "noise"
+            },
+            "id": "inputs:noise>upper:in",
+            "to": {
+              "node": "upper",
+              "port": "in"
+            }
+          },
+          "inputs:softness>soft:a": {
+            "from": {
+              "node": "inputs",
+              "port": "softness"
+            },
+            "id": "inputs:softness>soft:a",
+            "to": {
+              "node": "soft",
+              "port": "a"
+            }
+          },
+          "soft:out>bandB:b": {
+            "from": {
+              "node": "soft",
+              "port": "out"
+            },
+            "id": "soft:out>bandB:b",
+            "to": {
+              "node": "bandB",
+              "port": "b"
+            }
+          },
+          "soft:out>tEnd:b": {
+            "from": {
+              "node": "soft",
+              "port": "out"
+            },
+            "id": "soft:out>tEnd:b",
+            "to": {
+              "node": "tEnd",
+              "port": "b"
+            }
+          },
+          "t:out>alpha:edge1": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>alpha:edge1",
+            "to": {
+              "node": "alpha",
+              "port": "edge1"
+            }
+          },
+          "t:out>bandA:a": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>bandA:a",
+            "to": {
+              "node": "bandA",
+              "port": "a"
+            }
+          },
+          "t:out>tEnd:a": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>tEnd:a",
+            "to": {
+              "node": "tEnd",
+              "port": "a"
+            }
+          },
+          "tEnd:out>alpha:edge2": {
+            "from": {
+              "node": "tEnd",
+              "port": "out"
+            },
+            "id": "tEnd:out>alpha:edge2",
+            "to": {
+              "node": "alpha",
+              "port": "edge2"
+            }
+          },
+          "upper:out>below:in": {
+            "from": {
+              "node": "upper",
+              "port": "out"
+            },
+            "id": "upper:out>below:in",
+            "to": {
+              "node": "below",
+              "port": "in"
+            }
+          },
+          "w1:out>cut0:b": {
+            "from": {
+              "node": "w1",
+              "port": "out"
+            },
+            "id": "w1:out>cut0:b",
+            "to": {
+              "node": "cut0",
+              "port": "b"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fb923c",
+            "id": "grp_body",
+            "nodeIds": [
+              "w1",
+              "cut0",
+              "t",
+              "soft",
+              "tEnd",
+              "alpha",
+              "bandA",
+              "bandB",
+              "upper",
+              "below",
+              "edge"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 2422,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Soft Edge Dissolve"
+          }
+        ],
+        "id": "ks_soft_dissolve",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "noise",
+            "name": "Noise",
+            "tooltip": "Any 0…1 pattern that decides what disappears first.",
+            "type": "float"
+          },
+          {
+            "default": 0,
+            "id": "amount",
+            "name": "Amount",
+            "tooltip": "0 = fully visible, 1 = fully dissolved.",
+            "type": "float"
+          },
+          {
+            "default": 0.08,
+            "id": "edgeWidth",
+            "name": "Edge Width",
+            "tooltip": "Width of the glowing band (in noise units).",
+            "type": "float"
+          },
+          {
+            "default": 0.02,
+            "id": "softness",
+            "name": "Softness",
+            "tooltip": "Feathering of both borders (clamped to ≥ 0.001).",
+            "type": "float"
+          }
+        ],
+        "name": "Soft Edge Dissolve",
+        "nodes": {
+          "alpha": {
+            "defId": "smoothstep",
+            "id": "alpha",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "bandA": {
+            "defId": "add",
+            "id": "bandA",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "bandB": {
+            "defId": "add",
+            "id": "bandB",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "below": {
+            "defId": "oneMinus",
+            "id": "below",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cut0": {
+            "defId": "multiply",
+            "id": "cut0",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "edge": {
+            "defId": "multiply",
+            "id": "edge",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 2862,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "soft": {
+            "defId": "maximum",
+            "id": "soft",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.001
+            }
+          },
+          "t": {
+            "defId": "subtract",
+            "id": "t",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tEnd": {
+            "defId": "add",
+            "id": "tEnd",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "upper": {
+            "defId": "smoothstep",
+            "id": "upper",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "w1": {
+            "defId": "add",
+            "id": "w1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 1
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "alpha",
+            "name": "Alpha",
+            "tooltip": "Visibility mask 0…1 (feathered).",
+            "type": "float"
+          },
+          {
+            "id": "edge",
+            "name": "Edge",
+            "tooltip": "Glowing band 0…1, just inside the cut.",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-dissolve.locked_sprite_texture",
+      "noiseTex": "sample.sprite-dissolve.noiseTex"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

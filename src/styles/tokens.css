@@ -1,0 +1,118 @@
+/* Kekenik Shader — design tokens. Single source of truth; documented in docs/DESIGN_TOKENS.md */
+:root {
+  color-scheme: dark;
+
+  /* ── Surfaces: deep neutral blue-gray, 5 elevation levels ───────────── */
+  --kk-surface-0: #0b0d12; /* app backdrop, deepest wells */
+  --kk-surface-1: #10131a; /* panels, canvases */
+  --kk-surface-2: #161a23; /* chrome: menu bar, toolbar, tab bars */
+  --kk-surface-3: #1d222d; /* controls, raised cards */
+  --kk-surface-4: #262c39; /* popovers, hovered controls */
+
+  --kk-border-subtle: #1b1f29;
+  --kk-border: #262c39;
+  --kk-border-strong: #343c4d;
+
+  /* ── Text ─────────────────────────────────────────────────────────── */
+  --kk-text-1: #e8ebf3;
+  --kk-text-2: #a4acbf;
+  --kk-text-3: #6c7589;
+  --kk-text-disabled: #4a5163;
+  --kk-text-on-accent: #ffffff;
+
+  /* ── Accent: electric violet + cyan secondary ─────────────────────── */
+  --kk-accent: #7c5cff;
+  --kk-accent-hover: #8f74ff;
+  --kk-accent-press: #6a47f0;
+  --kk-accent-soft: rgba(124, 92, 255, 0.16);
+  --kk-accent-softer: rgba(124, 92, 255, 0.08);
+  --kk-accent-2: #22d3ee;
+  --kk-accent-2-soft: rgba(34, 211, 238, 0.16);
+  --kk-focus-ring: #9b86ff;
+
+  /* ── Semantic ─────────────────────────────────────────────────────── */
+  --kk-success: #34d399;
+  --kk-success-soft: rgba(52, 211, 153, 0.14);
+  --kk-warning: #fbbf24;
+  --kk-warning-soft: rgba(251, 191, 36, 0.14);
+  --kk-danger: #f87171;
+  --kk-danger-soft: rgba(248, 113, 113, 0.14);
+  --kk-info: #60a5fa;
+  --kk-info-soft: rgba(96, 165, 250, 0.14);
+
+  /* ── Port-type colors (PLACEHOLDERS — finalises) ──────────── */
+  --kk-port-float: #9ee37d;
+  --kk-port-int: #5ad1b4;
+  --kk-port-bool: #e87a7a;
+  --kk-port-vec2: #7ed3f5;
+  --kk-port-vec3: #f5d36e;
+  --kk-port-vec4: #d58bf0;
+  --kk-port-color: #ff9d5c;
+  --kk-port-matrix: #8aa0ff;
+  --kk-port-texture: #f07ab0;
+  --kk-port-sampler: #b0b6c8;
+  --kk-port-gradient: #c9b3ff;
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --kk-font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --kk-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+  --kk-text-xs: 10.5px;
+  --kk-text-sm: 11.5px;
+  --kk-text-md: 12.5px;
+  --kk-text-lg: 14px;
+  --kk-text-xl: 17px;
+  --kk-text-2xl: 22px;
+
+  /* ── Spacing scale (4px base) ─────────────────────────────────────── */
+  --kk-space-1: 2px;
+  --kk-space-2: 4px;
+  --kk-space-3: 6px;
+  --kk-space-4: 8px;
+  --kk-space-5: 12px;
+  --kk-space-6: 16px;
+  --kk-space-7: 24px;
+  --kk-space-8: 32px;
+
+  /* ── Radii ────────────────────────────────────────────────────────── */
+  --kk-radius-xs: 3px;
+  --kk-radius-sm: 5px;
+  --kk-radius-md: 7px;
+  --kk-radius-lg: 10px;
+  --kk-radius-full: 999px;
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --kk-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --kk-shadow-2: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --kk-shadow-3: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --kk-shadow-4: 0 20px 56px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --kk-shadow-glow: 0 0 0 3px var(--kk-accent-soft);
+
+  /* ── Motion ───────────────────────────────────────────────────────── */
+  --kk-dur-fast: 120ms;
+  --kk-dur: 150ms;
+  --kk-dur-slow: 180ms;
+  --kk-ease: cubic-bezier(0.2, 0, 0, 1);
+  --kk-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --kk-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Z-index scale ────────────────────────────────────────────────── */
+  --kk-z-base: 0;
+  --kk-z-dock: 10;
+  --kk-z-floating: 50;
+  --kk-z-chrome: 100;
+  /* Overlay scale : everything above --kk-z-chrome lives in the ONE overlay root (src/ui/overlay/overlayRoot.ts).
+     Order matters: a dropdown / popover opened from inside a dialog must sit ABOVE the dialog, a context menu above both. */
+  --kk-z-modal: 1100;
+  --kk-z-dropdown: 1200;
+  --kk-z-menu: 1300;
+  --kk-z-toast: 1400;
+  --kk-z-tooltip: 1500;
+
+  /* ── Layout metrics ───────────────────────────────────────────────── */
+  --kk-menubar-h: 30px;
+  --kk-toolbar-h: 38px;
+  --kk-statusbar-h: 24px;
+  --kk-control-h: 26px;
+  --kk-control-h-sm: 22px;
+  --kk-control-h-lg: 32px;
+}

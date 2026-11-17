@@ -1,0 +1,1100 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 762
+        },
+        "text": "Quad UV, the particle age in seconds (normalised age × lifetime), particle colour and the screen UV of the fragment."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_ripple",
+        "position": {
+          "x": 988,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 542
+        },
+        "text": "The **Ripple Shockwave** node: ring radius `speed × t`, gaussian envelope of the given width, `sin` ripple inside it, faded over the lifetime. *offset* is the UV displacement, *strength* the ring envelope (0…1)."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_refract",
+        "position": {
+          "x": 1734,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1460
+        },
+        "text": "`sceneColor(screenUV + offset × screenScale)` — the opaque texture read at a displaced coordinate. The highlight adds `ringColor × strength × glow` on the wavefront."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_mask",
+        "position": {
+          "x": 1734,
+          "y": 571
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "`1 − smoothstep(edgeFade, 0.5, |uv − ½|)`: the quad's square border never shows. Alpha = mask × particle alpha."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 3398,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Distorted scene colour with the round alpha mask."
+      }
+    ],
+    "edges": {
+      "age:normalized>secs:a": {
+        "from": {
+          "node": "age",
+          "port": "normalized"
+        },
+        "id": "age:normalized>secs:a",
+        "to": {
+          "node": "secs",
+          "port": "a"
+        }
+      },
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "dist:out>sm:in": {
+        "from": {
+          "node": "dist",
+          "port": "out"
+        },
+        "id": "dist:out>sm:in",
+        "to": {
+          "node": "sm",
+          "port": "in"
+        }
+      },
+      "hl2:out>col:b": {
+        "from": {
+          "node": "hl2",
+          "port": "out"
+        },
+        "id": "hl2:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "hl:out>hl2:a": {
+        "from": {
+          "node": "hl",
+          "port": "out"
+        },
+        "id": "hl:out>hl2:a",
+        "to": {
+          "node": "hl2",
+          "port": "a"
+        }
+      },
+      "off:out>suv:b": {
+        "from": {
+          "node": "off",
+          "port": "out"
+        },
+        "id": "off:out>suv:b",
+        "to": {
+          "node": "suv",
+          "port": "b"
+        }
+      },
+      "p_amplitude_ripple:out>rip:amplitude": {
+        "from": {
+          "node": "p_amplitude_ripple",
+          "port": "out"
+        },
+        "id": "p_amplitude_ripple:out>rip:amplitude",
+        "to": {
+          "node": "rip",
+          "port": "amplitude"
+        }
+      },
+      "p_edgeFade_mask:out>sm:edge1": {
+        "from": {
+          "node": "p_edgeFade_mask",
+          "port": "out"
+        },
+        "id": "p_edgeFade_mask:out>sm:edge1",
+        "to": {
+          "node": "sm",
+          "port": "edge1"
+        }
+      },
+      "p_frequency_ripple:out>rip:frequency": {
+        "from": {
+          "node": "p_frequency_ripple",
+          "port": "out"
+        },
+        "id": "p_frequency_ripple:out>rip:frequency",
+        "to": {
+          "node": "rip",
+          "port": "frequency"
+        }
+      },
+      "p_glow_refract:out>hl2:b": {
+        "from": {
+          "node": "p_glow_refract",
+          "port": "out"
+        },
+        "id": "p_glow_refract:out>hl2:b",
+        "to": {
+          "node": "hl2",
+          "port": "b"
+        }
+      },
+      "p_lifetime_inputs:out>secs:b": {
+        "from": {
+          "node": "p_lifetime_inputs",
+          "port": "out"
+        },
+        "id": "p_lifetime_inputs:out>secs:b",
+        "to": {
+          "node": "secs",
+          "port": "b"
+        }
+      },
+      "p_lifetime_ripple:out>rip:lifetime": {
+        "from": {
+          "node": "p_lifetime_ripple",
+          "port": "out"
+        },
+        "id": "p_lifetime_ripple:out>rip:lifetime",
+        "to": {
+          "node": "rip",
+          "port": "lifetime"
+        }
+      },
+      "p_ringColor_refract:out>hl:a": {
+        "from": {
+          "node": "p_ringColor_refract",
+          "port": "out"
+        },
+        "id": "p_ringColor_refract:out>hl:a",
+        "to": {
+          "node": "hl",
+          "port": "a"
+        }
+      },
+      "p_screenScale_refract:out>off:b": {
+        "from": {
+          "node": "p_screenScale_refract",
+          "port": "out"
+        },
+        "id": "p_screenScale_refract:out>off:b",
+        "to": {
+          "node": "off",
+          "port": "b"
+        }
+      },
+      "p_speed_ripple:out>rip:speed": {
+        "from": {
+          "node": "p_speed_ripple",
+          "port": "out"
+        },
+        "id": "p_speed_ripple:out>rip:speed",
+        "to": {
+          "node": "rip",
+          "port": "speed"
+        }
+      },
+      "p_width_ripple:out>rip:width": {
+        "from": {
+          "node": "p_width_ripple",
+          "port": "out"
+        },
+        "id": "p_width_ripple:out>rip:width",
+        "to": {
+          "node": "rip",
+          "port": "width"
+        }
+      },
+      "pc:a>al:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "po_ageseconds_rip_time:out>rip:time": {
+        "from": {
+          "node": "po_ageseconds_rip_time",
+          "port": "out"
+        },
+        "id": "po_ageseconds_rip_time:out>rip:time",
+        "to": {
+          "node": "rip",
+          "port": "time"
+        }
+      },
+      "po_screenuv_suv_a:out>suv:a": {
+        "from": {
+          "node": "po_screenuv_suv_a",
+          "port": "out"
+        },
+        "id": "po_screenuv_suv_a:out>suv:a",
+        "to": {
+          "node": "suv",
+          "port": "a"
+        }
+      },
+      "rip:offset>off:a": {
+        "from": {
+          "node": "rip",
+          "port": "offset"
+        },
+        "id": "rip:offset>off:a",
+        "to": {
+          "node": "off",
+          "port": "a"
+        }
+      },
+      "rip:strength>hl:b": {
+        "from": {
+          "node": "rip",
+          "port": "strength"
+        },
+        "id": "rip:strength>hl:b",
+        "to": {
+          "node": "hl",
+          "port": "b"
+        }
+      },
+      "round:out>al:a": {
+        "from": {
+          "node": "round",
+          "port": "out"
+        },
+        "id": "round:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "scene:out>col:a": {
+        "from": {
+          "node": "scene",
+          "port": "out"
+        },
+        "id": "scene:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "secs:out>pi_ageseconds:in": {
+        "from": {
+          "node": "secs",
+          "port": "out"
+        },
+        "id": "secs:out>pi_ageseconds:in",
+        "to": {
+          "node": "pi_ageseconds",
+          "port": "in"
+        }
+      },
+      "sm:out>round:in": {
+        "from": {
+          "node": "sm",
+          "port": "out"
+        },
+        "id": "sm:out>round:in",
+        "to": {
+          "node": "round",
+          "port": "in"
+        }
+      },
+      "sp:normalized>pi_screenuv:in": {
+        "from": {
+          "node": "sp",
+          "port": "normalized"
+        },
+        "id": "sp:normalized>pi_screenuv:in",
+        "to": {
+          "node": "pi_screenuv",
+          "port": "in"
+        }
+      },
+      "suv:out>scene:uv": {
+        "from": {
+          "node": "suv",
+          "port": "out"
+        },
+        "id": "suv:out>scene:uv",
+        "to": {
+          "node": "scene",
+          "port": "uv"
+        }
+      },
+      "uv:out>dist:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>dist:a",
+        "to": {
+          "node": "dist",
+          "port": "a"
+        }
+      },
+      "uv:out>rip:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>rip:uv",
+        "to": {
+          "node": "rip",
+          "port": "uv"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "age",
+          "pc",
+          "sp",
+          "secs",
+          "p_lifetime_inputs",
+          "pi_ageseconds",
+          "pi_screenuv"
+        ],
+        "rect": {
+          "h": 954,
+          "w": 806,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Particle inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_ripple",
+        "nodeIds": [
+          "rip",
+          "po_ageseconds_rip_time",
+          "p_speed_ripple",
+          "p_width_ripple",
+          "p_frequency_ripple",
+          "p_amplitude_ripple",
+          "p_lifetime_ripple"
+        ],
+        "rect": {
+          "h": 797,
+          "w": 586,
+          "x": 966,
+          "y": 0
+        },
+        "title": "Ripple"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_refract",
+        "nodeIds": [
+          "off",
+          "suv",
+          "scene",
+          "hl",
+          "hl2",
+          "col",
+          "p_screenScale_refract",
+          "po_screenuv_suv_a",
+          "p_ringColor_refract",
+          "p_glow_refract"
+        ],
+        "rect": {
+          "h": 467,
+          "w": 1504,
+          "x": 1712,
+          "y": 0
+        },
+        "title": "Screen distortion"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_mask",
+        "nodeIds": [
+          "dist",
+          "sm",
+          "round",
+          "al",
+          "p_edgeFade_mask"
+        ],
+        "rect": {
+          "h": 349,
+          "w": 1198,
+          "x": 1712,
+          "y": 537
+        },
+        "title": "Round mask"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 3376,
+          "y": 0
+        },
+        "title": "Master output (URP VFX Unlit, alpha)"
+      }
+    ],
+    "id": "vfx-shockwave",
+    "keywords": [],
+    "name": "Shockwave Ripple Distortion",
+    "nodes": {
+      "age": {
+        "defId": "particleAge",
+        "id": "age",
+        "params": {
+          "mode": "normalized"
+        },
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "al": {
+        "defId": "multiply",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 2652,
+          "y": 654
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "add",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 2958,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dist": {
+        "defId": "distance",
+        "id": "dist",
+        "params": {},
+        "position": {
+          "x": 1734,
+          "y": 654
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "hl": {
+        "defId": "multiply",
+        "id": "hl",
+        "params": {},
+        "position": {
+          "x": 2040,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hl2": {
+        "defId": "multiply",
+        "id": "hl2",
+        "params": {},
+        "position": {
+          "x": 2346,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 3398,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "off": {
+        "defId": "multiply",
+        "id": "off",
+        "params": {},
+        "position": {
+          "x": 2040,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_amplitude_ripple": {
+        "defId": "property",
+        "id": "p_amplitude_ripple",
+        "params": {
+          "property": "amplitude"
+        },
+        "position": {
+          "x": 988,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_edgeFade_mask": {
+        "defId": "property",
+        "id": "p_edgeFade_mask",
+        "params": {
+          "property": "edgeFade"
+        },
+        "position": {
+          "x": 1734,
+          "y": 796
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_frequency_ripple": {
+        "defId": "property",
+        "id": "p_frequency_ripple",
+        "params": {
+          "property": "frequency"
+        },
+        "position": {
+          "x": 988,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glow_refract": {
+        "defId": "property",
+        "id": "p_glow_refract",
+        "params": {
+          "property": "glow"
+        },
+        "position": {
+          "x": 1734,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lifetime_inputs": {
+        "defId": "property",
+        "id": "p_lifetime_inputs",
+        "params": {
+          "property": "lifetime"
+        },
+        "position": {
+          "x": 22,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lifetime_ripple": {
+        "defId": "property",
+        "id": "p_lifetime_ripple",
+        "params": {
+          "property": "lifetime"
+        },
+        "position": {
+          "x": 988,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_ringColor_refract": {
+        "defId": "property",
+        "id": "p_ringColor_refract",
+        "params": {
+          "property": "ringColor"
+        },
+        "position": {
+          "x": 1734,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_screenScale_refract": {
+        "defId": "property",
+        "id": "p_screenScale_refract",
+        "params": {
+          "property": "screenScale"
+        },
+        "position": {
+          "x": 1734,
+          "y": 317
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_speed_ripple": {
+        "defId": "property",
+        "id": "p_speed_ripple",
+        "params": {
+          "property": "speed"
+        },
+        "position": {
+          "x": 988,
+          "y": 553
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_width_ripple": {
+        "defId": "property",
+        "id": "p_width_ripple",
+        "params": {
+          "property": "width"
+        },
+        "position": {
+          "x": 988,
+          "y": 647
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pc": {
+        "defId": "particleColor",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 432
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_ageseconds": {
+        "defId": "portalIn",
+        "id": "pi_ageseconds",
+        "params": {
+          "channel": "AgeSeconds"
+        },
+        "position": {
+          "x": 634,
+          "y": 187
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_screenuv": {
+        "defId": "portalIn",
+        "id": "pi_screenuv",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 328,
+          "y": 689
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_ageseconds_rip_time": {
+        "defId": "portalOut",
+        "id": "po_ageseconds_rip_time",
+        "params": {
+          "channel": "AgeSeconds"
+        },
+        "position": {
+          "x": 988,
+          "y": 741
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_screenuv_suv_a": {
+        "defId": "portalOut",
+        "id": "po_screenuv_suv_a",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 1734,
+          "y": 411
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rip": {
+        "defId": "rippleShockwave",
+        "id": "rip",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "round": {
+        "defId": "oneMinus",
+        "id": "round",
+        "params": {},
+        "position": {
+          "x": 2346,
+          "y": 666
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "scene": {
+        "defId": "sceneColor",
+        "id": "scene",
+        "params": {},
+        "position": {
+          "x": 2652,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "secs": {
+        "defId": "multiply",
+        "id": "secs",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sm": {
+        "defId": "smoothstep",
+        "id": "sm",
+        "params": {},
+        "position": {
+          "x": 2040,
+          "y": 642
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge2": 0.5
+        }
+      },
+      "sp": {
+        "defId": "screenPosition",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 624
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "suv": {
+        "defId": "add",
+        "id": "suv",
+        "params": {},
+        "position": {
+          "x": 2346,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 840
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.vfx-unlit",
+    "properties": [
+      {
+        "category": "Wave",
+        "default": 1.8,
+        "displayName": "Lifetime",
+        "exposed": true,
+        "id": "lifetime",
+        "max": 6,
+        "min": 0.3,
+        "perInstance": false,
+        "referenceName": "_Lifetime",
+        "slider": true,
+        "tooltip": "Particle lifetime in seconds (must match the emitter): converts the normalised age to seconds.",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 0.26,
+        "displayName": "Ring Speed",
+        "exposed": true,
+        "id": "speed",
+        "max": 1.5,
+        "min": 0.05,
+        "perInstance": false,
+        "referenceName": "_RingSpeed",
+        "slider": true,
+        "tooltip": "Ring radius growth in quad-UV units per second (≈ 0.5 / Lifetime reaches the quad edge).",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 0.07,
+        "displayName": "Ring Width",
+        "exposed": true,
+        "id": "width",
+        "max": 0.3,
+        "min": 0.01,
+        "perInstance": false,
+        "referenceName": "_RingWidth",
+        "slider": true,
+        "tooltip": "Width of the wavefront (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 16,
+        "displayName": "Ripple Frequency",
+        "exposed": true,
+        "id": "frequency",
+        "max": 60,
+        "min": 2,
+        "perInstance": false,
+        "referenceName": "_RippleFrequency",
+        "slider": true,
+        "tooltip": "Oscillations inside the ring envelope.",
+        "type": "float"
+      },
+      {
+        "category": "Distortion",
+        "default": 0.04,
+        "displayName": "Amplitude",
+        "exposed": true,
+        "id": "amplitude",
+        "max": 0.2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Amplitude",
+        "slider": true,
+        "tooltip": "UV displacement of the ripple.",
+        "type": "float"
+      },
+      {
+        "category": "Distortion",
+        "default": 0.6,
+        "displayName": "Screen Scale",
+        "exposed": true,
+        "id": "screenScale",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ScreenScale",
+        "slider": true,
+        "tooltip": "Converts the quad-local displacement to screen UV (grows with the on-screen size of the quad).",
+        "type": "float"
+      },
+      {
+        "category": "Highlight",
+        "colorSpace": "linear",
+        "default": [
+          0.5,
+          0.8,
+          1.6
+        ],
+        "displayName": "Ring Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "ringColor",
+        "perInstance": false,
+        "referenceName": "_RingColor",
+        "tooltip": "HDR colour of the wavefront highlight.",
+        "type": "color"
+      },
+      {
+        "category": "Highlight",
+        "default": 0.5,
+        "displayName": "Ring Glow",
+        "exposed": true,
+        "id": "glow",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RingGlow",
+        "slider": true,
+        "tooltip": "Brightness of the wavefront highlight (0 = pure distortion).",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 0.4,
+        "displayName": "Edge Fade",
+        "exposed": true,
+        "id": "edgeFade",
+        "max": 0.49,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_EdgeFade",
+        "slider": true,
+        "tooltip": "Distance from the quad centre where the effect starts fading out (UV units).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "alpha",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "emitter": {
+        "colorOverLife": [
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 0
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "t": 0.02
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0.8
+            ],
+            "t": 0.75
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 1
+          }
+        ],
+        "gravity": [
+          0,
+          0,
+          0
+        ],
+        "lifetime": 1.8,
+        "lifetimeVar": 0,
+        "maxParticles": 4,
+        "rate": 0.55,
+        "sizeEnd": 3.4,
+        "sizeStart": 0.5,
+        "speed": 0,
+        "spread": 0
+      },
+      "grid": false,
+      "ground": "grid",
+      "mode": "vfx",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {
+      "depthTexture": true,
+      "enabled": true,
+      "opaqueTexture": true
+    },
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,2739 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Quad UV, time and the particle colour / alpha."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_noise",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2598
+        },
+        "text": "`step = floor(time × rate)` re-seeds the noise: the bolt jumps to a new shape every `1 / rate` s. Signed 1-D value noise along x (`p = (x, ½)`, scale = jag frequency) gives the bend; a second noise at 2.3× frequency adds fine kinks to the branch. The envelope `√(4·x·(1−x))` pins both ends of the bolt to the centre line."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_lines",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`yc = uv.y − ½`; the distance to a bolt is `|yc − displacement|`. Core = `1 − smoothstep(0, width, dist)`; glow = `saturate(1 − dist / glowWidth)²`. The branch uses the second displacement and half the core width."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_flash",
+        "position": {
+          "x": 3570,
+          "y": 939
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`brightness = lerp(1, hash(step), flicker) × (0.35 + 0.65 × (1 − saw)^decay)`. The sawtooth (period = *Strike Period*) restarts a bright flash that decays; the per-step hash flickers it. `endFade` softens the two bolt ends."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_color",
+        "position": {
+          "x": 5846,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "`core = core₁ + branch × core₂`, `glow` likewise. Colour = (`coreColor × core + glowColor × glow × strength`) × brightness × endFade × particle colour; alpha = saturate(core + glow) × endFade × particle alpha."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 8734,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Additive blend, ZWrite off, two-sided."
+      }
+    ],
+    "edges": {
+      "a1:out>d1:b": {
+        "from": {
+          "node": "a1",
+          "port": "out"
+        },
+        "id": "a1:out>d1:b",
+        "to": {
+          "node": "d1",
+          "port": "b"
+        }
+      },
+      "a2:out>k2:b": {
+        "from": {
+          "node": "a2",
+          "port": "out"
+        },
+        "id": "a2:out>k2:b",
+        "to": {
+          "node": "k2",
+          "port": "b"
+        }
+      },
+      "bc:out>core:b": {
+        "from": {
+          "node": "bc",
+          "port": "out"
+        },
+        "id": "bc:out>core:b",
+        "to": {
+          "node": "core",
+          "port": "b"
+        }
+      },
+      "bg:out>glow:b": {
+        "from": {
+          "node": "bg",
+          "port": "out"
+        },
+        "id": "bg:out>glow:b",
+        "to": {
+          "node": "glow",
+          "port": "b"
+        }
+      },
+      "br:out>cb:b": {
+        "from": {
+          "node": "br",
+          "port": "out"
+        },
+        "id": "br:out>cb:b",
+        "to": {
+          "node": "cb",
+          "port": "b"
+        }
+      },
+      "c10:out>core1:in": {
+        "from": {
+          "node": "c10",
+          "port": "out"
+        },
+        "id": "c10:out>core1:in",
+        "to": {
+          "node": "core1",
+          "port": "in"
+        }
+      },
+      "c1:out>cs:a": {
+        "from": {
+          "node": "c1",
+          "port": "out"
+        },
+        "id": "c1:out>cs:a",
+        "to": {
+          "node": "cs",
+          "port": "a"
+        }
+      },
+      "c20:out>core2:in": {
+        "from": {
+          "node": "c20",
+          "port": "out"
+        },
+        "id": "c20:out>core2:in",
+        "to": {
+          "node": "core2",
+          "port": "in"
+        }
+      },
+      "c2:out>cs:b": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>cs:b",
+        "to": {
+          "node": "cs",
+          "port": "b"
+        }
+      },
+      "cb:out>ce:a": {
+        "from": {
+          "node": "cb",
+          "port": "out"
+        },
+        "id": "cb:out>ce:a",
+        "to": {
+          "node": "ce",
+          "port": "a"
+        }
+      },
+      "ce:out>tint:a": {
+        "from": {
+          "node": "ce",
+          "port": "out"
+        },
+        "id": "ce:out>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "core1:out>core:a": {
+        "from": {
+          "node": "core1",
+          "port": "out"
+        },
+        "id": "core1:out>core:a",
+        "to": {
+          "node": "core",
+          "port": "a"
+        }
+      },
+      "core2:out>bc:a": {
+        "from": {
+          "node": "core2",
+          "port": "out"
+        },
+        "id": "core2:out>bc:a",
+        "to": {
+          "node": "bc",
+          "port": "a"
+        }
+      },
+      "core:out>c1:b": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>c1:b",
+        "to": {
+          "node": "c1",
+          "port": "b"
+        }
+      },
+      "core:out>za0:a": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>za0:a",
+        "to": {
+          "node": "za0",
+          "port": "a"
+        }
+      },
+      "cs:out>cb:a": {
+        "from": {
+          "node": "cs",
+          "port": "out"
+        },
+        "id": "cs:out>cb:a",
+        "to": {
+          "node": "cb",
+          "port": "a"
+        }
+      },
+      "d1:out>d2:a": {
+        "from": {
+          "node": "d1",
+          "port": "out"
+        },
+        "id": "d1:out>d2:a",
+        "to": {
+          "node": "d2",
+          "port": "a"
+        }
+      },
+      "d1:out>pi_bolt1:in": {
+        "from": {
+          "node": "d1",
+          "port": "out"
+        },
+        "id": "d1:out>pi_bolt1:in",
+        "to": {
+          "node": "pi_bolt1",
+          "port": "in"
+        }
+      },
+      "d2:out>pi_bolt2:in": {
+        "from": {
+          "node": "d2",
+          "port": "out"
+        },
+        "id": "d2:out>pi_bolt2:in",
+        "to": {
+          "node": "pi_bolt2",
+          "port": "in"
+        }
+      },
+      "dc:out>dm:a": {
+        "from": {
+          "node": "dc",
+          "port": "out"
+        },
+        "id": "dc:out>dm:a",
+        "to": {
+          "node": "dm",
+          "port": "a"
+        }
+      },
+      "dist1:out>c10:in": {
+        "from": {
+          "node": "dist1",
+          "port": "out"
+        },
+        "id": "dist1:out>c10:in",
+        "to": {
+          "node": "c10",
+          "port": "in"
+        }
+      },
+      "dist1:out>g10:a": {
+        "from": {
+          "node": "dist1",
+          "port": "out"
+        },
+        "id": "dist1:out>g10:a",
+        "to": {
+          "node": "g10",
+          "port": "a"
+        }
+      },
+      "dist2:out>c20:in": {
+        "from": {
+          "node": "dist2",
+          "port": "out"
+        },
+        "id": "dist2:out>c20:in",
+        "to": {
+          "node": "c20",
+          "port": "in"
+        }
+      },
+      "dist2:out>g20:a": {
+        "from": {
+          "node": "dist2",
+          "port": "out"
+        },
+        "id": "dist2:out>g20:a",
+        "to": {
+          "node": "g20",
+          "port": "a"
+        }
+      },
+      "dm:out>dp:a": {
+        "from": {
+          "node": "dm",
+          "port": "out"
+        },
+        "id": "dm:out>dp:a",
+        "to": {
+          "node": "dp",
+          "port": "a"
+        }
+      },
+      "dp:out>br:b": {
+        "from": {
+          "node": "dp",
+          "port": "out"
+        },
+        "id": "dp:out>br:b",
+        "to": {
+          "node": "br",
+          "port": "b"
+        }
+      },
+      "e0:out>e1:a": {
+        "from": {
+          "node": "e0",
+          "port": "out"
+        },
+        "id": "e0:out>e1:a",
+        "to": {
+          "node": "e1",
+          "port": "a"
+        }
+      },
+      "e1:out>env:in": {
+        "from": {
+          "node": "e1",
+          "port": "out"
+        },
+        "id": "e1:out>env:in",
+        "to": {
+          "node": "env",
+          "port": "in"
+        }
+      },
+      "ee0:out>ee:in": {
+        "from": {
+          "node": "ee0",
+          "port": "out"
+        },
+        "id": "ee0:out>ee:in",
+        "to": {
+          "node": "ee",
+          "port": "in"
+        }
+      },
+      "ee:out>endFade:b": {
+        "from": {
+          "node": "ee",
+          "port": "out"
+        },
+        "id": "ee:out>endFade:b",
+        "to": {
+          "node": "endFade",
+          "port": "b"
+        }
+      },
+      "endFade:out>ce:b": {
+        "from": {
+          "node": "endFade",
+          "port": "out"
+        },
+        "id": "endFade:out>ce:b",
+        "to": {
+          "node": "ce",
+          "port": "b"
+        }
+      },
+      "endFade:out>za2:b": {
+        "from": {
+          "node": "endFade",
+          "port": "out"
+        },
+        "id": "endFade:out>za2:b",
+        "to": {
+          "node": "za2",
+          "port": "b"
+        }
+      },
+      "env:out>a1:b": {
+        "from": {
+          "node": "env",
+          "port": "out"
+        },
+        "id": "env:out>a1:b",
+        "to": {
+          "node": "a1",
+          "port": "b"
+        }
+      },
+      "env:out>k2e:b": {
+        "from": {
+          "node": "env",
+          "port": "out"
+        },
+        "id": "env:out>k2e:b",
+        "to": {
+          "node": "k2e",
+          "port": "b"
+        }
+      },
+      "es:out>endFade:a": {
+        "from": {
+          "node": "es",
+          "port": "out"
+        },
+        "id": "es:out>endFade:a",
+        "to": {
+          "node": "endFade",
+          "port": "a"
+        }
+      },
+      "f2:out>fbm2:scale": {
+        "from": {
+          "node": "f2",
+          "port": "out"
+        },
+        "id": "f2:out>fbm2:scale",
+        "to": {
+          "node": "fbm2",
+          "port": "scale"
+        }
+      },
+      "fbm1:out>d1:a": {
+        "from": {
+          "node": "fbm1",
+          "port": "out"
+        },
+        "id": "fbm1:out>d1:a",
+        "to": {
+          "node": "d1",
+          "port": "a"
+        }
+      },
+      "fbm2:out>k2:a": {
+        "from": {
+          "node": "fbm2",
+          "port": "out"
+        },
+        "id": "fbm2:out>k2:a",
+        "to": {
+          "node": "k2",
+          "port": "a"
+        }
+      },
+      "fl:out>br:a": {
+        "from": {
+          "node": "fl",
+          "port": "out"
+        },
+        "id": "fl:out>br:a",
+        "to": {
+          "node": "br",
+          "port": "a"
+        }
+      },
+      "g10:out>g11:in": {
+        "from": {
+          "node": "g10",
+          "port": "out"
+        },
+        "id": "g10:out>g11:in",
+        "to": {
+          "node": "g11",
+          "port": "in"
+        }
+      },
+      "g11:out>g12:in": {
+        "from": {
+          "node": "g11",
+          "port": "out"
+        },
+        "id": "g11:out>g12:in",
+        "to": {
+          "node": "g12",
+          "port": "in"
+        }
+      },
+      "g12:out>glow1:a": {
+        "from": {
+          "node": "g12",
+          "port": "out"
+        },
+        "id": "g12:out>glow1:a",
+        "to": {
+          "node": "glow1",
+          "port": "a"
+        }
+      },
+      "g12:out>glow1:b": {
+        "from": {
+          "node": "g12",
+          "port": "out"
+        },
+        "id": "g12:out>glow1:b",
+        "to": {
+          "node": "glow1",
+          "port": "b"
+        }
+      },
+      "g20:out>g21:in": {
+        "from": {
+          "node": "g20",
+          "port": "out"
+        },
+        "id": "g20:out>g21:in",
+        "to": {
+          "node": "g21",
+          "port": "in"
+        }
+      },
+      "g21:out>g22:in": {
+        "from": {
+          "node": "g21",
+          "port": "out"
+        },
+        "id": "g21:out>g22:in",
+        "to": {
+          "node": "g22",
+          "port": "in"
+        }
+      },
+      "g22:out>glow2:a": {
+        "from": {
+          "node": "g22",
+          "port": "out"
+        },
+        "id": "g22:out>glow2:a",
+        "to": {
+          "node": "glow2",
+          "port": "a"
+        }
+      },
+      "g22:out>glow2:b": {
+        "from": {
+          "node": "g22",
+          "port": "out"
+        },
+        "id": "g22:out>glow2:b",
+        "to": {
+          "node": "glow2",
+          "port": "b"
+        }
+      },
+      "glow1:out>glow:a": {
+        "from": {
+          "node": "glow1",
+          "port": "out"
+        },
+        "id": "glow1:out>glow:a",
+        "to": {
+          "node": "glow",
+          "port": "a"
+        }
+      },
+      "glow2:out>bg:a": {
+        "from": {
+          "node": "glow2",
+          "port": "out"
+        },
+        "id": "glow2:out>bg:a",
+        "to": {
+          "node": "bg",
+          "port": "a"
+        }
+      },
+      "glow:out>gs:a": {
+        "from": {
+          "node": "glow",
+          "port": "out"
+        },
+        "id": "glow:out>gs:a",
+        "to": {
+          "node": "gs",
+          "port": "a"
+        }
+      },
+      "gs:out>c2:b": {
+        "from": {
+          "node": "gs",
+          "port": "out"
+        },
+        "id": "gs:out>c2:b",
+        "to": {
+          "node": "c2",
+          "port": "b"
+        }
+      },
+      "gs:out>za0:b": {
+        "from": {
+          "node": "gs",
+          "port": "out"
+        },
+        "id": "gs:out>za0:b",
+        "to": {
+          "node": "za0",
+          "port": "b"
+        }
+      },
+      "hs:out>fl:b": {
+        "from": {
+          "node": "hs",
+          "port": "out"
+        },
+        "id": "hs:out>fl:b",
+        "to": {
+          "node": "fl",
+          "port": "b"
+        }
+      },
+      "hw:out>c20:edge2": {
+        "from": {
+          "node": "hw",
+          "port": "out"
+        },
+        "id": "hw:out>c20:edge2",
+        "to": {
+          "node": "c20",
+          "port": "edge2"
+        }
+      },
+      "inv:out>dc:a": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>dc:a",
+        "to": {
+          "node": "dc",
+          "port": "a"
+        }
+      },
+      "k2:out>k2e:a": {
+        "from": {
+          "node": "k2",
+          "port": "out"
+        },
+        "id": "k2:out>k2e:a",
+        "to": {
+          "node": "k2e",
+          "port": "a"
+        }
+      },
+      "k2e:out>d2:b": {
+        "from": {
+          "node": "k2e",
+          "port": "out"
+        },
+        "id": "k2e:out>d2:b",
+        "to": {
+          "node": "d2",
+          "port": "b"
+        }
+      },
+      "om:out>e0:b": {
+        "from": {
+          "node": "om",
+          "port": "out"
+        },
+        "id": "om:out>e0:b",
+        "to": {
+          "node": "e0",
+          "port": "b"
+        }
+      },
+      "p_amplitude_noise:out>a1:a": {
+        "from": {
+          "node": "p_amplitude_noise",
+          "port": "out"
+        },
+        "id": "p_amplitude_noise:out>a1:a",
+        "to": {
+          "node": "a1",
+          "port": "a"
+        }
+      },
+      "p_amplitude_noise:out>a2:a": {
+        "from": {
+          "node": "p_amplitude_noise",
+          "port": "out"
+        },
+        "id": "p_amplitude_noise:out>a2:a",
+        "to": {
+          "node": "a2",
+          "port": "a"
+        }
+      },
+      "p_branchStrength_color:out>bc:b": {
+        "from": {
+          "node": "p_branchStrength_color",
+          "port": "out"
+        },
+        "id": "p_branchStrength_color:out>bc:b",
+        "to": {
+          "node": "bc",
+          "port": "b"
+        }
+      },
+      "p_branchStrength_color:out>bg:b": {
+        "from": {
+          "node": "p_branchStrength_color",
+          "port": "out"
+        },
+        "id": "p_branchStrength_color:out>bg:b",
+        "to": {
+          "node": "bg",
+          "port": "b"
+        }
+      },
+      "p_coreColor_color:out>c1:a": {
+        "from": {
+          "node": "p_coreColor_color",
+          "port": "out"
+        },
+        "id": "p_coreColor_color:out>c1:a",
+        "to": {
+          "node": "c1",
+          "port": "a"
+        }
+      },
+      "p_coreWidth_lines:out>c10:edge2": {
+        "from": {
+          "node": "p_coreWidth_lines",
+          "port": "out"
+        },
+        "id": "p_coreWidth_lines:out>c10:edge2",
+        "to": {
+          "node": "c10",
+          "port": "edge2"
+        }
+      },
+      "p_coreWidth_lines:out>hw:a": {
+        "from": {
+          "node": "p_coreWidth_lines",
+          "port": "out"
+        },
+        "id": "p_coreWidth_lines:out>hw:a",
+        "to": {
+          "node": "hw",
+          "port": "a"
+        }
+      },
+      "p_flashDecay_flash:out>dc:b": {
+        "from": {
+          "node": "p_flashDecay_flash",
+          "port": "out"
+        },
+        "id": "p_flashDecay_flash:out>dc:b",
+        "to": {
+          "node": "dc",
+          "port": "b"
+        }
+      },
+      "p_flicker_flash:out>fl:t": {
+        "from": {
+          "node": "p_flicker_flash",
+          "port": "out"
+        },
+        "id": "p_flicker_flash:out>fl:t",
+        "to": {
+          "node": "fl",
+          "port": "t"
+        }
+      },
+      "p_frequency_noise:out>f2:a": {
+        "from": {
+          "node": "p_frequency_noise",
+          "port": "out"
+        },
+        "id": "p_frequency_noise:out>f2:a",
+        "to": {
+          "node": "f2",
+          "port": "a"
+        }
+      },
+      "p_frequency_noise:out>fbm1:scale": {
+        "from": {
+          "node": "p_frequency_noise",
+          "port": "out"
+        },
+        "id": "p_frequency_noise:out>fbm1:scale",
+        "to": {
+          "node": "fbm1",
+          "port": "scale"
+        }
+      },
+      "p_glowColor_color:out>c2:a": {
+        "from": {
+          "node": "p_glowColor_color",
+          "port": "out"
+        },
+        "id": "p_glowColor_color:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "p_glowStrength_color:out>gs:b": {
+        "from": {
+          "node": "p_glowStrength_color",
+          "port": "out"
+        },
+        "id": "p_glowStrength_color:out>gs:b",
+        "to": {
+          "node": "gs",
+          "port": "b"
+        }
+      },
+      "p_glowWidth_lines:out>g10:b": {
+        "from": {
+          "node": "p_glowWidth_lines",
+          "port": "out"
+        },
+        "id": "p_glowWidth_lines:out>g10:b",
+        "to": {
+          "node": "g10",
+          "port": "b"
+        }
+      },
+      "p_glowWidth_lines:out>g20:b": {
+        "from": {
+          "node": "p_glowWidth_lines",
+          "port": "out"
+        },
+        "id": "p_glowWidth_lines:out>g20:b",
+        "to": {
+          "node": "g20",
+          "port": "b"
+        }
+      },
+      "p_rate_noise:out>ts:b": {
+        "from": {
+          "node": "p_rate_noise",
+          "port": "out"
+        },
+        "id": "p_rate_noise:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_strikePeriod_flash:out>saw:period": {
+        "from": {
+          "node": "p_strikePeriod_flash",
+          "port": "out"
+        },
+        "id": "p_strikePeriod_flash:out>saw:period",
+        "to": {
+          "node": "saw",
+          "port": "period"
+        }
+      },
+      "pa:rg>fbm1:p": {
+        "from": {
+          "node": "pa",
+          "port": "rg"
+        },
+        "id": "pa:rg>fbm1:p",
+        "to": {
+          "node": "fbm1",
+          "port": "p"
+        }
+      },
+      "pa:rg>fbm2:p": {
+        "from": {
+          "node": "pa",
+          "port": "rg"
+        },
+        "id": "pa:rg>fbm2:p",
+        "to": {
+          "node": "fbm2",
+          "port": "p"
+        }
+      },
+      "pc:a>za3:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>za3:b",
+        "to": {
+          "node": "za3",
+          "port": "b"
+        }
+      },
+      "pc:rgb>tint:b": {
+        "from": {
+          "node": "pc",
+          "port": "rgb"
+        },
+        "id": "pc:rgb>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "po_bolt1_q1_b:out>q1:b": {
+        "from": {
+          "node": "po_bolt1_q1_b",
+          "port": "out"
+        },
+        "id": "po_bolt1_q1_b:out>q1:b",
+        "to": {
+          "node": "q1",
+          "port": "b"
+        }
+      },
+      "po_bolt2_q2_b:out>q2:b": {
+        "from": {
+          "node": "po_bolt2_q2_b",
+          "port": "out"
+        },
+        "id": "po_bolt2_q2_b:out>q2:b",
+        "to": {
+          "node": "q2",
+          "port": "b"
+        }
+      },
+      "po_step_hs_in:out>hs:in": {
+        "from": {
+          "node": "po_step_hs_in",
+          "port": "out"
+        },
+        "id": "po_step_hs_in:out>hs:in",
+        "to": {
+          "node": "hs",
+          "port": "in"
+        }
+      },
+      "po_time_saw_t:out>saw:t": {
+        "from": {
+          "node": "po_time_saw_t",
+          "port": "out"
+        },
+        "id": "po_time_saw_t:out>saw:t",
+        "to": {
+          "node": "saw",
+          "port": "t"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "q1:out>dist1:in": {
+        "from": {
+          "node": "q1",
+          "port": "out"
+        },
+        "id": "q1:out>dist1:in",
+        "to": {
+          "node": "dist1",
+          "port": "in"
+        }
+      },
+      "q2:out>dist2:in": {
+        "from": {
+          "node": "q2",
+          "port": "out"
+        },
+        "id": "q2:out>dist2:in",
+        "to": {
+          "node": "dist2",
+          "port": "in"
+        }
+      },
+      "saw:out>inv:in": {
+        "from": {
+          "node": "saw",
+          "port": "out"
+        },
+        "id": "saw:out>inv:in",
+        "to": {
+          "node": "inv",
+          "port": "in"
+        }
+      },
+      "sd2:out>fbm2:seed": {
+        "from": {
+          "node": "sd2",
+          "port": "out"
+        },
+        "id": "sd2:out>fbm2:seed",
+        "to": {
+          "node": "fbm2",
+          "port": "seed"
+        }
+      },
+      "stp:out>fbm1:seed": {
+        "from": {
+          "node": "stp",
+          "port": "out"
+        },
+        "id": "stp:out>fbm1:seed",
+        "to": {
+          "node": "fbm1",
+          "port": "seed"
+        }
+      },
+      "stp:out>pi_step:in": {
+        "from": {
+          "node": "stp",
+          "port": "out"
+        },
+        "id": "stp:out>pi_step:in",
+        "to": {
+          "node": "pi_step",
+          "port": "in"
+        }
+      },
+      "stp:out>sd2:a": {
+        "from": {
+          "node": "stp",
+          "port": "out"
+        },
+        "id": "stp:out>sd2:a",
+        "to": {
+          "node": "sd2",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tint:out>master:baseColor": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "ts:out>stp:in": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>stp:in",
+        "to": {
+          "node": "stp",
+          "port": "in"
+        }
+      },
+      "us:g>yc:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>yc:a",
+        "to": {
+          "node": "yc",
+          "port": "a"
+        }
+      },
+      "us:r>e0:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>e0:a",
+        "to": {
+          "node": "e0",
+          "port": "a"
+        }
+      },
+      "us:r>ee0:in": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>ee0:in",
+        "to": {
+          "node": "ee0",
+          "port": "in"
+        }
+      },
+      "us:r>es:in": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>es:in",
+        "to": {
+          "node": "es",
+          "port": "in"
+        }
+      },
+      "us:r>om:in": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>om:in",
+        "to": {
+          "node": "om",
+          "port": "in"
+        }
+      },
+      "us:r>pa:r": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>pa:r",
+        "to": {
+          "node": "pa",
+          "port": "r"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      },
+      "yc:out>q1:a": {
+        "from": {
+          "node": "yc",
+          "port": "out"
+        },
+        "id": "yc:out>q1:a",
+        "to": {
+          "node": "q1",
+          "port": "a"
+        }
+      },
+      "yc:out>q2:a": {
+        "from": {
+          "node": "yc",
+          "port": "out"
+        },
+        "id": "yc:out>q2:a",
+        "to": {
+          "node": "q2",
+          "port": "a"
+        }
+      },
+      "za0:out>za1:in": {
+        "from": {
+          "node": "za0",
+          "port": "out"
+        },
+        "id": "za0:out>za1:in",
+        "to": {
+          "node": "za1",
+          "port": "in"
+        }
+      },
+      "za1:out>za2:a": {
+        "from": {
+          "node": "za1",
+          "port": "out"
+        },
+        "id": "za1:out>za2:a",
+        "to": {
+          "node": "za2",
+          "port": "a"
+        }
+      },
+      "za2:out>za3:a": {
+        "from": {
+          "node": "za2",
+          "port": "out"
+        },
+        "id": "za2:out>za3:a",
+        "to": {
+          "node": "za3",
+          "port": "a"
+        }
+      },
+      "za3:out>master:alpha": {
+        "from": {
+          "node": "za3",
+          "port": "out"
+        },
+        "id": "za3:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "t",
+          "pc",
+          "us",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 699,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_noise",
+        "nodeIds": [
+          "ts",
+          "stp",
+          "sd2",
+          "pa",
+          "f2",
+          "fbm1",
+          "fbm2",
+          "om",
+          "e0",
+          "e1",
+          "env",
+          "a1",
+          "d1",
+          "a2",
+          "k2",
+          "k2e",
+          "d2",
+          "po_time_ts_a",
+          "p_rate_noise",
+          "p_frequency_noise",
+          "p_amplitude_noise",
+          "pi_bolt1",
+          "pi_bolt2",
+          "pi_step"
+        ],
+        "rect": {
+          "h": 1297,
+          "w": 2642,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Stepped noise displacement"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_lines",
+        "nodeIds": [
+          "yc",
+          "hw",
+          "q1",
+          "dist1",
+          "c10",
+          "core1",
+          "g10",
+          "g11",
+          "g12",
+          "glow1",
+          "q2",
+          "dist2",
+          "c20",
+          "core2",
+          "g20",
+          "g21",
+          "g22",
+          "glow2",
+          "p_coreWidth_lines",
+          "po_bolt1_q1_b",
+          "po_bolt2_q2_b",
+          "p_glowWidth_lines"
+        ],
+        "rect": {
+          "h": 835,
+          "w": 2116,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Distance to the bolts"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_flash",
+        "nodeIds": [
+          "hs",
+          "fl",
+          "saw",
+          "inv",
+          "dc",
+          "dm",
+          "dp",
+          "br",
+          "es",
+          "ee0",
+          "ee",
+          "endFade",
+          "po_step_hs_in",
+          "p_flicker_flash",
+          "po_time_saw_t",
+          "p_strikePeriod_flash",
+          "p_flashDecay_flash"
+        ],
+        "rect": {
+          "h": 897,
+          "w": 2116,
+          "x": 3548,
+          "y": 905
+        },
+        "title": "Flicker + strike flash"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_color",
+        "nodeIds": [
+          "bc",
+          "bg",
+          "core",
+          "glow",
+          "gs",
+          "c1",
+          "c2",
+          "cs",
+          "cb",
+          "ce",
+          "tint",
+          "za0",
+          "za1",
+          "za2",
+          "za3",
+          "p_branchStrength_color",
+          "p_glowStrength_color",
+          "p_coreColor_color",
+          "p_glowColor_color"
+        ],
+        "rect": {
+          "h": 785,
+          "w": 2728,
+          "x": 5824,
+          "y": 0
+        },
+        "title": "Colour + alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 8712,
+          "y": 0
+        },
+        "title": "Master output (URP VFX Unlit, additive)"
+      }
+    ],
+    "id": "vfx-lightning",
+    "keywords": [],
+    "name": "Lightning Bolt",
+    "nodes": {
+      "a1": {
+        "defId": "multiply",
+        "id": "a1",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a2": {
+        "defId": "multiply",
+        "id": "a2",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.7
+        }
+      },
+      "bc": {
+        "defId": "multiply",
+        "id": "bc",
+        "params": {},
+        "position": {
+          "x": 6152,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "bg": {
+        "defId": "multiply",
+        "id": "bg",
+        "params": {},
+        "position": {
+          "x": 6152,
+          "y": 577
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "br": {
+        "defId": "multiply",
+        "id": "br",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c1": {
+        "defId": "multiply",
+        "id": "c1",
+        "params": {},
+        "position": {
+          "x": 6764,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c10": {
+        "defId": "smoothstep",
+        "id": "c10",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "c2": {
+        "defId": "multiply",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 7070,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c20": {
+        "defId": "smoothstep",
+        "id": "c20",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 413
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "cb": {
+        "defId": "multiply",
+        "id": "cb",
+        "params": {},
+        "position": {
+          "x": 7682,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ce": {
+        "defId": "multiply",
+        "id": "ce",
+        "params": {},
+        "position": {
+          "x": 7988,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core": {
+        "defId": "add",
+        "id": "core",
+        "params": {},
+        "position": {
+          "x": 6458,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core1": {
+        "defId": "oneMinus",
+        "id": "core1",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core2": {
+        "defId": "oneMinus",
+        "id": "core2",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 437
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cs": {
+        "defId": "add",
+        "id": "cs",
+        "params": {},
+        "position": {
+          "x": 7376,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d1": {
+        "defId": "multiply",
+        "id": "d1",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d2": {
+        "defId": "add",
+        "id": "d2",
+        "params": {},
+        "position": {
+          "x": 2910,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dc": {
+        "defId": "power",
+        "id": "dc",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dist1": {
+        "defId": "abs",
+        "id": "dist1",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dist2": {
+        "defId": "abs",
+        "id": "dist2",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 437
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dm": {
+        "defId": "multiply",
+        "id": "dm",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.65
+        }
+      },
+      "dp": {
+        "defId": "add",
+        "id": "dp",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.35
+        }
+      },
+      "e0": {
+        "defId": "multiply",
+        "id": "e0",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 519
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "e1": {
+        "defId": "multiply",
+        "id": "e1",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 519
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 4
+        }
+      },
+      "ee": {
+        "defId": "oneMinus",
+        "id": "ee",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 1498
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ee0": {
+        "defId": "smoothstep",
+        "id": "ee0",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 1474
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.94,
+          "edge2": 1
+        }
+      },
+      "endFade": {
+        "defId": "multiply",
+        "id": "endFade",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 1486
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "env": {
+        "defId": "sqrt",
+        "id": "env",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 531
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "es": {
+        "defId": "smoothstep",
+        "id": "es",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 1640
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0,
+          "edge2": 0.06
+        }
+      },
+      "f2": {
+        "defId": "multiply",
+        "id": "f2",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 661
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2.3
+        }
+      },
+      "fbm1": {
+        "defId": "noiseValue",
+        "id": "fbm1",
+        "params": {
+          "dimension": 1,
+          "range": "signed"
+        },
+        "position": {
+          "x": 1686,
+          "y": 649
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fbm2": {
+        "defId": "noiseValue",
+        "id": "fbm2",
+        "params": {
+          "dimension": 1,
+          "range": "signed"
+        },
+        "position": {
+          "x": 1992,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fl": {
+        "defId": "lerp",
+        "id": "fl",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 1010
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "g10": {
+        "defId": "divide",
+        "id": "g10",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g11": {
+        "defId": "oneMinus",
+        "id": "g11",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g12": {
+        "defId": "saturate",
+        "id": "g12",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g20": {
+        "defId": "divide",
+        "id": "g20",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g21": {
+        "defId": "oneMinus",
+        "id": "g21",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 591
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g22": {
+        "defId": "saturate",
+        "id": "g22",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 591
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "glow": {
+        "defId": "add",
+        "id": "glow",
+        "params": {},
+        "position": {
+          "x": 6458,
+          "y": 577
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "glow1": {
+        "defId": "multiply",
+        "id": "glow1",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "glow2": {
+        "defId": "multiply",
+        "id": "glow2",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gs": {
+        "defId": "multiply",
+        "id": "gs",
+        "params": {},
+        "position": {
+          "x": 6764,
+          "y": 529
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hs": {
+        "defId": "hash1to1",
+        "id": "hs",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 1099
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hw": {
+        "defId": "multiply",
+        "id": "hw",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 567
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "inv": {
+        "defId": "oneMinus",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 1277
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "k2": {
+        "defId": "multiply",
+        "id": "k2",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "k2e": {
+        "defId": "multiply",
+        "id": "k2e",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 8734,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "om": {
+        "defId": "oneMinus",
+        "id": "om",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 697
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_amplitude_noise": {
+        "defId": "property",
+        "id": "p_amplitude_noise",
+        "params": {
+          "property": "amplitude"
+        },
+        "position": {
+          "x": 768,
+          "y": 603
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_branchStrength_color": {
+        "defId": "property",
+        "id": "p_branchStrength_color",
+        "params": {
+          "property": "branchStrength"
+        },
+        "position": {
+          "x": 5846,
+          "y": 601
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreColor_color": {
+        "defId": "property",
+        "id": "p_coreColor_color",
+        "params": {
+          "property": "coreColor"
+        },
+        "position": {
+          "x": 5846,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreWidth_lines": {
+        "defId": "property",
+        "id": "p_coreWidth_lines",
+        "params": {
+          "property": "coreWidth"
+        },
+        "position": {
+          "x": 3570,
+          "y": 591
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flashDecay_flash": {
+        "defId": "property",
+        "id": "p_flashDecay_flash",
+        "params": {
+          "property": "flashDecay"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1046
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flicker_flash": {
+        "defId": "property",
+        "id": "p_flicker_flash",
+        "params": {
+          "property": "flicker"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1140
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_frequency_noise": {
+        "defId": "property",
+        "id": "p_frequency_noise",
+        "params": {
+          "property": "frequency"
+        },
+        "position": {
+          "x": 768,
+          "y": 1053
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowColor_color": {
+        "defId": "property",
+        "id": "p_glowColor_color",
+        "params": {
+          "property": "glowColor"
+        },
+        "position": {
+          "x": 5846,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowStrength_color": {
+        "defId": "property",
+        "id": "p_glowStrength_color",
+        "params": {
+          "property": "glowStrength"
+        },
+        "position": {
+          "x": 5846,
+          "y": 695
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowWidth_lines": {
+        "defId": "property",
+        "id": "p_glowWidth_lines",
+        "params": {
+          "property": "glowWidth"
+        },
+        "position": {
+          "x": 3570,
+          "y": 745
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rate_noise": {
+        "defId": "property",
+        "id": "p_rate_noise",
+        "params": {
+          "property": "rate"
+        },
+        "position": {
+          "x": 768,
+          "y": 1147
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_strikePeriod_flash": {
+        "defId": "property",
+        "id": "p_strikePeriod_flash",
+        "params": {
+          "property": "strikePeriod"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1294
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pa": {
+        "defId": "combine",
+        "id": "pa",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 815
+        },
+        "previewEnabled": false,
+        "values": {
+          "g": 0.5
+        }
+      },
+      "pc": {
+        "defId": "particleColor",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_bolt1": {
+        "defId": "portalIn",
+        "id": "pi_bolt1",
+        "params": {
+          "channel": "Bolt1"
+        },
+        "position": {
+          "x": 2604,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_bolt2": {
+        "defId": "portalIn",
+        "id": "pi_bolt2",
+        "params": {
+          "channel": "Bolt2"
+        },
+        "position": {
+          "x": 3216,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_step": {
+        "defId": "portalIn",
+        "id": "pi_step",
+        "params": {
+          "channel": "Step"
+        },
+        "position": {
+          "x": 1686,
+          "y": 887
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 362
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_bolt1_q1_b": {
+        "defId": "portalOut",
+        "id": "po_bolt1_q1_b",
+        "params": {
+          "channel": "Bolt1"
+        },
+        "position": {
+          "x": 3570,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_bolt2_q2_b": {
+        "defId": "portalOut",
+        "id": "po_bolt2_q2_b",
+        "params": {
+          "channel": "Bolt2"
+        },
+        "position": {
+          "x": 3570,
+          "y": 685
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_step_hs_in": {
+        "defId": "portalOut",
+        "id": "po_step_hs_in",
+        "params": {
+          "channel": "Step"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1234
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_saw_t": {
+        "defId": "portalOut",
+        "id": "po_time_saw_t",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1388
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 768,
+          "y": 1241
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "q1": {
+        "defId": "subtract",
+        "id": "q1",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "q2": {
+        "defId": "subtract",
+        "id": "q2",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 425
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "saw": {
+        "defId": "timeSawtooth",
+        "id": "saw",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 1241
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sd2": {
+        "defId": "add",
+        "id": "sd2",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 389
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 17
+        }
+      },
+      "stp": {
+        "defId": "floor",
+        "id": "stp",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 709
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 8294,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 803
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 513
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 549
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "yc": {
+        "defId": "subtract",
+        "id": "yc",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 425
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "za0": {
+        "defId": "add",
+        "id": "za0",
+        "params": {},
+        "position": {
+          "x": 7070,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "za1": {
+        "defId": "saturate",
+        "id": "za1",
+        "params": {},
+        "position": {
+          "x": 7376,
+          "y": 353
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "za2": {
+        "defId": "multiply",
+        "id": "za2",
+        "params": {},
+        "position": {
+          "x": 7682,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "za3": {
+        "defId": "multiply",
+        "id": "za3",
+        "params": {},
+        "position": {
+          "x": 7988,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.vfx-unlit",
+    "properties": [
+      {
+        "category": "Motion",
+        "default": 12,
+        "displayName": "Jump Rate",
+        "exposed": true,
+        "id": "rate",
+        "max": 30,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_JumpRate",
+        "slider": true,
+        "tooltip": "Different bolt shapes per second.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 5,
+        "displayName": "Jag Frequency",
+        "exposed": true,
+        "id": "frequency",
+        "max": 20,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_JagFrequency",
+        "slider": true,
+        "tooltip": "How many bends the bolt has across the quad.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.16,
+        "displayName": "Jag Amplitude",
+        "exposed": true,
+        "id": "amplitude",
+        "max": 0.35,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_JagAmplitude",
+        "slider": true,
+        "tooltip": "Maximum sideways displacement (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.5,
+        "displayName": "Branch Strength",
+        "exposed": true,
+        "id": "branchStrength",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BranchStrength",
+        "slider": true,
+        "tooltip": "Brightness of the second, finer bolt (0 = single bolt).",
+        "type": "float"
+      },
+      {
+        "category": "Look",
+        "default": 0.008,
+        "displayName": "Core Width",
+        "exposed": true,
+        "id": "coreWidth",
+        "max": 0.03,
+        "min": 0.002,
+        "perInstance": false,
+        "referenceName": "_CoreWidth",
+        "slider": true,
+        "tooltip": "Half-width of the white-hot core (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Look",
+        "default": 0.06,
+        "displayName": "Glow Width",
+        "exposed": true,
+        "id": "glowWidth",
+        "max": 0.2,
+        "min": 0.01,
+        "perInstance": false,
+        "referenceName": "_GlowWidth",
+        "slider": true,
+        "tooltip": "Reach of the glow around the core (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Look",
+        "default": 1,
+        "displayName": "Glow Strength",
+        "exposed": true,
+        "id": "glowStrength",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_GlowStrength",
+        "slider": true,
+        "tooltip": "Brightness of the glow relative to the core.",
+        "type": "float"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          7,
+          7.5,
+          10
+        ],
+        "displayName": "Core Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "coreColor",
+        "perInstance": false,
+        "referenceName": "_CoreColor",
+        "tooltip": "HDR colour of the core (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          0.5,
+          1.1,
+          5
+        ],
+        "displayName": "Glow Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "glowColor",
+        "perInstance": false,
+        "referenceName": "_GlowColor",
+        "tooltip": "HDR colour of the glow (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Flash",
+        "default": 0.5,
+        "displayName": "Flicker",
+        "exposed": true,
+        "id": "flicker",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Flicker",
+        "slider": true,
+        "tooltip": "Random brightness change per time step (0 = steady).",
+        "type": "float"
+      },
+      {
+        "category": "Flash",
+        "default": 1.1,
+        "displayName": "Strike Period",
+        "exposed": true,
+        "id": "strikePeriod",
+        "max": 3,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_StrikePeriod",
+        "slider": true,
+        "tooltip": "Seconds between flashes.",
+        "type": "float"
+      },
+      {
+        "category": "Flash",
+        "default": 2,
+        "displayName": "Flash Decay",
+        "exposed": true,
+        "id": "flashDecay",
+        "max": 6,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_FlashDecay",
+        "slider": true,
+        "tooltip": "How fast each flash fades (exponent of the decay curve).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "emitter": {
+        "colorOverLife": [
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 0
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "t": 0.04
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0.8
+            ],
+            "t": 0.75
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 1
+          }
+        ],
+        "gravity": [
+          0,
+          0,
+          0
+        ],
+        "lifetime": 4,
+        "lifetimeVar": 0,
+        "maxParticles": 3,
+        "rate": 0.6,
+        "sizeEnd": 3.2,
+        "sizeStart": 3.2,
+        "speed": 0,
+        "spread": 0
+      },
+      "grid": false,
+      "ground": "none",
+      "mode": "vfx",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

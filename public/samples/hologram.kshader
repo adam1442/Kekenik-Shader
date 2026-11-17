@@ -1,0 +1,1921 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 456
+        },
+        "text": "World position (for the scan-lines), world normal and view direction (for the rim), and time."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_scan",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "`fract(y × density − t × speed)` is a sawtooth; `smoothstep` of its distance to the middle turns it into thin bright bars that crawl upwards."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_rim",
+        "position": {
+          "x": 682,
+          "y": 737
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Fresnel kit** makes silhouettes glow; the face-on output keeps a faint body so the hologram does not vanish."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_flick",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2292
+        },
+        "text": "`1 − flicker × (½ + ½ sin(47t)·sin(13t))`: two incommensurate sines give an irregular, electric flicker without noise."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 6066,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "`brightness = (0.12 + 0.55 × lines + rim) × flicker × intensity`; colour = hologram colour (rim kit already tinted) — additive blending turns brightness into opacity."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_vert",
+        "position": {
+          "x": 6066,
+          "y": 595
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "A tiny sine wave along the normal (Wave Deformation node) makes the silhouette shimmer. Vertex stage only."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 8036,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Additive blend + ZWrite off + two-sided are set in the graph settings."
+      }
+    ],
+    "edges": {
+      "a:out>sa:in": {
+        "from": {
+          "node": "a",
+          "port": "out"
+        },
+        "id": "a:out>sa:in",
+        "to": {
+          "node": "sa",
+          "port": "in"
+        }
+      },
+      "ab:out>sm:in": {
+        "from": {
+          "node": "ab",
+          "port": "out"
+        },
+        "id": "ab:out>sm:in",
+        "to": {
+          "node": "sm",
+          "port": "in"
+        }
+      },
+      "b:out>sb:in": {
+        "from": {
+          "node": "b",
+          "port": "out"
+        },
+        "id": "b:out>sb:in",
+        "to": {
+          "node": "sb",
+          "port": "in"
+        }
+      },
+      "base:out>tot:a": {
+        "from": {
+          "node": "base",
+          "port": "out"
+        },
+        "id": "base:out>tot:a",
+        "to": {
+          "node": "tot",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "fl:out>gain:a": {
+        "from": {
+          "node": "fl",
+          "port": "out"
+        },
+        "id": "fl:out>gain:a",
+        "to": {
+          "node": "gain",
+          "port": "a"
+        }
+      },
+      "flick:out>pi_flicker:in": {
+        "from": {
+          "node": "flick",
+          "port": "out"
+        },
+        "id": "flick:out>pi_flicker:in",
+        "to": {
+          "node": "pi_flicker",
+          "port": "in"
+        }
+      },
+      "fr:out>tri:a": {
+        "from": {
+          "node": "fr",
+          "port": "out"
+        },
+        "id": "fr:out>tri:a",
+        "to": {
+          "node": "tri",
+          "port": "a"
+        }
+      },
+      "fres:rim>tot:b": {
+        "from": {
+          "node": "fres",
+          "port": "rim"
+        },
+        "id": "fres:rim>tot:b",
+        "to": {
+          "node": "tot",
+          "port": "b"
+        }
+      },
+      "gain:out>col:b": {
+        "from": {
+          "node": "gain",
+          "port": "out"
+        },
+        "id": "gain:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "h:out>k:a": {
+        "from": {
+          "node": "h",
+          "port": "out"
+        },
+        "id": "h:out>k:a",
+        "to": {
+          "node": "k",
+          "port": "a"
+        }
+      },
+      "k:out>flick:in": {
+        "from": {
+          "node": "k",
+          "port": "out"
+        },
+        "id": "k:out>flick:in",
+        "to": {
+          "node": "flick",
+          "port": "in"
+        }
+      },
+      "l:out>base:a": {
+        "from": {
+          "node": "l",
+          "port": "out"
+        },
+        "id": "l:out>base:a",
+        "to": {
+          "node": "base",
+          "port": "a"
+        }
+      },
+      "lines:out>l:a": {
+        "from": {
+          "node": "lines",
+          "port": "out"
+        },
+        "id": "lines:out>l:a",
+        "to": {
+          "node": "l",
+          "port": "a"
+        }
+      },
+      "nrm:out>pi_n:in": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>pi_n:in",
+        "to": {
+          "node": "pi_n",
+          "port": "in"
+        }
+      },
+      "onrm:out>wave:normal": {
+        "from": {
+          "node": "onrm",
+          "port": "out"
+        },
+        "id": "onrm:out>wave:normal",
+        "to": {
+          "node": "wave",
+          "port": "normal"
+        }
+      },
+      "opos:out>wave:position": {
+        "from": {
+          "node": "opos",
+          "port": "out"
+        },
+        "id": "opos:out>wave:position",
+        "to": {
+          "node": "wave",
+          "port": "position"
+        }
+      },
+      "p:out>h:in": {
+        "from": {
+          "node": "p",
+          "port": "out"
+        },
+        "id": "p:out>h:in",
+        "to": {
+          "node": "h",
+          "port": "in"
+        }
+      },
+      "p_density_scan:out>yd:b": {
+        "from": {
+          "node": "p_density_scan",
+          "port": "out"
+        },
+        "id": "p_density_scan:out>yd:b",
+        "to": {
+          "node": "yd",
+          "port": "b"
+        }
+      },
+      "p_flicker_flick:out>k:b": {
+        "from": {
+          "node": "p_flicker_flick",
+          "port": "out"
+        },
+        "id": "p_flicker_flick:out>k:b",
+        "to": {
+          "node": "k",
+          "port": "b"
+        }
+      },
+      "p_holoColor_mix:out>col:a": {
+        "from": {
+          "node": "p_holoColor_mix",
+          "port": "out"
+        },
+        "id": "p_holoColor_mix:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "p_holoColor_rim:out>fres:color": {
+        "from": {
+          "node": "p_holoColor_rim",
+          "port": "out"
+        },
+        "id": "p_holoColor_rim:out>fres:color",
+        "to": {
+          "node": "fres",
+          "port": "color"
+        }
+      },
+      "p_intensity_mix:out>gain:b": {
+        "from": {
+          "node": "p_intensity_mix",
+          "port": "out"
+        },
+        "id": "p_intensity_mix:out>gain:b",
+        "to": {
+          "node": "gain",
+          "port": "b"
+        }
+      },
+      "p_lineSharp_scan:out>sm:edge2": {
+        "from": {
+          "node": "p_lineSharp_scan",
+          "port": "out"
+        },
+        "id": "p_lineSharp_scan:out>sm:edge2",
+        "to": {
+          "node": "sm",
+          "port": "edge2"
+        }
+      },
+      "p_rimPower_rim:out>fres:power": {
+        "from": {
+          "node": "p_rimPower_rim",
+          "port": "out"
+        },
+        "id": "p_rimPower_rim:out>fres:power",
+        "to": {
+          "node": "fres",
+          "port": "power"
+        }
+      },
+      "p_speed_scan:out>ts:b": {
+        "from": {
+          "node": "p_speed_scan",
+          "port": "out"
+        },
+        "id": "p_speed_scan:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_wobble_vert:out>wave:amplitude": {
+        "from": {
+          "node": "p_wobble_vert",
+          "port": "out"
+        },
+        "id": "p_wobble_vert:out>wave:amplitude",
+        "to": {
+          "node": "wave",
+          "port": "amplitude"
+        }
+      },
+      "ph:out>fr:in": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>fr:in",
+        "to": {
+          "node": "fr",
+          "port": "in"
+        }
+      },
+      "po_flicker_fl_b:out>fl:b": {
+        "from": {
+          "node": "po_flicker_fl_b",
+          "port": "out"
+        },
+        "id": "po_flicker_fl_b:out>fl:b",
+        "to": {
+          "node": "fl",
+          "port": "b"
+        }
+      },
+      "po_n_fres_normal:out>fres:normal": {
+        "from": {
+          "node": "po_n_fres_normal",
+          "port": "out"
+        },
+        "id": "po_n_fres_normal:out>fres:normal",
+        "to": {
+          "node": "fres",
+          "port": "normal"
+        }
+      },
+      "po_time_a_a:out>a:a": {
+        "from": {
+          "node": "po_time_a_a",
+          "port": "out"
+        },
+        "id": "po_time_a_a:out>a:a",
+        "to": {
+          "node": "a",
+          "port": "a"
+        }
+      },
+      "po_time_b_a:out>b:a": {
+        "from": {
+          "node": "po_time_b_a",
+          "port": "out"
+        },
+        "id": "po_time_b_a:out>b:a",
+        "to": {
+          "node": "b",
+          "port": "a"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "po_time_wave_time:out>wave:time": {
+        "from": {
+          "node": "po_time_wave_time",
+          "port": "out"
+        },
+        "id": "po_time_wave_time:out>wave:time",
+        "to": {
+          "node": "wave",
+          "port": "time"
+        }
+      },
+      "po_v_fres_viewDir:out>fres:viewDir": {
+        "from": {
+          "node": "po_v_fres_viewDir",
+          "port": "out"
+        },
+        "id": "po_v_fres_viewDir:out>fres:viewDir",
+        "to": {
+          "node": "fres",
+          "port": "viewDir"
+        }
+      },
+      "po_worldpos_ysplit_in:out>ysplit:in": {
+        "from": {
+          "node": "po_worldpos_ysplit_in",
+          "port": "out"
+        },
+        "id": "po_worldpos_ysplit_in:out>ysplit:in",
+        "to": {
+          "node": "ysplit",
+          "port": "in"
+        }
+      },
+      "sa:out>p:a": {
+        "from": {
+          "node": "sa",
+          "port": "out"
+        },
+        "id": "sa:out>p:a",
+        "to": {
+          "node": "p",
+          "port": "a"
+        }
+      },
+      "sb:out>p:b": {
+        "from": {
+          "node": "sb",
+          "port": "out"
+        },
+        "id": "sb:out>p:b",
+        "to": {
+          "node": "p",
+          "port": "b"
+        }
+      },
+      "sm:out>lines:in": {
+        "from": {
+          "node": "sm",
+          "port": "out"
+        },
+        "id": "sm:out>lines:in",
+        "to": {
+          "node": "lines",
+          "port": "in"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tot:out>fl:a": {
+        "from": {
+          "node": "tot",
+          "port": "out"
+        },
+        "id": "tot:out>fl:a",
+        "to": {
+          "node": "fl",
+          "port": "a"
+        }
+      },
+      "tri:out>ab:in": {
+        "from": {
+          "node": "tri",
+          "port": "out"
+        },
+        "id": "tri:out>ab:in",
+        "to": {
+          "node": "ab",
+          "port": "in"
+        }
+      },
+      "ts:out>ph:b": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>ph:b",
+        "to": {
+          "node": "ph",
+          "port": "b"
+        }
+      },
+      "vdir:out>pi_v:in": {
+        "from": {
+          "node": "vdir",
+          "port": "out"
+        },
+        "id": "vdir:out>pi_v:in",
+        "to": {
+          "node": "pi_v",
+          "port": "in"
+        }
+      },
+      "wave:position>master:positionOS": {
+        "from": {
+          "node": "wave",
+          "port": "position"
+        },
+        "id": "wave:position>master:positionOS",
+        "to": {
+          "node": "master",
+          "port": "positionOS"
+        }
+      },
+      "wpos:out>pi_worldpos:in": {
+        "from": {
+          "node": "wpos",
+          "port": "out"
+        },
+        "id": "wpos:out>pi_worldpos:in",
+        "to": {
+          "node": "pi_worldpos",
+          "port": "in"
+        }
+      },
+      "yd:out>ph:a": {
+        "from": {
+          "node": "yd",
+          "port": "out"
+        },
+        "id": "yd:out>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "ysplit:g>yd:a": {
+        "from": {
+          "node": "ysplit",
+          "port": "g"
+        },
+        "id": "ysplit:g>yd:a",
+        "to": {
+          "node": "yd",
+          "port": "a"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "wpos",
+          "nrm",
+          "vdir",
+          "t",
+          "pi_worldpos",
+          "pi_time",
+          "pi_n",
+          "pi_v"
+        ],
+        "rect": {
+          "h": 740,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_scan",
+        "nodeIds": [
+          "ysplit",
+          "yd",
+          "ts",
+          "ph",
+          "fr",
+          "tri",
+          "ab",
+          "sm",
+          "lines",
+          "po_worldpos_ysplit_in",
+          "p_density_scan",
+          "po_time_ts_a",
+          "p_speed_scan",
+          "p_lineSharp_scan"
+        ],
+        "rect": {
+          "h": 633,
+          "w": 2728,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Scan-lines"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_rim",
+        "nodeIds": [
+          "fres",
+          "po_n_fres_normal",
+          "po_v_fres_viewDir",
+          "p_holoColor_rim",
+          "p_rimPower_rim"
+        ],
+        "rect": {
+          "h": 510,
+          "w": 586,
+          "x": 660,
+          "y": 703
+        },
+        "title": "Rim"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_flick",
+        "nodeIds": [
+          "a",
+          "b",
+          "sa",
+          "sb",
+          "p",
+          "h",
+          "k",
+          "flick",
+          "po_time_a_a",
+          "po_time_b_a",
+          "p_flicker_flick",
+          "pi_flicker"
+        ],
+        "rect": {
+          "h": 462,
+          "w": 2336,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Flicker"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "l",
+          "base",
+          "tot",
+          "fl",
+          "gain",
+          "col",
+          "po_flicker_fl_b",
+          "p_intensity_mix",
+          "p_holoColor_mix"
+        ],
+        "rect": {
+          "h": 491,
+          "w": 1810,
+          "x": 6044,
+          "y": 0
+        },
+        "title": "Combine"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_vert",
+        "nodeIds": [
+          "opos",
+          "onrm",
+          "wave",
+          "po_time_wave_time",
+          "p_wobble_vert"
+        ],
+        "rect": {
+          "h": 664,
+          "w": 586,
+          "x": 6044,
+          "y": 561
+        },
+        "title": "Vertex wobble"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 8014,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, additive)"
+      }
+    ],
+    "id": "hologram",
+    "keywords": [],
+    "name": "Hologram",
+    "nodes": {
+      "a": {
+        "defId": "multiply",
+        "id": "a",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 47
+        }
+      },
+      "ab": {
+        "defId": "abs",
+        "id": "ab",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "b": {
+        "defId": "multiply",
+        "id": "b",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 13
+        }
+      },
+      "base": {
+        "defId": "add",
+        "id": "base",
+        "params": {},
+        "position": {
+          "x": 6372,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.12
+        }
+      },
+      "col": {
+        "defId": "multiply",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 7596,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fl": {
+        "defId": "multiply",
+        "id": "fl",
+        "params": {},
+        "position": {
+          "x": 6984,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "flick": {
+        "defId": "oneMinus",
+        "id": "flick",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fr": {
+        "defId": "fract",
+        "id": "fr",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fres": {
+        "defId": "subgraph",
+        "id": "fres",
+        "label": "Rim",
+        "params": {
+          "subgraph": "ks_fresnel_kit"
+        },
+        "position": {
+          "x": 988,
+          "y": 825
+        },
+        "previewEnabled": false,
+        "values": {
+          "intensity": 1.3
+        }
+      },
+      "gain": {
+        "defId": "multiply",
+        "id": "gain",
+        "params": {},
+        "position": {
+          "x": 7290,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h": {
+        "defId": "remap",
+        "id": "h",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "k": {
+        "defId": "multiply",
+        "id": "k",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "l": {
+        "defId": "multiply",
+        "id": "l",
+        "params": {},
+        "position": {
+          "x": 6066,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.55
+        }
+      },
+      "lines": {
+        "defId": "oneMinus",
+        "id": "lines",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 8036,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "onrm": {
+        "defId": "normal",
+        "id": "onrm",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 6066,
+          "y": 839
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "opos": {
+        "defId": "position",
+        "id": "opos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 6066,
+          "y": 957
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p": {
+        "defId": "multiply",
+        "id": "p",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_density_scan": {
+        "defId": "property",
+        "id": "p_density_scan",
+        "params": {
+          "property": "density"
+        },
+        "position": {
+          "x": 682,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flicker_flick": {
+        "defId": "property",
+        "id": "p_flicker_flick",
+        "params": {
+          "property": "flicker"
+        },
+        "position": {
+          "x": 3570,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_holoColor_mix": {
+        "defId": "property",
+        "id": "p_holoColor_mix",
+        "params": {
+          "property": "holoColor"
+        },
+        "position": {
+          "x": 6066,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_holoColor_rim": {
+        "defId": "property",
+        "id": "p_holoColor_rim",
+        "params": {
+          "property": "holoColor"
+        },
+        "position": {
+          "x": 682,
+          "y": 909
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_mix": {
+        "defId": "property",
+        "id": "p_intensity_mix",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 6066,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineSharp_scan": {
+        "defId": "property",
+        "id": "p_lineSharp_scan",
+        "params": {
+          "property": "lineSharp"
+        },
+        "position": {
+          "x": 682,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimPower_rim": {
+        "defId": "property",
+        "id": "p_rimPower_rim",
+        "params": {
+          "property": "rimPower"
+        },
+        "position": {
+          "x": 682,
+          "y": 1003
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_speed_scan": {
+        "defId": "property",
+        "id": "p_speed_scan",
+        "params": {
+          "property": "speed"
+        },
+        "position": {
+          "x": 682,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_wobble_vert": {
+        "defId": "property",
+        "id": "p_wobble_vert",
+        "params": {
+          "property": "wobble"
+        },
+        "position": {
+          "x": 6066,
+          "y": 1075
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "subtract",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_flicker": {
+        "defId": "portalIn",
+        "id": "pi_flicker",
+        "params": {
+          "channel": "Flicker"
+        },
+        "position": {
+          "x": 5712,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_n": {
+        "defId": "portalIn",
+        "id": "pi_n",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 328,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 331
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_v": {
+        "defId": "portalIn",
+        "id": "pi_v",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 328,
+          "y": 511
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_worldpos": {
+        "defId": "portalIn",
+        "id": "pi_worldpos",
+        "params": {
+          "channel": "WorldPos"
+        },
+        "position": {
+          "x": 328,
+          "y": 655
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_flicker_fl_b": {
+        "defId": "portalOut",
+        "id": "po_flicker_fl_b",
+        "params": {
+          "channel": "Flicker"
+        },
+        "position": {
+          "x": 6066,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_fres_normal": {
+        "defId": "portalOut",
+        "id": "po_n_fres_normal",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 682,
+          "y": 1097
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_a_a": {
+        "defId": "portalOut",
+        "id": "po_time_a_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 3570,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_b_a": {
+        "defId": "portalOut",
+        "id": "po_time_b_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 3570,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_wave_time": {
+        "defId": "portalOut",
+        "id": "po_time_wave_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 6066,
+          "y": 1169
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_v_fres_viewDir": {
+        "defId": "portalOut",
+        "id": "po_v_fres_viewDir",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 682,
+          "y": 1157
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_worldpos_ysplit_in": {
+        "defId": "portalOut",
+        "id": "po_worldpos_ysplit_in",
+        "params": {
+          "channel": "WorldPos"
+        },
+        "position": {
+          "x": 682,
+          "y": 512
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sa": {
+        "defId": "sin",
+        "id": "sa",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sb": {
+        "defId": "sin",
+        "id": "sb",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 336
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sm": {
+        "defId": "smoothstep",
+        "id": "sm",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tot": {
+        "defId": "add",
+        "id": "tot",
+        "params": {},
+        "position": {
+          "x": 6678,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tri": {
+        "defId": "subtract",
+        "id": "tri",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 305
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vdir": {
+        "defId": "viewDirection",
+        "id": "vdir",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 482
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wave": {
+        "defId": "waveDeformation",
+        "id": "wave",
+        "params": {},
+        "position": {
+          "x": 6372,
+          "y": 683
+        },
+        "previewEnabled": false,
+        "values": {
+          "frequency": 9,
+          "speed": 1.4
+        }
+      },
+      "wpos": {
+        "defId": "position",
+        "id": "wpos",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 626
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "yd": {
+        "defId": "multiply",
+        "id": "yd",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ysplit": {
+        "defId": "split",
+        "id": "ysplit",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 447
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Look",
+        "colorSpace": "linear",
+        "default": [
+          0.15,
+          0.75,
+          1.4
+        ],
+        "displayName": "Hologram Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "holoColor",
+        "perInstance": false,
+        "referenceName": "_HologramColor",
+        "tooltip": "HDR colour of the hologram.",
+        "type": "color"
+      },
+      {
+        "category": "Look",
+        "default": 1.2,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Overall brightness.",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 38,
+        "displayName": "Scanline Density",
+        "exposed": true,
+        "id": "density",
+        "max": 120,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_ScanlineDensity",
+        "slider": true,
+        "tooltip": "Scan-lines per world unit (vertical).",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 0.6,
+        "displayName": "Scanline Speed",
+        "exposed": true,
+        "id": "speed",
+        "max": 3,
+        "min": -3,
+        "perInstance": false,
+        "referenceName": "_ScanlineSpeed",
+        "slider": true,
+        "tooltip": "Scroll speed in lines per second (negative = down).",
+        "type": "float"
+      },
+      {
+        "category": "Scanlines",
+        "default": 0.35,
+        "displayName": "Scanline Sharpness",
+        "exposed": true,
+        "id": "lineSharp",
+        "max": 0.5,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_ScanlineSharpness",
+        "slider": true,
+        "tooltip": "Smaller = harder lines.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 2.2,
+        "displayName": "Rim Power",
+        "exposed": true,
+        "id": "rimPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_RimPower",
+        "slider": true,
+        "tooltip": "Rim falloff.",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 0.12,
+        "displayName": "Flicker",
+        "exposed": true,
+        "id": "flicker",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Flicker",
+        "slider": true,
+        "tooltip": "Amount of electric flicker (0 = steady).",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 0.012,
+        "displayName": "Vertex Wobble",
+        "exposed": true,
+        "id": "wobble",
+        "max": 0.08,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_VertexWobble",
+        "slider": true,
+        "tooltip": "Amplitude of the vertex wobble (object units).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {
+      "ks_fresnel_kit": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1154
+            },
+            "text": "**Fresnel kit** — `(1 − N·V)^power × intensity`.\nThe Fresnel node gives the view-dependent term; the mask is saturated so it can drive alpha, emission or a ramp directly. Glow = colour × mask."
+          }
+        ],
+        "edges": {
+          "fres:out>scale:a": {
+            "from": {
+              "node": "fres",
+              "port": "out"
+            },
+            "id": "fres:out>scale:a",
+            "to": {
+              "node": "scale",
+              "port": "a"
+            }
+          },
+          "inputs:color>tint:a": {
+            "from": {
+              "node": "inputs",
+              "port": "color"
+            },
+            "id": "inputs:color>tint:a",
+            "to": {
+              "node": "tint",
+              "port": "a"
+            }
+          },
+          "inputs:intensity>scale:b": {
+            "from": {
+              "node": "inputs",
+              "port": "intensity"
+            },
+            "id": "inputs:intensity>scale:b",
+            "to": {
+              "node": "scale",
+              "port": "b"
+            }
+          },
+          "inputs:normal>fres:normal": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>fres:normal",
+            "to": {
+              "node": "fres",
+              "port": "normal"
+            }
+          },
+          "inputs:power>fres:power": {
+            "from": {
+              "node": "inputs",
+              "port": "power"
+            },
+            "id": "inputs:power>fres:power",
+            "to": {
+              "node": "fres",
+              "port": "power"
+            }
+          },
+          "inputs:viewDir>fres:viewDir": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>fres:viewDir",
+            "to": {
+              "node": "fres",
+              "port": "viewDir"
+            }
+          },
+          "inv:out>outputs:faceOn": {
+            "from": {
+              "node": "inv",
+              "port": "out"
+            },
+            "id": "inv:out>outputs:faceOn",
+            "to": {
+              "node": "outputs",
+              "port": "faceOn"
+            }
+          },
+          "sat:out>inv:in": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>inv:in",
+            "to": {
+              "node": "inv",
+              "port": "in"
+            }
+          },
+          "sat:out>outputs:rim": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>outputs:rim",
+            "to": {
+              "node": "outputs",
+              "port": "rim"
+            }
+          },
+          "sat:out>tint:b": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>tint:b",
+            "to": {
+              "node": "tint",
+              "port": "b"
+            }
+          },
+          "scale:out>sat:in": {
+            "from": {
+              "node": "scale",
+              "port": "out"
+            },
+            "id": "scale:out>sat:in",
+            "to": {
+              "node": "sat",
+              "port": "in"
+            }
+          },
+          "tint:out>outputs:glow": {
+            "from": {
+              "node": "tint",
+              "port": "out"
+            },
+            "id": "tint:out>outputs:glow",
+            "to": {
+              "node": "outputs",
+              "port": "glow"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "fres",
+              "scale",
+              "sat",
+              "tint",
+              "inv"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 1198,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Fresnel Rim Kit"
+          }
+        ],
+        "id": "ks_fresnel_kit",
+        "inputs": [
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Direction",
+            "tooltip": "Unit vector from the surface to the camera (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              1,
+              1,
+              1
+            ],
+            "id": "color",
+            "name": "Rim Color",
+            "tooltip": "Colour of the glow output (linear, may exceed 1 for HDR bloom).",
+            "type": "color"
+          },
+          {
+            "default": 3,
+            "id": "power",
+            "name": "Power",
+            "tooltip": "Fresnel exponent: higher = thinner rim.",
+            "type": "float"
+          },
+          {
+            "default": 1,
+            "id": "intensity",
+            "name": "Intensity",
+            "tooltip": "Multiplier of the rim mask.",
+            "type": "float"
+          }
+        ],
+        "name": "Fresnel Rim Kit",
+        "nodes": {
+          "fres": {
+            "defId": "fresnel",
+            "id": "fres",
+            "params": {
+              "mode": "power"
+            },
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inv": {
+            "defId": "oneMinus",
+            "id": "inv",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1638,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sat": {
+            "defId": "saturate",
+            "id": "sat",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scale": {
+            "defId": "multiply",
+            "id": "scale",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 158
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tint": {
+            "defId": "multiply",
+            "id": "tint",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "rim",
+            "name": "Rim",
+            "tooltip": "Rim mask 0…1 (1 on silhouettes).",
+            "type": "float"
+          },
+          {
+            "id": "glow",
+            "name": "Glow",
+            "tooltip": "Rim colour × rim mask.",
+            "type": "color"
+          },
+          {
+            "id": "faceOn",
+            "name": "Face-On",
+            "tooltip": "1 − rim: strongest where the surface faces the camera.",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "capsule",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

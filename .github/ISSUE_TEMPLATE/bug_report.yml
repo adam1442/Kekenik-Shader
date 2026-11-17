@@ -1,0 +1,56 @@
+name: Bug Report
+description: Report a bug in the Kekenik Shader editor, preview, or target exporters
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please check [`docs/KNOWN_ISSUES.md`](https://github.com/adam1442/kekenik-shader/blob/main/docs/KNOWN_ISSUES.md) first to see if the issue is already tracked.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Component / Area
+      options:
+        - Node Canvas / UI
+        - Live Preview (3D / 2D Sprite / VFX)
+        - Core Compiler / Optimizer
+        - GLSL (WebGL2) Export
+        - WGSL (WebGPU) Export
+        - HLSL Export
+        - Unity URP Export (.shader)
+        - Godot 4 Export (.gdshader)
+        - Sample Library / Project I/O
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Clear description of the bug and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions (or attach/paste a minimal `.kshader` graph).
+      placeholder: |
+        1. Open Kekenik Shader...
+        2. Create or open graph...
+        3. Export to target...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser / OS / Engine Version
+      description: e.g., Chrome 132 on Windows 11, Unity 6000.3 LTS (URP 17.3), Godot 4.5 Forward+
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console Errors / Shader Compiler Output
+      description: Paste any browser console errors or engine shader compiler errors here.
+      render: text

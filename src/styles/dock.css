@@ -1,0 +1,166 @@
+/* Dockview theme "kk" + panel/tab chrome */
+.dockview-theme-kk {
+  --dv-paneview-active-outline-color: var(--kk-accent);
+  --dv-tabs-and-actions-container-font-size: var(--kk-text-md);
+  --dv-tabs-and-actions-container-height: 30px;
+  --dv-drag-over-background-color: rgba(124, 92, 255, 0.18);
+  --dv-drag-over-border-color: var(--kk-accent);
+  --dv-tabs-container-scrollbar-color: var(--kk-surface-4);
+  --dv-icon-hover-background-color: var(--kk-surface-4);
+  --dv-floating-box-shadow: var(--kk-shadow-4);
+  --dv-overlay-z-index: var(--kk-z-floating);
+  --dv-group-view-background-color: var(--kk-surface-1);
+  --dv-tabs-and-actions-container-background-color: var(--kk-surface-2);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--kk-surface-1);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--kk-surface-2);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--kk-surface-1);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--kk-surface-2);
+  --dv-tab-divider-color: var(--kk-border-subtle);
+  --dv-activegroup-visiblepanel-tab-color: var(--kk-text-1);
+  --dv-activegroup-hiddenpanel-tab-color: var(--kk-text-2);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--kk-text-2);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--kk-text-3);
+  --dv-separator-border: var(--kk-border);
+  --dv-paneview-header-border-color: var(--kk-border);
+  --dv-active-sash-color: var(--kk-accent);
+  --dv-active-sash-transition-duration: 0.15s;
+  --dv-active-sash-transition-delay: 0.1s;
+  width: 100%;
+  height: 100%;
+  background: var(--kk-surface-0);
+  font-family: var(--kk-font-sans);
+}
+
+.dockview-theme-kk .dv-groupview {
+  border-radius: var(--kk-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--kk-border);
+  background: var(--kk-surface-1);
+}
+.dockview-theme-kk .dv-groupview.dv-active-group {
+  border-color: var(--kk-border-strong);
+}
+.dockview-theme-kk .dv-resize-container {
+  border-radius: var(--kk-radius-md);
+  border: 1px solid var(--kk-border-strong);
+}
+.dockview-theme-kk .dv-resize-container .dv-groupview {
+  border: 0;
+  border-radius: var(--kk-radius-md);
+}
+
+/* gaps between groups = the sashes */
+.dockview-theme-kk .dv-split-view-container > .dv-view-container > .dv-view {
+  padding: 2px;
+}
+.dockview-theme-kk .dv-split-view-container.dv-horizontal > .dv-sash-container > .dv-sash,
+.dockview-theme-kk .dv-split-view-container.dv-vertical > .dv-sash-container > .dv-sash {
+  background: transparent;
+}
+.dockview-theme-kk .dv-sash:hover,
+.dockview-theme-kk .dv-sash.dv-active {
+  background: var(--kk-accent) !important;
+  opacity: 0.55;
+}
+
+/* tab bar */
+.dockview-theme-kk .dv-tabs-and-actions-container {
+  border-bottom: 1px solid var(--kk-border);
+}
+.dockview-theme-kk .dv-tab {
+  padding: 0;
+  height: 100%;
+  border-right: 1px solid var(--kk-border-subtle);
+  transition:
+    background var(--kk-dur-fast) var(--kk-ease),
+    color var(--kk-dur-fast) var(--kk-ease);
+}
+.dockview-theme-kk .dv-tab:hover {
+  background: var(--kk-surface-3);
+  color: var(--kk-text-1);
+}
+.dockview-theme-kk .dv-tab.dv-active-tab {
+  box-shadow: inset 0 -2px 0 var(--kk-accent);
+}
+.dockview-theme-kk .dv-tab.dv-active-tab:hover {
+  background: var(--kk-surface-1);
+}
+.dockview-theme-kk .dv-tab.dv-tab-dragging {
+  opacity: 0.6;
+}
+.dockview-theme-kk .dv-void-container {
+  cursor: grab;
+}
+.dockview-theme-kk .dv-right-actions-container {
+  display: flex;
+  align-items: center;
+  padding-right: 2px;
+}
+.dockview-theme-kk .dv-content-container {
+  background: var(--kk-surface-1);
+}
+
+.kk-tab-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 0 6px 0 10px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.kk-tab-inner__icon {
+  flex: none;
+  opacity: 0.8;
+}
+.dockview-theme-kk .dv-active-tab .kk-tab-inner__icon {
+  color: var(--kk-accent-hover);
+  opacity: 1;
+}
+.kk-tab-inner__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kk-tab-inner__close {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--kk-radius-xs);
+  background: none;
+  color: inherit;
+  opacity: 0;
+  transition:
+    opacity var(--kk-dur-fast) var(--kk-ease),
+    background var(--kk-dur-fast) var(--kk-ease);
+}
+.dockview-theme-kk .dv-tab:hover .kk-tab-inner__close,
+.dockview-theme-kk .dv-active-tab .kk-tab-inner__close {
+  opacity: 0.7;
+}
+.kk-tab-inner__close:hover {
+  opacity: 1 !important;
+  background: var(--kk-surface-4);
+}
+.kk-group-actions {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.kk-panel-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--kk-surface-1);
+}
+
+/* drop overlay */
+.dockview-theme-kk .dv-drop-target-dropzone .dv-drop-target-selection {
+  border: 1px solid var(--kk-accent);
+  border-radius: var(--kk-radius-sm);
+  transition: all var(--kk-dur) var(--kk-ease-out);
+}

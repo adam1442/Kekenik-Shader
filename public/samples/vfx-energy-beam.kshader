@@ -1,0 +1,1964 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 456
+        },
+        "text": "UV (U around, V along), world normal + view direction for the core, object position / normal for the wobble, time."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_noise",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1460
+        },
+        "text": "`p = (cos θ·r, sin θ·r, v × length − t × speed)` with `θ = 2π·u`: the circle makes the noise continuous around the tube, the third coordinate scrolls it along the beam. 3 octaves of 3D value-fbm give the crackling energy."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_pulse",
+        "position": {
+          "x": 682,
+          "y": 956
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "`pulse = smoothstep(0.7, 1, ½ + ½ sin(2π(v × count − t × speed × 0.5)))` — bright bands that run along the beam."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_core",
+        "position": {
+          "x": 3264,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "`core = (N·V)^sharpness` is 1 where the tube faces the camera. Ends: `smoothstep(0, f, v) × smoothstep(0, f, 1 − v)`."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 4316,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "`energy = lerp(1 − noiseAmount, 1, noise)`; brightness = `(energy × (¼ + ¾ core) + pulse × core) × ends × intensity`; colour = `lerp(glow, core colour, core)`."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_vert",
+        "position": {
+          "x": 4316,
+          "y": 865
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Wave Deformation along the normal (vertex stage only)."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 6898,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Additive, ZWrite off, two-sided: set in the graph settings."
+      }
+    ],
+    "edges": {
+      "body:out>sum:a": {
+        "from": {
+          "node": "body",
+          "port": "out"
+        },
+        "id": "body:out>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "br:out>out:b": {
+        "from": {
+          "node": "br",
+          "port": "out"
+        },
+        "id": "br:out>out:b",
+        "to": {
+          "node": "out",
+          "port": "b"
+        }
+      },
+      "c:out>cx:a": {
+        "from": {
+          "node": "c",
+          "port": "out"
+        },
+        "id": "c:out>cx:a",
+        "to": {
+          "node": "cx",
+          "port": "a"
+        }
+      },
+      "cb2:out>body:b": {
+        "from": {
+          "node": "cb2",
+          "port": "out"
+        },
+        "id": "cb2:out>body:b",
+        "to": {
+          "node": "body",
+          "port": "b"
+        }
+      },
+      "cb:out>cb2:a": {
+        "from": {
+          "node": "cb",
+          "port": "out"
+        },
+        "id": "cb:out>cb2:a",
+        "to": {
+          "node": "cb2",
+          "port": "a"
+        }
+      },
+      "col:out>out:a": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>out:a",
+        "to": {
+          "node": "out",
+          "port": "a"
+        }
+      },
+      "core:out>cb:a": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>cb:a",
+        "to": {
+          "node": "cb",
+          "port": "a"
+        }
+      },
+      "core:out>col:t": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "core:out>pc:b": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>pc:b",
+        "to": {
+          "node": "pc",
+          "port": "b"
+        }
+      },
+      "cx:out>p:r": {
+        "from": {
+          "node": "cx",
+          "port": "out"
+        },
+        "id": "cx:out>p:r",
+        "to": {
+          "node": "p",
+          "port": "r"
+        }
+      },
+      "cy:out>p:g": {
+        "from": {
+          "node": "cy",
+          "port": "out"
+        },
+        "id": "cy:out>p:g",
+        "to": {
+          "node": "p",
+          "port": "g"
+        }
+      },
+      "e1:out>ends:a": {
+        "from": {
+          "node": "e1",
+          "port": "out"
+        },
+        "id": "e1:out>ends:a",
+        "to": {
+          "node": "ends",
+          "port": "a"
+        }
+      },
+      "e2:out>ends:b": {
+        "from": {
+          "node": "e2",
+          "port": "out"
+        },
+        "id": "e2:out>ends:b",
+        "to": {
+          "node": "ends",
+          "port": "b"
+        }
+      },
+      "ee:out>br:a": {
+        "from": {
+          "node": "ee",
+          "port": "out"
+        },
+        "id": "ee:out>br:a",
+        "to": {
+          "node": "br",
+          "port": "a"
+        }
+      },
+      "en:out>body:a": {
+        "from": {
+          "node": "en",
+          "port": "out"
+        },
+        "id": "en:out>body:a",
+        "to": {
+          "node": "body",
+          "port": "a"
+        }
+      },
+      "ends:out>ee:b": {
+        "from": {
+          "node": "ends",
+          "port": "out"
+        },
+        "id": "ends:out>ee:b",
+        "to": {
+          "node": "ee",
+          "port": "b"
+        }
+      },
+      "fbm:out>en:t": {
+        "from": {
+          "node": "fbm",
+          "port": "out"
+        },
+        "id": "fbm:out>en:t",
+        "to": {
+          "node": "en",
+          "port": "t"
+        }
+      },
+      "h:out>pulse:in": {
+        "from": {
+          "node": "h",
+          "port": "out"
+        },
+        "id": "h:out>pulse:in",
+        "to": {
+          "node": "pulse",
+          "port": "in"
+        }
+      },
+      "iv:out>e2:in": {
+        "from": {
+          "node": "iv",
+          "port": "out"
+        },
+        "id": "iv:out>e2:in",
+        "to": {
+          "node": "e2",
+          "port": "in"
+        }
+      },
+      "na:out>en:a": {
+        "from": {
+          "node": "na",
+          "port": "out"
+        },
+        "id": "na:out>en:a",
+        "to": {
+          "node": "en",
+          "port": "a"
+        }
+      },
+      "nv0:out>nv:in": {
+        "from": {
+          "node": "nv0",
+          "port": "out"
+        },
+        "id": "nv0:out>nv:in",
+        "to": {
+          "node": "nv",
+          "port": "in"
+        }
+      },
+      "nv:out>core:a": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>core:a",
+        "to": {
+          "node": "core",
+          "port": "a"
+        }
+      },
+      "onrm:out>wave:normal": {
+        "from": {
+          "node": "onrm",
+          "port": "out"
+        },
+        "id": "onrm:out>wave:normal",
+        "to": {
+          "node": "wave",
+          "port": "normal"
+        }
+      },
+      "opos:out>wave:position": {
+        "from": {
+          "node": "opos",
+          "port": "out"
+        },
+        "id": "opos:out>wave:position",
+        "to": {
+          "node": "wave",
+          "port": "position"
+        }
+      },
+      "out:out>master:baseColor": {
+        "from": {
+          "node": "out",
+          "port": "out"
+        },
+        "id": "out:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "p:rgb>fbm:p": {
+        "from": {
+          "node": "p",
+          "port": "rgb"
+        },
+        "id": "p:rgb>fbm:p",
+        "to": {
+          "node": "fbm",
+          "port": "p"
+        }
+      },
+      "p_coreColor_mix:out>col:b": {
+        "from": {
+          "node": "p_coreColor_mix",
+          "port": "out"
+        },
+        "id": "p_coreColor_mix:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_coreSharp_core:out>core:b": {
+        "from": {
+          "node": "p_coreSharp_core",
+          "port": "out"
+        },
+        "id": "p_coreSharp_core:out>core:b",
+        "to": {
+          "node": "core",
+          "port": "b"
+        }
+      },
+      "p_endFade_core:out>e1:edge2": {
+        "from": {
+          "node": "p_endFade_core",
+          "port": "out"
+        },
+        "id": "p_endFade_core:out>e1:edge2",
+        "to": {
+          "node": "e1",
+          "port": "edge2"
+        }
+      },
+      "p_endFade_core:out>e2:edge2": {
+        "from": {
+          "node": "p_endFade_core",
+          "port": "out"
+        },
+        "id": "p_endFade_core:out>e2:edge2",
+        "to": {
+          "node": "e2",
+          "port": "edge2"
+        }
+      },
+      "p_glowColor_mix:out>col:a": {
+        "from": {
+          "node": "p_glowColor_mix",
+          "port": "out"
+        },
+        "id": "p_glowColor_mix:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "p_intensity_mix:out>br:b": {
+        "from": {
+          "node": "p_intensity_mix",
+          "port": "out"
+        },
+        "id": "p_intensity_mix:out>br:b",
+        "to": {
+          "node": "br",
+          "port": "b"
+        }
+      },
+      "p_noiseAmount_mix:out>na:in": {
+        "from": {
+          "node": "p_noiseAmount_mix",
+          "port": "out"
+        },
+        "id": "p_noiseAmount_mix:out>na:in",
+        "to": {
+          "node": "na",
+          "port": "in"
+        }
+      },
+      "p_noiseFreq_noise:out>vl:b": {
+        "from": {
+          "node": "p_noiseFreq_noise",
+          "port": "out"
+        },
+        "id": "p_noiseFreq_noise:out>vl:b",
+        "to": {
+          "node": "vl",
+          "port": "b"
+        }
+      },
+      "p_pulseStrength_pulse:out>pk:b": {
+        "from": {
+          "node": "p_pulseStrength_pulse",
+          "port": "out"
+        },
+        "id": "p_pulseStrength_pulse:out>pk:b",
+        "to": {
+          "node": "pk",
+          "port": "b"
+        }
+      },
+      "p_pulses_pulse:out>vc:b": {
+        "from": {
+          "node": "p_pulses_pulse",
+          "port": "out"
+        },
+        "id": "p_pulses_pulse:out>vc:b",
+        "to": {
+          "node": "vc",
+          "port": "b"
+        }
+      },
+      "p_speed_noise:out>ts:b": {
+        "from": {
+          "node": "p_speed_noise",
+          "port": "out"
+        },
+        "id": "p_speed_noise:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_speed_pulse:out>tsp:b": {
+        "from": {
+          "node": "p_speed_pulse",
+          "port": "out"
+        },
+        "id": "p_speed_pulse:out>tsp:b",
+        "to": {
+          "node": "tsp",
+          "port": "b"
+        }
+      },
+      "p_swirl_noise:out>cx:b": {
+        "from": {
+          "node": "p_swirl_noise",
+          "port": "out"
+        },
+        "id": "p_swirl_noise:out>cx:b",
+        "to": {
+          "node": "cx",
+          "port": "b"
+        }
+      },
+      "p_swirl_noise:out>cy:b": {
+        "from": {
+          "node": "p_swirl_noise",
+          "port": "out"
+        },
+        "id": "p_swirl_noise:out>cy:b",
+        "to": {
+          "node": "cy",
+          "port": "b"
+        }
+      },
+      "p_wobble_vert:out>wave:amplitude": {
+        "from": {
+          "node": "p_wobble_vert",
+          "port": "out"
+        },
+        "id": "p_wobble_vert:out>wave:amplitude",
+        "to": {
+          "node": "wave",
+          "port": "amplitude"
+        }
+      },
+      "pc:out>sum:b": {
+        "from": {
+          "node": "pc",
+          "port": "out"
+        },
+        "id": "pc:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "ph:out>tau:a": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>tau:a",
+        "to": {
+          "node": "tau",
+          "port": "a"
+        }
+      },
+      "pk:out>pc:a": {
+        "from": {
+          "node": "pk",
+          "port": "out"
+        },
+        "id": "pk:out>pc:a",
+        "to": {
+          "node": "pc",
+          "port": "a"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "psn:out>h:in": {
+        "from": {
+          "node": "psn",
+          "port": "out"
+        },
+        "id": "psn:out>h:in",
+        "to": {
+          "node": "h",
+          "port": "in"
+        }
+      },
+      "pts:out>tsp:a": {
+        "from": {
+          "node": "pts",
+          "port": "out"
+        },
+        "id": "pts:out>tsp:a",
+        "to": {
+          "node": "tsp",
+          "port": "a"
+        }
+      },
+      "pulse:out>pk:a": {
+        "from": {
+          "node": "pulse",
+          "port": "out"
+        },
+        "id": "pulse:out>pk:a",
+        "to": {
+          "node": "pk",
+          "port": "a"
+        }
+      },
+      "sn:out>cy:a": {
+        "from": {
+          "node": "sn",
+          "port": "out"
+        },
+        "id": "sn:out>cy:a",
+        "to": {
+          "node": "cy",
+          "port": "a"
+        }
+      },
+      "sum:out>ee:a": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>ee:a",
+        "to": {
+          "node": "ee",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "t:time>pts:a": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pts:a",
+        "to": {
+          "node": "pts",
+          "port": "a"
+        }
+      },
+      "t:time>wave:time": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>wave:time",
+        "to": {
+          "node": "wave",
+          "port": "time"
+        }
+      },
+      "tau:out>psn:in": {
+        "from": {
+          "node": "tau",
+          "port": "out"
+        },
+        "id": "tau:out>psn:in",
+        "to": {
+          "node": "psn",
+          "port": "in"
+        }
+      },
+      "th:out>c:in": {
+        "from": {
+          "node": "th",
+          "port": "out"
+        },
+        "id": "th:out>c:in",
+        "to": {
+          "node": "c",
+          "port": "in"
+        }
+      },
+      "th:out>sn:in": {
+        "from": {
+          "node": "th",
+          "port": "out"
+        },
+        "id": "th:out>sn:in",
+        "to": {
+          "node": "sn",
+          "port": "in"
+        }
+      },
+      "ts:out>z:b": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>z:b",
+        "to": {
+          "node": "z",
+          "port": "b"
+        }
+      },
+      "tsp:out>ph:b": {
+        "from": {
+          "node": "tsp",
+          "port": "out"
+        },
+        "id": "tsp:out>ph:b",
+        "to": {
+          "node": "ph",
+          "port": "b"
+        }
+      },
+      "us:g>e1:in": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>e1:in",
+        "to": {
+          "node": "e1",
+          "port": "in"
+        }
+      },
+      "us:g>iv:in": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>iv:in",
+        "to": {
+          "node": "iv",
+          "port": "in"
+        }
+      },
+      "us:g>vc:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>vc:a",
+        "to": {
+          "node": "vc",
+          "port": "a"
+        }
+      },
+      "us:g>vl:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>vl:a",
+        "to": {
+          "node": "vl",
+          "port": "a"
+        }
+      },
+      "us:r>th:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>th:a",
+        "to": {
+          "node": "th",
+          "port": "a"
+        }
+      },
+      "v:out>nv0:b": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>nv0:b",
+        "to": {
+          "node": "nv0",
+          "port": "b"
+        }
+      },
+      "vc:out>ph:a": {
+        "from": {
+          "node": "vc",
+          "port": "out"
+        },
+        "id": "vc:out>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "vl:out>z:a": {
+        "from": {
+          "node": "vl",
+          "port": "out"
+        },
+        "id": "vl:out>z:a",
+        "to": {
+          "node": "z",
+          "port": "a"
+        }
+      },
+      "wave:position>master:positionOS": {
+        "from": {
+          "node": "wave",
+          "port": "position"
+        },
+        "id": "wave:position>master:positionOS",
+        "to": {
+          "node": "master",
+          "port": "positionOS"
+        }
+      },
+      "wn:out>nv0:a": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>nv0:a",
+        "to": {
+          "node": "nv0",
+          "port": "a"
+        }
+      },
+      "z:out>p:b": {
+        "from": {
+          "node": "z",
+          "port": "out"
+        },
+        "id": "z:out>p:b",
+        "to": {
+          "node": "p",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "us",
+          "wn",
+          "v",
+          "t",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 956,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_noise",
+        "nodeIds": [
+          "th",
+          "c",
+          "sn",
+          "cx",
+          "cy",
+          "vl",
+          "ts",
+          "z",
+          "p",
+          "fbm",
+          "p_swirl_noise",
+          "p_noiseFreq_noise",
+          "po_time_ts_a",
+          "p_speed_noise"
+        ],
+        "rect": {
+          "h": 852,
+          "w": 1504,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Scrolling energy noise"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_pulse",
+        "nodeIds": [
+          "vc",
+          "pts",
+          "tsp",
+          "ph",
+          "tau",
+          "psn",
+          "h",
+          "pulse",
+          "pk",
+          "p_pulses_pulse",
+          "p_speed_pulse",
+          "p_pulseStrength_pulse"
+        ],
+        "rect": {
+          "h": 585,
+          "w": 2422,
+          "x": 660,
+          "y": 922
+        },
+        "title": "Travelling pulses"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_core",
+        "nodeIds": [
+          "nv0",
+          "nv",
+          "core",
+          "e1",
+          "iv",
+          "e2",
+          "ends",
+          "p_coreSharp_core",
+          "p_endFade_core"
+        ],
+        "rect": {
+          "h": 777,
+          "w": 892,
+          "x": 3242,
+          "y": 0
+        },
+        "title": "Core + ends"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "na",
+          "en",
+          "cb",
+          "cb2",
+          "body",
+          "pc",
+          "sum",
+          "ee",
+          "br",
+          "col",
+          "out",
+          "p_noiseAmount_mix",
+          "p_intensity_mix",
+          "p_glowColor_mix",
+          "p_coreColor_mix"
+        ],
+        "rect": {
+          "h": 761,
+          "w": 2422,
+          "x": 4294,
+          "y": 0
+        },
+        "title": "Combine"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_vert",
+        "nodeIds": [
+          "opos",
+          "onrm",
+          "wave",
+          "p_wobble_vert"
+        ],
+        "rect": {
+          "h": 587,
+          "w": 586,
+          "x": 4294,
+          "y": 831
+        },
+        "title": "Vertex wobble"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 6876,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, additive)"
+      }
+    ],
+    "id": "vfx-energy-beam",
+    "keywords": [],
+    "name": "Energy Beam (Scrolling)",
+    "nodes": {
+      "body": {
+        "defId": "multiply",
+        "id": "body",
+        "params": {},
+        "position": {
+          "x": 5234,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "br": {
+        "defId": "multiply",
+        "id": "br",
+        "params": {},
+        "position": {
+          "x": 6152,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c": {
+        "defId": "cos",
+        "id": "c",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 218
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cb": {
+        "defId": "multiply",
+        "id": "cb",
+        "params": {},
+        "position": {
+          "x": 4316,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.75
+        }
+      },
+      "cb2": {
+        "defId": "add",
+        "id": "cb2",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core": {
+        "defId": "power",
+        "id": "core",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cx": {
+        "defId": "multiply",
+        "id": "cx",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 206
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cy": {
+        "defId": "multiply",
+        "id": "cy",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 348
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "e1": {
+        "defId": "smoothstep",
+        "id": "e1",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 367
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "e2": {
+        "defId": "smoothstep",
+        "id": "e2",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 533
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "ee": {
+        "defId": "multiply",
+        "id": "ee",
+        "params": {},
+        "position": {
+          "x": 5846,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "en": {
+        "defId": "lerp",
+        "id": "en",
+        "params": {},
+        "position": {
+          "x": 4928,
+          "y": 517
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1
+        }
+      },
+      "ends": {
+        "defId": "multiply",
+        "id": "ends",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fbm": {
+        "defId": "noiseFbm",
+        "id": "fbm",
+        "params": {
+          "basis": "value",
+          "dimension": 3,
+          "octaves": 3
+        },
+        "position": {
+          "x": 1906,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {
+          "scale": 1
+        }
+      },
+      "h": {
+        "defId": "remap",
+        "id": "h",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 1027
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "iv": {
+        "defId": "oneMinus",
+        "id": "iv",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 663
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 6898,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "na": {
+        "defId": "oneMinus",
+        "id": "na",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 541
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv": {
+        "defId": "saturate",
+        "id": "nv",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv0": {
+        "defId": "dot",
+        "id": "nv0",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "onrm": {
+        "defId": "normal",
+        "id": "onrm",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 4316,
+          "y": 1092
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "opos": {
+        "defId": "position",
+        "id": "opos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 4316,
+          "y": 1210
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "out": {
+        "defId": "multiply",
+        "id": "out",
+        "params": {},
+        "position": {
+          "x": 6458,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p": {
+        "defId": "combine",
+        "id": "p",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreColor_mix": {
+        "defId": "property",
+        "id": "p_coreColor_mix",
+        "params": {
+          "property": "coreColor"
+        },
+        "position": {
+          "x": 4316,
+          "y": 483
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreSharp_core": {
+        "defId": "property",
+        "id": "p_coreSharp_core",
+        "params": {
+          "property": "coreSharp"
+        },
+        "position": {
+          "x": 3264,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_endFade_core": {
+        "defId": "property",
+        "id": "p_endFade_core",
+        "params": {
+          "property": "endFade"
+        },
+        "position": {
+          "x": 3264,
+          "y": 569
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowColor_mix": {
+        "defId": "property",
+        "id": "p_glowColor_mix",
+        "params": {
+          "property": "glowColor"
+        },
+        "position": {
+          "x": 4316,
+          "y": 577
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_mix": {
+        "defId": "property",
+        "id": "p_intensity_mix",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 4316,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseAmount_mix": {
+        "defId": "property",
+        "id": "p_noiseAmount_mix",
+        "params": {
+          "property": "noiseAmount"
+        },
+        "position": {
+          "x": 4316,
+          "y": 671
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseFreq_noise": {
+        "defId": "property",
+        "id": "p_noiseFreq_noise",
+        "params": {
+          "property": "noiseFreq"
+        },
+        "position": {
+          "x": 682,
+          "y": 762
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulseStrength_pulse": {
+        "defId": "property",
+        "id": "p_pulseStrength_pulse",
+        "params": {
+          "property": "pulseStrength"
+        },
+        "position": {
+          "x": 682,
+          "y": 1087
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulses_pulse": {
+        "defId": "property",
+        "id": "p_pulses_pulse",
+        "params": {
+          "property": "pulses"
+        },
+        "position": {
+          "x": 682,
+          "y": 1417
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_speed_noise": {
+        "defId": "property",
+        "id": "p_speed_noise",
+        "params": {
+          "property": "speed"
+        },
+        "position": {
+          "x": 682,
+          "y": 608
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_speed_pulse": {
+        "defId": "property",
+        "id": "p_speed_pulse",
+        "params": {
+          "property": "speed"
+        },
+        "position": {
+          "x": 682,
+          "y": 1181
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_swirl_noise": {
+        "defId": "property",
+        "id": "p_swirl_noise",
+        "params": {
+          "property": "swirl"
+        },
+        "position": {
+          "x": 682,
+          "y": 372
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_wobble_vert": {
+        "defId": "property",
+        "id": "p_wobble_vert",
+        "params": {
+          "property": "wobble"
+        },
+        "position": {
+          "x": 4316,
+          "y": 1328
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pc": {
+        "defId": "multiply",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 4316,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "subtract",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1063
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 187
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pk": {
+        "defId": "multiply",
+        "id": "pk",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 1063
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 702
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "psn": {
+        "defId": "sin",
+        "id": "psn",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 1075
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pts": {
+        "defId": "multiply",
+        "id": "pts",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 1275
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "pulse": {
+        "defId": "smoothstep",
+        "id": "pulse",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 1051
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.7,
+          "edge2": 1
+        }
+      },
+      "sn": {
+        "defId": "sin",
+        "id": "sn",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 360
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 5540,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tau": {
+        "defId": "multiply",
+        "id": "tau",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1063
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.28318530718
+        }
+      },
+      "th": {
+        "defId": "multiply",
+        "id": "th",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 466
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.28318530718
+        }
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 478
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tsp": {
+        "defId": "multiply",
+        "id": "tsp",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1063
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 338
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 554
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "v": {
+        "defId": "viewDirection",
+        "id": "v",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 698
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vc": {
+        "defId": "multiply",
+        "id": "vc",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1299
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vl": {
+        "defId": "multiply",
+        "id": "vl",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wave": {
+        "defId": "waveDeformation",
+        "id": "wave",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 936
+        },
+        "previewEnabled": false,
+        "values": {
+          "frequency": 12,
+          "speed": 3
+        }
+      },
+      "wn": {
+        "defId": "normal",
+        "id": "wn",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 842
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "z": {
+        "defId": "subtract",
+        "id": "z",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 490
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Look",
+        "colorSpace": "linear",
+        "default": [
+          0.1,
+          0.55,
+          2.8
+        ],
+        "displayName": "Glow Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "glowColor",
+        "perInstance": false,
+        "referenceName": "_GlowColor",
+        "tooltip": "HDR colour of the outer halo.",
+        "type": "color"
+      },
+      {
+        "category": "Look",
+        "colorSpace": "linear",
+        "default": [
+          2.2,
+          2.8,
+          3.4
+        ],
+        "displayName": "Core Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "coreColor",
+        "perInstance": false,
+        "referenceName": "_CoreColor",
+        "tooltip": "HDR colour of the hot core.",
+        "type": "color"
+      },
+      {
+        "category": "Look",
+        "default": 1.5,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Overall brightness.",
+        "type": "float"
+      },
+      {
+        "category": "Look",
+        "default": 2.4,
+        "displayName": "Core Sharpness",
+        "exposed": true,
+        "id": "coreSharp",
+        "max": 10,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_CoreSharpness",
+        "slider": true,
+        "tooltip": "Exponent of the view-facing core falloff (higher = thinner core).",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 1.6,
+        "displayName": "Scroll Speed",
+        "exposed": true,
+        "id": "speed",
+        "max": 6,
+        "min": -6,
+        "perInstance": false,
+        "referenceName": "_ScrollSpeed",
+        "slider": true,
+        "tooltip": "Speed at which the energy travels along the beam (negative = reverse).",
+        "type": "float"
+      },
+      {
+        "category": "Energy",
+        "default": 3.5,
+        "displayName": "Noise Length",
+        "exposed": true,
+        "id": "noiseFreq",
+        "max": 12,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_NoiseLength",
+        "slider": true,
+        "tooltip": "Noise cells along the beam.",
+        "type": "float"
+      },
+      {
+        "category": "Energy",
+        "default": 0.9,
+        "displayName": "Noise Swirl",
+        "exposed": true,
+        "id": "swirl",
+        "max": 3,
+        "min": 0.1,
+        "perInstance": false,
+        "referenceName": "_NoiseSwirl",
+        "slider": true,
+        "tooltip": "Radius of the noise circle around the tube: larger = more variation around the tube.",
+        "type": "float"
+      },
+      {
+        "category": "Energy",
+        "default": 0.65,
+        "displayName": "Noise Amount",
+        "exposed": true,
+        "id": "noiseAmount",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_NoiseAmount",
+        "slider": true,
+        "tooltip": "How much the noise modulates the brightness.",
+        "type": "float"
+      },
+      {
+        "category": "Pulses",
+        "default": 4,
+        "displayName": "Pulse Count",
+        "exposed": true,
+        "id": "pulses",
+        "max": 12,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_PulseCount",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Travelling pulses along the beam.",
+        "type": "float"
+      },
+      {
+        "category": "Pulses",
+        "default": 0.9,
+        "displayName": "Pulse Strength",
+        "exposed": true,
+        "id": "pulseStrength",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PulseStrength",
+        "slider": true,
+        "tooltip": "Brightness of the pulses (0 = off).",
+        "type": "float"
+      },
+      {
+        "category": "Look",
+        "default": 0.12,
+        "displayName": "End Fade",
+        "exposed": true,
+        "id": "endFade",
+        "max": 0.5,
+        "min": 0.01,
+        "perInstance": false,
+        "referenceName": "_EndFade",
+        "slider": true,
+        "tooltip": "Fraction of the beam length over which each end fades out.",
+        "type": "float"
+      },
+      {
+        "category": "Motion",
+        "default": 0.015,
+        "displayName": "Vertex Wobble",
+        "exposed": true,
+        "id": "wobble",
+        "max": 0.08,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_VertexWobble",
+        "slider": true,
+        "tooltip": "Amplitude of the radial vertex wobble (object units).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "cylinder",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

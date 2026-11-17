@@ -1,0 +1,2906 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAABAQ0lEQVR42oTd47I0XdOu4blJX3y2bdu2bRuvbdu2be9Nrzgr4rjjekbMN9aPMRuzqru60plX5rh76lOfenvmM595e8ELXnB75StfeXvd6153e+1rX3t79atffXvZy152e8lLXnJ78YtffD36/+tf//prvfGNb7zWG97whuucV7ziFddxndexr3rVq673XvjCF17f8YQnPOH2iEc84vaf//mft3/6p3+6/eM//uO1/vmf//n2L//yL7e/+Zu/uf3Zn/3Z9djrf/u3f7vWf//3f98e9rCH3R75yEfeHvvYx96e+MQn3p70pCfdHve4x90e9ahHPWTtMU95ylNu/b7W0572tOux9x//+MdfxzzmMY+5PfrRj76ed20d8+xnP/v2rGc96/b0pz/9+o7+93//93/X9fzVX/3V7Y/+6I9uv/3bv337zd/8zdvv/d7vPXj9y7/8y9f69V//9dtv/MZv3H7rt37rer/H3v/pn/7p20/8xE/cfuzHfuxaP/mTP3n7uZ/7udsv/MIv3H7lV37lOufXfu3XrvU7v/M7tz/+4z++7sVf/MVf3P76r//69rd/+7fX+vu///trdf/+4z/+47q27k2r39I1d6+7593/6BR9XvOa19xe/vKXX/R53vOedx3Tb7x7xjOecb3ozQ6IkB3cyS996UuvD3rRi150Pe89DNBjxH/Tm950ve6ciN5nxAA9tjqvz44Y3cyHP/zh14X3AxC+xxghwvvB//AP/3D713/914tZYoB+aMwT0SJ8qx8cwXt/V8dEUIzy5Cc/+SJ+j70fA/TYZ3Rs19V7XWP3I0ZYRvnf//3f6/r+8i//8iL47/7u715EigF+//d//3oeQ0TEHiN87/XYe7/0S7/0gAF+/Md//Fq9/vmf//mLAfr/r/7qr14rBurcP/zDP7y+60/+5E9uf/7nf37dl1bX0P2JCRKOrg0TJAD9rgj7/Oc//6IHWiWIBLr/RfN+613c3os4P0nvpFYnRPjnPve5l3bAAKQ/RsFdPSfxrb6oz4p5+rJuaDcy4nTBXXg3lJTHAH/3d393MUA/Dsf7ga3/+Z//uZgngrUiPOL3PinoeTcCk7QwA41B4nuMiXqvxwgek/Tovb4rBuyGd/MjyB/8wR9chMcIPe7rGKPnET/p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",
+        "id": "sample.vfx-explosion.noiseMap",
+        "mime": "image/png",
+        "name": "fire-noise.png"
+      }
+    ],
+    "bindings": {
+      "noiseMap": "sample.vfx-explosion.noiseMap"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 456
+        },
+        "text": "Quad UV, normalised age (Age Percent stream), a per-particle random number (Stable Random stream), the particle colour and the screen UV for the haze."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_noise",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "The UV is rotated by `random + age × spin` turns. Layer A at the base tiling and layer B at 2.1× with an offset rising with age are blended 55 / 45: two interacting scales read as billowing. The raw samples are kept: they also drive the haze offset."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_body",
+        "position": {
+          "x": 682,
+          "y": 1049
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`body = saturate(noise × round × density)` with `round = 1 − smoothstep(0.1, 0.5, |uv − ½|)`. The threshold `age × erosion` rises over the life; `smoothstep(thr, thr + 0.25, body)` keeps what is above it."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_heat",
+        "position": {
+          "x": 3264,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "`heat = saturate(body × (1 − age)^falloff)` indexes the shared **Color Ramp**: soot → flame → hot white. A young fireball is hot in its dense core; as it ages everything slides down the ramp towards soot."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_haze",
+        "position": {
+          "x": 3264,
+          "y": 735
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`offset = (nA − ½, nB − ½) × distortion × round × (1 − age)`; the opaque scene is read at `screenUV + offset`. Haze alpha = `round × (1 − age) × haze`: the bent scene replaces the background around the fireball."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_alpha",
+        "position": {
+          "x": 5540,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "Fire alpha = erosion cut × soft depth fade × opacity × particle alpha. `colour = lerp(bent scene, fire colour, fire alpha)`, `alpha = max(fire alpha, haze alpha × particle alpha)`."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 7510,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Alpha blend, ZWrite off, two-sided."
+      }
+    ],
+    "edges": {
+      "age:normalized>ia:in": {
+        "from": {
+          "node": "age",
+          "port": "normalized"
+        },
+        "id": "age:normalized>ia:in",
+        "to": {
+          "node": "ia",
+          "port": "in"
+        }
+      },
+      "age:normalized>oB:g": {
+        "from": {
+          "node": "age",
+          "port": "normalized"
+        },
+        "id": "age:normalized>oB:g",
+        "to": {
+          "node": "oB",
+          "port": "g"
+        }
+      },
+      "age:normalized>sp1:a": {
+        "from": {
+          "node": "age",
+          "port": "normalized"
+        },
+        "id": "age:normalized>sp1:a",
+        "to": {
+          "node": "sp1",
+          "port": "a"
+        }
+      },
+      "age:normalized>thr:a": {
+        "from": {
+          "node": "age",
+          "port": "normalized"
+        },
+        "id": "age:normalized>thr:a",
+        "to": {
+          "node": "thr",
+          "port": "a"
+        }
+      },
+      "ar:r>mix:a": {
+        "from": {
+          "node": "ar",
+          "port": "r"
+        },
+        "id": "ar:r>mix:a",
+        "to": {
+          "node": "mix",
+          "port": "a"
+        }
+      },
+      "ar:r>nx:a": {
+        "from": {
+          "node": "ar",
+          "port": "r"
+        },
+        "id": "ar:r>nx:a",
+        "to": {
+          "node": "nx",
+          "port": "a"
+        }
+      },
+      "body:out>cut:in": {
+        "from": {
+          "node": "body",
+          "port": "out"
+        },
+        "id": "body:out>cut:in",
+        "to": {
+          "node": "cut",
+          "port": "in"
+        }
+      },
+      "body:out>h0:a": {
+        "from": {
+          "node": "body",
+          "port": "out"
+        },
+        "id": "body:out>h0:a",
+        "to": {
+          "node": "h0",
+          "port": "a"
+        }
+      },
+      "br:r>mix:b": {
+        "from": {
+          "node": "br",
+          "port": "r"
+        },
+        "id": "br:r>mix:b",
+        "to": {
+          "node": "mix",
+          "port": "b"
+        }
+      },
+      "br:r>ny:a": {
+        "from": {
+          "node": "br",
+          "port": "r"
+        },
+        "id": "br:r>ny:a",
+        "to": {
+          "node": "ny",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "cut:out>f1:a": {
+        "from": {
+          "node": "cut",
+          "port": "out"
+        },
+        "id": "cut:out>f1:a",
+        "to": {
+          "node": "f1",
+          "port": "a"
+        }
+      },
+      "d:out>rs:in": {
+        "from": {
+          "node": "d",
+          "port": "out"
+        },
+        "id": "d:out>rs:in",
+        "to": {
+          "node": "rs",
+          "port": "in"
+        }
+      },
+      "depth:fade>f1:b": {
+        "from": {
+          "node": "depth",
+          "port": "fade"
+        },
+        "id": "depth:fade>f1:b",
+        "to": {
+          "node": "f1",
+          "port": "b"
+        }
+      },
+      "dg:out>suv:b": {
+        "from": {
+          "node": "dg",
+          "port": "out"
+        },
+        "id": "dg:out>suv:b",
+        "to": {
+          "node": "suv",
+          "port": "b"
+        }
+      },
+      "dr:out>dg:a": {
+        "from": {
+          "node": "dr",
+          "port": "out"
+        },
+        "id": "dr:out>dg:a",
+        "to": {
+          "node": "dg",
+          "port": "a"
+        }
+      },
+      "ds:out>dr:a": {
+        "from": {
+          "node": "ds",
+          "port": "out"
+        },
+        "id": "ds:out>dr:a",
+        "to": {
+          "node": "dr",
+          "port": "a"
+        }
+      },
+      "f1:out>f2:a": {
+        "from": {
+          "node": "f1",
+          "port": "out"
+        },
+        "id": "f1:out>f2:a",
+        "to": {
+          "node": "f2",
+          "port": "a"
+        }
+      },
+      "f2:out>f3:a": {
+        "from": {
+          "node": "f2",
+          "port": "out"
+        },
+        "id": "f2:out>f3:a",
+        "to": {
+          "node": "f3",
+          "port": "a"
+        }
+      },
+      "f3:out>col:t": {
+        "from": {
+          "node": "f3",
+          "port": "out"
+        },
+        "id": "f3:out>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "f3:out>mx:a": {
+        "from": {
+          "node": "f3",
+          "port": "out"
+        },
+        "id": "f3:out>mx:a",
+        "to": {
+          "node": "mx",
+          "port": "a"
+        }
+      },
+      "h0:out>heat:in": {
+        "from": {
+          "node": "h0",
+          "port": "out"
+        },
+        "id": "h0:out>heat:in",
+        "to": {
+          "node": "heat",
+          "port": "in"
+        }
+      },
+      "heat:out>ramp:t": {
+        "from": {
+          "node": "heat",
+          "port": "out"
+        },
+        "id": "heat:out>ramp:t",
+        "to": {
+          "node": "ramp",
+          "port": "t"
+        }
+      },
+      "hf:out>h0:b": {
+        "from": {
+          "node": "hf",
+          "port": "out"
+        },
+        "id": "hf:out>h0:b",
+        "to": {
+          "node": "h0",
+          "port": "b"
+        }
+      },
+      "hp:out>mx:b": {
+        "from": {
+          "node": "hp",
+          "port": "out"
+        },
+        "id": "hp:out>mx:b",
+        "to": {
+          "node": "mx",
+          "port": "b"
+        }
+      },
+      "hz2:out>hp:a": {
+        "from": {
+          "node": "hz2",
+          "port": "out"
+        },
+        "id": "hz2:out>hp:a",
+        "to": {
+          "node": "hp",
+          "port": "a"
+        }
+      },
+      "hz:out>hz2:a": {
+        "from": {
+          "node": "hz",
+          "port": "out"
+        },
+        "id": "hz:out>hz2:a",
+        "to": {
+          "node": "hz2",
+          "port": "a"
+        }
+      },
+      "ia:out>dg:b": {
+        "from": {
+          "node": "ia",
+          "port": "out"
+        },
+        "id": "ia:out>dg:b",
+        "to": {
+          "node": "dg",
+          "port": "b"
+        }
+      },
+      "ia:out>hf:a": {
+        "from": {
+          "node": "ia",
+          "port": "out"
+        },
+        "id": "ia:out>hf:a",
+        "to": {
+          "node": "hf",
+          "port": "a"
+        }
+      },
+      "ia:out>hz:b": {
+        "from": {
+          "node": "ia",
+          "port": "out"
+        },
+        "id": "ia:out>hz:b",
+        "to": {
+          "node": "hz",
+          "port": "b"
+        }
+      },
+      "mix:out>p0:a": {
+        "from": {
+          "node": "mix",
+          "port": "out"
+        },
+        "id": "mix:out>p0:a",
+        "to": {
+          "node": "p0",
+          "port": "a"
+        }
+      },
+      "mx:out>master:alpha": {
+        "from": {
+          "node": "mx",
+          "port": "out"
+        },
+        "id": "mx:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "nx:out>of:r": {
+        "from": {
+          "node": "nx",
+          "port": "out"
+        },
+        "id": "nx:out>of:r",
+        "to": {
+          "node": "of",
+          "port": "r"
+        }
+      },
+      "ny:out>of:g": {
+        "from": {
+          "node": "ny",
+          "port": "out"
+        },
+        "id": "ny:out>of:g",
+        "to": {
+          "node": "of",
+          "port": "g"
+        }
+      },
+      "oA:rg>uvA:offset": {
+        "from": {
+          "node": "oA",
+          "port": "rg"
+        },
+        "id": "oA:rg>uvA:offset",
+        "to": {
+          "node": "uvA",
+          "port": "offset"
+        }
+      },
+      "oB:rg>uvB:offset": {
+        "from": {
+          "node": "oB",
+          "port": "rg"
+        },
+        "id": "oB:rg>uvB:offset",
+        "to": {
+          "node": "uvB",
+          "port": "offset"
+        }
+      },
+      "of:rg>ds:a": {
+        "from": {
+          "node": "of",
+          "port": "rg"
+        },
+        "id": "of:rg>ds:a",
+        "to": {
+          "node": "ds",
+          "port": "a"
+        }
+      },
+      "p0:out>p1:a": {
+        "from": {
+          "node": "p0",
+          "port": "out"
+        },
+        "id": "p0:out>p1:a",
+        "to": {
+          "node": "p1",
+          "port": "a"
+        }
+      },
+      "p1:out>body:in": {
+        "from": {
+          "node": "p1",
+          "port": "out"
+        },
+        "id": "p1:out>body:in",
+        "to": {
+          "node": "body",
+          "port": "in"
+        }
+      },
+      "p_coldColor_heat:out>ramp:cold": {
+        "from": {
+          "node": "p_coldColor_heat",
+          "port": "out"
+        },
+        "id": "p_coldColor_heat:out>ramp:cold",
+        "to": {
+          "node": "ramp",
+          "port": "cold"
+        }
+      },
+      "p_density_body:out>p1:b": {
+        "from": {
+          "node": "p_density_body",
+          "port": "out"
+        },
+        "id": "p_density_body:out>p1:b",
+        "to": {
+          "node": "p1",
+          "port": "b"
+        }
+      },
+      "p_distortion_haze:out>ds:b": {
+        "from": {
+          "node": "p_distortion_haze",
+          "port": "out"
+        },
+        "id": "p_distortion_haze:out>ds:b",
+        "to": {
+          "node": "ds",
+          "port": "b"
+        }
+      },
+      "p_erosion_body:out>thr:b": {
+        "from": {
+          "node": "p_erosion_body",
+          "port": "out"
+        },
+        "id": "p_erosion_body:out>thr:b",
+        "to": {
+          "node": "thr",
+          "port": "b"
+        }
+      },
+      "p_haze_haze:out>hz2:b": {
+        "from": {
+          "node": "p_haze_haze",
+          "port": "out"
+        },
+        "id": "p_haze_haze:out>hz2:b",
+        "to": {
+          "node": "hz2",
+          "port": "b"
+        }
+      },
+      "p_heatFall_heat:out>hf:b": {
+        "from": {
+          "node": "p_heatFall_heat",
+          "port": "out"
+        },
+        "id": "p_heatFall_heat:out>hf:b",
+        "to": {
+          "node": "hf",
+          "port": "b"
+        }
+      },
+      "p_hotColor_heat:out>ramp:hot": {
+        "from": {
+          "node": "p_hotColor_heat",
+          "port": "out"
+        },
+        "id": "p_hotColor_heat:out>ramp:hot",
+        "to": {
+          "node": "ramp",
+          "port": "hot"
+        }
+      },
+      "p_midColor_heat:out>ramp:mid": {
+        "from": {
+          "node": "p_midColor_heat",
+          "port": "out"
+        },
+        "id": "p_midColor_heat:out>ramp:mid",
+        "to": {
+          "node": "ramp",
+          "port": "mid"
+        }
+      },
+      "p_noiseMap_noise:out>sa:tex": {
+        "from": {
+          "node": "p_noiseMap_noise",
+          "port": "out"
+        },
+        "id": "p_noiseMap_noise:out>sa:tex",
+        "to": {
+          "node": "sa",
+          "port": "tex"
+        }
+      },
+      "p_noiseMap_noise:out>sb:tex": {
+        "from": {
+          "node": "p_noiseMap_noise",
+          "port": "out"
+        },
+        "id": "p_noiseMap_noise:out>sb:tex",
+        "to": {
+          "node": "sb",
+          "port": "tex"
+        }
+      },
+      "p_opacity_alpha:out>f2:b": {
+        "from": {
+          "node": "p_opacity_alpha",
+          "port": "out"
+        },
+        "id": "p_opacity_alpha:out>f2:b",
+        "to": {
+          "node": "f2",
+          "port": "b"
+        }
+      },
+      "p_softDistance_alpha:out>depth:distance": {
+        "from": {
+          "node": "p_softDistance_alpha",
+          "port": "out"
+        },
+        "id": "p_softDistance_alpha:out>depth:distance",
+        "to": {
+          "node": "depth",
+          "port": "distance"
+        }
+      },
+      "p_spin_noise:out>sp1:b": {
+        "from": {
+          "node": "p_spin_noise",
+          "port": "out"
+        },
+        "id": "p_spin_noise:out>sp1:b",
+        "to": {
+          "node": "sp1",
+          "port": "b"
+        }
+      },
+      "p_tiling_noise:out>tA:g": {
+        "from": {
+          "node": "p_tiling_noise",
+          "port": "out"
+        },
+        "id": "p_tiling_noise:out>tA:g",
+        "to": {
+          "node": "tA",
+          "port": "g"
+        }
+      },
+      "p_tiling_noise:out>tA:r": {
+        "from": {
+          "node": "p_tiling_noise",
+          "port": "out"
+        },
+        "id": "p_tiling_noise:out>tA:r",
+        "to": {
+          "node": "tA",
+          "port": "r"
+        }
+      },
+      "p_tiling_noise:out>tBv:a": {
+        "from": {
+          "node": "p_tiling_noise",
+          "port": "out"
+        },
+        "id": "p_tiling_noise:out>tBv:a",
+        "to": {
+          "node": "tBv",
+          "port": "a"
+        }
+      },
+      "pc:a>f3:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>f3:b",
+        "to": {
+          "node": "f3",
+          "port": "b"
+        }
+      },
+      "pc:a>hp:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>hp:b",
+        "to": {
+          "node": "hp",
+          "port": "b"
+        }
+      },
+      "pc:rgb>tint:b": {
+        "from": {
+          "node": "pc",
+          "port": "rgb"
+        },
+        "id": "pc:rgb>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "po_round_dr_b:out>dr:b": {
+        "from": {
+          "node": "po_round_dr_b",
+          "port": "out"
+        },
+        "id": "po_round_dr_b:out>dr:b",
+        "to": {
+          "node": "dr",
+          "port": "b"
+        }
+      },
+      "po_screenuv_suv_a:out>suv:a": {
+        "from": {
+          "node": "po_screenuv_suv_a",
+          "port": "out"
+        },
+        "id": "po_screenuv_suv_a:out>suv:a",
+        "to": {
+          "node": "suv",
+          "port": "a"
+        }
+      },
+      "ramp:color>tint:a": {
+        "from": {
+          "node": "ramp",
+          "port": "color"
+        },
+        "id": "ramp:color>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "rnd:value>oA:g": {
+        "from": {
+          "node": "rnd",
+          "port": "value"
+        },
+        "id": "rnd:value>oA:g",
+        "to": {
+          "node": "oA",
+          "port": "g"
+        }
+      },
+      "rnd:value>oA:r": {
+        "from": {
+          "node": "rnd",
+          "port": "value"
+        },
+        "id": "rnd:value>oA:r",
+        "to": {
+          "node": "oA",
+          "port": "r"
+        }
+      },
+      "rnd:value>oB:r": {
+        "from": {
+          "node": "rnd",
+          "port": "value"
+        },
+        "id": "rnd:value>oB:r",
+        "to": {
+          "node": "oB",
+          "port": "r"
+        }
+      },
+      "rnd:value>turns:a": {
+        "from": {
+          "node": "rnd",
+          "port": "value"
+        },
+        "id": "rnd:value>turns:a",
+        "to": {
+          "node": "turns",
+          "port": "a"
+        }
+      },
+      "rot:out>uvA:uv": {
+        "from": {
+          "node": "rot",
+          "port": "out"
+        },
+        "id": "rot:out>uvA:uv",
+        "to": {
+          "node": "uvA",
+          "port": "uv"
+        }
+      },
+      "rot:out>uvB:uv": {
+        "from": {
+          "node": "rot",
+          "port": "out"
+        },
+        "id": "rot:out>uvB:uv",
+        "to": {
+          "node": "uvB",
+          "port": "uv"
+        }
+      },
+      "round:out>hz:a": {
+        "from": {
+          "node": "round",
+          "port": "out"
+        },
+        "id": "round:out>hz:a",
+        "to": {
+          "node": "hz",
+          "port": "a"
+        }
+      },
+      "round:out>p0:b": {
+        "from": {
+          "node": "round",
+          "port": "out"
+        },
+        "id": "round:out>p0:b",
+        "to": {
+          "node": "p0",
+          "port": "b"
+        }
+      },
+      "round:out>pi_round:in": {
+        "from": {
+          "node": "round",
+          "port": "out"
+        },
+        "id": "round:out>pi_round:in",
+        "to": {
+          "node": "pi_round",
+          "port": "in"
+        }
+      },
+      "rs:out>round:in": {
+        "from": {
+          "node": "rs",
+          "port": "out"
+        },
+        "id": "rs:out>round:in",
+        "to": {
+          "node": "round",
+          "port": "in"
+        }
+      },
+      "sa:rgb>ar:in": {
+        "from": {
+          "node": "sa",
+          "port": "rgb"
+        },
+        "id": "sa:rgb>ar:in",
+        "to": {
+          "node": "ar",
+          "port": "in"
+        }
+      },
+      "sb:rgb>br:in": {
+        "from": {
+          "node": "sb",
+          "port": "rgb"
+        },
+        "id": "sb:rgb>br:in",
+        "to": {
+          "node": "br",
+          "port": "in"
+        }
+      },
+      "scene:out>col:a": {
+        "from": {
+          "node": "scene",
+          "port": "out"
+        },
+        "id": "scene:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "sp1:out>turns:b": {
+        "from": {
+          "node": "sp1",
+          "port": "out"
+        },
+        "id": "sp1:out>turns:b",
+        "to": {
+          "node": "turns",
+          "port": "b"
+        }
+      },
+      "sp:normalized>pi_screenuv:in": {
+        "from": {
+          "node": "sp",
+          "port": "normalized"
+        },
+        "id": "sp:normalized>pi_screenuv:in",
+        "to": {
+          "node": "pi_screenuv",
+          "port": "in"
+        }
+      },
+      "suv:out>scene:uv": {
+        "from": {
+          "node": "suv",
+          "port": "out"
+        },
+        "id": "suv:out>scene:uv",
+        "to": {
+          "node": "scene",
+          "port": "uv"
+        }
+      },
+      "tA:rg>uvA:tiling": {
+        "from": {
+          "node": "tA",
+          "port": "rg"
+        },
+        "id": "tA:rg>uvA:tiling",
+        "to": {
+          "node": "uvA",
+          "port": "tiling"
+        }
+      },
+      "tB:rg>uvB:tiling": {
+        "from": {
+          "node": "tB",
+          "port": "rg"
+        },
+        "id": "tB:rg>uvB:tiling",
+        "to": {
+          "node": "uvB",
+          "port": "tiling"
+        }
+      },
+      "tBv:out>tB:g": {
+        "from": {
+          "node": "tBv",
+          "port": "out"
+        },
+        "id": "tBv:out>tB:g",
+        "to": {
+          "node": "tB",
+          "port": "g"
+        }
+      },
+      "tBv:out>tB:r": {
+        "from": {
+          "node": "tBv",
+          "port": "out"
+        },
+        "id": "tBv:out>tB:r",
+        "to": {
+          "node": "tB",
+          "port": "r"
+        }
+      },
+      "thr2:out>cut:edge2": {
+        "from": {
+          "node": "thr2",
+          "port": "out"
+        },
+        "id": "thr2:out>cut:edge2",
+        "to": {
+          "node": "cut",
+          "port": "edge2"
+        }
+      },
+      "thr:out>cut:edge1": {
+        "from": {
+          "node": "thr",
+          "port": "out"
+        },
+        "id": "thr:out>cut:edge1",
+        "to": {
+          "node": "cut",
+          "port": "edge1"
+        }
+      },
+      "thr:out>thr2:a": {
+        "from": {
+          "node": "thr",
+          "port": "out"
+        },
+        "id": "thr:out>thr2:a",
+        "to": {
+          "node": "thr2",
+          "port": "a"
+        }
+      },
+      "tint:out>col:b": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "turns:out>rot:rotation": {
+        "from": {
+          "node": "turns",
+          "port": "out"
+        },
+        "id": "turns:out>rot:rotation",
+        "to": {
+          "node": "rot",
+          "port": "rotation"
+        }
+      },
+      "uv:out>d:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>d:a",
+        "to": {
+          "node": "d",
+          "port": "a"
+        }
+      },
+      "uv:out>rot:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>rot:uv",
+        "to": {
+          "node": "rot",
+          "port": "uv"
+        }
+      },
+      "uvA:out>sa:uv": {
+        "from": {
+          "node": "uvA",
+          "port": "out"
+        },
+        "id": "uvA:out>sa:uv",
+        "to": {
+          "node": "sa",
+          "port": "uv"
+        }
+      },
+      "uvB:out>sb:uv": {
+        "from": {
+          "node": "uvB",
+          "port": "out"
+        },
+        "id": "uvB:out>sb:uv",
+        "to": {
+          "node": "sb",
+          "port": "uv"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "age",
+          "rnd",
+          "pc",
+          "sp",
+          "pi_screenuv"
+        ],
+        "rect": {
+          "h": 1093,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Particle inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_noise",
+        "nodeIds": [
+          "sp1",
+          "turns",
+          "rot",
+          "tA",
+          "tBv",
+          "tB",
+          "oA",
+          "oB",
+          "uvA",
+          "uvB",
+          "sa",
+          "sb",
+          "ar",
+          "br",
+          "mix",
+          "p_spin_noise",
+          "p_tiling_noise",
+          "p_noiseMap_noise"
+        ],
+        "rect": {
+          "h": 945,
+          "w": 2422,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Two noise layers"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_body",
+        "nodeIds": [
+          "d",
+          "rs",
+          "round",
+          "p0",
+          "p1",
+          "body",
+          "thr",
+          "thr2",
+          "cut",
+          "p_density_body",
+          "p_erosion_body",
+          "pi_round"
+        ],
+        "rect": {
+          "h": 527,
+          "w": 2116,
+          "x": 660,
+          "y": 1015
+        },
+        "title": "Round puff + erosion"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_heat",
+        "nodeIds": [
+          "ia",
+          "hf",
+          "h0",
+          "heat",
+          "ramp",
+          "tint",
+          "p_heatFall_heat",
+          "p_coldColor_heat",
+          "p_midColor_heat",
+          "p_hotColor_heat"
+        ],
+        "rect": {
+          "h": 631,
+          "w": 1810,
+          "x": 3242,
+          "y": 0
+        },
+        "title": "Heat over age → colour"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_haze",
+        "nodeIds": [
+          "nx",
+          "ny",
+          "of",
+          "ds",
+          "dr",
+          "dg",
+          "suv",
+          "scene",
+          "hz",
+          "hz2",
+          "p_distortion_haze",
+          "po_round_dr_b",
+          "po_screenuv_suv_a",
+          "p_haze_haze"
+        ],
+        "rect": {
+          "h": 909,
+          "w": 2116,
+          "x": 3242,
+          "y": 701
+        },
+        "title": "Heat-haze distortion"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_alpha",
+        "nodeIds": [
+          "depth",
+          "f1",
+          "f2",
+          "f3",
+          "hp",
+          "mx",
+          "col",
+          "p_softDistance_alpha",
+          "p_opacity_alpha"
+        ],
+        "rect": {
+          "h": 467,
+          "w": 1810,
+          "x": 5518,
+          "y": 0
+        },
+        "title": "Soft particles + final mix"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 7488,
+          "y": 0
+        },
+        "title": "Master output (URP VFX Unlit, alpha)"
+      }
+    ],
+    "id": "vfx-explosion",
+    "keywords": [],
+    "name": "Stylized Explosion",
+    "nodes": {
+      "age": {
+        "defId": "particleAge",
+        "id": "age",
+        "params": {
+          "mode": "normalized"
+        },
+        "position": {
+          "x": 22,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ar": {
+        "defId": "split",
+        "id": "ar",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 331
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "body": {
+        "defId": "saturate",
+        "id": "body",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 1144
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "br": {
+        "defId": "split",
+        "id": "br",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 521
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 7070,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cut": {
+        "defId": "smoothstep",
+        "id": "cut",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 1120
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d": {
+        "defId": "distance",
+        "id": "d",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 1344
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "depth": {
+        "defId": "subgraph",
+        "id": "depth",
+        "label": "Soft Fade",
+        "params": {
+          "subgraph": "ks_depth_intersect"
+        },
+        "position": {
+          "x": 5846,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dg": {
+        "defId": "multiply",
+        "id": "dg",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 854
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dr": {
+        "defId": "multiply",
+        "id": "dr",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 854
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ds": {
+        "defId": "multiply",
+        "id": "ds",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 854
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f1": {
+        "defId": "multiply",
+        "id": "f1",
+        "params": {},
+        "position": {
+          "x": 6152,
+          "y": 211
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f2": {
+        "defId": "multiply",
+        "id": "f2",
+        "params": {},
+        "position": {
+          "x": 6458,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f3": {
+        "defId": "multiply",
+        "id": "f3",
+        "params": {},
+        "position": {
+          "x": 6764,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h0": {
+        "defId": "multiply",
+        "id": "h0",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "heat": {
+        "defId": "saturate",
+        "id": "heat",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hf": {
+        "defId": "power",
+        "id": "hf",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hp": {
+        "defId": "multiply",
+        "id": "hp",
+        "params": {},
+        "position": {
+          "x": 5540,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hz": {
+        "defId": "multiply",
+        "id": "hz",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 1378
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hz2": {
+        "defId": "multiply",
+        "id": "hz2",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 1378
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ia": {
+        "defId": "oneMinus",
+        "id": "ia",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 7510,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mix": {
+        "defId": "lerp",
+        "id": "mix",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 343
+        },
+        "previewEnabled": false,
+        "values": {
+          "t": 0.45
+        }
+      },
+      "mx": {
+        "defId": "maximum",
+        "id": "mx",
+        "params": {},
+        "position": {
+          "x": 7070,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nx": {
+        "defId": "subtract",
+        "id": "nx",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 854
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ny": {
+        "defId": "subtract",
+        "id": "ny",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 996
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "oA": {
+        "defId": "combine",
+        "id": "oA",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "oB": {
+        "defId": "combine",
+        "id": "oB",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 617
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "of": {
+        "defId": "combine",
+        "id": "of",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 806
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p0": {
+        "defId": "multiply",
+        "id": "p0",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1344
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p1": {
+        "defId": "multiply",
+        "id": "p1",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 1132
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coldColor_heat": {
+        "defId": "property",
+        "id": "p_coldColor_heat",
+        "params": {
+          "property": "coldColor"
+        },
+        "position": {
+          "x": 3264,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_density_body": {
+        "defId": "property",
+        "id": "p_density_body",
+        "params": {
+          "property": "density"
+        },
+        "position": {
+          "x": 682,
+          "y": 1156
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_distortion_haze": {
+        "defId": "property",
+        "id": "p_distortion_haze",
+        "params": {
+          "property": "distortion"
+        },
+        "position": {
+          "x": 3264,
+          "y": 1138
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_erosion_body": {
+        "defId": "property",
+        "id": "p_erosion_body",
+        "params": {
+          "property": "erosion"
+        },
+        "position": {
+          "x": 682,
+          "y": 1250
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_haze_haze": {
+        "defId": "property",
+        "id": "p_haze_haze",
+        "params": {
+          "property": "haze"
+        },
+        "position": {
+          "x": 3264,
+          "y": 1520
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_heatFall_heat": {
+        "defId": "property",
+        "id": "p_heatFall_heat",
+        "params": {
+          "property": "heatFall"
+        },
+        "position": {
+          "x": 3264,
+          "y": 353
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hotColor_heat": {
+        "defId": "property",
+        "id": "p_hotColor_heat",
+        "params": {
+          "property": "hotColor"
+        },
+        "position": {
+          "x": 3264,
+          "y": 447
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_midColor_heat": {
+        "defId": "property",
+        "id": "p_midColor_heat",
+        "params": {
+          "property": "midColor"
+        },
+        "position": {
+          "x": 3264,
+          "y": 541
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseMap_noise": {
+        "defId": "property",
+        "id": "p_noiseMap_noise",
+        "params": {
+          "property": "noiseMap"
+        },
+        "position": {
+          "x": 682,
+          "y": 523
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_opacity_alpha": {
+        "defId": "property",
+        "id": "p_opacity_alpha",
+        "params": {
+          "property": "opacity"
+        },
+        "position": {
+          "x": 5540,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softDistance_alpha": {
+        "defId": "property",
+        "id": "p_softDistance_alpha",
+        "params": {
+          "property": "softDistance"
+        },
+        "position": {
+          "x": 5540,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_spin_noise": {
+        "defId": "property",
+        "id": "p_spin_noise",
+        "params": {
+          "property": "spin"
+        },
+        "position": {
+          "x": 682,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tiling_noise": {
+        "defId": "property",
+        "id": "p_tiling_noise",
+        "params": {
+          "property": "tiling"
+        },
+        "position": {
+          "x": 682,
+          "y": 855
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pc": {
+        "defId": "particleColor",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 355
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_round": {
+        "defId": "portalIn",
+        "id": "pi_round",
+        "params": {
+          "channel": "Round"
+        },
+        "position": {
+          "x": 1600,
+          "y": 1486
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_screenuv": {
+        "defId": "portalIn",
+        "id": "pi_screenuv",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 328,
+          "y": 612
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_round_dr_b": {
+        "defId": "portalOut",
+        "id": "po_round_dr_b",
+        "params": {
+          "channel": "Round"
+        },
+        "position": {
+          "x": 3264,
+          "y": 1232
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_screenuv_suv_a": {
+        "defId": "portalOut",
+        "id": "po_screenuv_suv_a",
+        "params": {
+          "channel": "ScreenUV"
+        },
+        "position": {
+          "x": 3264,
+          "y": 1292
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ramp": {
+        "defId": "subgraph",
+        "id": "ramp",
+        "label": "Heat Ramp",
+        "params": {
+          "subgraph": "ks_color_ramp3"
+        },
+        "position": {
+          "x": 4488,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rnd": {
+        "defId": "particleRandom",
+        "id": "rnd",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 763
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rot": {
+        "defId": "uvRotate",
+        "id": "rot",
+        "params": {
+          "unit": "turns"
+        },
+        "position": {
+          "x": 1600,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "round": {
+        "defId": "oneMinus",
+        "id": "round",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1356
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rs": {
+        "defId": "smoothstep",
+        "id": "rs",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1332
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.1,
+          "edge2": 0.5
+        }
+      },
+      "sa": {
+        "defId": "sampleTexture2D",
+        "id": "sa",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sb": {
+        "defId": "sampleTexture2D",
+        "id": "sb",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 415
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "scene": {
+        "defId": "sceneColor",
+        "id": "scene",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 866
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp": {
+        "defId": "screenPosition",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 547
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp1": {
+        "defId": "multiply",
+        "id": "sp1",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 189
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "suv": {
+        "defId": "add",
+        "id": "suv",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 854
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tA": {
+        "defId": "combine",
+        "id": "tA",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 473
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tB": {
+        "defId": "combine",
+        "id": "tB",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 663
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tBv": {
+        "defId": "multiply",
+        "id": "tBv",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 711
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2.1
+        }
+      },
+      "thr": {
+        "defId": "multiply",
+        "id": "thr",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1132
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "thr2": {
+        "defId": "add",
+        "id": "thr2",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1132
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "turns": {
+        "defId": "add",
+        "id": "turns",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 189
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 979
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uvA": {
+        "defId": "uvTilingOffset",
+        "id": "uvA",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uvB": {
+        "defId": "uvTilingOffset",
+        "id": "uvB",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 487
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.vfx-unlit",
+    "properties": [
+      {
+        "category": "Shape",
+        "default": null,
+        "displayName": "Fire Noise",
+        "exposed": true,
+        "id": "noiseMap",
+        "perInstance": false,
+        "referenceName": "_FireNoise",
+        "textureDefault": "grey",
+        "tooltip": "Tileable cloud noise (grey). Linear data, wrap mode Repeat.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Shape",
+        "default": 1.3,
+        "displayName": "Noise Tiling",
+        "exposed": true,
+        "id": "tiling",
+        "max": 4,
+        "min": 0.4,
+        "perInstance": false,
+        "referenceName": "_NoiseTiling",
+        "slider": true,
+        "tooltip": "Noise repeats across the quad (bigger = finer billows).",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.3,
+        "displayName": "Spin",
+        "exposed": true,
+        "id": "spin",
+        "max": 1,
+        "min": -1,
+        "perInstance": false,
+        "referenceName": "_Spin",
+        "slider": true,
+        "tooltip": "Rotation of the noise over the particle's life, in turns.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 2.2,
+        "displayName": "Density",
+        "exposed": true,
+        "id": "density",
+        "max": 4,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_Density",
+        "slider": true,
+        "tooltip": "Multiplier of noise × round falloff: higher = a fuller, harder fireball.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.75,
+        "displayName": "Erosion",
+        "exposed": true,
+        "id": "erosion",
+        "max": 0.95,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Erosion",
+        "slider": true,
+        "tooltip": "How far the puff has eaten away at the end of its life.",
+        "type": "float"
+      },
+      {
+        "category": "Heat",
+        "default": 1.6,
+        "displayName": "Heat Falloff",
+        "exposed": true,
+        "id": "heatFall",
+        "max": 4,
+        "min": 0.3,
+        "perInstance": false,
+        "referenceName": "_HeatFalloff",
+        "slider": true,
+        "tooltip": "How fast the fire cools with age: heat = (1 − age)^falloff.",
+        "type": "float"
+      },
+      {
+        "category": "Heat",
+        "colorSpace": "linear",
+        "default": [
+          4.5,
+          3.4,
+          1.4
+        ],
+        "displayName": "Hot Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "hotColor",
+        "perInstance": false,
+        "referenceName": "_HotColor",
+        "tooltip": "HDR colour of the hottest part, at birth (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Heat",
+        "colorSpace": "linear",
+        "default": [
+          2.4,
+          0.6,
+          0.06
+        ],
+        "displayName": "Flame Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "midColor",
+        "perInstance": false,
+        "referenceName": "_FlameColor",
+        "tooltip": "HDR colour of the flame body (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Heat",
+        "colorSpace": "srgb",
+        "default": [
+          0.07,
+          0.06,
+          0.06
+        ],
+        "displayName": "Soot Color",
+        "exposed": true,
+        "id": "coldColor",
+        "perInstance": false,
+        "referenceName": "_SootColor",
+        "tooltip": "Colour of the cooled smoke at the end of life (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Heat Haze",
+        "default": 0.06,
+        "displayName": "Distortion",
+        "exposed": true,
+        "id": "distortion",
+        "max": 0.2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Distortion",
+        "slider": true,
+        "tooltip": "Screen-space bending of the scene behind the explosion (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Heat Haze",
+        "default": 0.8,
+        "displayName": "Haze Opacity",
+        "exposed": true,
+        "id": "haze",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_HazeOpacity",
+        "slider": true,
+        "tooltip": "How much of the bent scene replaces the background around the fireball (0 = no haze).",
+        "type": "float"
+      },
+      {
+        "category": "Soft Particles",
+        "default": 0.7,
+        "displayName": "Soft Distance",
+        "exposed": true,
+        "id": "softDistance",
+        "max": 3,
+        "min": 0.05,
+        "perInstance": false,
+        "referenceName": "_SoftDistance",
+        "slider": true,
+        "tooltip": "World-space fade distance where the explosion meets geometry.",
+        "type": "float"
+      },
+      {
+        "category": "Soft Particles",
+        "default": 1,
+        "displayName": "Opacity",
+        "exposed": true,
+        "id": "opacity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Opacity",
+        "slider": true,
+        "tooltip": "Maximum opacity of the fireball.",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "alpha",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {
+      "ks_color_ramp3": {
+        "comments": [
+          {
+            "color": "#fb923c",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 73,
+              "w": 848
+            },
+            "text": "**Color ramp** — `lerp(lerp(cold, mid, smoothstep(0, ½, t)), hot, smoothstep(½, 1, t))`.\nThe colours stay in the caller's colour space (HDR values keep their intensity, so a hot stop above 1 blooms). Use it instead of a gradient texture to keep a shader texture-free."
+          }
+        ],
+        "edges": {
+          "inputs:cold>l1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "cold"
+            },
+            "id": "inputs:cold>l1:a",
+            "to": {
+              "node": "l1",
+              "port": "a"
+            }
+          },
+          "inputs:hot>l2:b": {
+            "from": {
+              "node": "inputs",
+              "port": "hot"
+            },
+            "id": "inputs:hot>l2:b",
+            "to": {
+              "node": "l2",
+              "port": "b"
+            }
+          },
+          "inputs:mid>l1:b": {
+            "from": {
+              "node": "inputs",
+              "port": "mid"
+            },
+            "id": "inputs:mid>l1:b",
+            "to": {
+              "node": "l1",
+              "port": "b"
+            }
+          },
+          "inputs:t>s1:in": {
+            "from": {
+              "node": "inputs",
+              "port": "t"
+            },
+            "id": "inputs:t>s1:in",
+            "to": {
+              "node": "s1",
+              "port": "in"
+            }
+          },
+          "inputs:t>s2:in": {
+            "from": {
+              "node": "inputs",
+              "port": "t"
+            },
+            "id": "inputs:t>s2:in",
+            "to": {
+              "node": "s2",
+              "port": "in"
+            }
+          },
+          "l1:out>l2:a": {
+            "from": {
+              "node": "l1",
+              "port": "out"
+            },
+            "id": "l1:out>l2:a",
+            "to": {
+              "node": "l2",
+              "port": "a"
+            }
+          },
+          "l2:out>outputs:color": {
+            "from": {
+              "node": "l2",
+              "port": "out"
+            },
+            "id": "l2:out>outputs:color",
+            "to": {
+              "node": "outputs",
+              "port": "color"
+            }
+          },
+          "s1:out>l1:t": {
+            "from": {
+              "node": "s1",
+              "port": "out"
+            },
+            "id": "s1:out>l1:t",
+            "to": {
+              "node": "l1",
+              "port": "t"
+            }
+          },
+          "s2:out>l2:t": {
+            "from": {
+              "node": "s2",
+              "port": "out"
+            },
+            "id": "s2:out>l2:t",
+            "to": {
+              "node": "l2",
+              "port": "t"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fb923c",
+            "id": "grp_body",
+            "nodeIds": [
+              "s1",
+              "s2",
+              "l1",
+              "l2"
+            ],
+            "rect": {
+              "h": 467,
+              "w": 892,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Color Ramp (3 stops)"
+          }
+        ],
+        "id": "ks_color_ramp3",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "t",
+            "name": "Value",
+            "tooltip": "Ramp position, 0 (cold) … 1 (hot).",
+            "type": "float"
+          },
+          {
+            "default": [
+              0.1,
+              0,
+              0
+            ],
+            "id": "cold",
+            "name": "Cold",
+            "tooltip": "Colour at 0.",
+            "type": "color"
+          },
+          {
+            "default": [
+              1,
+              0.3,
+              0
+            ],
+            "id": "mid",
+            "name": "Mid",
+            "tooltip": "Colour at 0.5.",
+            "type": "color"
+          },
+          {
+            "default": [
+              1,
+              0.9,
+              0.4
+            ],
+            "id": "hot",
+            "name": "Hot",
+            "tooltip": "Colour at 1.",
+            "type": "color"
+          }
+        ],
+        "name": "Color Ramp (3 stops)",
+        "nodes": {
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "l1": {
+            "defId": "lerp",
+            "id": "l1",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "l2": {
+            "defId": "lerp",
+            "id": "l2",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1332,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "s1": {
+            "defId": "smoothstep",
+            "id": "s1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {
+              "edge1": 0,
+              "edge2": 0.5
+            }
+          },
+          "s2": {
+            "defId": "smoothstep",
+            "id": "s2",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 305
+            },
+            "previewEnabled": false,
+            "values": {
+              "edge1": 0.5,
+              "edge2": 1
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "color",
+            "name": "Color",
+            "tooltip": "Interpolated colour.",
+            "type": "color"
+          }
+        ]
+      },
+      "ks_depth_intersect": {
+        "comments": [
+          {
+            "color": "#f87171",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1460
+            },
+            "text": "**Depth intersection** — `gap = sceneEyeDepth(screenUV) − thisFragmentEyeDepth`, `fade = saturate(gap / distance)`.\nNeeds the camera depth texture (Unity URP: enable *Depth Texture* in the URP asset; Godot: `hint_depth_texture`). Use `1 − fade` for foam or intersection glow."
+          }
+        ],
+        "edges": {
+          "dmax:out>ratio:b": {
+            "from": {
+              "node": "dmax",
+              "port": "out"
+            },
+            "id": "dmax:out>ratio:b",
+            "to": {
+              "node": "ratio",
+              "port": "b"
+            }
+          },
+          "fade:out>outputs:fade": {
+            "from": {
+              "node": "fade",
+              "port": "out"
+            },
+            "id": "fade:out>outputs:fade",
+            "to": {
+              "node": "outputs",
+              "port": "fade"
+            }
+          },
+          "gap:out>outputs:gap": {
+            "from": {
+              "node": "gap",
+              "port": "out"
+            },
+            "id": "gap:out>outputs:gap",
+            "to": {
+              "node": "outputs",
+              "port": "gap"
+            }
+          },
+          "gap:out>ratio:a": {
+            "from": {
+              "node": "gap",
+              "port": "out"
+            },
+            "id": "gap:out>ratio:a",
+            "to": {
+              "node": "ratio",
+              "port": "a"
+            }
+          },
+          "inputs:distance>dmax:a": {
+            "from": {
+              "node": "inputs",
+              "port": "distance"
+            },
+            "id": "inputs:distance>dmax:a",
+            "to": {
+              "node": "dmax",
+              "port": "a"
+            }
+          },
+          "ratio:out>fade:in": {
+            "from": {
+              "node": "ratio",
+              "port": "out"
+            },
+            "id": "ratio:out>fade:in",
+            "to": {
+              "node": "fade",
+              "port": "in"
+            }
+          },
+          "sd:eye>gap:a": {
+            "from": {
+              "node": "sd",
+              "port": "eye"
+            },
+            "id": "sd:eye>gap:a",
+            "to": {
+              "node": "gap",
+              "port": "a"
+            }
+          },
+          "sp:eyeDepth>gap:b": {
+            "from": {
+              "node": "sp",
+              "port": "eyeDepth"
+            },
+            "id": "sp:eyeDepth>gap:b",
+            "to": {
+              "node": "gap",
+              "port": "b"
+            }
+          },
+          "sp:normalized>sd:uv": {
+            "from": {
+              "node": "sp",
+              "port": "normalized"
+            },
+            "id": "sp:normalized>sd:uv",
+            "to": {
+              "node": "sd",
+              "port": "uv"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#f87171",
+            "id": "grp_body",
+            "nodeIds": [
+              "sp",
+              "sd",
+              "gap",
+              "dmax",
+              "ratio",
+              "fade"
+            ],
+            "rect": {
+              "h": 462,
+              "w": 1504,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Depth Intersection"
+          }
+        ],
+        "id": "ks_depth_intersect",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "distance",
+            "name": "Distance",
+            "tooltip": "World-space reach of the intersection band.",
+            "type": "float"
+          }
+        ],
+        "name": "Depth Intersection",
+        "nodes": {
+          "dmax": {
+            "defId": "maximum",
+            "id": "dmax",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.0001
+            }
+          },
+          "fade": {
+            "defId": "saturate",
+            "id": "fade",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gap": {
+            "defId": "subtract",
+            "id": "gap",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1944,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ratio": {
+            "defId": "divide",
+            "id": "ratio",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sd": {
+            "defId": "sceneDepth",
+            "id": "sd",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 252
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sp": {
+            "defId": "screenPosition",
+            "id": "sp",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "fade",
+            "name": "Fade",
+            "tooltip": "0 where geometry touches the surface, 1 at Distance or further behind it.",
+            "type": "float"
+          },
+          {
+            "id": "gap",
+            "name": "Gap",
+            "tooltip": "Eye-space distance between this fragment and the opaque scene behind it (world units).",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "noiseMap": "sample.vfx-explosion.noiseMap"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "emitter": {
+        "colorOverLife": [
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 0
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "t": 0.03
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0.8
+            ],
+            "t": 0.75
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 1
+          }
+        ],
+        "gravity": [
+          0,
+          0.1,
+          0
+        ],
+        "lifetime": 2.4,
+        "lifetimeVar": 0,
+        "maxParticles": 5,
+        "rate": 0.7,
+        "sizeEnd": 3.2,
+        "sizeStart": 0.9,
+        "speed": 0.2,
+        "spread": 8
+      },
+      "grid": false,
+      "ground": "grid",
+      "intersector": "box",
+      "intersectorPos": [
+        0,
+        -0.1,
+        0
+      ],
+      "intersectorScale": 0.7,
+      "mode": "vfx",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {
+      "depthTexture": true,
+      "enabled": true,
+      "opaqueTexture": true
+    },
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,2016 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1068
+        },
+        "text": "World normal, view direction and tangent, mesh UV and the light direction (normalised once)."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_sheen",
+        "position": {
+          "x": 1294,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "Velvet fibres stand up and scatter light sideways, so the cloth is brightest where `N·V` is small: `sheen = (1 − N·V)^power`. A half-Lambert term `½·N·L + ½` (weighted `0.35 + 0.65·wrap`) keeps the unlit side from glowing as much."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_aniso",
+        "position": {
+          "x": 1294,
+          "y": 571
+        },
+        "size": {
+          "h": 56,
+          "w": 1460
+        },
+        "text": "The shared **Anisotropic Highlight** kit returns a Kajiya–Kay streak along the tangent. `streak = lerp(1, 0.25 + saturate(spec), anisotropy)` modulates the sheen: with Anisotropy 0 nothing changes, at 1 the sheen collapses into tangent-aligned bands (satin, brushed silk)."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_emit",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "`emission = sheenColor × sheen × streak × intensity` — added as emissive so it works on every target."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_weave",
+        "position": {
+          "x": 3570,
+          "y": 559
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "A checker at *Weave Scale* threads per UV unit: `weave = lerp(1, checker, amount)`. `darken = 1 − faceDarken × (N·V)²`. Albedo = fabric × weave × darken."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5540,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Albedo, low smoothness and the sheen as emission."
+      }
+    ],
+    "edges": {
+      "alb0:out>alb:a": {
+        "from": {
+          "node": "alb0",
+          "port": "out"
+        },
+        "id": "alb0:out>alb:a",
+        "to": {
+          "node": "alb",
+          "port": "a"
+        }
+      },
+      "alb:out>master:baseColor": {
+        "from": {
+          "node": "alb",
+          "port": "out"
+        },
+        "id": "alb:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "chk:out>wv:b": {
+        "from": {
+          "node": "chk",
+          "port": "out"
+        },
+        "id": "chk:out>wv:b",
+        "to": {
+          "node": "wv",
+          "port": "b"
+        }
+      },
+      "dark:out>alb:b": {
+        "from": {
+          "node": "dark",
+          "port": "out"
+        },
+        "id": "dark:out>alb:b",
+        "to": {
+          "node": "alb",
+          "port": "b"
+        }
+      },
+      "dk:out>dark:in": {
+        "from": {
+          "node": "dk",
+          "port": "out"
+        },
+        "id": "dk:out>dark:in",
+        "to": {
+          "node": "dark",
+          "port": "in"
+        }
+      },
+      "em:out>master:emission": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "hl:out>wrap:a": {
+        "from": {
+          "node": "hl",
+          "port": "out"
+        },
+        "id": "hl:out>wrap:a",
+        "to": {
+          "node": "wrap",
+          "port": "a"
+        }
+      },
+      "inv:out>pw:a": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>pw:a",
+        "to": {
+          "node": "pw",
+          "port": "a"
+        }
+      },
+      "iso:out>s1:a": {
+        "from": {
+          "node": "iso",
+          "port": "out"
+        },
+        "id": "iso:out>s1:a",
+        "to": {
+          "node": "s1",
+          "port": "a"
+        }
+      },
+      "kk:spec>ss:in": {
+        "from": {
+          "node": "kk",
+          "port": "spec"
+        },
+        "id": "kk:spec>ss:in",
+        "to": {
+          "node": "ss",
+          "port": "in"
+        }
+      },
+      "ld:out>kk:lightDir": {
+        "from": {
+          "node": "ld",
+          "port": "out"
+        },
+        "id": "ld:out>kk:lightDir",
+        "to": {
+          "node": "kk",
+          "port": "lightDir"
+        }
+      },
+      "ld:out>nl:b": {
+        "from": {
+          "node": "ld",
+          "port": "out"
+        },
+        "id": "ld:out>nl:b",
+        "to": {
+          "node": "nl",
+          "port": "b"
+        }
+      },
+      "nl:out>hl:a": {
+        "from": {
+          "node": "nl",
+          "port": "out"
+        },
+        "id": "nl:out>hl:a",
+        "to": {
+          "node": "hl",
+          "port": "a"
+        }
+      },
+      "nrm:out>kk:normal": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>kk:normal",
+        "to": {
+          "node": "kk",
+          "port": "normal"
+        }
+      },
+      "nrm:out>nl:a": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>nl:a",
+        "to": {
+          "node": "nl",
+          "port": "a"
+        }
+      },
+      "nrm:out>nv:a": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>nv:a",
+        "to": {
+          "node": "nv",
+          "port": "a"
+        }
+      },
+      "nv2:out>dk:a": {
+        "from": {
+          "node": "nv2",
+          "port": "out"
+        },
+        "id": "nv2:out>dk:a",
+        "to": {
+          "node": "dk",
+          "port": "a"
+        }
+      },
+      "nv:out>nvs:in": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>nvs:in",
+        "to": {
+          "node": "nvs",
+          "port": "in"
+        }
+      },
+      "nvs:out>inv:in": {
+        "from": {
+          "node": "nvs",
+          "port": "out"
+        },
+        "id": "nvs:out>inv:in",
+        "to": {
+          "node": "inv",
+          "port": "in"
+        }
+      },
+      "nvs:out>pi_ndotv:in": {
+        "from": {
+          "node": "nvs",
+          "port": "out"
+        },
+        "id": "nvs:out>pi_ndotv:in",
+        "to": {
+          "node": "pi_ndotv",
+          "port": "in"
+        }
+      },
+      "p_anisoExponent_aniso:out>kk:exponent": {
+        "from": {
+          "node": "p_anisoExponent_aniso",
+          "port": "out"
+        },
+        "id": "p_anisoExponent_aniso:out>kk:exponent",
+        "to": {
+          "node": "kk",
+          "port": "exponent"
+        }
+      },
+      "p_anisoShift_aniso:out>kk:shift": {
+        "from": {
+          "node": "p_anisoShift_aniso",
+          "port": "out"
+        },
+        "id": "p_anisoShift_aniso:out>kk:shift",
+        "to": {
+          "node": "kk",
+          "port": "shift"
+        }
+      },
+      "p_anisotropy_aniso:out>streak:t": {
+        "from": {
+          "node": "p_anisotropy_aniso",
+          "port": "out"
+        },
+        "id": "p_anisotropy_aniso:out>streak:t",
+        "to": {
+          "node": "streak",
+          "port": "t"
+        }
+      },
+      "p_fabricColor_weave:out>alb0:a": {
+        "from": {
+          "node": "p_fabricColor_weave",
+          "port": "out"
+        },
+        "id": "p_fabricColor_weave:out>alb0:a",
+        "to": {
+          "node": "alb0",
+          "port": "a"
+        }
+      },
+      "p_faceDarken_weave:out>dk:b": {
+        "from": {
+          "node": "p_faceDarken_weave",
+          "port": "out"
+        },
+        "id": "p_faceDarken_weave:out>dk:b",
+        "to": {
+          "node": "dk",
+          "port": "b"
+        }
+      },
+      "p_lightDir_inputs:out>ld:in": {
+        "from": {
+          "node": "p_lightDir_inputs",
+          "port": "out"
+        },
+        "id": "p_lightDir_inputs:out>ld:in",
+        "to": {
+          "node": "ld",
+          "port": "in"
+        }
+      },
+      "p_sheenColor_emit:out>em:a": {
+        "from": {
+          "node": "p_sheenColor_emit",
+          "port": "out"
+        },
+        "id": "p_sheenColor_emit:out>em:a",
+        "to": {
+          "node": "em",
+          "port": "a"
+        }
+      },
+      "p_sheenIntensity_emit:out>s2:b": {
+        "from": {
+          "node": "p_sheenIntensity_emit",
+          "port": "out"
+        },
+        "id": "p_sheenIntensity_emit:out>s2:b",
+        "to": {
+          "node": "s2",
+          "port": "b"
+        }
+      },
+      "p_sheenPower_sheen:out>pw:b": {
+        "from": {
+          "node": "p_sheenPower_sheen",
+          "port": "out"
+        },
+        "id": "p_sheenPower_sheen:out>pw:b",
+        "to": {
+          "node": "pw",
+          "port": "b"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "p_weaveAmount_weave:out>wv:t": {
+        "from": {
+          "node": "p_weaveAmount_weave",
+          "port": "out"
+        },
+        "id": "p_weaveAmount_weave:out>wv:t",
+        "to": {
+          "node": "wv",
+          "port": "t"
+        }
+      },
+      "p_weaveScale_weave:out>ws2:g": {
+        "from": {
+          "node": "p_weaveScale_weave",
+          "port": "out"
+        },
+        "id": "p_weaveScale_weave:out>ws2:g",
+        "to": {
+          "node": "ws2",
+          "port": "g"
+        }
+      },
+      "p_weaveScale_weave:out>ws2:r": {
+        "from": {
+          "node": "p_weaveScale_weave",
+          "port": "out"
+        },
+        "id": "p_weaveScale_weave:out>ws2:r",
+        "to": {
+          "node": "ws2",
+          "port": "r"
+        }
+      },
+      "po_ndotv_nv2_a:out>nv2:a": {
+        "from": {
+          "node": "po_ndotv_nv2_a",
+          "port": "out"
+        },
+        "id": "po_ndotv_nv2_a:out>nv2:a",
+        "to": {
+          "node": "nv2",
+          "port": "a"
+        }
+      },
+      "po_ndotv_nv2_b:out>nv2:b": {
+        "from": {
+          "node": "po_ndotv_nv2_b",
+          "port": "out"
+        },
+        "id": "po_ndotv_nv2_b:out>nv2:b",
+        "to": {
+          "node": "nv2",
+          "port": "b"
+        }
+      },
+      "pw:out>iso:a": {
+        "from": {
+          "node": "pw",
+          "port": "out"
+        },
+        "id": "pw:out>iso:a",
+        "to": {
+          "node": "iso",
+          "port": "a"
+        }
+      },
+      "s1:out>s2:a": {
+        "from": {
+          "node": "s1",
+          "port": "out"
+        },
+        "id": "s1:out>s2:a",
+        "to": {
+          "node": "s2",
+          "port": "a"
+        }
+      },
+      "s2:out>em:b": {
+        "from": {
+          "node": "s2",
+          "port": "out"
+        },
+        "id": "s2:out>em:b",
+        "to": {
+          "node": "em",
+          "port": "b"
+        }
+      },
+      "sa:out>streak:b": {
+        "from": {
+          "node": "sa",
+          "port": "out"
+        },
+        "id": "sa:out>streak:b",
+        "to": {
+          "node": "streak",
+          "port": "b"
+        }
+      },
+      "ss:out>sa:a": {
+        "from": {
+          "node": "ss",
+          "port": "out"
+        },
+        "id": "ss:out>sa:a",
+        "to": {
+          "node": "sa",
+          "port": "a"
+        }
+      },
+      "streak:out>s1:b": {
+        "from": {
+          "node": "streak",
+          "port": "out"
+        },
+        "id": "streak:out>s1:b",
+        "to": {
+          "node": "s1",
+          "port": "b"
+        }
+      },
+      "tan:out>kk:tangent": {
+        "from": {
+          "node": "tan",
+          "port": "out"
+        },
+        "id": "tan:out>kk:tangent",
+        "to": {
+          "node": "kk",
+          "port": "tangent"
+        }
+      },
+      "uv:out>chk:p": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>chk:p",
+        "to": {
+          "node": "chk",
+          "port": "p"
+        }
+      },
+      "vd:out>kk:viewDir": {
+        "from": {
+          "node": "vd",
+          "port": "out"
+        },
+        "id": "vd:out>kk:viewDir",
+        "to": {
+          "node": "kk",
+          "port": "viewDir"
+        }
+      },
+      "vd:out>nv:b": {
+        "from": {
+          "node": "vd",
+          "port": "out"
+        },
+        "id": "vd:out>nv:b",
+        "to": {
+          "node": "nv",
+          "port": "b"
+        }
+      },
+      "wl:out>iso:b": {
+        "from": {
+          "node": "wl",
+          "port": "out"
+        },
+        "id": "wl:out>iso:b",
+        "to": {
+          "node": "iso",
+          "port": "b"
+        }
+      },
+      "wm:out>wl:a": {
+        "from": {
+          "node": "wm",
+          "port": "out"
+        },
+        "id": "wm:out>wl:a",
+        "to": {
+          "node": "wl",
+          "port": "a"
+        }
+      },
+      "wrap:out>ws:in": {
+        "from": {
+          "node": "wrap",
+          "port": "out"
+        },
+        "id": "wrap:out>ws:in",
+        "to": {
+          "node": "ws",
+          "port": "in"
+        }
+      },
+      "ws2:rg>chk:frequency": {
+        "from": {
+          "node": "ws2",
+          "port": "rg"
+        },
+        "id": "ws2:rg>chk:frequency",
+        "to": {
+          "node": "chk",
+          "port": "frequency"
+        }
+      },
+      "ws:out>wm:a": {
+        "from": {
+          "node": "ws",
+          "port": "out"
+        },
+        "id": "ws:out>wm:a",
+        "to": {
+          "node": "wm",
+          "port": "a"
+        }
+      },
+      "wv:out>alb0:b": {
+        "from": {
+          "node": "wv",
+          "port": "out"
+        },
+        "id": "wv:out>alb0:b",
+        "to": {
+          "node": "alb0",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "nrm",
+          "vd",
+          "tan",
+          "uv",
+          "ld",
+          "nv",
+          "nvs",
+          "p_lightDir_inputs",
+          "pi_ndotv"
+        ],
+        "rect": {
+          "h": 781,
+          "w": 1112,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Surface inputs"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_sheen",
+        "nodeIds": [
+          "inv",
+          "pw",
+          "nl",
+          "hl",
+          "wrap",
+          "ws",
+          "wm",
+          "wl",
+          "iso",
+          "p_sheenPower_sheen"
+        ],
+        "rect": {
+          "h": 467,
+          "w": 2116,
+          "x": 1272,
+          "y": 0
+        },
+        "title": "Grazing sheen lobe"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_aniso",
+        "nodeIds": [
+          "kk",
+          "ss",
+          "sa",
+          "streak",
+          "p_anisoExponent_aniso",
+          "p_anisoShift_aniso",
+          "p_anisotropy_aniso"
+        ],
+        "rect": {
+          "h": 472,
+          "w": 1504,
+          "x": 1272,
+          "y": 537
+        },
+        "title": "Anisotropic option"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_emit",
+        "nodeIds": [
+          "s1",
+          "s2",
+          "em",
+          "p_sheenIntensity_emit",
+          "p_sheenColor_emit"
+        ],
+        "rect": {
+          "h": 455,
+          "w": 892,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Sheen emission"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_weave",
+        "nodeIds": [
+          "ws2",
+          "chk",
+          "wv",
+          "nv2",
+          "dk",
+          "dark",
+          "alb0",
+          "alb",
+          "p_weaveScale_weave",
+          "p_weaveAmount_weave",
+          "po_ndotv_nv2_a",
+          "po_ndotv_nv2_b",
+          "p_faceDarken_weave",
+          "p_fabricColor_weave"
+        ],
+        "rect": {
+          "h": 621,
+          "w": 1810,
+          "x": 3548,
+          "y": 525
+        },
+        "title": "Thread weave + face-on darkening"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 531,
+          "w": 586,
+          "x": 5518,
+          "y": 0
+        },
+        "title": "Master output (URP Lit)"
+      }
+    ],
+    "id": "cloth-sheen",
+    "keywords": [],
+    "name": "Cloth Sheen (Velvet)",
+    "nodes": {
+      "alb": {
+        "defId": "multiply",
+        "id": "alb",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 630
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "alb0": {
+        "defId": "multiply",
+        "id": "alb0",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 630
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "chk": {
+        "defId": "patternChecker",
+        "id": "chk",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 914
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dark": {
+        "defId": "oneMinus",
+        "id": "dark",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 642
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dk": {
+        "defId": "multiply",
+        "id": "dk",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 630
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "em": {
+        "defId": "multiply",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hl": {
+        "defId": "multiply",
+        "id": "hl",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "inv": {
+        "defId": "oneMinus",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "iso": {
+        "defId": "multiply",
+        "id": "iso",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "kk": {
+        "defId": "subgraph",
+        "id": "kk",
+        "label": "Streak",
+        "params": {
+          "subgraph": "ks_aniso_spec"
+        },
+        "position": {
+          "x": 1600,
+          "y": 659
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ld": {
+        "defId": "normalize",
+        "id": "ld",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5846,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nl": {
+        "defId": "dot",
+        "id": "nl",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 261
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv": {
+        "defId": "dot",
+        "id": "nv",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 249
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv2": {
+        "defId": "multiply",
+        "id": "nv2",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 707
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nvs": {
+        "defId": "saturate",
+        "id": "nvs",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 261
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_anisoExponent_aniso": {
+        "defId": "property",
+        "id": "p_anisoExponent_aniso",
+        "params": {
+          "property": "anisoExponent"
+        },
+        "position": {
+          "x": 1294,
+          "y": 731
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_anisoShift_aniso": {
+        "defId": "property",
+        "id": "p_anisoShift_aniso",
+        "params": {
+          "property": "anisoShift"
+        },
+        "position": {
+          "x": 1294,
+          "y": 825
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_anisotropy_aniso": {
+        "defId": "property",
+        "id": "p_anisotropy_aniso",
+        "params": {
+          "property": "anisotropy"
+        },
+        "position": {
+          "x": 1294,
+          "y": 919
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_fabricColor_weave": {
+        "defId": "property",
+        "id": "p_fabricColor_weave",
+        "params": {
+          "property": "fabricColor"
+        },
+        "position": {
+          "x": 3570,
+          "y": 654
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_faceDarken_weave": {
+        "defId": "property",
+        "id": "p_faceDarken_weave",
+        "params": {
+          "property": "faceDarken"
+        },
+        "position": {
+          "x": 3570,
+          "y": 748
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lightDir_inputs": {
+        "defId": "property",
+        "id": "p_lightDir_inputs",
+        "params": {
+          "property": "lightDir"
+        },
+        "position": {
+          "x": 22,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_sheenColor_emit": {
+        "defId": "property",
+        "id": "p_sheenColor_emit",
+        "params": {
+          "property": "sheenColor"
+        },
+        "position": {
+          "x": 3570,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_sheenIntensity_emit": {
+        "defId": "property",
+        "id": "p_sheenIntensity_emit",
+        "params": {
+          "property": "sheenIntensity"
+        },
+        "position": {
+          "x": 3570,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_sheenPower_sheen": {
+        "defId": "property",
+        "id": "p_sheenPower_sheen",
+        "params": {
+          "property": "sheenPower"
+        },
+        "position": {
+          "x": 1294,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 5540,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_weaveAmount_weave": {
+        "defId": "property",
+        "id": "p_weaveAmount_weave",
+        "params": {
+          "property": "weaveAmount"
+        },
+        "position": {
+          "x": 3570,
+          "y": 962
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_weaveScale_weave": {
+        "defId": "property",
+        "id": "p_weaveScale_weave",
+        "params": {
+          "property": "weaveScale"
+        },
+        "position": {
+          "x": 3570,
+          "y": 1056
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_ndotv": {
+        "defId": "portalIn",
+        "id": "pi_ndotv",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 940,
+          "y": 290
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_ndotv_nv2_a": {
+        "defId": "portalOut",
+        "id": "po_ndotv_nv2_a",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 3570,
+          "y": 842
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_ndotv_nv2_b": {
+        "defId": "portalOut",
+        "id": "po_ndotv_nv2_b",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 3570,
+          "y": 902
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pw": {
+        "defId": "power",
+        "id": "pw",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s1": {
+        "defId": "multiply",
+        "id": "s1",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 317
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "multiply",
+        "id": "s2",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sa": {
+        "defId": "add",
+        "id": "sa",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 801
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "ss": {
+        "defId": "saturate",
+        "id": "ss",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 813
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "streak": {
+        "defId": "lerp",
+        "id": "streak",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 789
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "tan": {
+        "defId": "meshTangent",
+        "id": "tan",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 523
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 667
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vd": {
+        "defId": "viewDirection",
+        "id": "vd",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wl": {
+        "defId": "add",
+        "id": "wl",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.35
+        }
+      },
+      "wm": {
+        "defId": "multiply",
+        "id": "wm",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.65
+        }
+      },
+      "wrap": {
+        "defId": "add",
+        "id": "wrap",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ws": {
+        "defId": "saturate",
+        "id": "ws",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ws2": {
+        "defId": "combine",
+        "id": "ws2",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 890
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wv": {
+        "defId": "lerp",
+        "id": "wv",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 832
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Fabric",
+        "colorSpace": "srgb",
+        "default": [
+          0.45,
+          0.03,
+          0.09
+        ],
+        "displayName": "Fabric Color",
+        "exposed": true,
+        "id": "fabricColor",
+        "perInstance": false,
+        "referenceName": "_FabricColor",
+        "tooltip": "Base colour of the cloth (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Fabric",
+        "default": 0.2,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Smoothness of the base layer: cloth is rough, keep it low.",
+        "type": "float"
+      },
+      {
+        "category": "Fabric",
+        "default": 0.5,
+        "displayName": "Face-On Darkening",
+        "exposed": true,
+        "id": "faceDarken",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_FaceOnDarkening",
+        "slider": true,
+        "tooltip": "Darkens the albedo where the surface faces the camera: velvet is darkest head-on.",
+        "type": "float"
+      },
+      {
+        "category": "Weave",
+        "default": 120,
+        "displayName": "Weave Scale",
+        "exposed": true,
+        "id": "weaveScale",
+        "max": 300,
+        "min": 20,
+        "perInstance": false,
+        "referenceName": "_WeaveScale",
+        "slider": true,
+        "tooltip": "Threads per UV unit.",
+        "type": "float"
+      },
+      {
+        "category": "Weave",
+        "default": 0.12,
+        "displayName": "Weave Amount",
+        "exposed": true,
+        "id": "weaveAmount",
+        "max": 0.4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_WeaveAmount",
+        "slider": true,
+        "tooltip": "Brightness difference between the two thread directions (0 = smooth cloth).",
+        "type": "float"
+      },
+      {
+        "category": "Sheen",
+        "colorSpace": "linear",
+        "default": [
+          1.7,
+          0.55,
+          0.45
+        ],
+        "displayName": "Sheen Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "sheenColor",
+        "perInstance": false,
+        "referenceName": "_SheenColor",
+        "tooltip": "HDR colour of the grazing-angle sheen (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Sheen",
+        "default": 3,
+        "displayName": "Sheen Power",
+        "exposed": true,
+        "id": "sheenPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_SheenPower",
+        "slider": true,
+        "tooltip": "Exponent of (1 − N·V): higher = thinner sheen at the silhouette.",
+        "type": "float"
+      },
+      {
+        "category": "Sheen",
+        "default": 1,
+        "displayName": "Sheen Intensity",
+        "exposed": true,
+        "id": "sheenIntensity",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SheenIntensity",
+        "slider": true,
+        "tooltip": "Brightness of the sheen.",
+        "type": "float"
+      },
+      {
+        "category": "Sheen",
+        "default": [
+          0.45,
+          0.8,
+          0.4
+        ],
+        "displayName": "Light Direction",
+        "exposed": true,
+        "id": "lightDir",
+        "perInstance": false,
+        "referenceName": "_LightDirection",
+        "tooltip": "Direction FROM the surface TOWARDS the light (world space, normalised in the graph). Lit side gets more sheen.",
+        "type": "vec3"
+      },
+      {
+        "category": "Anisotropic Option",
+        "default": 0,
+        "displayName": "Anisotropy",
+        "exposed": true,
+        "id": "anisotropy",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Anisotropy",
+        "slider": true,
+        "tooltip": "Blend towards a satin-like streak along the tangent (0 = isotropic velvet).",
+        "type": "float"
+      },
+      {
+        "category": "Anisotropic Option",
+        "default": 40,
+        "displayName": "Streak Tightness",
+        "exposed": true,
+        "id": "anisoExponent",
+        "max": 120,
+        "min": 10,
+        "perInstance": false,
+        "referenceName": "_StreakTightness",
+        "slider": true,
+        "tooltip": "Exponent of the Kajiya–Kay streak (larger = narrower).",
+        "type": "float"
+      },
+      {
+        "category": "Anisotropic Option",
+        "default": 0.15,
+        "displayName": "Streak Shift",
+        "exposed": true,
+        "id": "anisoShift",
+        "max": 1,
+        "min": -1,
+        "perInstance": false,
+        "referenceName": "_StreakShift",
+        "slider": true,
+        "tooltip": "Moves the streak along the normal.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_aniso_spec": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 2378
+            },
+            "text": "**Kajiya–Kay** — with `T' = normalize(T + N·shift)` and half vector `H = normalize(L + V)`: `highlight = (1 − (T'·H)²)^(exponent/2)`.\nThe streak is perpendicular to the brushing direction and stretches along the surface — the signature look of brushed metal. Multiply by the light colour and `saturate(N·L)` outside."
+          }
+        ],
+        "edges": {
+          "h:out>th:b": {
+            "from": {
+              "node": "h",
+              "port": "out"
+            },
+            "id": "h:out>th:b",
+            "to": {
+              "node": "th",
+              "port": "b"
+            }
+          },
+          "half:out>pw:b": {
+            "from": {
+              "node": "half",
+              "port": "out"
+            },
+            "id": "half:out>pw:b",
+            "to": {
+              "node": "pw",
+              "port": "b"
+            }
+          },
+          "inputs:exponent>half:a": {
+            "from": {
+              "node": "inputs",
+              "port": "exponent"
+            },
+            "id": "inputs:exponent>half:a",
+            "to": {
+              "node": "half",
+              "port": "a"
+            }
+          },
+          "inputs:lightDir>lv:a": {
+            "from": {
+              "node": "inputs",
+              "port": "lightDir"
+            },
+            "id": "inputs:lightDir>lv:a",
+            "to": {
+              "node": "lv",
+              "port": "a"
+            }
+          },
+          "inputs:normal>sh:a": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>sh:a",
+            "to": {
+              "node": "sh",
+              "port": "a"
+            }
+          },
+          "inputs:shift>sh:b": {
+            "from": {
+              "node": "inputs",
+              "port": "shift"
+            },
+            "id": "inputs:shift>sh:b",
+            "to": {
+              "node": "sh",
+              "port": "b"
+            }
+          },
+          "inputs:tangent>tp:a": {
+            "from": {
+              "node": "inputs",
+              "port": "tangent"
+            },
+            "id": "inputs:tangent>tp:a",
+            "to": {
+              "node": "tp",
+              "port": "a"
+            }
+          },
+          "inputs:viewDir>lv:b": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>lv:b",
+            "to": {
+              "node": "lv",
+              "port": "b"
+            }
+          },
+          "lv:out>h:in": {
+            "from": {
+              "node": "lv",
+              "port": "out"
+            },
+            "id": "lv:out>h:in",
+            "to": {
+              "node": "h",
+              "port": "in"
+            }
+          },
+          "pos:out>pw:a": {
+            "from": {
+              "node": "pos",
+              "port": "out"
+            },
+            "id": "pos:out>pw:a",
+            "to": {
+              "node": "pw",
+              "port": "a"
+            }
+          },
+          "pw:out>outputs:spec": {
+            "from": {
+              "node": "pw",
+              "port": "out"
+            },
+            "id": "pw:out>outputs:spec",
+            "to": {
+              "node": "outputs",
+              "port": "spec"
+            }
+          },
+          "sh:out>tp:b": {
+            "from": {
+              "node": "sh",
+              "port": "out"
+            },
+            "id": "sh:out>tp:b",
+            "to": {
+              "node": "tp",
+              "port": "b"
+            }
+          },
+          "sinTH2:out>pos:a": {
+            "from": {
+              "node": "sinTH2",
+              "port": "out"
+            },
+            "id": "sinTH2:out>pos:a",
+            "to": {
+              "node": "pos",
+              "port": "a"
+            }
+          },
+          "th2:out>sinTH2:in": {
+            "from": {
+              "node": "th2",
+              "port": "out"
+            },
+            "id": "th2:out>sinTH2:in",
+            "to": {
+              "node": "sinTH2",
+              "port": "in"
+            }
+          },
+          "th:out>th2:a": {
+            "from": {
+              "node": "th",
+              "port": "out"
+            },
+            "id": "th:out>th2:a",
+            "to": {
+              "node": "th2",
+              "port": "a"
+            }
+          },
+          "th:out>th2:b": {
+            "from": {
+              "node": "th",
+              "port": "out"
+            },
+            "id": "th:out>th2:b",
+            "to": {
+              "node": "th2",
+              "port": "b"
+            }
+          },
+          "tn:out>th:a": {
+            "from": {
+              "node": "tn",
+              "port": "out"
+            },
+            "id": "tn:out>th:a",
+            "to": {
+              "node": "th",
+              "port": "a"
+            }
+          },
+          "tp:out>tn:in": {
+            "from": {
+              "node": "tp",
+              "port": "out"
+            },
+            "id": "tp:out>tn:in",
+            "to": {
+              "node": "tn",
+              "port": "in"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "sh",
+              "tp",
+              "tn",
+              "lv",
+              "h",
+              "th",
+              "th2",
+              "sinTH2",
+              "pos",
+              "half",
+              "pw"
+            ],
+            "rect": {
+              "h": 544,
+              "w": 2422,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Anisotropic Highlight"
+          }
+        ],
+        "id": "ks_aniso_spec",
+        "inputs": [
+          {
+            "default": [
+              1,
+              0,
+              0
+            ],
+            "id": "tangent",
+            "name": "Tangent",
+            "tooltip": "Brushing direction in world space (mesh tangent).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "World normal (used to shift the highlight along the surface).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Dir",
+            "tooltip": "World direction towards the camera.",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "lightDir",
+            "name": "Light Dir",
+            "tooltip": "World direction towards the light.",
+            "type": "vec3"
+          },
+          {
+            "default": 60,
+            "id": "exponent",
+            "name": "Exponent",
+            "tooltip": "Highlight tightness (larger = narrower streak).",
+            "type": "float"
+          },
+          {
+            "default": 0,
+            "id": "shift",
+            "name": "Shift",
+            "tooltip": "Moves the highlight along the normal (−1…1).",
+            "type": "float"
+          }
+        ],
+        "name": "Anisotropic Highlight",
+        "nodes": {
+          "h": {
+            "defId": "normalize",
+            "id": "h",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "half": {
+            "defId": "multiply",
+            "id": "half",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "lv": {
+            "defId": "add",
+            "id": "lv",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 2862,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "pos": {
+            "defId": "maximum",
+            "id": "pos",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.0001
+            }
+          },
+          "pw": {
+            "defId": "power",
+            "id": "pw",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sh": {
+            "defId": "multiply",
+            "id": "sh",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 406
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sinTH2": {
+            "defId": "oneMinus",
+            "id": "sinTH2",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "th": {
+            "defId": "dot",
+            "id": "th",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "th2": {
+            "defId": "multiply",
+            "id": "th2",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tn": {
+            "defId": "normalize",
+            "id": "tn",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tp": {
+            "defId": "add",
+            "id": "tp",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "spec",
+            "name": "Highlight",
+            "tooltip": "Highlight intensity ≥ 0 (before light colour / N·L).",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "envIntensity": 0.8,
+      "grid": false,
+      "lightAzimuth": 40,
+      "lightElevation": 45,
+      "lightIntensity": 1.1,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,18 @@
+import type { SampleModule } from "../build/emit";
+import { rockSample } from "./rock";
+import { toonSample } from "./toon";
+import { waterSample } from "./water";
+import { dissolveSample } from "./dissolve";
+import { hologramSample } from "./hologram";
+import { forceFieldSample } from "./forcefield";
+import { snowSparkleSample } from "./snow";
+import { parallaxBrickSample } from "./brick";
+import { iridescentSample } from "./iridescent";
+import { brushedMetalSample } from "./brushed";
+import { foliageWindSample } from "./foliage";
+import { terrainSample } from "./terrain";
+import { lavaFlowSample } from "./lava";
+import { crystalGemSample } from "./gem";
+import { clothSheenSample } from "./cloth";
+import { cloudsSample } from "./clouds";
+export const SAMPLE_MODULES_3D: readonly SampleModule[] = [rockSample, toonSample, waterSample, dissolveSample, hologramSample, forceFieldSample, snowSparkleSample, parallaxBrickSample, iridescentSample, brushedMetalSample, foliageWindSample, terrainSample, lavaFlowSample, crystalGemSample, clothSheenSample, cloudsSample];

@@ -1,0 +1,569 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABDElEQVR42u2Z3Q3DIAwGO0dfukoW6DRdo9t0pwzQBVK1EhKiQEwSiA13kh8j8V2Iw88FAAAAAAAAAAAAAACqcJ1ui6SGC9ydEDfw9zL/Kgw0ve5/9Zwf9kX4g3XhXcVCxyT4ZUpEOMhQgERCKCAnQ3X4b5gtM8CkhNy3XRp+TUBMhNrwe8qEBEl4SfeXPKdOgiRYrBlKJMQaaUrCaT2h9O37a4FSAepmgXRKp/7hpdN/TUBzCXvCHN0D1Avo8o/QMvwWCQjoUYBEQrc9oHSP0K2AnIRhBKQkqF0MtRCgYj9wlgQTO8JaAlSeCbQQof5UqJYIE4ejNUSYvSc46lKki9uiIUMDAAAAAABo5gN3RJBBDIO6/gAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-hit-flash.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-hit-flash.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_src",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "Sprite fetch multiplied by the vertex colour — that is how a SpriteRenderer's *Color* field (and its alpha fade) reaches a custom shader."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_flash",
+        "position": {
+          "x": 1074,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "**Hit Flash** (Mix): `rgb = lerp(rgb, flash, amount)`. A second node in *Add* mode adds `flash × amount × overbright` on top, giving values above 1 for bloom. Both keep alpha untouched."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 2126,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Final colour and the (untouched) sprite alpha."
+      }
+    ],
+    "edges": {
+      "addFlash:out>split:in": {
+        "from": {
+          "node": "addFlash",
+          "port": "out"
+        },
+        "id": "addFlash:out>split:in",
+        "to": {
+          "node": "split",
+          "port": "in"
+        }
+      },
+      "hdrAmount:out>addFlash:amount": {
+        "from": {
+          "node": "hdrAmount",
+          "port": "out"
+        },
+        "id": "hdrAmount:out>addFlash:amount",
+        "to": {
+          "node": "addFlash",
+          "port": "amount"
+        }
+      },
+      "mixFlash:out>addFlash:color": {
+        "from": {
+          "node": "mixFlash",
+          "port": "out"
+        },
+        "id": "mixFlash:out>addFlash:color",
+        "to": {
+          "node": "addFlash",
+          "port": "color"
+        }
+      },
+      "p_flashColor_flash:out>addFlash:flash": {
+        "from": {
+          "node": "p_flashColor_flash",
+          "port": "out"
+        },
+        "id": "p_flashColor_flash:out>addFlash:flash",
+        "to": {
+          "node": "addFlash",
+          "port": "flash"
+        }
+      },
+      "p_flashColor_flash:out>mixFlash:flash": {
+        "from": {
+          "node": "p_flashColor_flash",
+          "port": "out"
+        },
+        "id": "p_flashColor_flash:out>mixFlash:flash",
+        "to": {
+          "node": "mixFlash",
+          "port": "flash"
+        }
+      },
+      "p_flash_flash:out>hdrAmount:a": {
+        "from": {
+          "node": "p_flash_flash",
+          "port": "out"
+        },
+        "id": "p_flash_flash:out>hdrAmount:a",
+        "to": {
+          "node": "hdrAmount",
+          "port": "a"
+        }
+      },
+      "p_flash_flash:out>mixFlash:amount": {
+        "from": {
+          "node": "p_flash_flash",
+          "port": "out"
+        },
+        "id": "p_flash_flash:out>mixFlash:amount",
+        "to": {
+          "node": "mixFlash",
+          "port": "amount"
+        }
+      },
+      "p_locked_sprite_texture_src:out>sprite:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_src",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_src:out>sprite:tex",
+        "to": {
+          "node": "sprite",
+          "port": "tex"
+        }
+      },
+      "p_overbright_flash:out>hdrAmount:b": {
+        "from": {
+          "node": "p_overbright_flash",
+          "port": "out"
+        },
+        "id": "p_overbright_flash:out>hdrAmount:b",
+        "to": {
+          "node": "hdrAmount",
+          "port": "b"
+        }
+      },
+      "rgb:rgb>master:baseColor": {
+        "from": {
+          "node": "rgb",
+          "port": "rgb"
+        },
+        "id": "rgb:rgb>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "split:a>master:alpha": {
+        "from": {
+          "node": "split",
+          "port": "a"
+        },
+        "id": "split:a>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "split:b>rgb:b": {
+        "from": {
+          "node": "split",
+          "port": "b"
+        },
+        "id": "split:b>rgb:b",
+        "to": {
+          "node": "rgb",
+          "port": "b"
+        }
+      },
+      "split:g>rgb:g": {
+        "from": {
+          "node": "split",
+          "port": "g"
+        },
+        "id": "split:g>rgb:g",
+        "to": {
+          "node": "rgb",
+          "port": "g"
+        }
+      },
+      "split:r>rgb:r": {
+        "from": {
+          "node": "split",
+          "port": "r"
+        },
+        "id": "split:r>rgb:r",
+        "to": {
+          "node": "rgb",
+          "port": "r"
+        }
+      },
+      "sprite:rgba>tinted:a": {
+        "from": {
+          "node": "sprite",
+          "port": "rgba"
+        },
+        "id": "sprite:rgba>tinted:a",
+        "to": {
+          "node": "tinted",
+          "port": "a"
+        }
+      },
+      "tinted:out>mixFlash:color": {
+        "from": {
+          "node": "tinted",
+          "port": "out"
+        },
+        "id": "tinted:out>mixFlash:color",
+        "to": {
+          "node": "mixFlash",
+          "port": "color"
+        }
+      },
+      "uv:out>sprite:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>sprite:uv",
+        "to": {
+          "node": "sprite",
+          "port": "uv"
+        }
+      },
+      "vc:rgba>tinted:b": {
+        "from": {
+          "node": "vc",
+          "port": "rgba"
+        },
+        "id": "vc:rgba>tinted:b",
+        "to": {
+          "node": "tinted",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_src",
+        "nodeIds": [
+          "uv",
+          "sprite",
+          "vc",
+          "tinted",
+          "p_locked_sprite_texture_src"
+        ],
+        "rect": {
+          "h": 580,
+          "w": 892,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Sprite × vertex colour"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_flash",
+        "nodeIds": [
+          "mixFlash",
+          "addFlash",
+          "hdrAmount",
+          "p_flashColor_flash",
+          "p_flash_flash",
+          "p_overbright_flash"
+        ],
+        "rect": {
+          "h": 544,
+          "w": 892,
+          "x": 1052,
+          "y": 0
+        },
+        "title": "Flash (mix, then HDR add)"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "split",
+          "rgb",
+          "master"
+        ],
+        "rect": {
+          "h": 339,
+          "w": 892,
+          "x": 2104,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-hit-flash",
+    "keywords": [],
+    "name": "Hit Flash",
+    "nodes": {
+      "addFlash": {
+        "defId": "hitFlash",
+        "id": "addFlash",
+        "params": {
+          "alpha": "straight",
+          "blend": "add"
+        },
+        "position": {
+          "x": 1686,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hdrAmount": {
+        "defId": "multiply",
+        "id": "hdrAmount",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mixFlash": {
+        "defId": "hitFlash",
+        "id": "mixFlash",
+        "params": {
+          "alpha": "straight",
+          "blend": "mix"
+        },
+        "position": {
+          "x": 1380,
+          "y": 300
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flashColor_flash": {
+        "defId": "property",
+        "id": "p_flashColor_flash",
+        "params": {
+          "property": "flashColor"
+        },
+        "position": {
+          "x": 1074,
+          "y": 360
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flash_flash": {
+        "defId": "property",
+        "id": "p_flash_flash",
+        "params": {
+          "property": "flash"
+        },
+        "position": {
+          "x": 1074,
+          "y": 454
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_src": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_src",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 22,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_overbright_flash": {
+        "defId": "property",
+        "id": "p_overbright_flash",
+        "params": {
+          "property": "overbright"
+        },
+        "position": {
+          "x": 1074,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "combine",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 2432,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "split": {
+        "defId": "split",
+        "id": "split",
+        "params": {},
+        "position": {
+          "x": 2126,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sprite": {
+        "defId": "sampleTexture2D",
+        "id": "sprite",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tinted": {
+        "defId": "multiply",
+        "id": "tinted",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 336
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vc": {
+        "defId": "vertexColor",
+        "id": "vc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 442
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Flash",
+        "default": 0.6,
+        "displayName": "Flash Amount",
+        "exposed": true,
+        "id": "flash",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_FlashAmount",
+        "slider": true,
+        "tooltip": "0 = normal sprite, 1 = solid flash colour. Animate from gameplay.",
+        "type": "float"
+      },
+      {
+        "category": "Flash",
+        "colorSpace": "srgb",
+        "default": [
+          1,
+          1,
+          1
+        ],
+        "displayName": "Flash Color",
+        "exposed": true,
+        "id": "flashColor",
+        "perInstance": false,
+        "referenceName": "_FlashColor",
+        "tooltip": "Colour the sprite flashes towards (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Flash",
+        "default": 0.8,
+        "displayName": "HDR Overbright",
+        "exposed": true,
+        "id": "overbright",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_HDROverbright",
+        "slider": true,
+        "tooltip": "Extra additive flash in HDR (> 1 blooms). 0 disables it.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-hit-flash.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

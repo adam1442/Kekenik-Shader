@@ -1,0 +1,1434 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 456
+        },
+        "text": "Quad UV, a per-particle random number (pulse phase) and the particle colour / alpha."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_sphere",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "`r = 2·|uv − ½|` is the distance from the centre (1 at the quad edge). A sphere of radius 1 has `N·V = z = √(1 − r²)` — that is the facing ratio. The halo is `z^haloPower`, the core `z^corePower` (a high power leaves only the centre) and the rim `(1 − z)^rimPower`."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_pulse",
+        "position": {
+          "x": 682,
+          "y": 925
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "`pulse = 1 + amount · sin(time · speed + random · 2π)` — the random phase keeps several orbs from beating in unison."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_color",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "`colour = lerp(glow, core, core mask) × (halo + rim) × pulse × intensity × particle colour`. The quad edge is faded with `1 − smoothstep(0.8, 1, r)` so the square never shows."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5540,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 300
+        },
+        "text": "Additive blend, ZWrite off, two-sided. Alpha scales the additive contribution."
+      }
+    ],
+    "edges": {
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "am:out>pulse:b": {
+        "from": {
+          "node": "am",
+          "port": "out"
+        },
+        "id": "am:out>pulse:b",
+        "to": {
+          "node": "pulse",
+          "port": "b"
+        }
+      },
+      "arg:out>sn:in": {
+        "from": {
+          "node": "arg",
+          "port": "out"
+        },
+        "id": "arg:out>sn:in",
+        "to": {
+          "node": "sn",
+          "port": "in"
+        }
+      },
+      "body:out>lit:b": {
+        "from": {
+          "node": "body",
+          "port": "out"
+        },
+        "id": "body:out>lit:b",
+        "to": {
+          "node": "lit",
+          "port": "b"
+        }
+      },
+      "core:out>mixc:t": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>mixc:t",
+        "to": {
+          "node": "mixc",
+          "port": "t"
+        }
+      },
+      "d:out>r:a": {
+        "from": {
+          "node": "d",
+          "port": "out"
+        },
+        "id": "d:out>r:a",
+        "to": {
+          "node": "r",
+          "port": "a"
+        }
+      },
+      "ef:out>em:in": {
+        "from": {
+          "node": "ef",
+          "port": "out"
+        },
+        "id": "ef:out>em:in",
+        "to": {
+          "node": "em",
+          "port": "in"
+        }
+      },
+      "em:out>al:a": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "halo:out>body:a": {
+        "from": {
+          "node": "halo",
+          "port": "out"
+        },
+        "id": "halo:out>body:a",
+        "to": {
+          "node": "body",
+          "port": "a"
+        }
+      },
+      "it:out>tint:a": {
+        "from": {
+          "node": "it",
+          "port": "out"
+        },
+        "id": "it:out>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "lit:out>pl:a": {
+        "from": {
+          "node": "lit",
+          "port": "out"
+        },
+        "id": "lit:out>pl:a",
+        "to": {
+          "node": "pl",
+          "port": "a"
+        }
+      },
+      "mixc:out>lit:a": {
+        "from": {
+          "node": "mixc",
+          "port": "out"
+        },
+        "id": "mixc:out>lit:a",
+        "to": {
+          "node": "lit",
+          "port": "a"
+        }
+      },
+      "om:out>z:in": {
+        "from": {
+          "node": "om",
+          "port": "out"
+        },
+        "id": "om:out>z:in",
+        "to": {
+          "node": "z",
+          "port": "in"
+        }
+      },
+      "p_coreColor_color:out>mixc:b": {
+        "from": {
+          "node": "p_coreColor_color",
+          "port": "out"
+        },
+        "id": "p_coreColor_color:out>mixc:b",
+        "to": {
+          "node": "mixc",
+          "port": "b"
+        }
+      },
+      "p_corePower_sphere:out>core:b": {
+        "from": {
+          "node": "p_corePower_sphere",
+          "port": "out"
+        },
+        "id": "p_corePower_sphere:out>core:b",
+        "to": {
+          "node": "core",
+          "port": "b"
+        }
+      },
+      "p_glowColor_color:out>mixc:a": {
+        "from": {
+          "node": "p_glowColor_color",
+          "port": "out"
+        },
+        "id": "p_glowColor_color:out>mixc:a",
+        "to": {
+          "node": "mixc",
+          "port": "a"
+        }
+      },
+      "p_haloPower_sphere:out>halo:b": {
+        "from": {
+          "node": "p_haloPower_sphere",
+          "port": "out"
+        },
+        "id": "p_haloPower_sphere:out>halo:b",
+        "to": {
+          "node": "halo",
+          "port": "b"
+        }
+      },
+      "p_intensity_color:out>it:b": {
+        "from": {
+          "node": "p_intensity_color",
+          "port": "out"
+        },
+        "id": "p_intensity_color:out>it:b",
+        "to": {
+          "node": "it",
+          "port": "b"
+        }
+      },
+      "p_pulseAmount_pulse:out>am:b": {
+        "from": {
+          "node": "p_pulseAmount_pulse",
+          "port": "out"
+        },
+        "id": "p_pulseAmount_pulse:out>am:b",
+        "to": {
+          "node": "am",
+          "port": "b"
+        }
+      },
+      "p_pulseSpeed_pulse:out>ts:b": {
+        "from": {
+          "node": "p_pulseSpeed_pulse",
+          "port": "out"
+        },
+        "id": "p_pulseSpeed_pulse:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_rimGain_sphere:out>rim:b": {
+        "from": {
+          "node": "p_rimGain_sphere",
+          "port": "out"
+        },
+        "id": "p_rimGain_sphere:out>rim:b",
+        "to": {
+          "node": "rim",
+          "port": "b"
+        }
+      },
+      "p_rimPower_sphere:out>rim0:b": {
+        "from": {
+          "node": "p_rimPower_sphere",
+          "port": "out"
+        },
+        "id": "p_rimPower_sphere:out>rim0:b",
+        "to": {
+          "node": "rim0",
+          "port": "b"
+        }
+      },
+      "pc:a>al:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "pc:rgb>tint:b": {
+        "from": {
+          "node": "pc",
+          "port": "rgb"
+        },
+        "id": "pc:rgb>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "ph:out>arg:b": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>arg:b",
+        "to": {
+          "node": "arg",
+          "port": "b"
+        }
+      },
+      "pl:out>it:a": {
+        "from": {
+          "node": "pl",
+          "port": "out"
+        },
+        "id": "pl:out>it:a",
+        "to": {
+          "node": "it",
+          "port": "a"
+        }
+      },
+      "po_edger_ef_in:out>ef:in": {
+        "from": {
+          "node": "po_edger_ef_in",
+          "port": "out"
+        },
+        "id": "po_edger_ef_in:out>ef:in",
+        "to": {
+          "node": "ef",
+          "port": "in"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "pulse:out>pl:b": {
+        "from": {
+          "node": "pulse",
+          "port": "out"
+        },
+        "id": "pulse:out>pl:b",
+        "to": {
+          "node": "pl",
+          "port": "b"
+        }
+      },
+      "r:out>rs:in": {
+        "from": {
+          "node": "r",
+          "port": "out"
+        },
+        "id": "r:out>rs:in",
+        "to": {
+          "node": "rs",
+          "port": "in"
+        }
+      },
+      "rim0:out>rim:a": {
+        "from": {
+          "node": "rim0",
+          "port": "out"
+        },
+        "id": "rim0:out>rim:a",
+        "to": {
+          "node": "rim",
+          "port": "a"
+        }
+      },
+      "rim:out>body:b": {
+        "from": {
+          "node": "rim",
+          "port": "out"
+        },
+        "id": "rim:out>body:b",
+        "to": {
+          "node": "body",
+          "port": "b"
+        }
+      },
+      "rnd:value>ph:a": {
+        "from": {
+          "node": "rnd",
+          "port": "value"
+        },
+        "id": "rnd:value>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "rr:out>om:in": {
+        "from": {
+          "node": "rr",
+          "port": "out"
+        },
+        "id": "rr:out>om:in",
+        "to": {
+          "node": "om",
+          "port": "in"
+        }
+      },
+      "rs:out>pi_edger:in": {
+        "from": {
+          "node": "rs",
+          "port": "out"
+        },
+        "id": "rs:out>pi_edger:in",
+        "to": {
+          "node": "pi_edger",
+          "port": "in"
+        }
+      },
+      "rs:out>rr:a": {
+        "from": {
+          "node": "rs",
+          "port": "out"
+        },
+        "id": "rs:out>rr:a",
+        "to": {
+          "node": "rr",
+          "port": "a"
+        }
+      },
+      "rs:out>rr:b": {
+        "from": {
+          "node": "rs",
+          "port": "out"
+        },
+        "id": "rs:out>rr:b",
+        "to": {
+          "node": "rr",
+          "port": "b"
+        }
+      },
+      "sn:out>am:a": {
+        "from": {
+          "node": "sn",
+          "port": "out"
+        },
+        "id": "sn:out>am:a",
+        "to": {
+          "node": "am",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tint:out>master:baseColor": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "ts:out>arg:a": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>arg:a",
+        "to": {
+          "node": "arg",
+          "port": "a"
+        }
+      },
+      "uv:out>d:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>d:a",
+        "to": {
+          "node": "d",
+          "port": "a"
+        }
+      },
+      "z:out>core:a": {
+        "from": {
+          "node": "z",
+          "port": "out"
+        },
+        "id": "z:out>core:a",
+        "to": {
+          "node": "core",
+          "port": "a"
+        }
+      },
+      "z:out>halo:a": {
+        "from": {
+          "node": "z",
+          "port": "out"
+        },
+        "id": "z:out>halo:a",
+        "to": {
+          "node": "halo",
+          "port": "a"
+        }
+      },
+      "z:out>zi:in": {
+        "from": {
+          "node": "z",
+          "port": "out"
+        },
+        "id": "z:out>zi:in",
+        "to": {
+          "node": "zi",
+          "port": "in"
+        }
+      },
+      "zi:out>rim0:a": {
+        "from": {
+          "node": "zi",
+          "port": "out"
+        },
+        "id": "zi:out>rim0:a",
+        "to": {
+          "node": "rim0",
+          "port": "a"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "rnd",
+          "pc",
+          "t",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 860,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Particle inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_sphere",
+        "nodeIds": [
+          "d",
+          "r",
+          "rs",
+          "rr",
+          "om",
+          "z",
+          "zi",
+          "core",
+          "halo",
+          "rim0",
+          "rim",
+          "p_corePower_sphere",
+          "p_haloPower_sphere",
+          "p_rimPower_sphere",
+          "p_rimGain_sphere",
+          "pi_edger"
+        ],
+        "rect": {
+          "h": 821,
+          "w": 2728,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Fake sphere facing ratio"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_pulse",
+        "nodeIds": [
+          "ph",
+          "ts",
+          "arg",
+          "sn",
+          "am",
+          "pulse",
+          "po_time_ts_a",
+          "p_pulseSpeed_pulse",
+          "p_pulseAmount_pulse"
+        ],
+        "rect": {
+          "h": 515,
+          "w": 1810,
+          "x": 660,
+          "y": 891
+        },
+        "title": "Pulse"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_color",
+        "nodeIds": [
+          "body",
+          "mixc",
+          "lit",
+          "pl",
+          "it",
+          "tint",
+          "ef",
+          "em",
+          "al",
+          "p_glowColor_color",
+          "p_coreColor_color",
+          "p_intensity_color",
+          "po_edger_ef_in"
+        ],
+        "rect": {
+          "h": 717,
+          "w": 1810,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Colour + alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 349,
+          "w": 344,
+          "x": 5518,
+          "y": 0
+        },
+        "title": "Master output (URP VFX Unlit, additive)"
+      }
+    ],
+    "id": "vfx-glow-orb",
+    "keywords": [],
+    "name": "Glow Orb",
+    "nodes": {
+      "al": {
+        "defId": "multiply",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 4402,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "am": {
+        "defId": "multiply",
+        "id": "am",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 996
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "arg": {
+        "defId": "add",
+        "id": "arg",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1090
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "body": {
+        "defId": "add",
+        "id": "body",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core": {
+        "defId": "power",
+        "id": "core",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 541
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d": {
+        "defId": "distance",
+        "id": "d",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "ef": {
+        "defId": "smoothstep",
+        "id": "ef",
+        "params": {},
+        "position": {
+          "x": 3790,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.8,
+          "edge2": 1
+        }
+      },
+      "em": {
+        "defId": "oneMinus",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 4096,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "halo": {
+        "defId": "power",
+        "id": "halo",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 683
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "it": {
+        "defId": "multiply",
+        "id": "it",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lit": {
+        "defId": "multiply",
+        "id": "lit",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5540,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mixc": {
+        "defId": "lerp",
+        "id": "mixc",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 403
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "om": {
+        "defId": "oneMinus",
+        "id": "om",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 553
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreColor_color": {
+        "defId": "property",
+        "id": "p_coreColor_color",
+        "params": {
+          "property": "coreColor"
+        },
+        "position": {
+          "x": 3570,
+          "y": 439
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_corePower_sphere": {
+        "defId": "property",
+        "id": "p_corePower_sphere",
+        "params": {
+          "property": "corePower"
+        },
+        "position": {
+          "x": 682,
+          "y": 565
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_glowColor_color": {
+        "defId": "property",
+        "id": "p_glowColor_color",
+        "params": {
+          "property": "glowColor"
+        },
+        "position": {
+          "x": 3570,
+          "y": 533
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_haloPower_sphere": {
+        "defId": "property",
+        "id": "p_haloPower_sphere",
+        "params": {
+          "property": "haloPower"
+        },
+        "position": {
+          "x": 682,
+          "y": 707
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_color": {
+        "defId": "property",
+        "id": "p_intensity_color",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 3570,
+          "y": 627
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulseAmount_pulse": {
+        "defId": "property",
+        "id": "p_pulseAmount_pulse",
+        "params": {
+          "property": "pulseAmount"
+        },
+        "position": {
+          "x": 682,
+          "y": 1020
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulseSpeed_pulse": {
+        "defId": "property",
+        "id": "p_pulseSpeed_pulse",
+        "params": {
+          "property": "pulseSpeed"
+        },
+        "position": {
+          "x": 682,
+          "y": 1114
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimGain_sphere": {
+        "defId": "property",
+        "id": "p_rimGain_sphere",
+        "params": {
+          "property": "rimGain"
+        },
+        "position": {
+          "x": 682,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimPower_sphere": {
+        "defId": "property",
+        "id": "p_rimPower_sphere",
+        "params": {
+          "property": "rimPower"
+        },
+        "position": {
+          "x": 682,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pc": {
+        "defId": "particleColor",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "multiply",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 1208
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.2832
+        }
+      },
+      "pi_edger": {
+        "defId": "portalIn",
+        "id": "pi_edger",
+        "params": {
+          "channel": "EdgeR"
+        },
+        "position": {
+          "x": 1600,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pl": {
+        "defId": "multiply",
+        "id": "pl",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_edger_ef_in": {
+        "defId": "portalOut",
+        "id": "po_edger_ef_in",
+        "params": {
+          "channel": "EdgeR"
+        },
+        "position": {
+          "x": 3570,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 1350
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pulse": {
+        "defId": "add",
+        "id": "pulse",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 996
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "r": {
+        "defId": "multiply",
+        "id": "r",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2
+        }
+      },
+      "rim": {
+        "defId": "multiply",
+        "id": "rim",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 317
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rim0": {
+        "defId": "power",
+        "id": "rim0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 317
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rnd": {
+        "defId": "particleRandom",
+        "id": "rnd",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 530
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rr": {
+        "defId": "multiply",
+        "id": "rr",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 541
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rs": {
+        "defId": "saturate",
+        "id": "rs",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sn": {
+        "defId": "sin",
+        "id": "sn",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1102
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 314
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1090
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 746
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "z": {
+        "defId": "sqrt",
+        "id": "z",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 553
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "zi": {
+        "defId": "oneMinus",
+        "id": "zi",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.vfx-unlit",
+    "properties": [
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          6,
+          5.2,
+          3.2
+        ],
+        "displayName": "Core Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "coreColor",
+        "perInstance": false,
+        "referenceName": "_CoreColor",
+        "tooltip": "HDR colour of the white-hot centre (linear; values above 1 bloom).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "linear",
+        "default": [
+          0.25,
+          0.9,
+          3.5
+        ],
+        "displayName": "Glow Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "glowColor",
+        "perInstance": false,
+        "referenceName": "_GlowColor",
+        "tooltip": "HDR colour of the halo around the core (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "default": 1,
+        "displayName": "Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Intensity",
+        "slider": true,
+        "tooltip": "Overall brightness multiplier.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 14,
+        "displayName": "Core Tightness",
+        "exposed": true,
+        "id": "corePower",
+        "max": 60,
+        "min": 2,
+        "perInstance": false,
+        "referenceName": "_CoreTightness",
+        "slider": true,
+        "tooltip": "Facing-ratio exponent of the core: higher = smaller white-hot spot.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 2.2,
+        "displayName": "Halo Falloff",
+        "exposed": true,
+        "id": "haloPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_HaloFalloff",
+        "slider": true,
+        "tooltip": "Facing-ratio exponent of the halo: higher = tighter glow.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 3,
+        "displayName": "Rim Power",
+        "exposed": true,
+        "id": "rimPower",
+        "max": 10,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_RimPower",
+        "slider": true,
+        "tooltip": "Fresnel exponent of the silhouette ring: higher = thinner ring.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 0.5,
+        "displayName": "Rim Gain",
+        "exposed": true,
+        "id": "rimGain",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimGain",
+        "slider": true,
+        "tooltip": "Brightness of the silhouette ring (0 = off).",
+        "type": "float"
+      },
+      {
+        "category": "Pulse",
+        "default": 0.25,
+        "displayName": "Pulse Amount",
+        "exposed": true,
+        "id": "pulseAmount",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PulseAmount",
+        "slider": true,
+        "tooltip": "Depth of the brightness pulse (0 = steady).",
+        "type": "float"
+      },
+      {
+        "category": "Pulse",
+        "default": 3,
+        "displayName": "Pulse Speed",
+        "exposed": true,
+        "id": "pulseSpeed",
+        "max": 12,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PulseSpeed",
+        "slider": true,
+        "tooltip": "Pulse frequency in radians per second.",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "emitter": {
+        "colorOverLife": [
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 0
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "t": 0.12
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0.8
+            ],
+            "t": 0.75
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 1
+          }
+        ],
+        "gravity": [
+          0,
+          0,
+          0
+        ],
+        "lifetime": 4,
+        "lifetimeVar": 0,
+        "maxParticles": 8,
+        "rate": 2.5,
+        "sizeEnd": 1.4,
+        "sizeStart": 1.4,
+        "speed": 0.15,
+        "spread": 25
+      },
+      "grid": false,
+      "ground": "none",
+      "mode": "vfx",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

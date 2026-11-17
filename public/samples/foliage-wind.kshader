@@ -1,0 +1,1832 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1374
+        },
+        "text": "UV (u across, v from stem to tip), object-space position for the wind and time."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_shape",
+        "position": {
+          "x": 1600,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`halfWidth(v) = width × sin(πv)^0.6` gives a pointed oval. Alpha is 1 inside `|u − ½| < halfWidth` with a hair of anti-aliasing; the Alpha Clip threshold cuts the card to the leaf."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_veins",
+        "position": {
+          "x": 1600,
+          "y": 537
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "Midrib: `1 − smoothstep(0, 0.03, |u − ½|)`. Side veins: `fract(v·count − |u − ½|·3)` is a sawtooth along diagonal lines; its distance from ½ peaks on a thin line, fading towards the leaf edge."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_color",
+        "position": {
+          "x": 4488,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Colour runs from *Base* to *Tip* along v; veins are blended in with `lerp(colour, vein colour, vein × 0.7)`."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_trans",
+        "position": {
+          "x": 4488,
+          "y": 665
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "Translucency colour × strength feeds the master's **Translucency** block; **Thickness** = blade thickness + 0.5 × vein, so veins block more light (they look dark against the sun)."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_wind",
+        "position": {
+          "x": 5540,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 542
+        },
+        "text": "**Wind Foliage** bends the card with a mask of `v` (0 at the stem = pinned, 1 at the tip = free): one slow sway along the wind direction plus phase-shifted flutter driven by the object position."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 6286,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "Alpha Clip, Render Face = Both and double-sided normals are set in the graph settings."
+      }
+    ],
+    "edges": {
+      "alpha0:out>alpha:in": {
+        "from": {
+          "node": "alpha0",
+          "port": "out"
+        },
+        "id": "alpha0:out>alpha:in",
+        "to": {
+          "node": "alpha",
+          "port": "in"
+        }
+      },
+      "alpha:out>master:alpha": {
+        "from": {
+          "node": "alpha",
+          "port": "out"
+        },
+        "id": "alpha:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "ax3:out>ph:b": {
+        "from": {
+          "node": "ax3",
+          "port": "out"
+        },
+        "id": "ax3:out>ph:b",
+        "to": {
+          "node": "ph",
+          "port": "b"
+        }
+      },
+      "ax:out>ax3:a": {
+        "from": {
+          "node": "ax",
+          "port": "out"
+        },
+        "id": "ax:out>ax3:a",
+        "to": {
+          "node": "ax3",
+          "port": "a"
+        }
+      },
+      "ax:out>fade0:a": {
+        "from": {
+          "node": "ax",
+          "port": "out"
+        },
+        "id": "ax:out>fade0:a",
+        "to": {
+          "node": "fade0",
+          "port": "a"
+        }
+      },
+      "ax:out>mid0:in": {
+        "from": {
+          "node": "ax",
+          "port": "out"
+        },
+        "id": "ax:out>mid0:in",
+        "to": {
+          "node": "mid0",
+          "port": "in"
+        }
+      },
+      "ax:out>pi_absu:in": {
+        "from": {
+          "node": "ax",
+          "port": "out"
+        },
+        "id": "ax:out>pi_absu:in",
+        "to": {
+          "node": "pi_absu",
+          "port": "in"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "da:out>line:in": {
+        "from": {
+          "node": "da",
+          "port": "out"
+        },
+        "id": "da:out>line:in",
+        "to": {
+          "node": "line",
+          "port": "in"
+        }
+      },
+      "dc:out>da:in": {
+        "from": {
+          "node": "dc",
+          "port": "out"
+        },
+        "id": "dc:out>da:in",
+        "to": {
+          "node": "da",
+          "port": "in"
+        }
+      },
+      "edge0:out>alpha0:edge1": {
+        "from": {
+          "node": "edge0",
+          "port": "out"
+        },
+        "id": "edge0:out>alpha0:edge1",
+        "to": {
+          "node": "alpha0",
+          "port": "edge1"
+        }
+      },
+      "fade0:out>fade:in": {
+        "from": {
+          "node": "fade0",
+          "port": "out"
+        },
+        "id": "fade0:out>fade:in",
+        "to": {
+          "node": "fade",
+          "port": "in"
+        }
+      },
+      "fade:out>fades:in": {
+        "from": {
+          "node": "fade",
+          "port": "out"
+        },
+        "id": "fade:out>fades:in",
+        "to": {
+          "node": "fades",
+          "port": "in"
+        }
+      },
+      "fades:out>side:b": {
+        "from": {
+          "node": "fades",
+          "port": "out"
+        },
+        "id": "fades:out>side:b",
+        "to": {
+          "node": "side",
+          "port": "b"
+        }
+      },
+      "fr:out>dc:a": {
+        "from": {
+          "node": "fr",
+          "port": "out"
+        },
+        "id": "fr:out>dc:a",
+        "to": {
+          "node": "dc",
+          "port": "a"
+        }
+      },
+      "grad:out>col:a": {
+        "from": {
+          "node": "grad",
+          "port": "out"
+        },
+        "id": "grad:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "hw:out>alpha0:edge2": {
+        "from": {
+          "node": "hw",
+          "port": "out"
+        },
+        "id": "hw:out>alpha0:edge2",
+        "to": {
+          "node": "alpha0",
+          "port": "edge2"
+        }
+      },
+      "hw:out>edge0:a": {
+        "from": {
+          "node": "hw",
+          "port": "out"
+        },
+        "id": "hw:out>edge0:a",
+        "to": {
+          "node": "edge0",
+          "port": "a"
+        }
+      },
+      "line:out>side:a": {
+        "from": {
+          "node": "line",
+          "port": "out"
+        },
+        "id": "line:out>side:a",
+        "to": {
+          "node": "side",
+          "port": "a"
+        }
+      },
+      "mask:out>wind:mask": {
+        "from": {
+          "node": "mask",
+          "port": "out"
+        },
+        "id": "mask:out>wind:mask",
+        "to": {
+          "node": "wind",
+          "port": "mask"
+        }
+      },
+      "mid0:out>mid:in": {
+        "from": {
+          "node": "mid0",
+          "port": "out"
+        },
+        "id": "mid0:out>mid:in",
+        "to": {
+          "node": "mid",
+          "port": "in"
+        }
+      },
+      "mid:out>vein:a": {
+        "from": {
+          "node": "mid",
+          "port": "out"
+        },
+        "id": "mid:out>vein:a",
+        "to": {
+          "node": "vein",
+          "port": "a"
+        }
+      },
+      "opos:out>pi_objectpos:in": {
+        "from": {
+          "node": "opos",
+          "port": "out"
+        },
+        "id": "opos:out>pi_objectpos:in",
+        "to": {
+          "node": "pi_objectpos",
+          "port": "in"
+        }
+      },
+      "p_baseColor_color:out>grad:a": {
+        "from": {
+          "node": "p_baseColor_color",
+          "port": "out"
+        },
+        "id": "p_baseColor_color:out>grad:a",
+        "to": {
+          "node": "grad",
+          "port": "a"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "p_thickness_trans:out>th0:a": {
+        "from": {
+          "node": "p_thickness_trans",
+          "port": "out"
+        },
+        "id": "p_thickness_trans:out>th0:a",
+        "to": {
+          "node": "th0",
+          "port": "a"
+        }
+      },
+      "p_tipColor_color:out>grad:b": {
+        "from": {
+          "node": "p_tipColor_color",
+          "port": "out"
+        },
+        "id": "p_tipColor_color:out>grad:b",
+        "to": {
+          "node": "grad",
+          "port": "b"
+        }
+      },
+      "p_transColor_trans:out>tc:a": {
+        "from": {
+          "node": "p_transColor_trans",
+          "port": "out"
+        },
+        "id": "p_transColor_trans:out>tc:a",
+        "to": {
+          "node": "tc",
+          "port": "a"
+        }
+      },
+      "p_transStrength_trans:out>tc:b": {
+        "from": {
+          "node": "p_transStrength_trans",
+          "port": "out"
+        },
+        "id": "p_transStrength_trans:out>tc:b",
+        "to": {
+          "node": "tc",
+          "port": "b"
+        }
+      },
+      "p_turbulence_wind:out>wind:turbulence": {
+        "from": {
+          "node": "p_turbulence_wind",
+          "port": "out"
+        },
+        "id": "p_turbulence_wind:out>wind:turbulence",
+        "to": {
+          "node": "wind",
+          "port": "turbulence"
+        }
+      },
+      "p_veinColor_color:out>col:b": {
+        "from": {
+          "node": "p_veinColor_color",
+          "port": "out"
+        },
+        "id": "p_veinColor_color:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_veins_veins:out>vc:b": {
+        "from": {
+          "node": "p_veins_veins",
+          "port": "out"
+        },
+        "id": "p_veins_veins:out>vc:b",
+        "to": {
+          "node": "vc",
+          "port": "b"
+        }
+      },
+      "p_width_shape:out>hw:b": {
+        "from": {
+          "node": "p_width_shape",
+          "port": "out"
+        },
+        "id": "p_width_shape:out>hw:b",
+        "to": {
+          "node": "hw",
+          "port": "b"
+        }
+      },
+      "p_windDir_wind:out>wind:direction": {
+        "from": {
+          "node": "p_windDir_wind",
+          "port": "out"
+        },
+        "id": "p_windDir_wind:out>wind:direction",
+        "to": {
+          "node": "wind",
+          "port": "direction"
+        }
+      },
+      "p_windFreq_wind:out>wind:frequency": {
+        "from": {
+          "node": "p_windFreq_wind",
+          "port": "out"
+        },
+        "id": "p_windFreq_wind:out>wind:frequency",
+        "to": {
+          "node": "wind",
+          "port": "frequency"
+        }
+      },
+      "p_windStrength_wind:out>wind:strength": {
+        "from": {
+          "node": "p_windStrength_wind",
+          "port": "out"
+        },
+        "id": "p_windStrength_wind:out>wind:strength",
+        "to": {
+          "node": "wind",
+          "port": "strength"
+        }
+      },
+      "ph:out>fr:in": {
+        "from": {
+          "node": "ph",
+          "port": "out"
+        },
+        "id": "ph:out>fr:in",
+        "to": {
+          "node": "fr",
+          "port": "in"
+        }
+      },
+      "po_absu_alpha0_in:out>alpha0:in": {
+        "from": {
+          "node": "po_absu_alpha0_in",
+          "port": "out"
+        },
+        "id": "po_absu_alpha0_in:out>alpha0:in",
+        "to": {
+          "node": "alpha0",
+          "port": "in"
+        }
+      },
+      "po_objectpos_wind_position:out>wind:position": {
+        "from": {
+          "node": "po_objectpos_wind_position",
+          "port": "out"
+        },
+        "id": "po_objectpos_wind_position:out>wind:position",
+        "to": {
+          "node": "wind",
+          "port": "position"
+        }
+      },
+      "po_time_wind_time:out>wind:time": {
+        "from": {
+          "node": "po_time_wind_time",
+          "port": "out"
+        },
+        "id": "po_time_wind_time:out>wind:time",
+        "to": {
+          "node": "wind",
+          "port": "time"
+        }
+      },
+      "pv:out>sv:in": {
+        "from": {
+          "node": "pv",
+          "port": "out"
+        },
+        "id": "pv:out>sv:in",
+        "to": {
+          "node": "sv",
+          "port": "in"
+        }
+      },
+      "side:out>vein:b": {
+        "from": {
+          "node": "side",
+          "port": "out"
+        },
+        "id": "side:out>vein:b",
+        "to": {
+          "node": "vein",
+          "port": "b"
+        }
+      },
+      "sp:out>hw:a": {
+        "from": {
+          "node": "sp",
+          "port": "out"
+        },
+        "id": "sp:out>hw:a",
+        "to": {
+          "node": "hw",
+          "port": "a"
+        }
+      },
+      "sv:out>sp:a": {
+        "from": {
+          "node": "sv",
+          "port": "out"
+        },
+        "id": "sv:out>sp:a",
+        "to": {
+          "node": "sp",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tc:out>master:translucency": {
+        "from": {
+          "node": "tc",
+          "port": "out"
+        },
+        "id": "tc:out>master:translucency",
+        "to": {
+          "node": "master",
+          "port": "translucency"
+        }
+      },
+      "th0:out>th:in": {
+        "from": {
+          "node": "th0",
+          "port": "out"
+        },
+        "id": "th0:out>th:in",
+        "to": {
+          "node": "th",
+          "port": "in"
+        }
+      },
+      "th:out>master:thickness": {
+        "from": {
+          "node": "th",
+          "port": "out"
+        },
+        "id": "th:out>master:thickness",
+        "to": {
+          "node": "master",
+          "port": "thickness"
+        }
+      },
+      "us:g>grad:t": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>grad:t",
+        "to": {
+          "node": "grad",
+          "port": "t"
+        }
+      },
+      "us:g>mask:in": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>mask:in",
+        "to": {
+          "node": "mask",
+          "port": "in"
+        }
+      },
+      "us:g>pv:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>pv:a",
+        "to": {
+          "node": "pv",
+          "port": "a"
+        }
+      },
+      "us:g>vc:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>vc:a",
+        "to": {
+          "node": "vc",
+          "port": "a"
+        }
+      },
+      "us:r>x:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>x:a",
+        "to": {
+          "node": "x",
+          "port": "a"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      },
+      "vc:out>ph:a": {
+        "from": {
+          "node": "vc",
+          "port": "out"
+        },
+        "id": "vc:out>ph:a",
+        "to": {
+          "node": "ph",
+          "port": "a"
+        }
+      },
+      "vein:out>vk:a": {
+        "from": {
+          "node": "vein",
+          "port": "out"
+        },
+        "id": "vein:out>vk:a",
+        "to": {
+          "node": "vk",
+          "port": "a"
+        }
+      },
+      "vein:out>vt:a": {
+        "from": {
+          "node": "vein",
+          "port": "out"
+        },
+        "id": "vein:out>vt:a",
+        "to": {
+          "node": "vt",
+          "port": "a"
+        }
+      },
+      "vk:out>col:t": {
+        "from": {
+          "node": "vk",
+          "port": "out"
+        },
+        "id": "vk:out>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "vt:out>th0:b": {
+        "from": {
+          "node": "vt",
+          "port": "out"
+        },
+        "id": "vt:out>th0:b",
+        "to": {
+          "node": "th0",
+          "port": "b"
+        }
+      },
+      "wind:position>master:positionOS": {
+        "from": {
+          "node": "wind",
+          "port": "position"
+        },
+        "id": "wind:position>master:positionOS",
+        "to": {
+          "node": "master",
+          "port": "positionOS"
+        }
+      },
+      "x:out>ax:in": {
+        "from": {
+          "node": "x",
+          "port": "out"
+        },
+        "id": "x:out>ax:in",
+        "to": {
+          "node": "ax",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "us",
+          "opos",
+          "t",
+          "x",
+          "ax",
+          "pi_absu",
+          "pi_objectpos",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 651,
+          "w": 1418,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_shape",
+        "nodeIds": [
+          "pv",
+          "sv",
+          "sp",
+          "hw",
+          "edge0",
+          "alpha0",
+          "alpha",
+          "p_width_shape",
+          "po_absu_alpha0_in"
+        ],
+        "rect": {
+          "h": 433,
+          "w": 2116,
+          "x": 1578,
+          "y": 0
+        },
+        "title": "Leaf outline"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_veins",
+        "nodeIds": [
+          "mid0",
+          "mid",
+          "vc",
+          "ax3",
+          "ph",
+          "fr",
+          "dc",
+          "da",
+          "line",
+          "fade0",
+          "fade",
+          "fades",
+          "side",
+          "vein",
+          "p_veins_veins"
+        ],
+        "rect": {
+          "h": 657,
+          "w": 2728,
+          "x": 1578,
+          "y": 503
+        },
+        "title": "Veins"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_color",
+        "nodeIds": [
+          "grad",
+          "vk",
+          "col",
+          "p_baseColor_color",
+          "p_tipColor_color",
+          "p_veinColor_color"
+        ],
+        "rect": {
+          "h": 561,
+          "w": 892,
+          "x": 4466,
+          "y": 0
+        },
+        "title": "Leaf colour"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_trans",
+        "nodeIds": [
+          "tc",
+          "vt",
+          "th0",
+          "th",
+          "p_transColor_trans",
+          "p_transStrength_trans",
+          "p_thickness_trans"
+        ],
+        "rect": {
+          "h": 616,
+          "w": 892,
+          "x": 4466,
+          "y": 631
+        },
+        "title": "Translucency + thickness"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_wind",
+        "nodeIds": [
+          "mask",
+          "wind",
+          "po_objectpos_wind_position",
+          "po_time_wind_time",
+          "p_windStrength_wind",
+          "p_windFreq_wind",
+          "p_turbulence_wind",
+          "p_windDir_wind"
+        ],
+        "rect": {
+          "h": 869,
+          "w": 586,
+          "x": 5518,
+          "y": 0
+        },
+        "title": "Wind"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 572,
+          "w": 586,
+          "x": 6264,
+          "y": 0
+        },
+        "title": "Master output (URP Lit, alpha clip, two-sided)"
+      }
+    ],
+    "id": "foliage-wind",
+    "keywords": [],
+    "name": "Foliage: Wind + Translucency",
+    "nodes": {
+      "alpha": {
+        "defId": "oneMinus",
+        "id": "alpha",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "alpha0": {
+        "defId": "smoothstep",
+        "id": "alpha0",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ax": {
+        "defId": "abs",
+        "id": "ax",
+        "params": {},
+        "position": {
+          "x": 940,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ax3": {
+        "defId": "multiply",
+        "id": "ax3",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 762
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3
+        }
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "da": {
+        "defId": "abs",
+        "id": "da",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 632
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dc": {
+        "defId": "subtract",
+        "id": "dc",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "edge0": {
+        "defId": "subtract",
+        "id": "edge0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.02
+        }
+      },
+      "fade": {
+        "defId": "oneMinus",
+        "id": "fade",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 632
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fade0": {
+        "defId": "multiply",
+        "id": "fade0",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2.2
+        }
+      },
+      "fades": {
+        "defId": "saturate",
+        "id": "fades",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 632
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fr": {
+        "defId": "fract",
+        "id": "fr",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 632
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "grad": {
+        "defId": "lerp",
+        "id": "grad",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hw": {
+        "defId": "multiply",
+        "id": "hw",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "line": {
+        "defId": "smoothstep",
+        "id": "line",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 608
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0.42,
+          "edge2": 0.5
+        }
+      },
+      "mask": {
+        "defId": "saturate",
+        "id": "mask",
+        "params": {},
+        "position": {
+          "x": 5540,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 6592,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mid": {
+        "defId": "oneMinus",
+        "id": "mid",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 786
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mid0": {
+        "defId": "smoothstep",
+        "id": "mid0",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 904
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0,
+          "edge2": 0.03
+        }
+      },
+      "opos": {
+        "defId": "position",
+        "id": "opos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 22,
+          "y": 321
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_baseColor_color": {
+        "defId": "property",
+        "id": "p_baseColor_color",
+        "params": {
+          "property": "baseColor"
+        },
+        "position": {
+          "x": 4488,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 6286,
+          "y": 302
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_thickness_trans": {
+        "defId": "property",
+        "id": "p_thickness_trans",
+        "params": {
+          "property": "thickness"
+        },
+        "position": {
+          "x": 4488,
+          "y": 777
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tipColor_color": {
+        "defId": "property",
+        "id": "p_tipColor_color",
+        "params": {
+          "property": "tipColor"
+        },
+        "position": {
+          "x": 4488,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_transColor_trans": {
+        "defId": "property",
+        "id": "p_transColor_trans",
+        "params": {
+          "property": "transColor"
+        },
+        "position": {
+          "x": 4488,
+          "y": 1063
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_transStrength_trans": {
+        "defId": "property",
+        "id": "p_transStrength_trans",
+        "params": {
+          "property": "transStrength"
+        },
+        "position": {
+          "x": 4488,
+          "y": 1157
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_turbulence_wind": {
+        "defId": "property",
+        "id": "p_turbulence_wind",
+        "params": {
+          "property": "turbulence"
+        },
+        "position": {
+          "x": 5540,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_veinColor_color": {
+        "defId": "property",
+        "id": "p_veinColor_color",
+        "params": {
+          "property": "veinColor"
+        },
+        "position": {
+          "x": 4488,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_veins_veins": {
+        "defId": "property",
+        "id": "p_veins_veins",
+        "params": {
+          "property": "veins"
+        },
+        "position": {
+          "x": 1600,
+          "y": 1070
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_width_shape": {
+        "defId": "property",
+        "id": "p_width_shape",
+        "params": {
+          "property": "width"
+        },
+        "position": {
+          "x": 1600,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_windDir_wind": {
+        "defId": "property",
+        "id": "p_windDir_wind",
+        "params": {
+          "property": "windDir"
+        },
+        "position": {
+          "x": 5540,
+          "y": 471
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_windFreq_wind": {
+        "defId": "property",
+        "id": "p_windFreq_wind",
+        "params": {
+          "property": "windFreq"
+        },
+        "position": {
+          "x": 5540,
+          "y": 565
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_windStrength_wind": {
+        "defId": "property",
+        "id": "p_windStrength_wind",
+        "params": {
+          "property": "windStrength"
+        },
+        "position": {
+          "x": 5540,
+          "y": 659
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ph": {
+        "defId": "subtract",
+        "id": "ph",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 750
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_absu": {
+        "defId": "portalIn",
+        "id": "pi_absu",
+        "params": {
+          "channel": "AbsU"
+        },
+        "position": {
+          "x": 1246,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_objectpos": {
+        "defId": "portalIn",
+        "id": "pi_objectpos",
+        "params": {
+          "channel": "ObjectPos"
+        },
+        "position": {
+          "x": 328,
+          "y": 350
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 530
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_absu_alpha0_in": {
+        "defId": "portalOut",
+        "id": "po_absu_alpha0_in",
+        "params": {
+          "channel": "AbsU"
+        },
+        "position": {
+          "x": 1600,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_objectpos_wind_position": {
+        "defId": "portalOut",
+        "id": "po_objectpos_wind_position",
+        "params": {
+          "channel": "ObjectPos"
+        },
+        "position": {
+          "x": 5540,
+          "y": 753
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_wind_time": {
+        "defId": "portalOut",
+        "id": "po_time_wind_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 5540,
+          "y": 813
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pv": {
+        "defId": "multiply",
+        "id": "pv",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3.14159265
+        }
+      },
+      "side": {
+        "defId": "multiply",
+        "id": "side",
+        "params": {},
+        "position": {
+          "x": 3742,
+          "y": 620
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp": {
+        "defId": "power",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.6
+        }
+      },
+      "sv": {
+        "defId": "sin",
+        "id": "sv",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 465
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tc": {
+        "defId": "multiply",
+        "id": "tc",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 1039
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "th": {
+        "defId": "saturate",
+        "id": "th",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 765
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "th0": {
+        "defId": "add",
+        "id": "th0",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 753
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vc": {
+        "defId": "multiply",
+        "id": "vc",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 904
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vein": {
+        "defId": "maximum",
+        "id": "vein",
+        "params": {},
+        "position": {
+          "x": 4048,
+          "y": 774
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vk": {
+        "defId": "multiply",
+        "id": "vk",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 423
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.7
+        }
+      },
+      "vt": {
+        "defId": "multiply",
+        "id": "vt",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 871
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "wind": {
+        "defId": "windFoliage",
+        "id": "wind",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 5846,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "x": {
+        "defId": "subtract",
+        "id": "x",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Leaf",
+        "colorSpace": "srgb",
+        "default": [
+          0.1,
+          0.38,
+          0.06
+        ],
+        "displayName": "Base Color",
+        "exposed": true,
+        "id": "baseColor",
+        "perInstance": false,
+        "referenceName": "_BaseColor",
+        "tooltip": "Leaf colour at the stem end (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Leaf",
+        "colorSpace": "srgb",
+        "default": [
+          0.5,
+          0.72,
+          0.14
+        ],
+        "displayName": "Tip Color",
+        "exposed": true,
+        "id": "tipColor",
+        "perInstance": false,
+        "referenceName": "_TipColor",
+        "tooltip": "Leaf colour at the tip (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Leaf",
+        "colorSpace": "srgb",
+        "default": [
+          0.62,
+          0.75,
+          0.3
+        ],
+        "displayName": "Vein Color",
+        "exposed": true,
+        "id": "veinColor",
+        "perInstance": false,
+        "referenceName": "_VeinColor",
+        "tooltip": "Colour of the midrib and side veins (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Leaf",
+        "default": 0.28,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Specular smoothness (waxy leaves are higher).",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.46,
+        "displayName": "Leaf Width",
+        "exposed": true,
+        "id": "width",
+        "max": 0.5,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_LeafWidth",
+        "slider": true,
+        "tooltip": "Half-width of the leaf at its widest point (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 7,
+        "displayName": "Side Vein Count",
+        "exposed": true,
+        "id": "veins",
+        "max": 14,
+        "min": 3,
+        "perInstance": false,
+        "referenceName": "_SideVeinCount",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Number of side veins along the blade.",
+        "type": "float"
+      },
+      {
+        "category": "Translucency",
+        "colorSpace": "linear",
+        "default": [
+          0.5,
+          0.85,
+          0.15
+        ],
+        "displayName": "Translucency Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "transColor",
+        "perInstance": false,
+        "referenceName": "_TranslucencyColor",
+        "tooltip": "HDR colour of the light that shines through the leaf.",
+        "type": "color"
+      },
+      {
+        "category": "Translucency",
+        "default": 1.6,
+        "displayName": "Translucency Strength",
+        "exposed": true,
+        "id": "transStrength",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_TranslucencyStrength",
+        "slider": true,
+        "tooltip": "Multiplier of the back light.",
+        "type": "float"
+      },
+      {
+        "category": "Translucency",
+        "default": 0.15,
+        "displayName": "Blade Thickness",
+        "exposed": true,
+        "id": "thickness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BladeThickness",
+        "slider": true,
+        "tooltip": "0 = paper-thin (full back light), 1 = opaque. Veins add extra thickness.",
+        "type": "float"
+      },
+      {
+        "category": "Wind",
+        "default": 0.12,
+        "displayName": "Wind Strength",
+        "exposed": true,
+        "id": "windStrength",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_WindStrength",
+        "slider": true,
+        "tooltip": "Maximum sway distance at the tip (object units).",
+        "type": "float"
+      },
+      {
+        "category": "Wind",
+        "default": 0.9,
+        "displayName": "Wind Frequency",
+        "exposed": true,
+        "id": "windFreq",
+        "max": 4,
+        "min": 0.1,
+        "perInstance": false,
+        "referenceName": "_WindFrequency",
+        "slider": true,
+        "tooltip": "Sway cycles per second.",
+        "type": "float"
+      },
+      {
+        "category": "Wind",
+        "default": 0.35,
+        "displayName": "Turbulence",
+        "exposed": true,
+        "id": "turbulence",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Turbulence",
+        "slider": true,
+        "tooltip": "Amount of high-frequency flutter on top of the sway.",
+        "type": "float"
+      },
+      {
+        "category": "Wind",
+        "default": [
+          1,
+          0,
+          0.3
+        ],
+        "displayName": "Wind Direction",
+        "exposed": true,
+        "id": "windDir",
+        "perInstance": false,
+        "referenceName": "_WindDirection",
+        "tooltip": "Direction of the wind (object space).",
+        "type": "vec3"
+      }
+    ],
+    "settings": {
+      "alphaClip": true,
+      "cull": "off",
+      "doubleSided": "flip"
+    },
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "grid": false,
+      "lightAzimuth": 200,
+      "lightElevation": 30,
+      "lightIntensity": 1.5,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "plane",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

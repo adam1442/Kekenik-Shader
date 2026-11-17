@@ -1,0 +1,1494 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAABj0lEQVR42u3byW3rMBRAUdeRTVpxA6kmbaSb9OQC0oCzshEQiszhaSB5DsDVBwT8dyVH4wUAAAAAAAAAAAAAAABgUG/X93vEMskDhi7GiYYuRubgf+6350r/7fr98XJ93T6fS4jCPf7v8B8rZ+hrEUqDGP7GEXJiTPk7v3eA6UL89598DCw6QEmEtRBTDH8tQu3wSwMMGyF3+GmIlsGL0DD86FUaYJgILcOPjpUOdYoINcNfOjNqDbG2zZoIww4/HVZ6RRwRIN1m7ZHQXYDaPTW9JRGx96fbrIkw/N6/9HMREWBpm8MdBbVnPDn3aSICpKv2zGiovT9nYFF/hGuG381RsNUe23oaGhGgi6Ngi7026oKsZfDTBejlCnmo3/8eA5wqQm8Bom7UCSBAvwEiHtoIsGOE018LzBbAaejOEboLMNJR0M0NuREjdPdMYPQAwz4RO2OE6R5LninA1G9GHLm8G2T484WY+gXdI0N4Tf2AGD7SKPwubOuB+17MR3rzBDHZHaOYGAAAAAAAAMDlFyTEC+qparpdAAAAAElFTkSuQmCC",
+        "id": "sample.sprite-wavy-shake.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-wavy-shake.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Sprite UV and time."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_wave",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "`dx = sin(v·freq·2π + t·speed) · amount · weight` shifts every row sideways; a second wave across the width (`dy`) wobbles vertically. The weight `lerp(1, v^falloff, anchor)` is 0 at the base, so a flag or plant stays attached to the ground."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_shake",
+        "position": {
+          "x": 768,
+          "y": 963
+        },
+        "size": {
+          "h": 39,
+          "w": 2378
+        },
+        "text": "`step = floor(t·rate)`; a hash of `(step, seed)` gives a random direction in (−1…1)², scaled by *Shake Amount*. The value is constant within a step, so the sprite jolts instead of blurring."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_sample",
+        "position": {
+          "x": 3350,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1154
+        },
+        "text": "`uv' = uv + wave + shake`. The **Sprite Texture** node with *Outside: transparent* returns alpha 0 for UVs outside 0…1, so the sprite never smears its border pixels."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 4708,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Displaced colour and alpha."
+      }
+    ],
+    "edges": {
+      "a1:out>s1:in": {
+        "from": {
+          "node": "a1",
+          "port": "out"
+        },
+        "id": "a1:out>s1:in",
+        "to": {
+          "node": "s1",
+          "port": "in"
+        }
+      },
+      "a2:out>s2:in": {
+        "from": {
+          "node": "a2",
+          "port": "out"
+        },
+        "id": "a2:out>s2:in",
+        "to": {
+          "node": "s2",
+          "port": "in"
+        }
+      },
+      "am:out>dx:b": {
+        "from": {
+          "node": "am",
+          "port": "out"
+        },
+        "id": "am:out>dx:b",
+        "to": {
+          "node": "dx",
+          "port": "b"
+        }
+      },
+      "am:out>dy0:b": {
+        "from": {
+          "node": "am",
+          "port": "out"
+        },
+        "id": "am:out>dy0:b",
+        "to": {
+          "node": "dy0",
+          "port": "b"
+        }
+      },
+      "c2:out>sh:a": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>sh:a",
+        "to": {
+          "node": "sh",
+          "port": "a"
+        }
+      },
+      "c:out>c2:a": {
+        "from": {
+          "node": "c",
+          "port": "out"
+        },
+        "id": "c:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "dx:out>off:r": {
+        "from": {
+          "node": "dx",
+          "port": "out"
+        },
+        "id": "dx:out>off:r",
+        "to": {
+          "node": "off",
+          "port": "r"
+        }
+      },
+      "dy0:out>dy:a": {
+        "from": {
+          "node": "dy0",
+          "port": "out"
+        },
+        "id": "dy0:out>dy:a",
+        "to": {
+          "node": "dy",
+          "port": "a"
+        }
+      },
+      "dy:out>off:g": {
+        "from": {
+          "node": "dy",
+          "port": "out"
+        },
+        "id": "dy:out>off:g",
+        "to": {
+          "node": "off",
+          "port": "g"
+        }
+      },
+      "f1:out>p1:a": {
+        "from": {
+          "node": "f1",
+          "port": "out"
+        },
+        "id": "f1:out>p1:a",
+        "to": {
+          "node": "p1",
+          "port": "a"
+        }
+      },
+      "f2:out>p2:a": {
+        "from": {
+          "node": "f2",
+          "port": "out"
+        },
+        "id": "f2:out>p2:a",
+        "to": {
+          "node": "p2",
+          "port": "a"
+        }
+      },
+      "h:out>c:a": {
+        "from": {
+          "node": "h",
+          "port": "out"
+        },
+        "id": "h:out>c:a",
+        "to": {
+          "node": "c",
+          "port": "a"
+        }
+      },
+      "key:rg>h:in": {
+        "from": {
+          "node": "key",
+          "port": "rg"
+        },
+        "id": "key:rg>h:in",
+        "to": {
+          "node": "h",
+          "port": "in"
+        }
+      },
+      "off:rg>u1:b": {
+        "from": {
+          "node": "off",
+          "port": "rg"
+        },
+        "id": "off:rg>u1:b",
+        "to": {
+          "node": "u1",
+          "port": "b"
+        }
+      },
+      "p1:out>a1:a": {
+        "from": {
+          "node": "p1",
+          "port": "out"
+        },
+        "id": "p1:out>a1:a",
+        "to": {
+          "node": "a1",
+          "port": "a"
+        }
+      },
+      "p2:out>a2:a": {
+        "from": {
+          "node": "p2",
+          "port": "out"
+        },
+        "id": "p2:out>a2:a",
+        "to": {
+          "node": "a2",
+          "port": "a"
+        }
+      },
+      "p_amount_wave:out>am:a": {
+        "from": {
+          "node": "p_amount_wave",
+          "port": "out"
+        },
+        "id": "p_amount_wave:out>am:a",
+        "to": {
+          "node": "am",
+          "port": "a"
+        }
+      },
+      "p_anchorPower_wave:out>pw:b": {
+        "from": {
+          "node": "p_anchorPower_wave",
+          "port": "out"
+        },
+        "id": "p_anchorPower_wave:out>pw:b",
+        "to": {
+          "node": "pw",
+          "port": "b"
+        }
+      },
+      "p_anchor_wave:out>wg:t": {
+        "from": {
+          "node": "p_anchor_wave",
+          "port": "out"
+        },
+        "id": "p_anchor_wave:out>wg:t",
+        "to": {
+          "node": "wg",
+          "port": "t"
+        }
+      },
+      "p_frequency_wave:out>f1:b": {
+        "from": {
+          "node": "p_frequency_wave",
+          "port": "out"
+        },
+        "id": "p_frequency_wave:out>f1:b",
+        "to": {
+          "node": "f1",
+          "port": "b"
+        }
+      },
+      "p_frequency_wave:out>f2:b": {
+        "from": {
+          "node": "p_frequency_wave",
+          "port": "out"
+        },
+        "id": "p_frequency_wave:out>f2:b",
+        "to": {
+          "node": "f2",
+          "port": "b"
+        }
+      },
+      "p_locked_sprite_texture_sample:out>tex:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_sample",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_sample:out>tex:tex",
+        "to": {
+          "node": "tex",
+          "port": "tex"
+        }
+      },
+      "p_seed_shake:out>key:g": {
+        "from": {
+          "node": "p_seed_shake",
+          "port": "out"
+        },
+        "id": "p_seed_shake:out>key:g",
+        "to": {
+          "node": "key",
+          "port": "g"
+        }
+      },
+      "p_shakeRate_shake:out>tr:b": {
+        "from": {
+          "node": "p_shakeRate_shake",
+          "port": "out"
+        },
+        "id": "p_shakeRate_shake:out>tr:b",
+        "to": {
+          "node": "tr",
+          "port": "b"
+        }
+      },
+      "p_shake_shake:out>sh:b": {
+        "from": {
+          "node": "p_shake_shake",
+          "port": "out"
+        },
+        "id": "p_shake_shake:out>sh:b",
+        "to": {
+          "node": "sh",
+          "port": "b"
+        }
+      },
+      "p_speed_wave:out>ts:b": {
+        "from": {
+          "node": "p_speed_wave",
+          "port": "out"
+        },
+        "id": "p_speed_wave:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_tint_sample:out>col:b": {
+        "from": {
+          "node": "p_tint_sample",
+          "port": "out"
+        },
+        "id": "p_tint_sample:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_vertical_wave:out>dy:b": {
+        "from": {
+          "node": "p_vertical_wave",
+          "port": "out"
+        },
+        "id": "p_vertical_wave:out>dy:b",
+        "to": {
+          "node": "dy",
+          "port": "b"
+        }
+      },
+      "po_time_tr_a:out>tr:a": {
+        "from": {
+          "node": "po_time_tr_a",
+          "port": "out"
+        },
+        "id": "po_time_tr_a:out>tr:a",
+        "to": {
+          "node": "tr",
+          "port": "a"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "pw:out>wg:b": {
+        "from": {
+          "node": "pw",
+          "port": "out"
+        },
+        "id": "pw:out>wg:b",
+        "to": {
+          "node": "wg",
+          "port": "b"
+        }
+      },
+      "s1:out>dx:a": {
+        "from": {
+          "node": "s1",
+          "port": "out"
+        },
+        "id": "s1:out>dx:a",
+        "to": {
+          "node": "dx",
+          "port": "a"
+        }
+      },
+      "s2:out>dy0:a": {
+        "from": {
+          "node": "s2",
+          "port": "out"
+        },
+        "id": "s2:out>dy0:a",
+        "to": {
+          "node": "dy0",
+          "port": "a"
+        }
+      },
+      "sh:out>u2:b": {
+        "from": {
+          "node": "sh",
+          "port": "out"
+        },
+        "id": "sh:out>u2:b",
+        "to": {
+          "node": "u2",
+          "port": "b"
+        }
+      },
+      "st:out>key:r": {
+        "from": {
+          "node": "st",
+          "port": "out"
+        },
+        "id": "st:out>key:r",
+        "to": {
+          "node": "key",
+          "port": "r"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tex:a>master:alpha": {
+        "from": {
+          "node": "tex",
+          "port": "a"
+        },
+        "id": "tex:a>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "tex:rgb>col:a": {
+        "from": {
+          "node": "tex",
+          "port": "rgb"
+        },
+        "id": "tex:rgb>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "tr:out>st:in": {
+        "from": {
+          "node": "tr",
+          "port": "out"
+        },
+        "id": "tr:out>st:in",
+        "to": {
+          "node": "st",
+          "port": "in"
+        }
+      },
+      "ts2:out>a2:b": {
+        "from": {
+          "node": "ts2",
+          "port": "out"
+        },
+        "id": "ts2:out>a2:b",
+        "to": {
+          "node": "a2",
+          "port": "b"
+        }
+      },
+      "ts:out>a1:b": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>a1:b",
+        "to": {
+          "node": "a1",
+          "port": "b"
+        }
+      },
+      "ts:out>ts2:a": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>ts2:a",
+        "to": {
+          "node": "ts2",
+          "port": "a"
+        }
+      },
+      "u1:out>u2:a": {
+        "from": {
+          "node": "u1",
+          "port": "out"
+        },
+        "id": "u1:out>u2:a",
+        "to": {
+          "node": "u2",
+          "port": "a"
+        }
+      },
+      "u2:out>tex:uv": {
+        "from": {
+          "node": "u2",
+          "port": "out"
+        },
+        "id": "u2:out>tex:uv",
+        "to": {
+          "node": "tex",
+          "port": "uv"
+        }
+      },
+      "us:g>f1:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>f1:a",
+        "to": {
+          "node": "f1",
+          "port": "a"
+        }
+      },
+      "us:g>pw:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>pw:a",
+        "to": {
+          "node": "pw",
+          "port": "a"
+        }
+      },
+      "us:r>f2:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>f2:a",
+        "to": {
+          "node": "f2",
+          "port": "a"
+        }
+      },
+      "uv:out>u1:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>u1:a",
+        "to": {
+          "node": "u1",
+          "port": "a"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      },
+      "wg:out>am:b": {
+        "from": {
+          "node": "wg",
+          "port": "out"
+        },
+        "id": "wg:out>am:b",
+        "to": {
+          "node": "am",
+          "port": "b"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "us",
+          "t",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 507,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_wave",
+        "nodeIds": [
+          "f1",
+          "p1",
+          "ts",
+          "a1",
+          "s1",
+          "f2",
+          "p2",
+          "ts2",
+          "a2",
+          "s2",
+          "pw",
+          "wg",
+          "am",
+          "dx",
+          "dy0",
+          "dy",
+          "off",
+          "p_frequency_wave",
+          "po_time_ts_a",
+          "p_speed_wave",
+          "p_anchorPower_wave",
+          "p_anchor_wave",
+          "p_amount_wave",
+          "p_vertical_wave"
+        ],
+        "rect": {
+          "h": 859,
+          "w": 2422,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Travelling wave + anchor"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_shake",
+        "nodeIds": [
+          "tr",
+          "st",
+          "key",
+          "h",
+          "c",
+          "c2",
+          "sh",
+          "po_time_tr_a",
+          "p_shakeRate_shake",
+          "p_seed_shake",
+          "p_shake_shake"
+        ],
+        "rect": {
+          "h": 515,
+          "w": 2422,
+          "x": 746,
+          "y": 929
+        },
+        "title": "Stepped shake"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_sample",
+        "nodeIds": [
+          "u1",
+          "u2",
+          "tex",
+          "col",
+          "p_locked_sprite_texture_sample",
+          "p_tint_sample"
+        ],
+        "rect": {
+          "h": 544,
+          "w": 1198,
+          "x": 3328,
+          "y": 0
+        },
+        "title": "Displaced sample"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 4686,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-wavy-shake",
+    "keywords": [],
+    "name": "Wavy Sway + Shake",
+    "nodes": {
+      "a1": {
+        "defId": "add",
+        "id": "a1",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a2": {
+        "defId": "add",
+        "id": "a2",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "am": {
+        "defId": "multiply",
+        "id": "am",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c": {
+        "defId": "subtract",
+        "id": "c",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 1176
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "c2": {
+        "defId": "multiply",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 1176
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2
+        }
+      },
+      "col": {
+        "defId": "multiply",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dx": {
+        "defId": "multiply",
+        "id": "dx",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dy": {
+        "defId": "multiply",
+        "id": "dy",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dy0": {
+        "defId": "multiply",
+        "id": "dy0",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f1": {
+        "defId": "multiply",
+        "id": "f1",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f2": {
+        "defId": "multiply",
+        "id": "f2",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 591
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h": {
+        "defId": "hash2to2",
+        "id": "h",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 1176
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "key": {
+        "defId": "combine",
+        "id": "key",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 1034
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 4708,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "off": {
+        "defId": "combine",
+        "id": "off",
+        "params": {},
+        "position": {
+          "x": 2910,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p1": {
+        "defId": "multiply",
+        "id": "p1",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.2832
+        }
+      },
+      "p2": {
+        "defId": "multiply",
+        "id": "p2",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 6.2832
+        }
+      },
+      "p_amount_wave": {
+        "defId": "property",
+        "id": "p_amount_wave",
+        "params": {
+          "property": "amount"
+        },
+        "position": {
+          "x": 768,
+          "y": 319
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_anchorPower_wave": {
+        "defId": "property",
+        "id": "p_anchorPower_wave",
+        "params": {
+          "property": "anchorPower"
+        },
+        "position": {
+          "x": 768,
+          "y": 413
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_anchor_wave": {
+        "defId": "property",
+        "id": "p_anchor_wave",
+        "params": {
+          "property": "anchor"
+        },
+        "position": {
+          "x": 768,
+          "y": 507
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_frequency_wave": {
+        "defId": "property",
+        "id": "p_frequency_wave",
+        "params": {
+          "property": "frequency"
+        },
+        "position": {
+          "x": 768,
+          "y": 615
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_sample": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_sample",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 3350,
+          "y": 218
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_seed_shake": {
+        "defId": "property",
+        "id": "p_seed_shake",
+        "params": {
+          "property": "seed"
+        },
+        "position": {
+          "x": 768,
+          "y": 1106
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shakeRate_shake": {
+        "defId": "property",
+        "id": "p_shakeRate_shake",
+        "params": {
+          "property": "shakeRate"
+        },
+        "position": {
+          "x": 768,
+          "y": 1200
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shake_shake": {
+        "defId": "property",
+        "id": "p_shake_shake",
+        "params": {
+          "property": "shake"
+        },
+        "position": {
+          "x": 768,
+          "y": 1294
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_speed_wave": {
+        "defId": "property",
+        "id": "p_speed_wave",
+        "params": {
+          "property": "speed"
+        },
+        "position": {
+          "x": 768,
+          "y": 709
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tint_sample": {
+        "defId": "property",
+        "id": "p_tint_sample",
+        "params": {
+          "property": "tint"
+        },
+        "position": {
+          "x": 3350,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_vertical_wave": {
+        "defId": "property",
+        "id": "p_vertical_wave",
+        "params": {
+          "property": "vertical"
+        },
+        "position": {
+          "x": 768,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_tr_a": {
+        "defId": "portalOut",
+        "id": "po_time_tr_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 768,
+          "y": 1388
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 768,
+          "y": 803
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pw": {
+        "defId": "power",
+        "id": "pw",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 307
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s1": {
+        "defId": "sin",
+        "id": "s1",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "sin",
+        "id": "s2",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 591
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sh": {
+        "defId": "multiply",
+        "id": "sh",
+        "params": {},
+        "position": {
+          "x": 2910,
+          "y": 1176
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "st": {
+        "defId": "floor",
+        "id": "st",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 1094
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tex": {
+        "defId": "spriteTexture",
+        "id": "tex",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 3962,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tr": {
+        "defId": "multiply",
+        "id": "tr",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 1082
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 449
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts2": {
+        "defId": "multiply",
+        "id": "ts2",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 721
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1.3
+        }
+      },
+      "u1": {
+        "defId": "add",
+        "id": "u1",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 406
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "u2": {
+        "defId": "add",
+        "id": "u2",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 321
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 357
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wg": {
+        "defId": "lerp",
+        "id": "wg",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Sprite",
+        "colorSpace": "srgb",
+        "default": [
+          1,
+          1,
+          1
+        ],
+        "displayName": "Tint",
+        "exposed": true,
+        "id": "tint",
+        "perInstance": false,
+        "referenceName": "_Tint",
+        "tooltip": "Colour multiplied onto the sprite (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Wave",
+        "default": 0.025,
+        "displayName": "Wave Amount",
+        "exposed": true,
+        "id": "amount",
+        "max": 0.1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_WaveAmount",
+        "slider": true,
+        "tooltip": "Maximum sideways displacement of the wave (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 3,
+        "displayName": "Wave Frequency",
+        "exposed": true,
+        "id": "frequency",
+        "max": 12,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_WaveFrequency",
+        "slider": true,
+        "tooltip": "Number of wave crests across the sprite height.",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 3,
+        "displayName": "Wave Speed",
+        "exposed": true,
+        "id": "speed",
+        "max": 10,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_WaveSpeed",
+        "slider": true,
+        "tooltip": "Travel speed of the wave in radians per second; a negative value reverses the direction.",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 0.4,
+        "displayName": "Vertical Wobble",
+        "exposed": true,
+        "id": "vertical",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_VerticalWobble",
+        "slider": true,
+        "tooltip": "Share of the amount applied vertically (a second wave across the width).",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 0.8,
+        "displayName": "Bottom Anchor",
+        "exposed": true,
+        "id": "anchor",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BottomAnchor",
+        "slider": true,
+        "tooltip": "0 = the whole sprite sways equally, 1 = the base (V = 0) stays still and the top sways most.",
+        "type": "float"
+      },
+      {
+        "category": "Wave",
+        "default": 1.5,
+        "displayName": "Anchor Falloff",
+        "exposed": true,
+        "id": "anchorPower",
+        "max": 4,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_AnchorFalloff",
+        "slider": true,
+        "tooltip": "Curve of the anchor weight: higher = more of the lower part stays calm.",
+        "type": "float"
+      },
+      {
+        "category": "Shake",
+        "default": 0.006,
+        "displayName": "Shake Amount",
+        "exposed": true,
+        "id": "shake",
+        "max": 0.05,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ShakeAmount",
+        "slider": true,
+        "tooltip": "Distance of the random jolt in UV units (0 = off). Drive it from gameplay.",
+        "type": "float"
+      },
+      {
+        "category": "Shake",
+        "default": 24,
+        "displayName": "Shake Rate",
+        "exposed": true,
+        "id": "shakeRate",
+        "max": 60,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_ShakeRate",
+        "slider": true,
+        "tooltip": "How many times per second the shake direction changes.",
+        "type": "float"
+      },
+      {
+        "category": "Shake",
+        "default": 5,
+        "displayName": "Shake Seed",
+        "exposed": true,
+        "id": "seed",
+        "max": 100,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ShakeSeed",
+        "slider": true,
+        "tooltip": "Selects a different random shake sequence per sprite.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-wavy-shake.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "checker",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

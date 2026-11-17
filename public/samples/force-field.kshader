@@ -1,0 +1,1940 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 456
+        },
+        "text": "UV for the grid, normal + view direction for the rim, and time."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_hex",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1766
+        },
+        "text": "UV is offset by `scroll × time`, then the **Hexagon pattern** node returns the distance to the cell border; `1 − smoothstep(0, width, edge)` gives crisp lines."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_rim",
+        "position": {
+          "x": 682,
+          "y": 667
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "The **Fresnel kit** lights the silhouette; a slow pulse `½ + ½ sin(t × speed)` modulates the grid so the shield breathes."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_contact",
+        "position": {
+          "x": 2652,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1154
+        },
+        "text": "The **Depth Intersection** kit measures the gap between the opaque scene behind the shield and the shield itself. `contact = (1 − fade)²` is a bright line that thins out smoothly where geometry pierces the field."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 4010,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1460
+        },
+        "text": "`brightness = lines × pulse + rim + opacity`; the contact line is added in its own (brighter) colour. Additive blending makes brightness the opacity."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5674,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Additive, ZWrite off, two-sided — set in the graph settings."
+      }
+    ],
+    "edges": {
+      "b1:out>b2:a": {
+        "from": {
+          "node": "b1",
+          "port": "out"
+        },
+        "id": "b1:out>b2:a",
+        "to": {
+          "node": "b2",
+          "port": "a"
+        }
+      },
+      "b2:out>body:b": {
+        "from": {
+          "node": "b2",
+          "port": "out"
+        },
+        "id": "b2:out>body:b",
+        "to": {
+          "node": "body",
+          "port": "b"
+        }
+      },
+      "body:out>final:a": {
+        "from": {
+          "node": "body",
+          "port": "out"
+        },
+        "id": "body:out>final:a",
+        "to": {
+          "node": "final",
+          "port": "a"
+        }
+      },
+      "c1:out>c2:a": {
+        "from": {
+          "node": "c1",
+          "port": "out"
+        },
+        "id": "c1:out>c2:a",
+        "to": {
+          "node": "c2",
+          "port": "a"
+        }
+      },
+      "c1:out>c2:b": {
+        "from": {
+          "node": "c1",
+          "port": "out"
+        },
+        "id": "c1:out>c2:b",
+        "to": {
+          "node": "c2",
+          "port": "b"
+        }
+      },
+      "c2:out>cc:b": {
+        "from": {
+          "node": "c2",
+          "port": "out"
+        },
+        "id": "c2:out>cc:b",
+        "to": {
+          "node": "cc",
+          "port": "b"
+        }
+      },
+      "cc:out>final:b": {
+        "from": {
+          "node": "cc",
+          "port": "out"
+        },
+        "id": "cc:out>final:b",
+        "to": {
+          "node": "final",
+          "port": "b"
+        }
+      },
+      "depth:fade>c1:in": {
+        "from": {
+          "node": "depth",
+          "port": "fade"
+        },
+        "id": "depth:fade>c1:in",
+        "to": {
+          "node": "c1",
+          "port": "in"
+        }
+      },
+      "final:out>master:baseColor": {
+        "from": {
+          "node": "final",
+          "port": "out"
+        },
+        "id": "final:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "fres:rim>b1:b": {
+        "from": {
+          "node": "fres",
+          "port": "rim"
+        },
+        "id": "fres:rim>b1:b",
+        "to": {
+          "node": "b1",
+          "port": "b"
+        }
+      },
+      "hex:edge>sm:in": {
+        "from": {
+          "node": "hex",
+          "port": "edge"
+        },
+        "id": "hex:edge>sm:in",
+        "to": {
+          "node": "sm",
+          "port": "in"
+        }
+      },
+      "lines:out>lp:a": {
+        "from": {
+          "node": "lines",
+          "port": "out"
+        },
+        "id": "lines:out>lp:a",
+        "to": {
+          "node": "lp",
+          "port": "a"
+        }
+      },
+      "lp:out>b1:a": {
+        "from": {
+          "node": "lp",
+          "port": "out"
+        },
+        "id": "lp:out>b1:a",
+        "to": {
+          "node": "b1",
+          "port": "a"
+        }
+      },
+      "nrm:out>pi_n:in": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>pi_n:in",
+        "to": {
+          "node": "pi_n",
+          "port": "in"
+        }
+      },
+      "off:out>uvs:b": {
+        "from": {
+          "node": "off",
+          "port": "out"
+        },
+        "id": "off:out>uvs:b",
+        "to": {
+          "node": "uvs",
+          "port": "b"
+        }
+      },
+      "p_baseOpacity_mix:out>b2:b": {
+        "from": {
+          "node": "p_baseOpacity_mix",
+          "port": "out"
+        },
+        "id": "p_baseOpacity_mix:out>b2:b",
+        "to": {
+          "node": "b2",
+          "port": "b"
+        }
+      },
+      "p_contactColor_mix:out>cc:a": {
+        "from": {
+          "node": "p_contactColor_mix",
+          "port": "out"
+        },
+        "id": "p_contactColor_mix:out>cc:a",
+        "to": {
+          "node": "cc",
+          "port": "a"
+        }
+      },
+      "p_contactDistance_contact:out>depth:distance": {
+        "from": {
+          "node": "p_contactDistance_contact",
+          "port": "out"
+        },
+        "id": "p_contactDistance_contact:out>depth:distance",
+        "to": {
+          "node": "depth",
+          "port": "distance"
+        }
+      },
+      "p_fieldColor_mix:out>body:a": {
+        "from": {
+          "node": "p_fieldColor_mix",
+          "port": "out"
+        },
+        "id": "p_fieldColor_mix:out>body:a",
+        "to": {
+          "node": "body",
+          "port": "a"
+        }
+      },
+      "p_fieldColor_rim:out>fres:color": {
+        "from": {
+          "node": "p_fieldColor_rim",
+          "port": "out"
+        },
+        "id": "p_fieldColor_rim:out>fres:color",
+        "to": {
+          "node": "fres",
+          "port": "color"
+        }
+      },
+      "p_hexScale_hex:out>hex:scale": {
+        "from": {
+          "node": "p_hexScale_hex",
+          "port": "out"
+        },
+        "id": "p_hexScale_hex:out>hex:scale",
+        "to": {
+          "node": "hex",
+          "port": "scale"
+        }
+      },
+      "p_hexWidth_hex:out>sm:edge2": {
+        "from": {
+          "node": "p_hexWidth_hex",
+          "port": "out"
+        },
+        "id": "p_hexWidth_hex:out>sm:edge2",
+        "to": {
+          "node": "sm",
+          "port": "edge2"
+        }
+      },
+      "p_pulseSpeed_rim:out>pt:b": {
+        "from": {
+          "node": "p_pulseSpeed_rim",
+          "port": "out"
+        },
+        "id": "p_pulseSpeed_rim:out>pt:b",
+        "to": {
+          "node": "pt",
+          "port": "b"
+        }
+      },
+      "p_rimIntensity_rim:out>fres:intensity": {
+        "from": {
+          "node": "p_rimIntensity_rim",
+          "port": "out"
+        },
+        "id": "p_rimIntensity_rim:out>fres:intensity",
+        "to": {
+          "node": "fres",
+          "port": "intensity"
+        }
+      },
+      "p_rimPower_rim:out>fres:power": {
+        "from": {
+          "node": "p_rimPower_rim",
+          "port": "out"
+        },
+        "id": "p_rimPower_rim:out>fres:power",
+        "to": {
+          "node": "fres",
+          "port": "power"
+        }
+      },
+      "p_scroll_hex:out>off:a": {
+        "from": {
+          "node": "p_scroll_hex",
+          "port": "out"
+        },
+        "id": "p_scroll_hex:out>off:a",
+        "to": {
+          "node": "off",
+          "port": "a"
+        }
+      },
+      "po_n_fres_normal:out>fres:normal": {
+        "from": {
+          "node": "po_n_fres_normal",
+          "port": "out"
+        },
+        "id": "po_n_fres_normal:out>fres:normal",
+        "to": {
+          "node": "fres",
+          "port": "normal"
+        }
+      },
+      "po_time_off_b:out>off:b": {
+        "from": {
+          "node": "po_time_off_b",
+          "port": "out"
+        },
+        "id": "po_time_off_b:out>off:b",
+        "to": {
+          "node": "off",
+          "port": "b"
+        }
+      },
+      "po_time_pt_a:out>pt:a": {
+        "from": {
+          "node": "po_time_pt_a",
+          "port": "out"
+        },
+        "id": "po_time_pt_a:out>pt:a",
+        "to": {
+          "node": "pt",
+          "port": "a"
+        }
+      },
+      "po_uv_uvs_a:out>uvs:a": {
+        "from": {
+          "node": "po_uv_uvs_a",
+          "port": "out"
+        },
+        "id": "po_uv_uvs_a:out>uvs:a",
+        "to": {
+          "node": "uvs",
+          "port": "a"
+        }
+      },
+      "po_v_fres_viewDir:out>fres:viewDir": {
+        "from": {
+          "node": "po_v_fres_viewDir",
+          "port": "out"
+        },
+        "id": "po_v_fres_viewDir:out>fres:viewDir",
+        "to": {
+          "node": "fres",
+          "port": "viewDir"
+        }
+      },
+      "ps:out>pulse:in": {
+        "from": {
+          "node": "ps",
+          "port": "out"
+        },
+        "id": "ps:out>pulse:in",
+        "to": {
+          "node": "pulse",
+          "port": "in"
+        }
+      },
+      "pt:out>ps:in": {
+        "from": {
+          "node": "pt",
+          "port": "out"
+        },
+        "id": "pt:out>ps:in",
+        "to": {
+          "node": "ps",
+          "port": "in"
+        }
+      },
+      "pulse:out>lp:b": {
+        "from": {
+          "node": "pulse",
+          "port": "out"
+        },
+        "id": "pulse:out>lp:b",
+        "to": {
+          "node": "lp",
+          "port": "b"
+        }
+      },
+      "sm:out>lines:in": {
+        "from": {
+          "node": "sm",
+          "port": "out"
+        },
+        "id": "sm:out>lines:in",
+        "to": {
+          "node": "lines",
+          "port": "in"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "uv:out>pi_uv:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>pi_uv:in",
+        "to": {
+          "node": "pi_uv",
+          "port": "in"
+        }
+      },
+      "uvs:out>hex:p": {
+        "from": {
+          "node": "uvs",
+          "port": "out"
+        },
+        "id": "uvs:out>hex:p",
+        "to": {
+          "node": "hex",
+          "port": "p"
+        }
+      },
+      "vdir:out>pi_v:in": {
+        "from": {
+          "node": "vdir",
+          "port": "out"
+        },
+        "id": "vdir:out>pi_v:in",
+        "to": {
+          "node": "pi_v",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "nrm",
+          "vdir",
+          "t",
+          "pi_time",
+          "pi_uv",
+          "pi_n",
+          "pi_v"
+        ],
+        "rect": {
+          "h": 740,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_hex",
+        "nodeIds": [
+          "off",
+          "uvs",
+          "hex",
+          "sm",
+          "lines",
+          "p_scroll_hex",
+          "po_time_off_b",
+          "po_uv_uvs_a",
+          "p_hexScale_hex",
+          "p_hexWidth_hex"
+        ],
+        "rect": {
+          "h": 563,
+          "w": 1810,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Scrolling hex grid"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_rim",
+        "nodeIds": [
+          "fres",
+          "pt",
+          "ps",
+          "pulse",
+          "po_n_fres_normal",
+          "po_v_fres_viewDir",
+          "p_fieldColor_rim",
+          "p_rimPower_rim",
+          "p_rimIntensity_rim",
+          "po_time_pt_a",
+          "p_pulseSpeed_rim"
+        ],
+        "rect": {
+          "h": 827,
+          "w": 1198,
+          "x": 660,
+          "y": 633
+        },
+        "title": "Rim + pulse"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_contact",
+        "nodeIds": [
+          "depth",
+          "c1",
+          "c2",
+          "p_contactDistance_contact"
+        ],
+        "rect": {
+          "h": 260,
+          "w": 1198,
+          "x": 2630,
+          "y": 0
+        },
+        "title": "Depth intersection"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "lp",
+          "b1",
+          "b2",
+          "body",
+          "cc",
+          "final",
+          "p_baseOpacity_mix",
+          "p_fieldColor_mix",
+          "p_contactColor_mix"
+        ],
+        "rect": {
+          "h": 525,
+          "w": 1504,
+          "x": 3988,
+          "y": 0
+        },
+        "title": "Combine"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 5652,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit, additive)"
+      }
+    ],
+    "id": "force-field",
+    "keywords": [],
+    "name": "Force Field (Depth Intersection)",
+    "nodes": {
+      "b1": {
+        "defId": "add",
+        "id": "b1",
+        "params": {},
+        "position": {
+          "x": 4316,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "b2": {
+        "defId": "add",
+        "id": "b2",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "body": {
+        "defId": "multiply",
+        "id": "body",
+        "params": {},
+        "position": {
+          "x": 4928,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c1": {
+        "defId": "oneMinus",
+        "id": "c1",
+        "params": {},
+        "position": {
+          "x": 3264,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "c2": {
+        "defId": "multiply",
+        "id": "c2",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cc": {
+        "defId": "multiply",
+        "id": "cc",
+        "params": {},
+        "position": {
+          "x": 4316,
+          "y": 293
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "depth": {
+        "defId": "subgraph",
+        "id": "depth",
+        "label": "Contact",
+        "params": {
+          "subgraph": "ks_depth_intersect"
+        },
+        "position": {
+          "x": 2958,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "final": {
+        "defId": "add",
+        "id": "final",
+        "params": {},
+        "position": {
+          "x": 5234,
+          "y": 293
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fres": {
+        "defId": "subgraph",
+        "id": "fres",
+        "label": "Rim",
+        "params": {
+          "subgraph": "ks_fresnel_kit"
+        },
+        "position": {
+          "x": 988,
+          "y": 738
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hex": {
+        "defId": "patternHex",
+        "id": "hex",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lines": {
+        "defId": "oneMinus",
+        "id": "lines",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lp": {
+        "defId": "multiply",
+        "id": "lp",
+        "params": {},
+        "position": {
+          "x": 4010,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5674,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "off": {
+        "defId": "multiply",
+        "id": "off",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_baseOpacity_mix": {
+        "defId": "property",
+        "id": "p_baseOpacity_mix",
+        "params": {
+          "property": "baseOpacity"
+        },
+        "position": {
+          "x": 4010,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_contactColor_mix": {
+        "defId": "property",
+        "id": "p_contactColor_mix",
+        "params": {
+          "property": "contactColor"
+        },
+        "position": {
+          "x": 4010,
+          "y": 435
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_contactDistance_contact": {
+        "defId": "property",
+        "id": "p_contactDistance_contact",
+        "params": {
+          "property": "contactDistance"
+        },
+        "position": {
+          "x": 2652,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_fieldColor_mix": {
+        "defId": "property",
+        "id": "p_fieldColor_mix",
+        "params": {
+          "property": "fieldColor"
+        },
+        "position": {
+          "x": 4010,
+          "y": 341
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_fieldColor_rim": {
+        "defId": "property",
+        "id": "p_fieldColor_rim",
+        "params": {
+          "property": "fieldColor"
+        },
+        "position": {
+          "x": 682,
+          "y": 822
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hexScale_hex": {
+        "defId": "property",
+        "id": "p_hexScale_hex",
+        "params": {
+          "property": "hexScale"
+        },
+        "position": {
+          "x": 682,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hexWidth_hex": {
+        "defId": "property",
+        "id": "p_hexWidth_hex",
+        "params": {
+          "property": "hexWidth"
+        },
+        "position": {
+          "x": 682,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_pulseSpeed_rim": {
+        "defId": "property",
+        "id": "p_pulseSpeed_rim",
+        "params": {
+          "property": "pulseSpeed"
+        },
+        "position": {
+          "x": 682,
+          "y": 1310
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimIntensity_rim": {
+        "defId": "property",
+        "id": "p_rimIntensity_rim",
+        "params": {
+          "property": "rimIntensity"
+        },
+        "position": {
+          "x": 682,
+          "y": 916
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimPower_rim": {
+        "defId": "property",
+        "id": "p_rimPower_rim",
+        "params": {
+          "property": "rimPower"
+        },
+        "position": {
+          "x": 682,
+          "y": 1010
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_scroll_hex": {
+        "defId": "property",
+        "id": "p_scroll_hex",
+        "params": {
+          "property": "scroll"
+        },
+        "position": {
+          "x": 682,
+          "y": 353
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_n": {
+        "defId": "portalIn",
+        "id": "pi_n",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 328,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 331
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_uv": {
+        "defId": "portalIn",
+        "id": "pi_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 328,
+          "y": 511
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_v": {
+        "defId": "portalIn",
+        "id": "pi_v",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 328,
+          "y": 655
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_fres_normal": {
+        "defId": "portalOut",
+        "id": "po_n_fres_normal",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 682,
+          "y": 1104
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_off_b": {
+        "defId": "portalOut",
+        "id": "po_time_off_b",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 447
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_pt_a": {
+        "defId": "portalOut",
+        "id": "po_time_pt_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 1404
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_uv_uvs_a": {
+        "defId": "portalOut",
+        "id": "po_uv_uvs_a",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 682,
+          "y": 507
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_v_fres_viewDir": {
+        "defId": "portalOut",
+        "id": "po_v_fres_viewDir",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 682,
+          "y": 1164
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ps": {
+        "defId": "sin",
+        "id": "ps",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1298
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pt": {
+        "defId": "multiply",
+        "id": "pt",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1286
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pulse": {
+        "defId": "remap",
+        "id": "pulse",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1250
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1,
+          "outMin": 0.55
+        }
+      },
+      "sm": {
+        "defId": "smoothstep",
+        "id": "sm",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 482
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uvs": {
+        "defId": "add",
+        "id": "uvs",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vdir": {
+        "defId": "viewDirection",
+        "id": "vdir",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 626
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Look",
+        "colorSpace": "linear",
+        "default": [
+          0.1,
+          0.65,
+          1.6
+        ],
+        "displayName": "Field Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "fieldColor",
+        "perInstance": false,
+        "referenceName": "_FieldColor",
+        "tooltip": "HDR colour of the shield.",
+        "type": "color"
+      },
+      {
+        "category": "Look",
+        "colorSpace": "linear",
+        "default": [
+          1.6,
+          2.2,
+          3
+        ],
+        "displayName": "Contact Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "contactColor",
+        "perInstance": false,
+        "referenceName": "_ContactColor",
+        "tooltip": "HDR colour of the intersection line.",
+        "type": "color"
+      },
+      {
+        "category": "Look",
+        "default": 0.06,
+        "displayName": "Base Opacity",
+        "exposed": true,
+        "id": "baseOpacity",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BaseOpacity",
+        "slider": true,
+        "tooltip": "Faint fill so the shield is visible between the lines.",
+        "type": "float"
+      },
+      {
+        "category": "Grid",
+        "default": 7,
+        "displayName": "Hex Scale",
+        "exposed": true,
+        "id": "hexScale",
+        "max": 24,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_HexScale",
+        "slider": true,
+        "tooltip": "Hexagon cells across the UV range.",
+        "type": "float"
+      },
+      {
+        "category": "Grid",
+        "default": 0.1,
+        "displayName": "Line Width",
+        "exposed": true,
+        "id": "hexWidth",
+        "max": 0.4,
+        "min": 0.01,
+        "perInstance": false,
+        "referenceName": "_LineWidth",
+        "slider": true,
+        "tooltip": "Width of the hexagon lines.",
+        "type": "float"
+      },
+      {
+        "category": "Grid",
+        "default": [
+          0,
+          0.12
+        ],
+        "displayName": "Scroll",
+        "exposed": true,
+        "id": "scroll",
+        "perInstance": false,
+        "referenceName": "_Scroll",
+        "tooltip": "UV scroll speed of the grid (units per second).",
+        "type": "vec2"
+      },
+      {
+        "category": "Intersection",
+        "default": 0.3,
+        "displayName": "Contact Distance",
+        "exposed": true,
+        "id": "contactDistance",
+        "max": 1.5,
+        "min": 0.02,
+        "perInstance": false,
+        "referenceName": "_ContactDistance",
+        "slider": true,
+        "tooltip": "World-space reach of the intersection glow.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 2.5,
+        "displayName": "Rim Power",
+        "exposed": true,
+        "id": "rimPower",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_RimPower",
+        "slider": true,
+        "tooltip": "Rim falloff.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 1,
+        "displayName": "Rim Intensity",
+        "exposed": true,
+        "id": "rimIntensity",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimIntensity",
+        "slider": true,
+        "tooltip": "Strength of the rim.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 1.6,
+        "displayName": "Pulse Speed",
+        "exposed": true,
+        "id": "pulseSpeed",
+        "max": 6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PulseSpeed",
+        "slider": true,
+        "tooltip": "Speed of the brightness pulse (0 = steady).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "additive",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {
+      "ks_depth_intersect": {
+        "comments": [
+          {
+            "color": "#f87171",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1460
+            },
+            "text": "**Depth intersection** — `gap = sceneEyeDepth(screenUV) − thisFragmentEyeDepth`, `fade = saturate(gap / distance)`.\nNeeds the camera depth texture (Unity URP: enable *Depth Texture* in the URP asset; Godot: `hint_depth_texture`). Use `1 − fade` for foam or intersection glow."
+          }
+        ],
+        "edges": {
+          "dmax:out>ratio:b": {
+            "from": {
+              "node": "dmax",
+              "port": "out"
+            },
+            "id": "dmax:out>ratio:b",
+            "to": {
+              "node": "ratio",
+              "port": "b"
+            }
+          },
+          "fade:out>outputs:fade": {
+            "from": {
+              "node": "fade",
+              "port": "out"
+            },
+            "id": "fade:out>outputs:fade",
+            "to": {
+              "node": "outputs",
+              "port": "fade"
+            }
+          },
+          "gap:out>outputs:gap": {
+            "from": {
+              "node": "gap",
+              "port": "out"
+            },
+            "id": "gap:out>outputs:gap",
+            "to": {
+              "node": "outputs",
+              "port": "gap"
+            }
+          },
+          "gap:out>ratio:a": {
+            "from": {
+              "node": "gap",
+              "port": "out"
+            },
+            "id": "gap:out>ratio:a",
+            "to": {
+              "node": "ratio",
+              "port": "a"
+            }
+          },
+          "inputs:distance>dmax:a": {
+            "from": {
+              "node": "inputs",
+              "port": "distance"
+            },
+            "id": "inputs:distance>dmax:a",
+            "to": {
+              "node": "dmax",
+              "port": "a"
+            }
+          },
+          "ratio:out>fade:in": {
+            "from": {
+              "node": "ratio",
+              "port": "out"
+            },
+            "id": "ratio:out>fade:in",
+            "to": {
+              "node": "fade",
+              "port": "in"
+            }
+          },
+          "sd:eye>gap:a": {
+            "from": {
+              "node": "sd",
+              "port": "eye"
+            },
+            "id": "sd:eye>gap:a",
+            "to": {
+              "node": "gap",
+              "port": "a"
+            }
+          },
+          "sp:eyeDepth>gap:b": {
+            "from": {
+              "node": "sp",
+              "port": "eyeDepth"
+            },
+            "id": "sp:eyeDepth>gap:b",
+            "to": {
+              "node": "gap",
+              "port": "b"
+            }
+          },
+          "sp:normalized>sd:uv": {
+            "from": {
+              "node": "sp",
+              "port": "normalized"
+            },
+            "id": "sp:normalized>sd:uv",
+            "to": {
+              "node": "sd",
+              "port": "uv"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#f87171",
+            "id": "grp_body",
+            "nodeIds": [
+              "sp",
+              "sd",
+              "gap",
+              "dmax",
+              "ratio",
+              "fade"
+            ],
+            "rect": {
+              "h": 462,
+              "w": 1504,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Depth Intersection"
+          }
+        ],
+        "id": "ks_depth_intersect",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "distance",
+            "name": "Distance",
+            "tooltip": "World-space reach of the intersection band.",
+            "type": "float"
+          }
+        ],
+        "name": "Depth Intersection",
+        "nodes": {
+          "dmax": {
+            "defId": "maximum",
+            "id": "dmax",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.0001
+            }
+          },
+          "fade": {
+            "defId": "saturate",
+            "id": "fade",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "gap": {
+            "defId": "subtract",
+            "id": "gap",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1944,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ratio": {
+            "defId": "divide",
+            "id": "ratio",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sd": {
+            "defId": "sceneDepth",
+            "id": "sd",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 252
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sp": {
+            "defId": "screenPosition",
+            "id": "sp",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "fade",
+            "name": "Fade",
+            "tooltip": "0 where geometry touches the surface, 1 at Distance or further behind it.",
+            "type": "float"
+          },
+          {
+            "id": "gap",
+            "name": "Gap",
+            "tooltip": "Eye-space distance between this fragment and the opaque scene behind it (world units).",
+            "type": "float"
+          }
+        ]
+      },
+      "ks_fresnel_kit": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1154
+            },
+            "text": "**Fresnel kit** — `(1 − N·V)^power × intensity`.\nThe Fresnel node gives the view-dependent term; the mask is saturated so it can drive alpha, emission or a ramp directly. Glow = colour × mask."
+          }
+        ],
+        "edges": {
+          "fres:out>scale:a": {
+            "from": {
+              "node": "fres",
+              "port": "out"
+            },
+            "id": "fres:out>scale:a",
+            "to": {
+              "node": "scale",
+              "port": "a"
+            }
+          },
+          "inputs:color>tint:a": {
+            "from": {
+              "node": "inputs",
+              "port": "color"
+            },
+            "id": "inputs:color>tint:a",
+            "to": {
+              "node": "tint",
+              "port": "a"
+            }
+          },
+          "inputs:intensity>scale:b": {
+            "from": {
+              "node": "inputs",
+              "port": "intensity"
+            },
+            "id": "inputs:intensity>scale:b",
+            "to": {
+              "node": "scale",
+              "port": "b"
+            }
+          },
+          "inputs:normal>fres:normal": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>fres:normal",
+            "to": {
+              "node": "fres",
+              "port": "normal"
+            }
+          },
+          "inputs:power>fres:power": {
+            "from": {
+              "node": "inputs",
+              "port": "power"
+            },
+            "id": "inputs:power>fres:power",
+            "to": {
+              "node": "fres",
+              "port": "power"
+            }
+          },
+          "inputs:viewDir>fres:viewDir": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>fres:viewDir",
+            "to": {
+              "node": "fres",
+              "port": "viewDir"
+            }
+          },
+          "inv:out>outputs:faceOn": {
+            "from": {
+              "node": "inv",
+              "port": "out"
+            },
+            "id": "inv:out>outputs:faceOn",
+            "to": {
+              "node": "outputs",
+              "port": "faceOn"
+            }
+          },
+          "sat:out>inv:in": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>inv:in",
+            "to": {
+              "node": "inv",
+              "port": "in"
+            }
+          },
+          "sat:out>outputs:rim": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>outputs:rim",
+            "to": {
+              "node": "outputs",
+              "port": "rim"
+            }
+          },
+          "sat:out>tint:b": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>tint:b",
+            "to": {
+              "node": "tint",
+              "port": "b"
+            }
+          },
+          "scale:out>sat:in": {
+            "from": {
+              "node": "scale",
+              "port": "out"
+            },
+            "id": "scale:out>sat:in",
+            "to": {
+              "node": "sat",
+              "port": "in"
+            }
+          },
+          "tint:out>outputs:glow": {
+            "from": {
+              "node": "tint",
+              "port": "out"
+            },
+            "id": "tint:out>outputs:glow",
+            "to": {
+              "node": "outputs",
+              "port": "glow"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "fres",
+              "scale",
+              "sat",
+              "tint",
+              "inv"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 1198,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Fresnel Rim Kit"
+          }
+        ],
+        "id": "ks_fresnel_kit",
+        "inputs": [
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Direction",
+            "tooltip": "Unit vector from the surface to the camera (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              1,
+              1,
+              1
+            ],
+            "id": "color",
+            "name": "Rim Color",
+            "tooltip": "Colour of the glow output (linear, may exceed 1 for HDR bloom).",
+            "type": "color"
+          },
+          {
+            "default": 3,
+            "id": "power",
+            "name": "Power",
+            "tooltip": "Fresnel exponent: higher = thinner rim.",
+            "type": "float"
+          },
+          {
+            "default": 1,
+            "id": "intensity",
+            "name": "Intensity",
+            "tooltip": "Multiplier of the rim mask.",
+            "type": "float"
+          }
+        ],
+        "name": "Fresnel Rim Kit",
+        "nodes": {
+          "fres": {
+            "defId": "fresnel",
+            "id": "fres",
+            "params": {
+              "mode": "power"
+            },
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inv": {
+            "defId": "oneMinus",
+            "id": "inv",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1638,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sat": {
+            "defId": "saturate",
+            "id": "sat",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scale": {
+            "defId": "multiply",
+            "id": "scale",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 158
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tint": {
+            "defId": "multiply",
+            "id": "tint",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "rim",
+            "name": "Rim",
+            "tooltip": "Rim mask 0…1 (1 on silhouettes).",
+            "type": "float"
+          },
+          {
+            "id": "glow",
+            "name": "Glow",
+            "tooltip": "Rim colour × rim mask.",
+            "type": "color"
+          },
+          {
+            "id": "faceOn",
+            "name": "Face-On",
+            "tooltip": "1 − rim: strongest where the surface faces the camera.",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "intersector": "box",
+      "intersectorPos": [
+        0.1,
+        -0.05,
+        0.3
+      ],
+      "intersectorScale": 0.5,
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {
+      "depthTexture": true,
+      "enabled": true,
+      "opaqueTexture": true
+    },
+    "version": 1
+  },
+  "schemaVersion": 1
+}

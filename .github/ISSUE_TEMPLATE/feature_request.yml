@@ -1,0 +1,33 @@
+name: Feature Request
+description: Suggest a new shader node, target profile option, or editor enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      options:
+        - New Shader Node
+        - Unity URP Exporter / Profile
+        - Godot 4 Exporter / Profile
+        - GLSL / WGSL / HLSL Backend
+        - Node Canvas / Editor UX
+        - Preview Viewport
+        - Sample Library
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem or Use Case
+      description: What problem does this feature solve, or what shader effect are you trying to build?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe how the node, property, or workflow should behave across supported targets.
+    validations:
+      required: true

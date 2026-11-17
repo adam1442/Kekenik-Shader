@@ -1,0 +1,1584 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAABj0lEQVR42u3byW3rMBRAUdeRTVpxA6kmbaSb9OQC0oCzshEQiszhaSB5DsDVBwT8dyVH4wUAAAAAAAAAAAAAAABgUG/X93vEMskDhi7GiYYuRubgf+6350r/7fr98XJ93T6fS4jCPf7v8B8rZ+hrEUqDGP7GEXJiTPk7v3eA6UL89598DCw6QEmEtRBTDH8tQu3wSwMMGyF3+GmIlsGL0DD86FUaYJgILcOPjpUOdYoINcNfOjNqDbG2zZoIww4/HVZ6RRwRIN1m7ZHQXYDaPTW9JRGx96fbrIkw/N6/9HMREWBpm8MdBbVnPDn3aSICpKv2zGiovT9nYFF/hGuG381RsNUe23oaGhGgi6Ngi7026oKsZfDTBejlCnmo3/8eA5wqQm8Bom7UCSBAvwEiHtoIsGOE018LzBbAaejOEboLMNJR0M0NuREjdPdMYPQAwz4RO2OE6R5LninA1G9GHLm8G2T484WY+gXdI0N4Tf2AGD7SKPwubOuB+17MR3rzBDHZHaOYGAAAAAAAAMDlFyTEC+qparpdAAAAAElFTkSuQmCC",
+        "id": "sample.sprite-silhouette-shadow.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-silhouette-shadow.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Sprite UV and the sprite itself."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_main",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "The sprite is sampled normally (*Outside: transparent*). The silhouette is `lerp(sprite colour, silhouette colour, amount)`: alpha is untouched, so the outline of the shape is exactly the sprite's."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_shadow",
+        "position": {
+          "x": 768,
+          "y": 600
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`p = uv − offset`, then the V axis is stretched around the ground line: `p.y' = g + (p.y − g) / flatten`. Reading the sprite at a stretched coordinate draws it squashed by *Flatten* — a shadow lying on the floor."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_blur",
+        "position": {
+          "x": 3044,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2990
+        },
+        "text": "The shadow alpha is the average of the sprite alpha at the centre and four taps `±blur` along x and y. Cheap, and plenty soft for a small radius; raise *Blur* only up to a few texels."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_compose",
+        "position": {
+          "x": 6238,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Standard over-operator: `alpha = a + shadow × (1 − a)`; colour = `lerp(shadow colour, sprite colour, a)`."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 7290,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Composited colour and alpha."
+      }
+    ],
+    "edges": {
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "avg:out>sa:a": {
+        "from": {
+          "node": "avg",
+          "port": "out"
+        },
+        "id": "avg:out>sa:a",
+        "to": {
+          "node": "sa",
+          "port": "a"
+        }
+      },
+      "col:out>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "dv:out>py:a": {
+        "from": {
+          "node": "dv",
+          "port": "out"
+        },
+        "id": "dv:out>py:a",
+        "to": {
+          "node": "py",
+          "port": "a"
+        }
+      },
+      "dy:out>dv:a": {
+        "from": {
+          "node": "dy",
+          "port": "out"
+        },
+        "id": "dy:out>dv:a",
+        "to": {
+          "node": "dv",
+          "port": "a"
+        }
+      },
+      "inv:out>sw:b": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>sw:b",
+        "to": {
+          "node": "sw",
+          "port": "b"
+        }
+      },
+      "nb:out>of_s:g": {
+        "from": {
+          "node": "nb",
+          "port": "out"
+        },
+        "id": "nb:out>of_s:g",
+        "to": {
+          "node": "of_s",
+          "port": "g"
+        }
+      },
+      "nb:out>of_w:r": {
+        "from": {
+          "node": "nb",
+          "port": "out"
+        },
+        "id": "nb:out>of_w:r",
+        "to": {
+          "node": "of_w",
+          "port": "r"
+        }
+      },
+      "of_e:rg>uu_e:b": {
+        "from": {
+          "node": "of_e",
+          "port": "rg"
+        },
+        "id": "of_e:rg>uu_e:b",
+        "to": {
+          "node": "uu_e",
+          "port": "b"
+        }
+      },
+      "of_n:rg>uu_n:b": {
+        "from": {
+          "node": "of_n",
+          "port": "rg"
+        },
+        "id": "of_n:rg>uu_n:b",
+        "to": {
+          "node": "uu_n",
+          "port": "b"
+        }
+      },
+      "of_s:rg>uu_s:b": {
+        "from": {
+          "node": "of_s",
+          "port": "rg"
+        },
+        "id": "of_s:rg>uu_s:b",
+        "to": {
+          "node": "uu_s",
+          "port": "b"
+        }
+      },
+      "of_w:rg>uu_w:b": {
+        "from": {
+          "node": "of_w",
+          "port": "rg"
+        },
+        "id": "of_w:rg>uu_w:b",
+        "to": {
+          "node": "uu_w",
+          "port": "b"
+        }
+      },
+      "p:out>ps:in": {
+        "from": {
+          "node": "p",
+          "port": "out"
+        },
+        "id": "p:out>ps:in",
+        "to": {
+          "node": "ps",
+          "port": "in"
+        }
+      },
+      "p_blur_blur:out>nb:in": {
+        "from": {
+          "node": "p_blur_blur",
+          "port": "out"
+        },
+        "id": "p_blur_blur:out>nb:in",
+        "to": {
+          "node": "nb",
+          "port": "in"
+        }
+      },
+      "p_blur_blur:out>of_e:r": {
+        "from": {
+          "node": "p_blur_blur",
+          "port": "out"
+        },
+        "id": "p_blur_blur:out>of_e:r",
+        "to": {
+          "node": "of_e",
+          "port": "r"
+        }
+      },
+      "p_blur_blur:out>of_n:g": {
+        "from": {
+          "node": "p_blur_blur",
+          "port": "out"
+        },
+        "id": "p_blur_blur:out>of_n:g",
+        "to": {
+          "node": "of_n",
+          "port": "g"
+        }
+      },
+      "p_flatten_shadow:out>dv:b": {
+        "from": {
+          "node": "p_flatten_shadow",
+          "port": "out"
+        },
+        "id": "p_flatten_shadow:out>dv:b",
+        "to": {
+          "node": "dv",
+          "port": "b"
+        }
+      },
+      "p_ground_shadow:out>dy:b": {
+        "from": {
+          "node": "p_ground_shadow",
+          "port": "out"
+        },
+        "id": "p_ground_shadow:out>dy:b",
+        "to": {
+          "node": "dy",
+          "port": "b"
+        }
+      },
+      "p_ground_shadow:out>py:b": {
+        "from": {
+          "node": "p_ground_shadow",
+          "port": "out"
+        },
+        "id": "p_ground_shadow:out>py:b",
+        "to": {
+          "node": "py",
+          "port": "b"
+        }
+      },
+      "p_locked_sprite_texture_blur:out>t0:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_blur",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_blur:out>t0:tex",
+        "to": {
+          "node": "t0",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_blur:out>tt_e:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_blur",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_blur:out>tt_e:tex",
+        "to": {
+          "node": "tt_e",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_blur:out>tt_n:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_blur",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_blur:out>tt_n:tex",
+        "to": {
+          "node": "tt_n",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_blur:out>tt_s:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_blur",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_blur:out>tt_s:tex",
+        "to": {
+          "node": "tt_s",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_blur:out>tt_w:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_blur",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_blur:out>tt_w:tex",
+        "to": {
+          "node": "tt_w",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_main:out>tex:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_main",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_main:out>tex:tex",
+        "to": {
+          "node": "tex",
+          "port": "tex"
+        }
+      },
+      "p_offset_shadow:out>p:b": {
+        "from": {
+          "node": "p_offset_shadow",
+          "port": "out"
+        },
+        "id": "p_offset_shadow:out>p:b",
+        "to": {
+          "node": "p",
+          "port": "b"
+        }
+      },
+      "p_shadowColor_compose:out>col:a": {
+        "from": {
+          "node": "p_shadowColor_compose",
+          "port": "out"
+        },
+        "id": "p_shadowColor_compose:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "p_shadowOpacity_blur:out>sa:b": {
+        "from": {
+          "node": "p_shadowOpacity_blur",
+          "port": "out"
+        },
+        "id": "p_shadowOpacity_blur:out>sa:b",
+        "to": {
+          "node": "sa",
+          "port": "b"
+        }
+      },
+      "p_silhouetteColor_main:out>sil:b": {
+        "from": {
+          "node": "p_silhouetteColor_main",
+          "port": "out"
+        },
+        "id": "p_silhouetteColor_main:out>sil:b",
+        "to": {
+          "node": "sil",
+          "port": "b"
+        }
+      },
+      "p_silhouette_main:out>sil:t": {
+        "from": {
+          "node": "p_silhouette_main",
+          "port": "out"
+        },
+        "id": "p_silhouette_main:out>sil:t",
+        "to": {
+          "node": "sil",
+          "port": "t"
+        }
+      },
+      "ps:g>dy:a": {
+        "from": {
+          "node": "ps",
+          "port": "g"
+        },
+        "id": "ps:g>dy:a",
+        "to": {
+          "node": "dy",
+          "port": "a"
+        }
+      },
+      "ps:r>puv:r": {
+        "from": {
+          "node": "ps",
+          "port": "r"
+        },
+        "id": "ps:r>puv:r",
+        "to": {
+          "node": "puv",
+          "port": "r"
+        }
+      },
+      "puv:rg>t0:uv": {
+        "from": {
+          "node": "puv",
+          "port": "rg"
+        },
+        "id": "puv:rg>t0:uv",
+        "to": {
+          "node": "t0",
+          "port": "uv"
+        }
+      },
+      "puv:rg>uu_e:a": {
+        "from": {
+          "node": "puv",
+          "port": "rg"
+        },
+        "id": "puv:rg>uu_e:a",
+        "to": {
+          "node": "uu_e",
+          "port": "a"
+        }
+      },
+      "puv:rg>uu_n:a": {
+        "from": {
+          "node": "puv",
+          "port": "rg"
+        },
+        "id": "puv:rg>uu_n:a",
+        "to": {
+          "node": "uu_n",
+          "port": "a"
+        }
+      },
+      "puv:rg>uu_s:a": {
+        "from": {
+          "node": "puv",
+          "port": "rg"
+        },
+        "id": "puv:rg>uu_s:a",
+        "to": {
+          "node": "uu_s",
+          "port": "a"
+        }
+      },
+      "puv:rg>uu_w:a": {
+        "from": {
+          "node": "puv",
+          "port": "rg"
+        },
+        "id": "puv:rg>uu_w:a",
+        "to": {
+          "node": "uu_w",
+          "port": "a"
+        }
+      },
+      "py:out>puv:g": {
+        "from": {
+          "node": "py",
+          "port": "out"
+        },
+        "id": "py:out>puv:g",
+        "to": {
+          "node": "puv",
+          "port": "g"
+        }
+      },
+      "sa:out>sw:a": {
+        "from": {
+          "node": "sa",
+          "port": "out"
+        },
+        "id": "sa:out>sw:a",
+        "to": {
+          "node": "sw",
+          "port": "a"
+        }
+      },
+      "sil:out>col:b": {
+        "from": {
+          "node": "sil",
+          "port": "out"
+        },
+        "id": "sil:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "sum1:out>sum2:a": {
+        "from": {
+          "node": "sum1",
+          "port": "out"
+        },
+        "id": "sum1:out>sum2:a",
+        "to": {
+          "node": "sum2",
+          "port": "a"
+        }
+      },
+      "sum2:out>sum3:a": {
+        "from": {
+          "node": "sum2",
+          "port": "out"
+        },
+        "id": "sum2:out>sum3:a",
+        "to": {
+          "node": "sum3",
+          "port": "a"
+        }
+      },
+      "sum3:out>sum4:a": {
+        "from": {
+          "node": "sum3",
+          "port": "out"
+        },
+        "id": "sum3:out>sum4:a",
+        "to": {
+          "node": "sum4",
+          "port": "a"
+        }
+      },
+      "sum4:out>avg:a": {
+        "from": {
+          "node": "sum4",
+          "port": "out"
+        },
+        "id": "sum4:out>avg:a",
+        "to": {
+          "node": "avg",
+          "port": "a"
+        }
+      },
+      "sw:out>al:b": {
+        "from": {
+          "node": "sw",
+          "port": "out"
+        },
+        "id": "sw:out>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "t0:a>sum1:a": {
+        "from": {
+          "node": "t0",
+          "port": "a"
+        },
+        "id": "t0:a>sum1:a",
+        "to": {
+          "node": "sum1",
+          "port": "a"
+        }
+      },
+      "tex:a>al:a": {
+        "from": {
+          "node": "tex",
+          "port": "a"
+        },
+        "id": "tex:a>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "tex:a>col:t": {
+        "from": {
+          "node": "tex",
+          "port": "a"
+        },
+        "id": "tex:a>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "tex:a>inv:in": {
+        "from": {
+          "node": "tex",
+          "port": "a"
+        },
+        "id": "tex:a>inv:in",
+        "to": {
+          "node": "inv",
+          "port": "in"
+        }
+      },
+      "tex:rgb>sil:a": {
+        "from": {
+          "node": "tex",
+          "port": "rgb"
+        },
+        "id": "tex:rgb>sil:a",
+        "to": {
+          "node": "sil",
+          "port": "a"
+        }
+      },
+      "tt_e:a>sum1:b": {
+        "from": {
+          "node": "tt_e",
+          "port": "a"
+        },
+        "id": "tt_e:a>sum1:b",
+        "to": {
+          "node": "sum1",
+          "port": "b"
+        }
+      },
+      "tt_n:a>sum3:b": {
+        "from": {
+          "node": "tt_n",
+          "port": "a"
+        },
+        "id": "tt_n:a>sum3:b",
+        "to": {
+          "node": "sum3",
+          "port": "b"
+        }
+      },
+      "tt_s:a>sum4:b": {
+        "from": {
+          "node": "tt_s",
+          "port": "a"
+        },
+        "id": "tt_s:a>sum4:b",
+        "to": {
+          "node": "sum4",
+          "port": "b"
+        }
+      },
+      "tt_w:a>sum2:b": {
+        "from": {
+          "node": "tt_w",
+          "port": "a"
+        },
+        "id": "tt_w:a>sum2:b",
+        "to": {
+          "node": "sum2",
+          "port": "b"
+        }
+      },
+      "uu_e:out>tt_e:uv": {
+        "from": {
+          "node": "uu_e",
+          "port": "out"
+        },
+        "id": "uu_e:out>tt_e:uv",
+        "to": {
+          "node": "tt_e",
+          "port": "uv"
+        }
+      },
+      "uu_n:out>tt_n:uv": {
+        "from": {
+          "node": "uu_n",
+          "port": "out"
+        },
+        "id": "uu_n:out>tt_n:uv",
+        "to": {
+          "node": "tt_n",
+          "port": "uv"
+        }
+      },
+      "uu_s:out>tt_s:uv": {
+        "from": {
+          "node": "uu_s",
+          "port": "out"
+        },
+        "id": "uu_s:out>tt_s:uv",
+        "to": {
+          "node": "tt_s",
+          "port": "uv"
+        }
+      },
+      "uu_w:out>tt_w:uv": {
+        "from": {
+          "node": "uu_w",
+          "port": "out"
+        },
+        "id": "uu_w:out>tt_w:uv",
+        "to": {
+          "node": "tt_w",
+          "port": "uv"
+        }
+      },
+      "uv:out>p:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>p:a",
+        "to": {
+          "node": "p",
+          "port": "a"
+        }
+      },
+      "uv:out>tex:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>tex:uv",
+        "to": {
+          "node": "tex",
+          "port": "uv"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "us"
+        ],
+        "rect": {
+          "h": 291,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_main",
+        "nodeIds": [
+          "tex",
+          "sil",
+          "p_locked_sprite_texture_main",
+          "p_silhouetteColor_main",
+          "p_silhouette_main"
+        ],
+        "rect": {
+          "h": 496,
+          "w": 892,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Sprite + silhouette"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_shadow",
+        "nodeIds": [
+          "p",
+          "ps",
+          "dy",
+          "dv",
+          "py",
+          "puv",
+          "p_offset_shadow",
+          "p_ground_shadow",
+          "p_flatten_shadow"
+        ],
+        "rect": {
+          "h": 479,
+          "w": 2116,
+          "x": 746,
+          "y": 566
+        },
+        "title": "Shadow UV (offset + flatten)"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_blur",
+        "nodeIds": [
+          "nb",
+          "p_blur_blur",
+          "t0",
+          "p_locked_sprite_texture_blur",
+          "of_e",
+          "uu_e",
+          "tt_e",
+          "of_w",
+          "uu_w",
+          "tt_w",
+          "of_n",
+          "uu_n",
+          "tt_n",
+          "of_s",
+          "uu_s",
+          "tt_s",
+          "sum1",
+          "sum2",
+          "sum3",
+          "sum4",
+          "avg",
+          "sa",
+          "p_shadowOpacity_blur"
+        ],
+        "rect": {
+          "h": 1815,
+          "w": 3034,
+          "x": 3022,
+          "y": 0
+        },
+        "title": "5-tap blur of the alpha"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_compose",
+        "nodeIds": [
+          "inv",
+          "sw",
+          "al",
+          "col",
+          "p_shadowColor_compose"
+        ],
+        "rect": {
+          "h": 435,
+          "w": 892,
+          "x": 6216,
+          "y": 0
+        },
+        "title": "Sprite over shadow"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 7268,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-silhouette-shadow",
+    "keywords": [],
+    "name": "Silhouette + Drop Shadow",
+    "nodes": {
+      "al": {
+        "defId": "add",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 6850,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "avg": {
+        "defId": "multiply",
+        "id": "avg",
+        "params": {},
+        "position": {
+          "x": 5492,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.2
+        }
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 6544,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dv": {
+        "defId": "divide",
+        "id": "dv",
+        "params": {},
+        "position": {
+          "x": 1992,
+          "y": 719
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dy": {
+        "defId": "subtract",
+        "id": "dy",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 719
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "inv": {
+        "defId": "oneMinus",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 6238,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 7290,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nb": {
+        "defId": "negate",
+        "id": "nb",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 1403
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "of_e": {
+        "defId": "combine",
+        "id": "of_e",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 629
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "of_n": {
+        "defId": "combine",
+        "id": "of_n",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 1153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "of_s": {
+        "defId": "combine",
+        "id": "of_s",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 1343
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "of_w": {
+        "defId": "combine",
+        "id": "of_w",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 1581
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p": {
+        "defId": "subtract",
+        "id": "p",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 907
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_blur_blur": {
+        "defId": "property",
+        "id": "p_blur_blur",
+        "params": {
+          "property": "blur"
+        },
+        "position": {
+          "x": 3044,
+          "y": 1225
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flatten_shadow": {
+        "defId": "property",
+        "id": "p_flatten_shadow",
+        "params": {
+          "property": "flatten"
+        },
+        "position": {
+          "x": 768,
+          "y": 743
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_ground_shadow": {
+        "defId": "property",
+        "id": "p_ground_shadow",
+        "params": {
+          "property": "ground"
+        },
+        "position": {
+          "x": 768,
+          "y": 837
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_blur": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_blur",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 3044,
+          "y": 487
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_main": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_main",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 768,
+          "y": 218
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_offset_shadow": {
+        "defId": "property",
+        "id": "p_offset_shadow",
+        "params": {
+          "property": "offset"
+        },
+        "position": {
+          "x": 768,
+          "y": 931
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shadowColor_compose": {
+        "defId": "property",
+        "id": "p_shadowColor_compose",
+        "params": {
+          "property": "shadowColor"
+        },
+        "position": {
+          "x": 6238,
+          "y": 309
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shadowOpacity_blur": {
+        "defId": "property",
+        "id": "p_shadowOpacity_blur",
+        "params": {
+          "property": "shadowOpacity"
+        },
+        "position": {
+          "x": 3044,
+          "y": 201
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_silhouetteColor_main": {
+        "defId": "property",
+        "id": "p_silhouetteColor_main",
+        "params": {
+          "property": "silhouetteColor"
+        },
+        "position": {
+          "x": 768,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_silhouette_main": {
+        "defId": "property",
+        "id": "p_silhouette_main",
+        "params": {
+          "property": "silhouette"
+        },
+        "position": {
+          "x": 768,
+          "y": 406
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ps": {
+        "defId": "split",
+        "id": "ps",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 695
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "puv": {
+        "defId": "combine",
+        "id": "puv",
+        "params": {},
+        "position": {
+          "x": 2604,
+          "y": 671
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "py": {
+        "defId": "add",
+        "id": "py",
+        "params": {},
+        "position": {
+          "x": 2298,
+          "y": 719
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sa": {
+        "defId": "multiply",
+        "id": "sa",
+        "params": {},
+        "position": {
+          "x": 5798,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sil": {
+        "defId": "lerp",
+        "id": "sil",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum1": {
+        "defId": "add",
+        "id": "sum1",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum2": {
+        "defId": "add",
+        "id": "sum2",
+        "params": {},
+        "position": {
+          "x": 4574,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum3": {
+        "defId": "add",
+        "id": "sum3",
+        "params": {},
+        "position": {
+          "x": 4880,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum4": {
+        "defId": "add",
+        "id": "sum4",
+        "params": {},
+        "position": {
+          "x": 5186,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sw": {
+        "defId": "multiply",
+        "id": "sw",
+        "params": {},
+        "position": {
+          "x": 6544,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t0": {
+        "defId": "spriteTexture",
+        "id": "t0",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 3350,
+          "y": 867
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tex": {
+        "defId": "spriteTexture",
+        "id": "tex",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 1074,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt_e": {
+        "defId": "spriteTexture",
+        "id": "tt_e",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 3962,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt_n": {
+        "defId": "spriteTexture",
+        "id": "tt_n",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 3962,
+          "y": 391
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt_s": {
+        "defId": "spriteTexture",
+        "id": "tt_s",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 4268,
+          "y": 319
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt_w": {
+        "defId": "spriteTexture",
+        "id": "tt_w",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 4268,
+          "y": 605
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uu_e": {
+        "defId": "add",
+        "id": "uu_e",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 677
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uu_n": {
+        "defId": "add",
+        "id": "uu_n",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 1201
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uu_s": {
+        "defId": "add",
+        "id": "uu_s",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 1391
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uu_w": {
+        "defId": "add",
+        "id": "uu_w",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 1629
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Shadow",
+        "colorSpace": "srgb",
+        "default": [
+          0.04,
+          0.03,
+          0.1
+        ],
+        "displayName": "Shadow Color",
+        "exposed": true,
+        "id": "shadowColor",
+        "perInstance": false,
+        "referenceName": "_ShadowColor",
+        "tooltip": "Colour of the shadow (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Shadow",
+        "default": 0.6,
+        "displayName": "Shadow Opacity",
+        "exposed": true,
+        "id": "shadowOpacity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ShadowOpacity",
+        "slider": true,
+        "tooltip": "Maximum opacity of the shadow.",
+        "type": "float"
+      },
+      {
+        "category": "Shadow",
+        "default": [
+          0.05,
+          -0.06
+        ],
+        "displayName": "Shadow Offset",
+        "exposed": true,
+        "id": "offset",
+        "perInstance": false,
+        "referenceName": "_ShadowOffset",
+        "tooltip": "Shadow position relative to the sprite, in UV units (+x right, +y up).",
+        "type": "vec2"
+      },
+      {
+        "category": "Shadow",
+        "default": 0.012,
+        "displayName": "Shadow Blur",
+        "exposed": true,
+        "id": "blur",
+        "max": 0.04,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ShadowBlur",
+        "slider": true,
+        "tooltip": "Radius of the 5-tap blur in UV units (0 = hard shadow).",
+        "type": "float"
+      },
+      {
+        "category": "Shadow",
+        "default": 0.55,
+        "displayName": "Flatten",
+        "exposed": true,
+        "id": "flatten",
+        "max": 1,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_Flatten",
+        "slider": true,
+        "tooltip": "Vertical scale of the shadow around the Ground Line: 1 = unchanged, lower = squashed onto the floor.",
+        "type": "float"
+      },
+      {
+        "category": "Shadow",
+        "default": 0.2,
+        "displayName": "Ground Line",
+        "exposed": true,
+        "id": "ground",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_GroundLine",
+        "slider": true,
+        "tooltip": "V coordinate (0 = bottom of the sprite) the shadow is squashed towards.",
+        "type": "float"
+      },
+      {
+        "category": "Silhouette",
+        "default": 0,
+        "displayName": "Silhouette",
+        "exposed": true,
+        "id": "silhouette",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Silhouette",
+        "slider": true,
+        "tooltip": "0 = normal sprite, 1 = flat silhouette colour. Drive it from gameplay.",
+        "type": "float"
+      },
+      {
+        "category": "Silhouette",
+        "colorSpace": "srgb",
+        "default": [
+          0.95,
+          0.2,
+          0.35
+        ],
+        "displayName": "Silhouette Color",
+        "exposed": true,
+        "id": "silhouetteColor",
+        "perInstance": false,
+        "referenceName": "_SilhouetteColor",
+        "tooltip": "Flat colour of the silhouette (sRGB).",
+        "type": "color"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-silhouette-shadow.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "light",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

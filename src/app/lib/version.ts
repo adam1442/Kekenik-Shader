@@ -1,0 +1,10 @@
+export const APP_NAME = "Kekenik Shader";
+export const APP_VERSION: string = typeof __APP_VERSION__ !== "undefined" ? __APP_VERSION__ : "0.1.0";
+export const APP_STAGE = "Early preview";
+export const APP_LICENSE = "MIT";
+export const APP_AUTHOR = "adam1442";
+export const APP_CONTACT = "hossein.r.1442@gmail.com";
+export const GITHUB_REPO_URL = "https://github.com/adam1442/kekenik-shader";
+export const GITHUB_ISSUES_URL = "https://github.com/adam1442/kekenik-shader/issues";
+export const GITHUB_DOCS_URL = "https://github.com/adam1442/kekenik-shader#readme";
+export const LIVE_DEMO_URL = "https://adam1442.github.io/kekenik-shader/";

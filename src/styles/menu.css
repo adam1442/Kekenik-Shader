@@ -1,0 +1,157 @@
+/* Menu surface (context menus, menu-bar dropdowns, Select) */
+.kk-menu {
+  position: fixed;
+  z-index: var(--kk-z-menu);
+  display: flex;
+  flex-direction: column;
+  min-width: 190px;
+  max-width: 340px;
+  padding: 4px;
+  border: 1px solid var(--kk-border-strong);
+  border-radius: var(--kk-radius-md);
+  background: color-mix(in srgb, var(--kk-surface-3) 96%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--kk-shadow-3);
+  outline: none;
+  /* opacity only: a transform would create a containing block for fixed descendants */
+  animation: kk-fade-in var(--kk-dur-fast) var(--kk-ease-out);
+}
+.kk-menu__list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: 0;
+}
+.kk-menu__search {
+  padding: 2px 2px 4px;
+}
+.kk-menu__search-input {
+  width: 100%;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-sm);
+  background: var(--kk-surface-1);
+  color: var(--kk-text-1);
+  outline: none;
+}
+.kk-menu__search-input:focus {
+  border-color: var(--kk-accent);
+}
+.kk-menu__empty {
+  padding: 10px;
+  color: var(--kk-text-3);
+  text-align: center;
+  font-size: var(--kk-text-sm);
+}
+.kk-menu__sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--kk-border);
+  flex: none;
+}
+.kk-menu__group {
+  padding: 6px 8px 2px;
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex: none;
+}
+.kk-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 8px 0 4px;
+  flex: none;
+  border-radius: var(--kk-radius-sm);
+  color: var(--kk-text-1);
+  white-space: nowrap;
+  cursor: default;
+}
+.kk-menu__item.is-active,
+.kk-menu__item.is-open {
+  background: var(--kk-accent);
+  color: #fff;
+}
+.kk-menu__item.is-disabled {
+  color: var(--kk-text-disabled);
+}
+.kk-menu__item.is-disabled.is-active {
+  background: var(--kk-surface-4);
+  color: var(--kk-text-disabled);
+}
+.kk-menu__item.is-danger:not(.is-disabled) {
+  color: var(--kk-danger);
+}
+.kk-menu__item.is-danger.is-active {
+  background: var(--kk-danger);
+  color: #fff;
+}
+.kk-menu__check {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  flex: none;
+}
+.kk-menu__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.kk-menu__icon {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  flex: none;
+  color: var(--kk-text-2);
+}
+.kk-menu__item.is-active .kk-menu__icon,
+.kk-menu__item.is-open .kk-menu__icon {
+  color: inherit;
+}
+.kk-menu__item.is-disabled .kk-menu__icon {
+  color: inherit;
+}
+.kk-menu__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kk-menu__label mark {
+  background: none;
+  color: var(--kk-accent-2);
+  font-weight: 700;
+}
+.kk-menu__item.is-active .kk-menu__label mark {
+  color: #fff;
+  text-decoration: underline;
+}
+.kk-menu__chev {
+  color: var(--kk-text-3);
+  flex: none;
+}
+.kk-menu__item.is-active .kk-menu__chev {
+  color: inherit;
+}
+.kk-menu__kbd {
+  margin-left: 16px;
+  opacity: 0.85;
+}
+.kk-menu__item.is-active .kk-kbd {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+.kk-menu__agent {
+  margin-left: 14px;
+  padding: 0 5px;
+  border-radius: var(--kk-radius-full);
+  background: var(--kk-surface-4);
+  color: var(--kk-text-3);
+  font-size: 9.5px;
+  font-weight: 600;
+}

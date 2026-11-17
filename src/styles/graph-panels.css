@@ -1,0 +1,226 @@
+/* Node Library, Inspector, Problems / History panels . */
+.kk-gp {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.kk-gp__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-bottom: 1px solid var(--kk-border-subtle);
+  flex: none;
+}
+.kk-gp__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.kk-lib-cat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--kk-text-2);
+  font: 600 var(--kk-text-xs) var(--kk-font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-align: left;
+}
+.kk-lib-cat:hover {
+  color: var(--kk-text-1);
+  background: var(--kk-surface-2);
+}
+.kk-lib-cat span {
+  margin-left: auto;
+  color: var(--kk-text-3);
+  font-weight: 500;
+}
+.kk-lib-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 26px;
+  font-size: var(--kk-text-md);
+  color: var(--kk-text-1);
+  cursor: grab;
+  border-radius: 6px;
+  margin: 0 4px;
+}
+.kk-lib-item:hover {
+  background: var(--kk-surface-3);
+}
+.kk-lib-item:active {
+  cursor: grabbing;
+}
+.kk-lib-item__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  flex: none;
+}
+.kk-lib-item__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-lib-item__fav {
+  color: var(--kk-warning);
+  fill: var(--kk-warning);
+  flex: none;
+}
+.kk-lib-item__sig {
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-3);
+}
+
+.kk-insp {
+  padding: 10px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.kk-insp__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kk-insp__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+}
+.kk-insp__title {
+  font-size: var(--kk-text-lg);
+  font-weight: 600;
+}
+.kk-insp__sub {
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-3);
+}
+.kk-insp__desc {
+  color: var(--kk-text-2);
+  font-size: var(--kk-text-sm);
+  line-height: 1.5;
+  margin: 0;
+}
+.kk-insp__sec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.kk-insp__sec h4 {
+  margin: 0;
+  font: 600 var(--kk-text-xs) var(--kk-font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--kk-text-3);
+}
+.kk-insp__row {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+}
+.kk-insp__row > label {
+  color: var(--kk-text-2);
+  font-size: var(--kk-text-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kk-insp__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.kk-insp__diag {
+  font-size: var(--kk-text-sm);
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: var(--kk-surface-2);
+  border-left: 2px solid var(--kk-warning);
+  color: var(--kk-text-2);
+}
+.kk-insp__diag[data-sev="error"] {
+  border-left-color: var(--kk-danger);
+}
+
+.kk-prob {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--kk-text-1);
+  font: var(--kk-text-sm) var(--kk-font-sans);
+  border-bottom: 1px solid var(--kk-border-subtle);
+}
+.kk-prob:hover {
+  background: var(--kk-surface-2);
+}
+.kk-prob svg {
+  flex: none;
+  margin-top: 1px;
+}
+.kk-prob[data-sev="error"] svg {
+  color: var(--kk-danger);
+}
+.kk-prob[data-sev="warning"] svg {
+  color: var(--kk-warning);
+}
+.kk-prob__msg {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.4;
+}
+.kk-prob__where {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+  white-space: nowrap;
+}
+.kk-hist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--kk-text-2);
+  text-align: left;
+  cursor: pointer;
+  font: var(--kk-text-sm) var(--kk-font-sans);
+}
+.kk-hist:hover {
+  background: var(--kk-surface-2);
+  color: var(--kk-text-1);
+}
+.kk-hist.is-current {
+  color: var(--kk-text-1);
+  background: var(--kk-accent-softer);
+  box-shadow: inset 2px 0 var(--kk-accent);
+}
+.kk-hist.is-undone {
+  color: var(--kk-text-disabled);
+}
+.kk-hist time {
+  margin-left: auto;
+  font-size: var(--kk-text-xs);
+  color: var(--kk-text-3);
+  font-variant-numeric: tabular-nums;
+}

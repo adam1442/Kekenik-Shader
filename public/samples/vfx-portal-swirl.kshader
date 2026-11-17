@@ -1,0 +1,2343 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 456
+        },
+        "text": "Quad UV, time and the particle colour / alpha."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_swirl",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2292
+        },
+        "text": "`uvTwirl` rotates each UV around the centre by an angle that depends on its radius — the straight noise grid becomes spiral arms. Layer A turns with `time × spin`, layer B the other way at 0.6× and a different scale, so the arms slowly slide through each other."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_shape",
+        "position": {
+          "x": 682,
+          "y": 893
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`r` = distance from the centre (1 at the quad edge). The noise pushes the edge radius: `r' = r + (noise − ½) × wobble`. Disc alpha = `1 − smoothstep(R − soft, R, r')`. The rim is the band `[R − width, R]` of `r'` (smoothstep up, then clipped by the disc); the core is `(1 − r / size)²`."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_color",
+        "position": {
+          "x": 3178,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "The noise (darkened towards the outside, brightened by the core) indexes the shared **Color Ramp** kit. Rim and core are added in HDR on top: `colour = ramp + rim × rimColor × intensity + core × coreColor`."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_alpha",
+        "position": {
+          "x": 3178,
+          "y": 1245
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "`alpha = disc × particle alpha`."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 6066,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 300
+        },
+        "text": "Alpha blend, ZWrite off, two-sided."
+      }
+    ],
+    "edges": {
+      "al:out>master:alpha": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "ca:out>s2:b": {
+        "from": {
+          "node": "ca",
+          "port": "out"
+        },
+        "id": "ca:out>s2:b",
+        "to": {
+          "node": "s2",
+          "port": "b"
+        }
+      },
+      "cb:out>tt0:b": {
+        "from": {
+          "node": "cb",
+          "port": "out"
+        },
+        "id": "cb:out>tt0:b",
+        "to": {
+          "node": "tt0",
+          "port": "b"
+        }
+      },
+      "cd:out>ci:in": {
+        "from": {
+          "node": "cd",
+          "port": "out"
+        },
+        "id": "cd:out>ci:in",
+        "to": {
+          "node": "ci",
+          "port": "in"
+        }
+      },
+      "ci:out>cs:in": {
+        "from": {
+          "node": "ci",
+          "port": "out"
+        },
+        "id": "ci:out>cs:in",
+        "to": {
+          "node": "cs",
+          "port": "in"
+        }
+      },
+      "core:out>ca:a": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>ca:a",
+        "to": {
+          "node": "ca",
+          "port": "a"
+        }
+      },
+      "core:out>cb:a": {
+        "from": {
+          "node": "core",
+          "port": "out"
+        },
+        "id": "core:out>cb:a",
+        "to": {
+          "node": "cb",
+          "port": "a"
+        }
+      },
+      "cs:out>core:a": {
+        "from": {
+          "node": "cs",
+          "port": "out"
+        },
+        "id": "cs:out>core:a",
+        "to": {
+          "node": "core",
+          "port": "a"
+        }
+      },
+      "cs:out>core:b": {
+        "from": {
+          "node": "cs",
+          "port": "out"
+        },
+        "id": "cs:out>core:b",
+        "to": {
+          "node": "core",
+          "port": "b"
+        }
+      },
+      "d:out>r:a": {
+        "from": {
+          "node": "d",
+          "port": "out"
+        },
+        "id": "d:out>r:a",
+        "to": {
+          "node": "r",
+          "port": "a"
+        }
+      },
+      "disc0:out>disc:in": {
+        "from": {
+          "node": "disc0",
+          "port": "out"
+        },
+        "id": "disc0:out>disc:in",
+        "to": {
+          "node": "disc",
+          "port": "in"
+        }
+      },
+      "disc:out>al:a": {
+        "from": {
+          "node": "disc",
+          "port": "out"
+        },
+        "id": "disc:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "disc:out>rim:b": {
+        "from": {
+          "node": "disc",
+          "port": "out"
+        },
+        "id": "disc:out>rim:b",
+        "to": {
+          "node": "rim",
+          "port": "b"
+        }
+      },
+      "fall:out>ff:in": {
+        "from": {
+          "node": "fall",
+          "port": "out"
+        },
+        "id": "fall:out>ff:in",
+        "to": {
+          "node": "ff",
+          "port": "in"
+        }
+      },
+      "ff:out>ni:b": {
+        "from": {
+          "node": "ff",
+          "port": "out"
+        },
+        "id": "ff:out>ni:b",
+        "to": {
+          "node": "ni",
+          "port": "b"
+        }
+      },
+      "nA:out>nm:a": {
+        "from": {
+          "node": "nA",
+          "port": "out"
+        },
+        "id": "nA:out>nm:a",
+        "to": {
+          "node": "nm",
+          "port": "a"
+        }
+      },
+      "nB:out>nm:b": {
+        "from": {
+          "node": "nB",
+          "port": "out"
+        },
+        "id": "nB:out>nm:b",
+        "to": {
+          "node": "nm",
+          "port": "b"
+        }
+      },
+      "nc:out>nw:a": {
+        "from": {
+          "node": "nc",
+          "port": "out"
+        },
+        "id": "nc:out>nw:a",
+        "to": {
+          "node": "nw",
+          "port": "a"
+        }
+      },
+      "nh:out>pi_noise:in": {
+        "from": {
+          "node": "nh",
+          "port": "out"
+        },
+        "id": "nh:out>pi_noise:in",
+        "to": {
+          "node": "pi_noise",
+          "port": "in"
+        }
+      },
+      "ni:out>tt0:a": {
+        "from": {
+          "node": "ni",
+          "port": "out"
+        },
+        "id": "ni:out>tt0:a",
+        "to": {
+          "node": "tt0",
+          "port": "a"
+        }
+      },
+      "nm:out>nh:a": {
+        "from": {
+          "node": "nm",
+          "port": "out"
+        },
+        "id": "nm:out>nh:a",
+        "to": {
+          "node": "nh",
+          "port": "a"
+        }
+      },
+      "nm:out>ni:a": {
+        "from": {
+          "node": "nm",
+          "port": "out"
+        },
+        "id": "nm:out>ni:a",
+        "to": {
+          "node": "ni",
+          "port": "a"
+        }
+      },
+      "nw:out>rg:b": {
+        "from": {
+          "node": "nw",
+          "port": "out"
+        },
+        "id": "nw:out>rg:b",
+        "to": {
+          "node": "rg",
+          "port": "b"
+        }
+      },
+      "p_coldColor_color:out>ramp:cold": {
+        "from": {
+          "node": "p_coldColor_color",
+          "port": "out"
+        },
+        "id": "p_coldColor_color:out>ramp:cold",
+        "to": {
+          "node": "ramp",
+          "port": "cold"
+        }
+      },
+      "p_coreColor_color:out>ca:b": {
+        "from": {
+          "node": "p_coreColor_color",
+          "port": "out"
+        },
+        "id": "p_coreColor_color:out>ca:b",
+        "to": {
+          "node": "ca",
+          "port": "b"
+        }
+      },
+      "p_coreSize_shape:out>cd:b": {
+        "from": {
+          "node": "p_coreSize_shape",
+          "port": "out"
+        },
+        "id": "p_coreSize_shape:out>cd:b",
+        "to": {
+          "node": "cd",
+          "port": "b"
+        }
+      },
+      "p_hotColor_color:out>ramp:hot": {
+        "from": {
+          "node": "p_hotColor_color",
+          "port": "out"
+        },
+        "id": "p_hotColor_color:out>ramp:hot",
+        "to": {
+          "node": "ramp",
+          "port": "hot"
+        }
+      },
+      "p_midColor_color:out>ramp:mid": {
+        "from": {
+          "node": "p_midColor_color",
+          "port": "out"
+        },
+        "id": "p_midColor_color:out>ramp:mid",
+        "to": {
+          "node": "ramp",
+          "port": "mid"
+        }
+      },
+      "p_noiseScale_swirl:out>nA:scale": {
+        "from": {
+          "node": "p_noiseScale_swirl",
+          "port": "out"
+        },
+        "id": "p_noiseScale_swirl:out>nA:scale",
+        "to": {
+          "node": "nA",
+          "port": "scale"
+        }
+      },
+      "p_noiseScale_swirl:out>sB:a": {
+        "from": {
+          "node": "p_noiseScale_swirl",
+          "port": "out"
+        },
+        "id": "p_noiseScale_swirl:out>sB:a",
+        "to": {
+          "node": "sB",
+          "port": "a"
+        }
+      },
+      "p_radius_shape:out>disc0:edge2": {
+        "from": {
+          "node": "p_radius_shape",
+          "port": "out"
+        },
+        "id": "p_radius_shape:out>disc0:edge2",
+        "to": {
+          "node": "disc0",
+          "port": "edge2"
+        }
+      },
+      "p_radius_shape:out>rim0:edge2": {
+        "from": {
+          "node": "p_radius_shape",
+          "port": "out"
+        },
+        "id": "p_radius_shape:out>rim0:edge2",
+        "to": {
+          "node": "rim0",
+          "port": "edge2"
+        }
+      },
+      "p_radius_shape:out>rs:a": {
+        "from": {
+          "node": "p_radius_shape",
+          "port": "out"
+        },
+        "id": "p_radius_shape:out>rs:a",
+        "to": {
+          "node": "rs",
+          "port": "a"
+        }
+      },
+      "p_radius_shape:out>rw:a": {
+        "from": {
+          "node": "p_radius_shape",
+          "port": "out"
+        },
+        "id": "p_radius_shape:out>rw:a",
+        "to": {
+          "node": "rw",
+          "port": "a"
+        }
+      },
+      "p_rimColor_color:out>ra:b": {
+        "from": {
+          "node": "p_rimColor_color",
+          "port": "out"
+        },
+        "id": "p_rimColor_color:out>ra:b",
+        "to": {
+          "node": "ra",
+          "port": "b"
+        }
+      },
+      "p_rimIntensity_color:out>ri:b": {
+        "from": {
+          "node": "p_rimIntensity_color",
+          "port": "out"
+        },
+        "id": "p_rimIntensity_color:out>ri:b",
+        "to": {
+          "node": "ri",
+          "port": "b"
+        }
+      },
+      "p_rimWidth_shape:out>rw:b": {
+        "from": {
+          "node": "p_rimWidth_shape",
+          "port": "out"
+        },
+        "id": "p_rimWidth_shape:out>rw:b",
+        "to": {
+          "node": "rw",
+          "port": "b"
+        }
+      },
+      "p_softness_shape:out>rs:b": {
+        "from": {
+          "node": "p_softness_shape",
+          "port": "out"
+        },
+        "id": "p_softness_shape:out>rs:b",
+        "to": {
+          "node": "rs",
+          "port": "b"
+        }
+      },
+      "p_spin_swirl:out>rA:b": {
+        "from": {
+          "node": "p_spin_swirl",
+          "port": "out"
+        },
+        "id": "p_spin_swirl:out>rA:b",
+        "to": {
+          "node": "rA",
+          "port": "b"
+        }
+      },
+      "p_twist_swirl:out>tw:strength": {
+        "from": {
+          "node": "p_twist_swirl",
+          "port": "out"
+        },
+        "id": "p_twist_swirl:out>tw:strength",
+        "to": {
+          "node": "tw",
+          "port": "strength"
+        }
+      },
+      "p_wobble_shape:out>nw:b": {
+        "from": {
+          "node": "p_wobble_shape",
+          "port": "out"
+        },
+        "id": "p_wobble_shape:out>nw:b",
+        "to": {
+          "node": "nw",
+          "port": "b"
+        }
+      },
+      "pc:a>al:b": {
+        "from": {
+          "node": "pc",
+          "port": "a"
+        },
+        "id": "pc:a>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "pc:rgb>tint:b": {
+        "from": {
+          "node": "pc",
+          "port": "rgb"
+        },
+        "id": "pc:rgb>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "po_noise_nc_a:out>nc:a": {
+        "from": {
+          "node": "po_noise_nc_a",
+          "port": "out"
+        },
+        "id": "po_noise_nc_a:out>nc:a",
+        "to": {
+          "node": "nc",
+          "port": "a"
+        }
+      },
+      "po_time_rA_a:out>rA:a": {
+        "from": {
+          "node": "po_time_rA_a",
+          "port": "out"
+        },
+        "id": "po_time_rA_a:out>rA:a",
+        "to": {
+          "node": "rA",
+          "port": "a"
+        }
+      },
+      "r:out>cd:a": {
+        "from": {
+          "node": "r",
+          "port": "out"
+        },
+        "id": "r:out>cd:a",
+        "to": {
+          "node": "cd",
+          "port": "a"
+        }
+      },
+      "r:out>fall:a": {
+        "from": {
+          "node": "r",
+          "port": "out"
+        },
+        "id": "r:out>fall:a",
+        "to": {
+          "node": "fall",
+          "port": "a"
+        }
+      },
+      "r:out>rg:a": {
+        "from": {
+          "node": "r",
+          "port": "out"
+        },
+        "id": "r:out>rg:a",
+        "to": {
+          "node": "rg",
+          "port": "a"
+        }
+      },
+      "rA:out>rB:a": {
+        "from": {
+          "node": "rA",
+          "port": "out"
+        },
+        "id": "rA:out>rB:a",
+        "to": {
+          "node": "rB",
+          "port": "a"
+        }
+      },
+      "rA:out>rotA:rotation": {
+        "from": {
+          "node": "rA",
+          "port": "out"
+        },
+        "id": "rA:out>rotA:rotation",
+        "to": {
+          "node": "rotA",
+          "port": "rotation"
+        }
+      },
+      "rB:out>rotB:rotation": {
+        "from": {
+          "node": "rB",
+          "port": "out"
+        },
+        "id": "rB:out>rotB:rotation",
+        "to": {
+          "node": "rotB",
+          "port": "rotation"
+        }
+      },
+      "ra:out>s1:b": {
+        "from": {
+          "node": "ra",
+          "port": "out"
+        },
+        "id": "ra:out>s1:b",
+        "to": {
+          "node": "s1",
+          "port": "b"
+        }
+      },
+      "ramp:color>s1:a": {
+        "from": {
+          "node": "ramp",
+          "port": "color"
+        },
+        "id": "ramp:color>s1:a",
+        "to": {
+          "node": "s1",
+          "port": "a"
+        }
+      },
+      "rg:out>disc0:in": {
+        "from": {
+          "node": "rg",
+          "port": "out"
+        },
+        "id": "rg:out>disc0:in",
+        "to": {
+          "node": "disc0",
+          "port": "in"
+        }
+      },
+      "rg:out>rim0:in": {
+        "from": {
+          "node": "rg",
+          "port": "out"
+        },
+        "id": "rg:out>rim0:in",
+        "to": {
+          "node": "rim0",
+          "port": "in"
+        }
+      },
+      "ri:out>ra:a": {
+        "from": {
+          "node": "ri",
+          "port": "out"
+        },
+        "id": "ri:out>ra:a",
+        "to": {
+          "node": "ra",
+          "port": "a"
+        }
+      },
+      "rim0:out>rim:a": {
+        "from": {
+          "node": "rim0",
+          "port": "out"
+        },
+        "id": "rim0:out>rim:a",
+        "to": {
+          "node": "rim",
+          "port": "a"
+        }
+      },
+      "rim:out>ri:a": {
+        "from": {
+          "node": "rim",
+          "port": "out"
+        },
+        "id": "rim:out>ri:a",
+        "to": {
+          "node": "ri",
+          "port": "a"
+        }
+      },
+      "rotA:out>nA:p": {
+        "from": {
+          "node": "rotA",
+          "port": "out"
+        },
+        "id": "rotA:out>nA:p",
+        "to": {
+          "node": "nA",
+          "port": "p"
+        }
+      },
+      "rotB:out>nB:p": {
+        "from": {
+          "node": "rotB",
+          "port": "out"
+        },
+        "id": "rotB:out>nB:p",
+        "to": {
+          "node": "nB",
+          "port": "p"
+        }
+      },
+      "rs:out>disc0:edge1": {
+        "from": {
+          "node": "rs",
+          "port": "out"
+        },
+        "id": "rs:out>disc0:edge1",
+        "to": {
+          "node": "disc0",
+          "port": "edge1"
+        }
+      },
+      "rw:out>rim0:edge1": {
+        "from": {
+          "node": "rw",
+          "port": "out"
+        },
+        "id": "rw:out>rim0:edge1",
+        "to": {
+          "node": "rim0",
+          "port": "edge1"
+        }
+      },
+      "s1:out>s2:a": {
+        "from": {
+          "node": "s1",
+          "port": "out"
+        },
+        "id": "s1:out>s2:a",
+        "to": {
+          "node": "s2",
+          "port": "a"
+        }
+      },
+      "s2:out>tint:a": {
+        "from": {
+          "node": "s2",
+          "port": "out"
+        },
+        "id": "s2:out>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "sB:out>nB:scale": {
+        "from": {
+          "node": "sB",
+          "port": "out"
+        },
+        "id": "sB:out>nB:scale",
+        "to": {
+          "node": "nB",
+          "port": "scale"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tint:out>master:baseColor": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "tt0:out>tt:in": {
+        "from": {
+          "node": "tt0",
+          "port": "out"
+        },
+        "id": "tt0:out>tt:in",
+        "to": {
+          "node": "tt",
+          "port": "in"
+        }
+      },
+      "tt:out>ramp:t": {
+        "from": {
+          "node": "tt",
+          "port": "out"
+        },
+        "id": "tt:out>ramp:t",
+        "to": {
+          "node": "ramp",
+          "port": "t"
+        }
+      },
+      "tw:out>rotA:uv": {
+        "from": {
+          "node": "tw",
+          "port": "out"
+        },
+        "id": "tw:out>rotA:uv",
+        "to": {
+          "node": "rotA",
+          "port": "uv"
+        }
+      },
+      "tw:out>rotB:uv": {
+        "from": {
+          "node": "tw",
+          "port": "out"
+        },
+        "id": "tw:out>rotB:uv",
+        "to": {
+          "node": "rotB",
+          "port": "uv"
+        }
+      },
+      "uv:out>d:a": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>d:a",
+        "to": {
+          "node": "d",
+          "port": "a"
+        }
+      },
+      "uv:out>tw:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>tw:uv",
+        "to": {
+          "node": "tw",
+          "port": "uv"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "t",
+          "pc",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 627,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_swirl",
+        "nodeIds": [
+          "tw",
+          "rA",
+          "rB",
+          "rotA",
+          "rotB",
+          "sB",
+          "nA",
+          "nB",
+          "nm",
+          "nh",
+          "p_twist_swirl",
+          "po_time_rA_a",
+          "p_spin_swirl",
+          "p_noiseScale_swirl",
+          "pi_noise"
+        ],
+        "rect": {
+          "h": 789,
+          "w": 2336,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Twirl + two counter-rotating layers"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_shape",
+        "nodeIds": [
+          "d",
+          "r",
+          "nc",
+          "nw",
+          "rg",
+          "rs",
+          "disc0",
+          "disc",
+          "rw",
+          "rim0",
+          "rim",
+          "cd",
+          "ci",
+          "cs",
+          "core",
+          "po_noise_nc_a",
+          "p_wobble_shape",
+          "p_radius_shape",
+          "p_softness_shape",
+          "p_rimWidth_shape",
+          "p_coreSize_shape"
+        ],
+        "rect": {
+          "h": 1146,
+          "w": 2116,
+          "x": 660,
+          "y": 859
+        },
+        "title": "Disc, ragged edge, core"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_color",
+        "nodeIds": [
+          "fall",
+          "ff",
+          "ni",
+          "cb",
+          "tt0",
+          "tt",
+          "ramp",
+          "rc",
+          "ri",
+          "ra",
+          "ca",
+          "s1",
+          "s2",
+          "tint",
+          "p_coldColor_color",
+          "p_midColor_color",
+          "p_hotColor_color",
+          "p_rimIntensity_color",
+          "p_rimColor_color",
+          "p_coreColor_color"
+        ],
+        "rect": {
+          "h": 1141,
+          "w": 2728,
+          "x": 3156,
+          "y": 0
+        },
+        "title": "Vortex colour + glow"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_alpha",
+        "nodeIds": [
+          "al"
+        ],
+        "rect": {
+          "h": 243,
+          "w": 344,
+          "x": 3156,
+          "y": 1211
+        },
+        "title": "Alpha"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 315,
+          "w": 344,
+          "x": 6044,
+          "y": 0
+        },
+        "title": "Master output (URP VFX Unlit, alpha)"
+      }
+    ],
+    "id": "vfx-portal-swirl",
+    "keywords": [],
+    "name": "Portal Swirl",
+    "nodes": {
+      "al": {
+        "defId": "multiply",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 3178,
+          "y": 1316
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ca": {
+        "defId": "multiply",
+        "id": "ca",
+        "params": {},
+        "position": {
+          "x": 3484,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cb": {
+        "defId": "multiply",
+        "id": "cb",
+        "params": {},
+        "position": {
+          "x": 3178,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "cd": {
+        "defId": "divide",
+        "id": "cd",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 964
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ci": {
+        "defId": "oneMinus",
+        "id": "ci",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 976
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "core": {
+        "defId": "multiply",
+        "id": "core",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 964
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cs": {
+        "defId": "saturate",
+        "id": "cs",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 976
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d": {
+        "defId": "distance",
+        "id": "d",
+        "params": {},
+        "position": {
+          "x": 682,
+          "y": 964
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "disc": {
+        "defId": "oneMinus",
+        "id": "disc",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 1715
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "disc0": {
+        "defId": "smoothstep",
+        "id": "disc0",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 1691
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fall": {
+        "defId": "multiply",
+        "id": "fall",
+        "params": {},
+        "position": {
+          "x": 3178,
+          "y": 647
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ff": {
+        "defId": "oneMinus",
+        "id": "ff",
+        "params": {},
+        "position": {
+          "x": 3484,
+          "y": 541
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 6066,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nA": {
+        "defId": "noiseFbm",
+        "id": "nA",
+        "params": {
+          "basis": "value",
+          "octaves": 3
+        },
+        "position": {
+          "x": 1600,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nB": {
+        "defId": "noiseFbm",
+        "id": "nB",
+        "params": {
+          "basis": "value",
+          "octaves": 3
+        },
+        "position": {
+          "x": 1906,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "seed": 4
+        }
+      },
+      "nc": {
+        "defId": "subtract",
+        "id": "nc",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1330
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "nh": {
+        "defId": "multiply",
+        "id": "nh",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "ni": {
+        "defId": "multiply",
+        "id": "ni",
+        "params": {},
+        "position": {
+          "x": 3790,
+          "y": 529
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nm": {
+        "defId": "add",
+        "id": "nm",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nw": {
+        "defId": "multiply",
+        "id": "nw",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1330
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coldColor_color": {
+        "defId": "property",
+        "id": "p_coldColor_color",
+        "params": {
+          "property": "coldColor"
+        },
+        "position": {
+          "x": 3178,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreColor_color": {
+        "defId": "property",
+        "id": "p_coreColor_color",
+        "params": {
+          "property": "coreColor"
+        },
+        "position": {
+          "x": 3178,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_coreSize_shape": {
+        "defId": "property",
+        "id": "p_coreSize_shape",
+        "params": {
+          "property": "coreSize"
+        },
+        "position": {
+          "x": 682,
+          "y": 1106
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_hotColor_color": {
+        "defId": "property",
+        "id": "p_hotColor_color",
+        "params": {
+          "property": "hotColor"
+        },
+        "position": {
+          "x": 3178,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_midColor_color": {
+        "defId": "property",
+        "id": "p_midColor_color",
+        "params": {
+          "property": "midColor"
+        },
+        "position": {
+          "x": 3178,
+          "y": 553
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseScale_swirl": {
+        "defId": "property",
+        "id": "p_noiseScale_swirl",
+        "params": {
+          "property": "noiseScale"
+        },
+        "position": {
+          "x": 682,
+          "y": 237
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_radius_shape": {
+        "defId": "property",
+        "id": "p_radius_shape",
+        "params": {
+          "property": "radius"
+        },
+        "position": {
+          "x": 682,
+          "y": 1727
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimColor_color": {
+        "defId": "property",
+        "id": "p_rimColor_color",
+        "params": {
+          "property": "rimColor"
+        },
+        "position": {
+          "x": 3178,
+          "y": 789
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimIntensity_color": {
+        "defId": "property",
+        "id": "p_rimIntensity_color",
+        "params": {
+          "property": "rimIntensity"
+        },
+        "position": {
+          "x": 3178,
+          "y": 883
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimWidth_shape": {
+        "defId": "property",
+        "id": "p_rimWidth_shape",
+        "params": {
+          "property": "rimWidth"
+        },
+        "position": {
+          "x": 682,
+          "y": 1821
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_shape": {
+        "defId": "property",
+        "id": "p_softness_shape",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 682,
+          "y": 1915
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_spin_swirl": {
+        "defId": "property",
+        "id": "p_spin_swirl",
+        "params": {
+          "property": "spin"
+        },
+        "position": {
+          "x": 682,
+          "y": 485
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_twist_swirl": {
+        "defId": "property",
+        "id": "p_twist_swirl",
+        "params": {
+          "property": "twist"
+        },
+        "position": {
+          "x": 682,
+          "y": 651
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_wobble_shape": {
+        "defId": "property",
+        "id": "p_wobble_shape",
+        "params": {
+          "property": "wobble"
+        },
+        "position": {
+          "x": 682,
+          "y": 1354
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pc": {
+        "defId": "particleColor",
+        "id": "pc",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_noise": {
+        "defId": "portalIn",
+        "id": "pi_noise",
+        "params": {
+          "channel": "Noise"
+        },
+        "position": {
+          "x": 2824,
+          "y": 254
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 362
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_noise_nc_a": {
+        "defId": "portalOut",
+        "id": "po_noise_nc_a",
+        "params": {
+          "channel": "Noise"
+        },
+        "position": {
+          "x": 682,
+          "y": 1448
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_rA_a": {
+        "defId": "portalOut",
+        "id": "po_time_rA_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 682,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "r": {
+        "defId": "multiply",
+        "id": "r",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 964
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2
+        }
+      },
+      "rA": {
+        "defId": "multiply",
+        "id": "rA",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 461
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rB": {
+        "defId": "multiply",
+        "id": "rB",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 627
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": -0.6
+        }
+      },
+      "ra": {
+        "defId": "multiply",
+        "id": "ra",
+        "params": {},
+        "position": {
+          "x": 3790,
+          "y": 671
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ramp": {
+        "defId": "subgraph",
+        "id": "ramp",
+        "label": "Vortex Ramp",
+        "params": {
+          "subgraph": "ks_color_ramp3"
+        },
+        "position": {
+          "x": 4708,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rc": {
+        "defId": "multiply",
+        "id": "rc",
+        "params": {},
+        "position": {
+          "x": 3178,
+          "y": 1003
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rg": {
+        "defId": "add",
+        "id": "rg",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1537
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ri": {
+        "defId": "multiply",
+        "id": "ri",
+        "params": {},
+        "position": {
+          "x": 3484,
+          "y": 741
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rim": {
+        "defId": "multiply",
+        "id": "rim",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 1703
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rim0": {
+        "defId": "smoothstep",
+        "id": "rim0",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 1525
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rotA": {
+        "defId": "uvRotate",
+        "id": "rotA",
+        "params": {
+          "unit": "turns"
+        },
+        "position": {
+          "x": 1294,
+          "y": 437
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rotB": {
+        "defId": "uvRotate",
+        "id": "rotB",
+        "params": {
+          "unit": "turns"
+        },
+        "position": {
+          "x": 1600,
+          "y": 603
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rs": {
+        "defId": "subtract",
+        "id": "rs",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1703
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rw": {
+        "defId": "subtract",
+        "id": "rw",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 1537
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s1": {
+        "defId": "add",
+        "id": "s1",
+        "params": {},
+        "position": {
+          "x": 5014,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "add",
+        "id": "s2",
+        "params": {},
+        "position": {
+          "x": 5320,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sB": {
+        "defId": "multiply",
+        "id": "sB",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 213
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1.7
+        }
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 297
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 5626,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt": {
+        "defId": "saturate",
+        "id": "tt",
+        "params": {},
+        "position": {
+          "x": 4402,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tt0": {
+        "defId": "add",
+        "id": "tt0",
+        "params": {},
+        "position": {
+          "x": 4096,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tw": {
+        "defId": "uvTwirl",
+        "id": "tw",
+        "params": {},
+        "position": {
+          "x": 988,
+          "y": 603
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 513
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.vfx-unlit",
+    "properties": [
+      {
+        "category": "Shape",
+        "default": 0.8,
+        "displayName": "Portal Radius",
+        "exposed": true,
+        "id": "radius",
+        "max": 0.95,
+        "min": 0.3,
+        "perInstance": false,
+        "referenceName": "_PortalRadius",
+        "slider": true,
+        "tooltip": "Radius of the disc as a share of the quad half-width.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.05,
+        "displayName": "Edge Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 0.3,
+        "min": 0.005,
+        "perInstance": false,
+        "referenceName": "_EdgeSoftness",
+        "slider": true,
+        "tooltip": "Width of the alpha fade at the disc edge.",
+        "type": "float"
+      },
+      {
+        "category": "Shape",
+        "default": 0.12,
+        "displayName": "Edge Wobble",
+        "exposed": true,
+        "id": "wobble",
+        "max": 0.4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeWobble",
+        "slider": true,
+        "tooltip": "How far the noise bites into the disc edge (0 = perfect circle).",
+        "type": "float"
+      },
+      {
+        "category": "Swirl",
+        "default": 6,
+        "displayName": "Twist",
+        "exposed": true,
+        "id": "twist",
+        "max": 20,
+        "min": -20,
+        "perInstance": false,
+        "referenceName": "_Twist",
+        "slider": true,
+        "tooltip": "Strength of the UV twirl: sign sets the spiral direction, 0 = straight noise.",
+        "type": "float"
+      },
+      {
+        "category": "Swirl",
+        "default": 0.12,
+        "displayName": "Spin Speed",
+        "exposed": true,
+        "id": "spin",
+        "max": 1,
+        "min": -1,
+        "perInstance": false,
+        "referenceName": "_SpinSpeed",
+        "slider": true,
+        "tooltip": "Rotation speed of the vortex in turns per second.",
+        "type": "float"
+      },
+      {
+        "category": "Swirl",
+        "default": 3,
+        "displayName": "Noise Scale",
+        "exposed": true,
+        "id": "noiseScale",
+        "max": 8,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_NoiseScale",
+        "slider": true,
+        "tooltip": "Frequency of the vortex noise (bigger = finer arms).",
+        "type": "float"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "srgb",
+        "default": [
+          0.05,
+          0.02,
+          0.18
+        ],
+        "displayName": "Outer Color",
+        "exposed": true,
+        "id": "coldColor",
+        "perInstance": false,
+        "referenceName": "_OuterColor",
+        "tooltip": "Vortex colour where the noise is low (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "srgb",
+        "default": [
+          0.4,
+          0.1,
+          0.85
+        ],
+        "displayName": "Mid Color",
+        "exposed": true,
+        "id": "midColor",
+        "perInstance": false,
+        "referenceName": "_MidColor",
+        "tooltip": "Vortex colour in the middle of the noise range (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Color",
+        "colorSpace": "srgb",
+        "default": [
+          0.5,
+          0.9,
+          1
+        ],
+        "displayName": "Bright Color",
+        "exposed": true,
+        "id": "hotColor",
+        "perInstance": false,
+        "referenceName": "_BrightColor",
+        "tooltip": "Vortex colour where the noise is high (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Glow",
+        "colorSpace": "linear",
+        "default": [
+          1.2,
+          2.4,
+          6
+        ],
+        "displayName": "Rim Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "rimColor",
+        "perInstance": false,
+        "referenceName": "_RimColor",
+        "tooltip": "HDR colour of the glowing rim (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Glow",
+        "default": 0.18,
+        "displayName": "Rim Width",
+        "exposed": true,
+        "id": "rimWidth",
+        "max": 0.5,
+        "min": 0.03,
+        "perInstance": false,
+        "referenceName": "_RimWidth",
+        "slider": true,
+        "tooltip": "Width of the glowing rim, measured inwards from the edge.",
+        "type": "float"
+      },
+      {
+        "category": "Glow",
+        "default": 1.5,
+        "displayName": "Rim Intensity",
+        "exposed": true,
+        "id": "rimIntensity",
+        "max": 5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimIntensity",
+        "slider": true,
+        "tooltip": "Brightness of the rim.",
+        "type": "float"
+      },
+      {
+        "category": "Glow",
+        "colorSpace": "linear",
+        "default": [
+          4,
+          3.2,
+          6
+        ],
+        "displayName": "Core Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "coreColor",
+        "perInstance": false,
+        "referenceName": "_CoreColor",
+        "tooltip": "HDR colour of the centre of the vortex (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Glow",
+        "default": 0.3,
+        "displayName": "Core Size",
+        "exposed": true,
+        "id": "coreSize",
+        "max": 0.8,
+        "min": 0.05,
+        "perInstance": false,
+        "referenceName": "_CoreSize",
+        "slider": true,
+        "tooltip": "Radius of the bright centre (share of the quad half-width).",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "blend": "alpha",
+      "cull": "off",
+      "zwrite": "off"
+    },
+    "subgraphDefs": {
+      "ks_color_ramp3": {
+        "comments": [
+          {
+            "color": "#fb923c",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 73,
+              "w": 848
+            },
+            "text": "**Color ramp** — `lerp(lerp(cold, mid, smoothstep(0, ½, t)), hot, smoothstep(½, 1, t))`.\nThe colours stay in the caller's colour space (HDR values keep their intensity, so a hot stop above 1 blooms). Use it instead of a gradient texture to keep a shader texture-free."
+          }
+        ],
+        "edges": {
+          "inputs:cold>l1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "cold"
+            },
+            "id": "inputs:cold>l1:a",
+            "to": {
+              "node": "l1",
+              "port": "a"
+            }
+          },
+          "inputs:hot>l2:b": {
+            "from": {
+              "node": "inputs",
+              "port": "hot"
+            },
+            "id": "inputs:hot>l2:b",
+            "to": {
+              "node": "l2",
+              "port": "b"
+            }
+          },
+          "inputs:mid>l1:b": {
+            "from": {
+              "node": "inputs",
+              "port": "mid"
+            },
+            "id": "inputs:mid>l1:b",
+            "to": {
+              "node": "l1",
+              "port": "b"
+            }
+          },
+          "inputs:t>s1:in": {
+            "from": {
+              "node": "inputs",
+              "port": "t"
+            },
+            "id": "inputs:t>s1:in",
+            "to": {
+              "node": "s1",
+              "port": "in"
+            }
+          },
+          "inputs:t>s2:in": {
+            "from": {
+              "node": "inputs",
+              "port": "t"
+            },
+            "id": "inputs:t>s2:in",
+            "to": {
+              "node": "s2",
+              "port": "in"
+            }
+          },
+          "l1:out>l2:a": {
+            "from": {
+              "node": "l1",
+              "port": "out"
+            },
+            "id": "l1:out>l2:a",
+            "to": {
+              "node": "l2",
+              "port": "a"
+            }
+          },
+          "l2:out>outputs:color": {
+            "from": {
+              "node": "l2",
+              "port": "out"
+            },
+            "id": "l2:out>outputs:color",
+            "to": {
+              "node": "outputs",
+              "port": "color"
+            }
+          },
+          "s1:out>l1:t": {
+            "from": {
+              "node": "s1",
+              "port": "out"
+            },
+            "id": "s1:out>l1:t",
+            "to": {
+              "node": "l1",
+              "port": "t"
+            }
+          },
+          "s2:out>l2:t": {
+            "from": {
+              "node": "s2",
+              "port": "out"
+            },
+            "id": "s2:out>l2:t",
+            "to": {
+              "node": "l2",
+              "port": "t"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fb923c",
+            "id": "grp_body",
+            "nodeIds": [
+              "s1",
+              "s2",
+              "l1",
+              "l2"
+            ],
+            "rect": {
+              "h": 467,
+              "w": 892,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Color Ramp (3 stops)"
+          }
+        ],
+        "id": "ks_color_ramp3",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "t",
+            "name": "Value",
+            "tooltip": "Ramp position, 0 (cold) … 1 (hot).",
+            "type": "float"
+          },
+          {
+            "default": [
+              0.1,
+              0,
+              0
+            ],
+            "id": "cold",
+            "name": "Cold",
+            "tooltip": "Colour at 0.",
+            "type": "color"
+          },
+          {
+            "default": [
+              1,
+              0.3,
+              0
+            ],
+            "id": "mid",
+            "name": "Mid",
+            "tooltip": "Colour at 0.5.",
+            "type": "color"
+          },
+          {
+            "default": [
+              1,
+              0.9,
+              0.4
+            ],
+            "id": "hot",
+            "name": "Hot",
+            "tooltip": "Colour at 1.",
+            "type": "color"
+          }
+        ],
+        "name": "Color Ramp (3 stops)",
+        "nodes": {
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "l1": {
+            "defId": "lerp",
+            "id": "l1",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "l2": {
+            "defId": "lerp",
+            "id": "l2",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1332,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "s1": {
+            "defId": "smoothstep",
+            "id": "s1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 139
+            },
+            "previewEnabled": false,
+            "values": {
+              "edge1": 0,
+              "edge2": 0.5
+            }
+          },
+          "s2": {
+            "defId": "smoothstep",
+            "id": "s2",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 305
+            },
+            "previewEnabled": false,
+            "values": {
+              "edge1": 0.5,
+              "edge2": 1
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "color",
+            "name": "Color",
+            "tooltip": "Interpolated colour.",
+            "type": "color"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "emitter": {
+        "colorOverLife": [
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 0
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "t": 0.08
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0.8
+            ],
+            "t": 0.75
+          },
+          {
+            "rgba": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "t": 1
+          }
+        ],
+        "gravity": [
+          0,
+          0,
+          0
+        ],
+        "lifetime": 5,
+        "lifetimeVar": 0,
+        "maxParticles": 3,
+        "rate": 0.5,
+        "sizeEnd": 2,
+        "sizeStart": 2,
+        "speed": 0,
+        "spread": 0
+      },
+      "grid": false,
+      "ground": "none",
+      "mode": "vfx",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

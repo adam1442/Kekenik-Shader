@@ -1,0 +1,2062 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_geo",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 762
+        },
+        "text": "World normal, view direction and the **tangent** (the brushing direction). The light direction parameter is normalised here."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_brush",
+        "position": {
+          "x": 988,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "Noise sampled at `(u × length, v × density)` — very stretched along U, very fine along V — gives parallel scratches. The value tints the metal slightly and shifts smoothness by `(n − ½) × contrast`."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_spec",
+        "position": {
+          "x": 3876,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "Two **Anisotropic Highlight** kits with opposite shifts: a tight primary and a wider secondary (exponent × ⅓) tinted with the metal colour. Both are masked by `saturate(N·L)` so the unlit side stays dark."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 6764,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "Fully metallic base with streak-varied smoothness; the anisotropic highlight is added as emission."
+      }
+    ],
+    "edges": {
+      "centered:out>dsm:a": {
+        "from": {
+          "node": "centered",
+          "port": "out"
+        },
+        "id": "centered:out>dsm:a",
+        "to": {
+          "node": "dsm",
+          "port": "a"
+        }
+      },
+      "dsm:out>sm0:b": {
+        "from": {
+          "node": "dsm",
+          "port": "out"
+        },
+        "id": "dsm:out>sm0:b",
+        "to": {
+          "node": "sm0",
+          "port": "b"
+        }
+      },
+      "dsm:out>tone0:a": {
+        "from": {
+          "node": "dsm",
+          "port": "out"
+        },
+        "id": "dsm:out>tone0:a",
+        "to": {
+          "node": "tone0",
+          "port": "a"
+        }
+      },
+      "e3:out>s2:exponent": {
+        "from": {
+          "node": "e3",
+          "port": "out"
+        },
+        "id": "e3:out>s2:exponent",
+        "to": {
+          "node": "s2",
+          "port": "exponent"
+        }
+      },
+      "em:out>master:emission": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "gain:out>em:a": {
+        "from": {
+          "node": "gain",
+          "port": "out"
+        },
+        "id": "gain:out>em:a",
+        "to": {
+          "node": "em",
+          "port": "a"
+        }
+      },
+      "l:out>nl0:b": {
+        "from": {
+          "node": "l",
+          "port": "out"
+        },
+        "id": "l:out>nl0:b",
+        "to": {
+          "node": "nl0",
+          "port": "b"
+        }
+      },
+      "l:out>pi_lightdir:in": {
+        "from": {
+          "node": "l",
+          "port": "out"
+        },
+        "id": "l:out>pi_lightdir:in",
+        "to": {
+          "node": "pi_lightdir",
+          "port": "in"
+        }
+      },
+      "l:out>s2:lightDir": {
+        "from": {
+          "node": "l",
+          "port": "out"
+        },
+        "id": "l:out>s2:lightDir",
+        "to": {
+          "node": "s2",
+          "port": "lightDir"
+        }
+      },
+      "lit:out>gain:a": {
+        "from": {
+          "node": "lit",
+          "port": "out"
+        },
+        "id": "lit:out>gain:a",
+        "to": {
+          "node": "gain",
+          "port": "a"
+        }
+      },
+      "n:out>centered:a": {
+        "from": {
+          "node": "n",
+          "port": "out"
+        },
+        "id": "n:out>centered:a",
+        "to": {
+          "node": "centered",
+          "port": "a"
+        }
+      },
+      "neg:out>s2:shift": {
+        "from": {
+          "node": "neg",
+          "port": "out"
+        },
+        "id": "neg:out>s2:shift",
+        "to": {
+          "node": "s2",
+          "port": "shift"
+        }
+      },
+      "nl0:out>nl:in": {
+        "from": {
+          "node": "nl0",
+          "port": "out"
+        },
+        "id": "nl0:out>nl:in",
+        "to": {
+          "node": "nl",
+          "port": "in"
+        }
+      },
+      "nl:out>lit:b": {
+        "from": {
+          "node": "nl",
+          "port": "out"
+        },
+        "id": "nl:out>lit:b",
+        "to": {
+          "node": "lit",
+          "port": "b"
+        }
+      },
+      "p:rg>n:p": {
+        "from": {
+          "node": "p",
+          "port": "rg"
+        },
+        "id": "p:rg>n:p",
+        "to": {
+          "node": "n",
+          "port": "p"
+        }
+      },
+      "p_contrast_brush:out>dsm:b": {
+        "from": {
+          "node": "p_contrast_brush",
+          "port": "out"
+        },
+        "id": "p_contrast_brush:out>dsm:b",
+        "to": {
+          "node": "dsm",
+          "port": "b"
+        }
+      },
+      "p_density_brush:out>py:b": {
+        "from": {
+          "node": "p_density_brush",
+          "port": "out"
+        },
+        "id": "p_density_brush:out>py:b",
+        "to": {
+          "node": "py",
+          "port": "b"
+        }
+      },
+      "p_exponent_spec:out>e3:a": {
+        "from": {
+          "node": "p_exponent_spec",
+          "port": "out"
+        },
+        "id": "p_exponent_spec:out>e3:a",
+        "to": {
+          "node": "e3",
+          "port": "a"
+        }
+      },
+      "p_exponent_spec:out>s1:exponent": {
+        "from": {
+          "node": "p_exponent_spec",
+          "port": "out"
+        },
+        "id": "p_exponent_spec:out>s1:exponent",
+        "to": {
+          "node": "s1",
+          "port": "exponent"
+        }
+      },
+      "p_intensity_spec:out>gain:b": {
+        "from": {
+          "node": "p_intensity_spec",
+          "port": "out"
+        },
+        "id": "p_intensity_spec:out>gain:b",
+        "to": {
+          "node": "gain",
+          "port": "b"
+        }
+      },
+      "p_lightColor_spec:out>em:b": {
+        "from": {
+          "node": "p_lightColor_spec",
+          "port": "out"
+        },
+        "id": "p_lightColor_spec:out>em:b",
+        "to": {
+          "node": "em",
+          "port": "b"
+        }
+      },
+      "p_lightDir_geo:out>l:in": {
+        "from": {
+          "node": "p_lightDir_geo",
+          "port": "out"
+        },
+        "id": "p_lightDir_geo:out>l:in",
+        "to": {
+          "node": "l",
+          "port": "in"
+        }
+      },
+      "p_metalColor_brush:out>tone:b": {
+        "from": {
+          "node": "p_metalColor_brush",
+          "port": "out"
+        },
+        "id": "p_metalColor_brush:out>tone:b",
+        "to": {
+          "node": "tone",
+          "port": "b"
+        }
+      },
+      "p_metallic_out:out>master:metallic": {
+        "from": {
+          "node": "p_metallic_out",
+          "port": "out"
+        },
+        "id": "p_metallic_out:out>master:metallic",
+        "to": {
+          "node": "master",
+          "port": "metallic"
+        }
+      },
+      "p_secondary_spec:out>sec:b": {
+        "from": {
+          "node": "p_secondary_spec",
+          "port": "out"
+        },
+        "id": "p_secondary_spec:out>sec:b",
+        "to": {
+          "node": "sec",
+          "port": "b"
+        }
+      },
+      "p_shift_spec:out>neg:in": {
+        "from": {
+          "node": "p_shift_spec",
+          "port": "out"
+        },
+        "id": "p_shift_spec:out>neg:in",
+        "to": {
+          "node": "neg",
+          "port": "in"
+        }
+      },
+      "p_shift_spec:out>s1:shift": {
+        "from": {
+          "node": "p_shift_spec",
+          "port": "out"
+        },
+        "id": "p_shift_spec:out>s1:shift",
+        "to": {
+          "node": "s1",
+          "port": "shift"
+        }
+      },
+      "p_smoothness_brush:out>sm0:a": {
+        "from": {
+          "node": "p_smoothness_brush",
+          "port": "out"
+        },
+        "id": "p_smoothness_brush:out>sm0:a",
+        "to": {
+          "node": "sm0",
+          "port": "a"
+        }
+      },
+      "p_stretch_brush:out>px:b": {
+        "from": {
+          "node": "p_stretch_brush",
+          "port": "out"
+        },
+        "id": "p_stretch_brush:out>px:b",
+        "to": {
+          "node": "px",
+          "port": "b"
+        }
+      },
+      "po_lightdir_s1_lightDir:out>s1:lightDir": {
+        "from": {
+          "node": "po_lightdir_s1_lightDir",
+          "port": "out"
+        },
+        "id": "po_lightdir_s1_lightDir:out>s1:lightDir",
+        "to": {
+          "node": "s1",
+          "port": "lightDir"
+        }
+      },
+      "po_tangent_s1_tangent:out>s1:tangent": {
+        "from": {
+          "node": "po_tangent_s1_tangent",
+          "port": "out"
+        },
+        "id": "po_tangent_s1_tangent:out>s1:tangent",
+        "to": {
+          "node": "s1",
+          "port": "tangent"
+        }
+      },
+      "po_viewdir_s1_viewDir:out>s1:viewDir": {
+        "from": {
+          "node": "po_viewdir_s1_viewDir",
+          "port": "out"
+        },
+        "id": "po_viewdir_s1_viewDir:out>s1:viewDir",
+        "to": {
+          "node": "s1",
+          "port": "viewDir"
+        }
+      },
+      "po_worldnormal_s1_normal:out>s1:normal": {
+        "from": {
+          "node": "po_worldnormal_s1_normal",
+          "port": "out"
+        },
+        "id": "po_worldnormal_s1_normal:out>s1:normal",
+        "to": {
+          "node": "s1",
+          "port": "normal"
+        }
+      },
+      "px:out>p:r": {
+        "from": {
+          "node": "px",
+          "port": "out"
+        },
+        "id": "px:out>p:r",
+        "to": {
+          "node": "p",
+          "port": "r"
+        }
+      },
+      "py:out>p:g": {
+        "from": {
+          "node": "py",
+          "port": "out"
+        },
+        "id": "py:out>p:g",
+        "to": {
+          "node": "p",
+          "port": "g"
+        }
+      },
+      "s1:spec>sum:a": {
+        "from": {
+          "node": "s1",
+          "port": "spec"
+        },
+        "id": "s1:spec>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "s2:spec>sec:a": {
+        "from": {
+          "node": "s2",
+          "port": "spec"
+        },
+        "id": "s2:spec>sec:a",
+        "to": {
+          "node": "sec",
+          "port": "a"
+        }
+      },
+      "sec:out>secTint:a": {
+        "from": {
+          "node": "sec",
+          "port": "out"
+        },
+        "id": "sec:out>secTint:a",
+        "to": {
+          "node": "secTint",
+          "port": "a"
+        }
+      },
+      "secTint:out>sum:b": {
+        "from": {
+          "node": "secTint",
+          "port": "out"
+        },
+        "id": "secTint:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "sm0:out>sm:in": {
+        "from": {
+          "node": "sm0",
+          "port": "out"
+        },
+        "id": "sm0:out>sm:in",
+        "to": {
+          "node": "sm",
+          "port": "in"
+        }
+      },
+      "sm:out>master:smoothness": {
+        "from": {
+          "node": "sm",
+          "port": "out"
+        },
+        "id": "sm:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "sum:out>lit:a": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>lit:a",
+        "to": {
+          "node": "lit",
+          "port": "a"
+        }
+      },
+      "tan:out>pi_tangent:in": {
+        "from": {
+          "node": "tan",
+          "port": "out"
+        },
+        "id": "tan:out>pi_tangent:in",
+        "to": {
+          "node": "pi_tangent",
+          "port": "in"
+        }
+      },
+      "tan:out>s2:tangent": {
+        "from": {
+          "node": "tan",
+          "port": "out"
+        },
+        "id": "tan:out>s2:tangent",
+        "to": {
+          "node": "s2",
+          "port": "tangent"
+        }
+      },
+      "tone0:out>tone1:a": {
+        "from": {
+          "node": "tone0",
+          "port": "out"
+        },
+        "id": "tone0:out>tone1:a",
+        "to": {
+          "node": "tone1",
+          "port": "a"
+        }
+      },
+      "tone1:out>tone:a": {
+        "from": {
+          "node": "tone1",
+          "port": "out"
+        },
+        "id": "tone1:out>tone:a",
+        "to": {
+          "node": "tone",
+          "port": "a"
+        }
+      },
+      "tone:out>master:baseColor": {
+        "from": {
+          "node": "tone",
+          "port": "out"
+        },
+        "id": "tone:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "tone:out>secTint:b": {
+        "from": {
+          "node": "tone",
+          "port": "out"
+        },
+        "id": "tone:out>secTint:b",
+        "to": {
+          "node": "secTint",
+          "port": "b"
+        }
+      },
+      "us:g>py:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>py:a",
+        "to": {
+          "node": "py",
+          "port": "a"
+        }
+      },
+      "us:r>px:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>px:a",
+        "to": {
+          "node": "px",
+          "port": "a"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      },
+      "v:out>pi_viewdir:in": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>pi_viewdir:in",
+        "to": {
+          "node": "pi_viewdir",
+          "port": "in"
+        }
+      },
+      "v:out>s2:viewDir": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>s2:viewDir",
+        "to": {
+          "node": "s2",
+          "port": "viewDir"
+        }
+      },
+      "wn:out>nl0:a": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>nl0:a",
+        "to": {
+          "node": "nl0",
+          "port": "a"
+        }
+      },
+      "wn:out>pi_worldnormal:in": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>pi_worldnormal:in",
+        "to": {
+          "node": "pi_worldnormal",
+          "port": "in"
+        }
+      },
+      "wn:out>s2:normal": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>s2:normal",
+        "to": {
+          "node": "s2",
+          "port": "normal"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_geo",
+        "nodeIds": [
+          "wn",
+          "v",
+          "tan",
+          "uv",
+          "l",
+          "us",
+          "p_lightDir_geo",
+          "pi_tangent",
+          "pi_worldnormal",
+          "pi_viewdir",
+          "pi_lightdir"
+        ],
+        "rect": {
+          "h": 884,
+          "w": 806,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Geometry"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_brush",
+        "nodeIds": [
+          "px",
+          "py",
+          "p",
+          "n",
+          "centered",
+          "dsm",
+          "sm0",
+          "sm",
+          "tone0",
+          "tone1",
+          "tone",
+          "p_stretch_brush",
+          "p_density_brush",
+          "p_contrast_brush",
+          "p_smoothness_brush",
+          "p_metalColor_brush"
+        ],
+        "rect": {
+          "h": 687,
+          "w": 2728,
+          "x": 966,
+          "y": 0
+        },
+        "title": "Brush streaks"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_spec",
+        "nodeIds": [
+          "s1",
+          "s2",
+          "neg",
+          "e3",
+          "sec",
+          "secTint",
+          "sum",
+          "nl0",
+          "nl",
+          "lit",
+          "gain",
+          "em",
+          "po_tangent_s1_tangent",
+          "po_worldnormal_s1_normal",
+          "po_viewdir_s1_viewDir",
+          "po_lightdir_s1_lightDir",
+          "p_exponent_spec",
+          "p_shift_spec",
+          "p_secondary_spec",
+          "p_intensity_spec",
+          "p_lightColor_spec"
+        ],
+        "rect": {
+          "h": 1997,
+          "w": 2728,
+          "x": 3854,
+          "y": 0
+        },
+        "title": "Anisotropic highlights"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_metallic_out"
+        ],
+        "rect": {
+          "h": 548,
+          "w": 586,
+          "x": 6742,
+          "y": 0
+        },
+        "title": "Master output (URP Lit)"
+      }
+    ],
+    "id": "brushed-metal",
+    "keywords": [],
+    "name": "Brushed Anisotropic Metal",
+    "nodes": {
+      "centered": {
+        "defId": "subtract",
+        "id": "centered",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 197
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "dsm": {
+        "defId": "multiply",
+        "id": "dsm",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 197
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "e3": {
+        "defId": "multiply",
+        "id": "e3",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 875
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.33
+        }
+      },
+      "em": {
+        "defId": "multiply",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "gain": {
+        "defId": "multiply",
+        "id": "gain",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "l": {
+        "defId": "normalize",
+        "id": "l",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lit": {
+        "defId": "multiply",
+        "id": "lit",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 7070,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "n": {
+        "defId": "noiseValue",
+        "id": "n",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 149
+        },
+        "previewEnabled": false,
+        "values": {
+          "scale": 1
+        }
+      },
+      "neg": {
+        "defId": "negate",
+        "id": "neg",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 1123
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nl": {
+        "defId": "saturate",
+        "id": "nl",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 1241
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nl0": {
+        "defId": "dot",
+        "id": "nl0",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 1525
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p": {
+        "defId": "combine",
+        "id": "p",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 149
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_contrast_brush": {
+        "defId": "property",
+        "id": "p_contrast_brush",
+        "params": {
+          "property": "contrast"
+        },
+        "position": {
+          "x": 988,
+          "y": 221
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_density_brush": {
+        "defId": "property",
+        "id": "p_density_brush",
+        "params": {
+          "property": "density"
+        },
+        "position": {
+          "x": 988,
+          "y": 503
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_exponent_spec": {
+        "defId": "property",
+        "id": "p_exponent_spec",
+        "params": {
+          "property": "exponent"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1431
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_spec": {
+        "defId": "property",
+        "id": "p_intensity_spec",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 3876,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lightColor_spec": {
+        "defId": "property",
+        "id": "p_lightColor_spec",
+        "params": {
+          "property": "lightColor"
+        },
+        "position": {
+          "x": 3876,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lightDir_geo": {
+        "defId": "property",
+        "id": "p_lightDir_geo",
+        "params": {
+          "property": "lightDir"
+        },
+        "position": {
+          "x": 22,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_metalColor_brush": {
+        "defId": "property",
+        "id": "p_metalColor_brush",
+        "params": {
+          "property": "metalColor"
+        },
+        "position": {
+          "x": 988,
+          "y": 315
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_metallic_out": {
+        "defId": "property",
+        "id": "p_metallic_out",
+        "params": {
+          "property": "metallic"
+        },
+        "position": {
+          "x": 6764,
+          "y": 290
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_secondary_spec": {
+        "defId": "property",
+        "id": "p_secondary_spec",
+        "params": {
+          "property": "secondary"
+        },
+        "position": {
+          "x": 3876,
+          "y": 317
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shift_spec": {
+        "defId": "property",
+        "id": "p_shift_spec",
+        "params": {
+          "property": "shift"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1667
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_brush": {
+        "defId": "property",
+        "id": "p_smoothness_brush",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 988,
+          "y": 597
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_stretch_brush": {
+        "defId": "property",
+        "id": "p_stretch_brush",
+        "params": {
+          "property": "stretch"
+        },
+        "position": {
+          "x": 988,
+          "y": 409
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_lightdir": {
+        "defId": "portalIn",
+        "id": "pi_lightdir",
+        "params": {
+          "channel": "LightDir"
+        },
+        "position": {
+          "x": 634,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_tangent": {
+        "defId": "portalIn",
+        "id": "pi_tangent",
+        "params": {
+          "channel": "Tangent"
+        },
+        "position": {
+          "x": 328,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_viewdir": {
+        "defId": "portalIn",
+        "id": "pi_viewdir",
+        "params": {
+          "channel": "ViewDir"
+        },
+        "position": {
+          "x": 328,
+          "y": 439
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_worldnormal": {
+        "defId": "portalIn",
+        "id": "pi_worldnormal",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 328,
+          "y": 583
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_lightdir_s1_lightDir": {
+        "defId": "portalOut",
+        "id": "po_lightdir_s1_lightDir",
+        "params": {
+          "channel": "LightDir"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1761
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_tangent_s1_tangent": {
+        "defId": "portalOut",
+        "id": "po_tangent_s1_tangent",
+        "params": {
+          "channel": "Tangent"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1821
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_viewdir_s1_viewDir": {
+        "defId": "portalOut",
+        "id": "po_viewdir_s1_viewDir",
+        "params": {
+          "channel": "ViewDir"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1881
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_worldnormal_s1_normal": {
+        "defId": "portalOut",
+        "id": "po_worldnormal_s1_normal",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 3876,
+          "y": 1941
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "px": {
+        "defId": "multiply",
+        "id": "px",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 197
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "py": {
+        "defId": "multiply",
+        "id": "py",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 339
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s1": {
+        "defId": "subgraph",
+        "id": "s1",
+        "label": "Primary",
+        "params": {
+          "subgraph": "ks_aniso_spec"
+        },
+        "position": {
+          "x": 4182,
+          "y": 1359
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "subgraph",
+        "id": "s2",
+        "label": "Secondary",
+        "params": {
+          "subgraph": "ks_aniso_spec"
+        },
+        "position": {
+          "x": 4488,
+          "y": 827
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sec": {
+        "defId": "multiply",
+        "id": "sec",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "secTint": {
+        "defId": "multiply",
+        "id": "secTint",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sm": {
+        "defId": "saturate",
+        "id": "sm",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sm0": {
+        "defId": "add",
+        "id": "sm0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 199
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tan": {
+        "defId": "meshTangent",
+        "id": "tan",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tone": {
+        "defId": "multiply",
+        "id": "tone",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tone0": {
+        "defId": "multiply",
+        "id": "tone0",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tone1": {
+        "defId": "add",
+        "id": "tone1",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.9
+        }
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 698
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 734
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "v": {
+        "defId": "viewDirection",
+        "id": "v",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 410
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wn": {
+        "defId": "normal",
+        "id": "wn",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 554
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Surface",
+        "colorSpace": "srgb",
+        "default": [
+          0.78,
+          0.8,
+          0.84
+        ],
+        "displayName": "Metal Color",
+        "exposed": true,
+        "id": "metalColor",
+        "perInstance": false,
+        "referenceName": "_MetalColor",
+        "tooltip": "Tint of the metal (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "default": 1,
+        "displayName": "Metallic",
+        "exposed": true,
+        "id": "metallic",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Metallic",
+        "slider": true,
+        "tooltip": "Metallic factor.",
+        "type": "float"
+      },
+      {
+        "category": "Surface",
+        "default": 0.55,
+        "displayName": "Base Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BaseSmoothness",
+        "slider": true,
+        "tooltip": "Average smoothness before the brush streaks.",
+        "type": "float"
+      },
+      {
+        "category": "Brush",
+        "default": 160,
+        "displayName": "Brush Density",
+        "exposed": true,
+        "id": "density",
+        "max": 600,
+        "min": 20,
+        "perInstance": false,
+        "referenceName": "_BrushDensity",
+        "slider": true,
+        "tooltip": "Streaks across the brushing direction (V).",
+        "type": "float"
+      },
+      {
+        "category": "Brush",
+        "default": 1.5,
+        "displayName": "Brush Length",
+        "exposed": true,
+        "id": "stretch",
+        "max": 8,
+        "min": 0.25,
+        "perInstance": false,
+        "referenceName": "_BrushLength",
+        "slider": true,
+        "tooltip": "Noise cells along the brushing direction (U): lower = longer streaks.",
+        "type": "float"
+      },
+      {
+        "category": "Brush",
+        "default": 0.35,
+        "displayName": "Brush Contrast",
+        "exposed": true,
+        "id": "contrast",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BrushContrast",
+        "slider": true,
+        "tooltip": "How much the streaks vary smoothness and tint.",
+        "type": "float"
+      },
+      {
+        "category": "Highlight",
+        "default": [
+          0.5,
+          0.7,
+          0.5
+        ],
+        "displayName": "Light Direction",
+        "exposed": true,
+        "id": "lightDir",
+        "perInstance": false,
+        "referenceName": "_LightDirection",
+        "tooltip": "Direction FROM the surface TOWARDS the light (world space, normalised in the graph). Drive it from your light's script.",
+        "type": "vec3"
+      },
+      {
+        "category": "Highlight",
+        "colorSpace": "linear",
+        "default": [
+          1.4,
+          1.35,
+          1.25
+        ],
+        "displayName": "Light Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "lightColor",
+        "perInstance": false,
+        "referenceName": "_LightColor",
+        "tooltip": "HDR colour of the highlight light.",
+        "type": "color"
+      },
+      {
+        "category": "Highlight",
+        "default": 90,
+        "displayName": "Highlight Tightness",
+        "exposed": true,
+        "id": "exponent",
+        "max": 400,
+        "min": 8,
+        "perInstance": false,
+        "referenceName": "_HighlightTightness",
+        "slider": true,
+        "tooltip": "Exponent of the primary highlight (higher = thinner streak).",
+        "type": "float"
+      },
+      {
+        "category": "Highlight",
+        "default": 0.15,
+        "displayName": "Highlight Shift",
+        "exposed": true,
+        "id": "shift",
+        "max": 1,
+        "min": -1,
+        "perInstance": false,
+        "referenceName": "_HighlightShift",
+        "slider": true,
+        "tooltip": "Moves the primary highlight along the normal; the secondary uses the opposite sign.",
+        "type": "float"
+      },
+      {
+        "category": "Highlight",
+        "default": 1.4,
+        "displayName": "Highlight Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 6,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_HighlightIntensity",
+        "slider": true,
+        "tooltip": "Brightness of both highlights.",
+        "type": "float"
+      },
+      {
+        "category": "Highlight",
+        "default": 0.6,
+        "displayName": "Secondary Strength",
+        "exposed": true,
+        "id": "secondary",
+        "max": 2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SecondaryStrength",
+        "slider": true,
+        "tooltip": "Strength of the tinted second highlight (0 = off).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_aniso_spec": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 2378
+            },
+            "text": "**Kajiya–Kay** — with `T' = normalize(T + N·shift)` and half vector `H = normalize(L + V)`: `highlight = (1 − (T'·H)²)^(exponent/2)`.\nThe streak is perpendicular to the brushing direction and stretches along the surface — the signature look of brushed metal. Multiply by the light colour and `saturate(N·L)` outside."
+          }
+        ],
+        "edges": {
+          "h:out>th:b": {
+            "from": {
+              "node": "h",
+              "port": "out"
+            },
+            "id": "h:out>th:b",
+            "to": {
+              "node": "th",
+              "port": "b"
+            }
+          },
+          "half:out>pw:b": {
+            "from": {
+              "node": "half",
+              "port": "out"
+            },
+            "id": "half:out>pw:b",
+            "to": {
+              "node": "pw",
+              "port": "b"
+            }
+          },
+          "inputs:exponent>half:a": {
+            "from": {
+              "node": "inputs",
+              "port": "exponent"
+            },
+            "id": "inputs:exponent>half:a",
+            "to": {
+              "node": "half",
+              "port": "a"
+            }
+          },
+          "inputs:lightDir>lv:a": {
+            "from": {
+              "node": "inputs",
+              "port": "lightDir"
+            },
+            "id": "inputs:lightDir>lv:a",
+            "to": {
+              "node": "lv",
+              "port": "a"
+            }
+          },
+          "inputs:normal>sh:a": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>sh:a",
+            "to": {
+              "node": "sh",
+              "port": "a"
+            }
+          },
+          "inputs:shift>sh:b": {
+            "from": {
+              "node": "inputs",
+              "port": "shift"
+            },
+            "id": "inputs:shift>sh:b",
+            "to": {
+              "node": "sh",
+              "port": "b"
+            }
+          },
+          "inputs:tangent>tp:a": {
+            "from": {
+              "node": "inputs",
+              "port": "tangent"
+            },
+            "id": "inputs:tangent>tp:a",
+            "to": {
+              "node": "tp",
+              "port": "a"
+            }
+          },
+          "inputs:viewDir>lv:b": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>lv:b",
+            "to": {
+              "node": "lv",
+              "port": "b"
+            }
+          },
+          "lv:out>h:in": {
+            "from": {
+              "node": "lv",
+              "port": "out"
+            },
+            "id": "lv:out>h:in",
+            "to": {
+              "node": "h",
+              "port": "in"
+            }
+          },
+          "pos:out>pw:a": {
+            "from": {
+              "node": "pos",
+              "port": "out"
+            },
+            "id": "pos:out>pw:a",
+            "to": {
+              "node": "pw",
+              "port": "a"
+            }
+          },
+          "pw:out>outputs:spec": {
+            "from": {
+              "node": "pw",
+              "port": "out"
+            },
+            "id": "pw:out>outputs:spec",
+            "to": {
+              "node": "outputs",
+              "port": "spec"
+            }
+          },
+          "sh:out>tp:b": {
+            "from": {
+              "node": "sh",
+              "port": "out"
+            },
+            "id": "sh:out>tp:b",
+            "to": {
+              "node": "tp",
+              "port": "b"
+            }
+          },
+          "sinTH2:out>pos:a": {
+            "from": {
+              "node": "sinTH2",
+              "port": "out"
+            },
+            "id": "sinTH2:out>pos:a",
+            "to": {
+              "node": "pos",
+              "port": "a"
+            }
+          },
+          "th2:out>sinTH2:in": {
+            "from": {
+              "node": "th2",
+              "port": "out"
+            },
+            "id": "th2:out>sinTH2:in",
+            "to": {
+              "node": "sinTH2",
+              "port": "in"
+            }
+          },
+          "th:out>th2:a": {
+            "from": {
+              "node": "th",
+              "port": "out"
+            },
+            "id": "th:out>th2:a",
+            "to": {
+              "node": "th2",
+              "port": "a"
+            }
+          },
+          "th:out>th2:b": {
+            "from": {
+              "node": "th",
+              "port": "out"
+            },
+            "id": "th:out>th2:b",
+            "to": {
+              "node": "th2",
+              "port": "b"
+            }
+          },
+          "tn:out>th:a": {
+            "from": {
+              "node": "tn",
+              "port": "out"
+            },
+            "id": "tn:out>th:a",
+            "to": {
+              "node": "th",
+              "port": "a"
+            }
+          },
+          "tp:out>tn:in": {
+            "from": {
+              "node": "tp",
+              "port": "out"
+            },
+            "id": "tp:out>tn:in",
+            "to": {
+              "node": "tn",
+              "port": "in"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "sh",
+              "tp",
+              "tn",
+              "lv",
+              "h",
+              "th",
+              "th2",
+              "sinTH2",
+              "pos",
+              "half",
+              "pw"
+            ],
+            "rect": {
+              "h": 544,
+              "w": 2422,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Anisotropic Highlight"
+          }
+        ],
+        "id": "ks_aniso_spec",
+        "inputs": [
+          {
+            "default": [
+              1,
+              0,
+              0
+            ],
+            "id": "tangent",
+            "name": "Tangent",
+            "tooltip": "Brushing direction in world space (mesh tangent).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "World normal (used to shift the highlight along the surface).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Dir",
+            "tooltip": "World direction towards the camera.",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "lightDir",
+            "name": "Light Dir",
+            "tooltip": "World direction towards the light.",
+            "type": "vec3"
+          },
+          {
+            "default": 60,
+            "id": "exponent",
+            "name": "Exponent",
+            "tooltip": "Highlight tightness (larger = narrower streak).",
+            "type": "float"
+          },
+          {
+            "default": 0,
+            "id": "shift",
+            "name": "Shift",
+            "tooltip": "Moves the highlight along the normal (−1…1).",
+            "type": "float"
+          }
+        ],
+        "name": "Anisotropic Highlight",
+        "nodes": {
+          "h": {
+            "defId": "normalize",
+            "id": "h",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "half": {
+            "defId": "multiply",
+            "id": "half",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "lv": {
+            "defId": "add",
+            "id": "lv",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 2862,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "pos": {
+            "defId": "maximum",
+            "id": "pos",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.0001
+            }
+          },
+          "pw": {
+            "defId": "power",
+            "id": "pw",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sh": {
+            "defId": "multiply",
+            "id": "sh",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 406
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sinTH2": {
+            "defId": "oneMinus",
+            "id": "sinTH2",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "th": {
+            "defId": "dot",
+            "id": "th",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "th2": {
+            "defId": "multiply",
+            "id": "th2",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tn": {
+            "defId": "normalize",
+            "id": "tn",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tp": {
+            "defId": "add",
+            "id": "tp",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "spec",
+            "name": "Highlight",
+            "tooltip": "Highlight intensity ≥ 0 (before light colour / N·L).",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "envIntensity": 1,
+      "grid": false,
+      "lightAzimuth": 40,
+      "lightElevation": 45,
+      "lightIntensity": 1.2,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "torus",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

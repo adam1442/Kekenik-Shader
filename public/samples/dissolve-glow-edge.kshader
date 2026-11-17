@@ -1,0 +1,1481 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "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",
+        "id": "sample.dissolve-glow-edge.noiseTex",
+        "mime": "image/png",
+        "name": "dissolve-noise.png"
+      }
+    ],
+    "bindings": {
+      "noiseTex": "sample.dissolve-glow-edge.noiseTex"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_geo",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 456
+        },
+        "text": "World position + normal feed the triplanar projection (shared through portals)."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_noise",
+        "position": {
+          "x": 682,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "The noise texture is projected on three axes (**Triplanar** kit) and the red channel is the dissolve pattern — dark = gone first."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_cut",
+        "position": {
+          "x": 1734,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Soft Dissolve** kit turns *noise + amount* into an alpha mask and a thin edge band. Alpha feeds the alpha-clip; the band feeds emission."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_emit",
+        "position": {
+          "x": 2480,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "`emission = edge × edge colour` (HDR). The surface itself stays a plain tinted dielectric."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_out",
+        "position": {
+          "x": 3226,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Alpha clip is enabled in the graph settings; the threshold is 0.5."
+      }
+    ],
+    "edges": {
+      "dis:alpha>master:alpha": {
+        "from": {
+          "node": "dis",
+          "port": "alpha"
+        },
+        "id": "dis:alpha>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "dis:edge>glow:a": {
+        "from": {
+          "node": "dis",
+          "port": "edge"
+        },
+        "id": "dis:edge>glow:a",
+        "to": {
+          "node": "glow",
+          "port": "a"
+        }
+      },
+      "glow:out>master:emission": {
+        "from": {
+          "node": "glow",
+          "port": "out"
+        },
+        "id": "glow:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "half:out>master:alphaClipThreshold": {
+        "from": {
+          "node": "half",
+          "port": "out"
+        },
+        "id": "half:out>master:alphaClipThreshold",
+        "to": {
+          "node": "master",
+          "port": "alphaClipThreshold"
+        }
+      },
+      "p_amount_cut:out>dis:amount": {
+        "from": {
+          "node": "p_amount_cut",
+          "port": "out"
+        },
+        "id": "p_amount_cut:out>dis:amount",
+        "to": {
+          "node": "dis",
+          "port": "amount"
+        }
+      },
+      "p_baseTint_out:out>master:baseColor": {
+        "from": {
+          "node": "p_baseTint_out",
+          "port": "out"
+        },
+        "id": "p_baseTint_out:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "p_edgeColor_emit:out>glow:b": {
+        "from": {
+          "node": "p_edgeColor_emit",
+          "port": "out"
+        },
+        "id": "p_edgeColor_emit:out>glow:b",
+        "to": {
+          "node": "glow",
+          "port": "b"
+        }
+      },
+      "p_edgeWidth_cut:out>dis:edgeWidth": {
+        "from": {
+          "node": "p_edgeWidth_cut",
+          "port": "out"
+        },
+        "id": "p_edgeWidth_cut:out>dis:edgeWidth",
+        "to": {
+          "node": "dis",
+          "port": "edgeWidth"
+        }
+      },
+      "p_noiseTex_noise:out>tri:tex": {
+        "from": {
+          "node": "p_noiseTex_noise",
+          "port": "out"
+        },
+        "id": "p_noiseTex_noise:out>tri:tex",
+        "to": {
+          "node": "tri",
+          "port": "tex"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "p_softness_cut:out>dis:softness": {
+        "from": {
+          "node": "p_softness_cut",
+          "port": "out"
+        },
+        "id": "p_softness_cut:out>dis:softness",
+        "to": {
+          "node": "dis",
+          "port": "softness"
+        }
+      },
+      "p_tile_noise:out>tri:tile": {
+        "from": {
+          "node": "p_tile_noise",
+          "port": "out"
+        },
+        "id": "p_tile_noise:out>tri:tile",
+        "to": {
+          "node": "tri",
+          "port": "tile"
+        }
+      },
+      "po_worldnormal_tri_normal:out>tri:normal": {
+        "from": {
+          "node": "po_worldnormal_tri_normal",
+          "port": "out"
+        },
+        "id": "po_worldnormal_tri_normal:out>tri:normal",
+        "to": {
+          "node": "tri",
+          "port": "normal"
+        }
+      },
+      "po_worldpos_tri_pos:out>tri:pos": {
+        "from": {
+          "node": "po_worldpos_tri_pos",
+          "port": "out"
+        },
+        "id": "po_worldpos_tri_pos:out>tri:pos",
+        "to": {
+          "node": "tri",
+          "port": "pos"
+        }
+      },
+      "r:r>dis:noise": {
+        "from": {
+          "node": "r",
+          "port": "r"
+        },
+        "id": "r:r>dis:noise",
+        "to": {
+          "node": "dis",
+          "port": "noise"
+        }
+      },
+      "tri:rgb>r:in": {
+        "from": {
+          "node": "tri",
+          "port": "rgb"
+        },
+        "id": "tri:rgb>r:in",
+        "to": {
+          "node": "r",
+          "port": "in"
+        }
+      },
+      "wnrm:out>pi_worldnormal:in": {
+        "from": {
+          "node": "wnrm",
+          "port": "out"
+        },
+        "id": "wnrm:out>pi_worldnormal:in",
+        "to": {
+          "node": "pi_worldnormal",
+          "port": "in"
+        }
+      },
+      "wpos:out>pi_worldpos:in": {
+        "from": {
+          "node": "wpos",
+          "port": "out"
+        },
+        "id": "wpos:out>pi_worldpos:in",
+        "to": {
+          "node": "pi_worldpos",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_geo",
+        "nodeIds": [
+          "wpos",
+          "wnrm",
+          "pi_worldpos",
+          "pi_worldnormal"
+        ],
+        "rect": {
+          "h": 380,
+          "w": 500,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Geometry"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_noise",
+        "nodeIds": [
+          "tri",
+          "r",
+          "po_worldpos_tri_pos",
+          "po_worldnormal_tri_normal",
+          "p_noiseTex_noise",
+          "p_tile_noise"
+        ],
+        "rect": {
+          "h": 498,
+          "w": 892,
+          "x": 660,
+          "y": 0
+        },
+        "title": "Triplanar noise"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_cut",
+        "nodeIds": [
+          "dis",
+          "p_amount_cut",
+          "p_edgeWidth_cut",
+          "p_softness_cut"
+        ],
+        "rect": {
+          "h": 460,
+          "w": 586,
+          "x": 1712,
+          "y": 0
+        },
+        "title": "Soft dissolve"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_emit",
+        "nodeIds": [
+          "glow",
+          "p_edgeColor_emit"
+        ],
+        "rect": {
+          "h": 260,
+          "w": 586,
+          "x": 2458,
+          "y": 0
+        },
+        "title": "Glowing edge"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "half",
+          "p_baseTint_out",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 575,
+          "w": 586,
+          "x": 3204,
+          "y": 0
+        },
+        "title": "Master output (URP Lit, alpha clip)"
+      }
+    ],
+    "id": "dissolve-glow-edge",
+    "keywords": [],
+    "name": "Dissolve with Glowing Edge",
+    "nodes": {
+      "dis": {
+        "defId": "subgraph",
+        "id": "dis",
+        "label": "Dissolve",
+        "params": {
+          "subgraph": "ks_soft_dissolve"
+        },
+        "position": {
+          "x": 2040,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "glow": {
+        "defId": "multiply",
+        "id": "glow",
+        "params": {},
+        "position": {
+          "x": 2786,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "half": {
+        "defId": "float",
+        "id": "half",
+        "params": {},
+        "position": {
+          "x": 3226,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {
+          "x": 0.5
+        }
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 3532,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_amount_cut": {
+        "defId": "property",
+        "id": "p_amount_cut",
+        "params": {
+          "property": "amount"
+        },
+        "position": {
+          "x": 1734,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_baseTint_out": {
+        "defId": "property",
+        "id": "p_baseTint_out",
+        "params": {
+          "property": "baseTint"
+        },
+        "position": {
+          "x": 3226,
+          "y": 391
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_edgeColor_emit": {
+        "defId": "property",
+        "id": "p_edgeColor_emit",
+        "params": {
+          "property": "edgeColor"
+        },
+        "position": {
+          "x": 2480,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_edgeWidth_cut": {
+        "defId": "property",
+        "id": "p_edgeWidth_cut",
+        "params": {
+          "property": "edgeWidth"
+        },
+        "position": {
+          "x": 1734,
+          "y": 276
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseTex_noise": {
+        "defId": "property",
+        "id": "p_noiseTex_noise",
+        "params": {
+          "property": "noiseTex"
+        },
+        "position": {
+          "x": 682,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 3226,
+          "y": 485
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_cut": {
+        "defId": "property",
+        "id": "p_softness_cut",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 1734,
+          "y": 370
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_tile_noise": {
+        "defId": "property",
+        "id": "p_tile_noise",
+        "params": {
+          "property": "tile"
+        },
+        "position": {
+          "x": 682,
+          "y": 288
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_worldnormal": {
+        "defId": "portalIn",
+        "id": "pi_worldnormal",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 328,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_worldpos": {
+        "defId": "portalIn",
+        "id": "pi_worldpos",
+        "params": {
+          "channel": "WorldPos"
+        },
+        "position": {
+          "x": 328,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_worldnormal_tri_normal": {
+        "defId": "portalOut",
+        "id": "po_worldnormal_tri_normal",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 682,
+          "y": 382
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_worldpos_tri_pos": {
+        "defId": "portalOut",
+        "id": "po_worldpos_tri_pos",
+        "params": {
+          "channel": "WorldPos"
+        },
+        "position": {
+          "x": 682,
+          "y": 442
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "r": {
+        "defId": "split",
+        "id": "r",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tri": {
+        "defId": "subgraph",
+        "id": "tri",
+        "label": "Noise",
+        "params": {
+          "subgraph": "ks_triplanar"
+        },
+        "position": {
+          "x": 988,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wnrm": {
+        "defId": "normal",
+        "id": "wnrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wpos": {
+        "defId": "position",
+        "id": "wpos",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Dissolve",
+        "default": null,
+        "displayName": "Dissolve Noise",
+        "exposed": true,
+        "id": "noiseTex",
+        "perInstance": false,
+        "referenceName": "_DissolveNoise",
+        "textureDefault": "grey",
+        "tooltip": "Greyscale pattern: dark areas dissolve first.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Dissolve",
+        "default": 0.4,
+        "displayName": "Dissolve",
+        "exposed": true,
+        "id": "amount",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Dissolve",
+        "slider": true,
+        "tooltip": "0 = fully visible, 1 = fully dissolved. Animate this from gameplay.",
+        "type": "float"
+      },
+      {
+        "category": "Dissolve",
+        "default": 1.4,
+        "displayName": "Noise Tiling",
+        "exposed": true,
+        "id": "tile",
+        "max": 6,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_NoiseTiling",
+        "slider": true,
+        "tooltip": "Noise repeats per world unit.",
+        "type": "float"
+      },
+      {
+        "category": "Dissolve",
+        "default": 0.02,
+        "displayName": "Edge Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 0.2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeSoftness",
+        "slider": true,
+        "tooltip": "Feathering of the cut.",
+        "type": "float"
+      },
+      {
+        "category": "Edge",
+        "default": 0.09,
+        "displayName": "Edge Width",
+        "exposed": true,
+        "id": "edgeWidth",
+        "max": 0.4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_EdgeWidth",
+        "slider": true,
+        "tooltip": "Width of the glowing band.",
+        "type": "float"
+      },
+      {
+        "category": "Edge",
+        "colorSpace": "linear",
+        "default": [
+          5,
+          1.4,
+          0.25
+        ],
+        "displayName": "Edge Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "edgeColor",
+        "perInstance": false,
+        "referenceName": "_EdgeColor",
+        "tooltip": "HDR emission of the edge (values above 1 bloom).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "colorSpace": "srgb",
+        "default": [
+          0.62,
+          0.66,
+          0.74
+        ],
+        "displayName": "Base Color",
+        "exposed": true,
+        "id": "baseTint",
+        "perInstance": false,
+        "referenceName": "_BaseColor",
+        "tooltip": "Surface colour (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "default": 0.45,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Surface smoothness.",
+        "type": "float"
+      }
+    ],
+    "settings": {
+      "alphaClip": true
+    },
+    "subgraphDefs": {
+      "ks_soft_dissolve": {
+        "comments": [
+          {
+            "color": "#fb923c",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 2378
+            },
+            "text": "**Soft dissolve** — the cut line is `t = amount × (1 + width) − width`, so amount 0 hides nothing and amount 1 hides everything, edge band included.\n`alpha = smoothstep(t, t+soft, noise)`; the band is `alpha × (1 − smoothstep(t+width, t+width+soft, noise))`."
+          }
+        ],
+        "edges": {
+          "alpha:out>edge:a": {
+            "from": {
+              "node": "alpha",
+              "port": "out"
+            },
+            "id": "alpha:out>edge:a",
+            "to": {
+              "node": "edge",
+              "port": "a"
+            }
+          },
+          "alpha:out>outputs:alpha": {
+            "from": {
+              "node": "alpha",
+              "port": "out"
+            },
+            "id": "alpha:out>outputs:alpha",
+            "to": {
+              "node": "outputs",
+              "port": "alpha"
+            }
+          },
+          "bandA:out>bandB:a": {
+            "from": {
+              "node": "bandA",
+              "port": "out"
+            },
+            "id": "bandA:out>bandB:a",
+            "to": {
+              "node": "bandB",
+              "port": "a"
+            }
+          },
+          "bandA:out>upper:edge1": {
+            "from": {
+              "node": "bandA",
+              "port": "out"
+            },
+            "id": "bandA:out>upper:edge1",
+            "to": {
+              "node": "upper",
+              "port": "edge1"
+            }
+          },
+          "bandB:out>upper:edge2": {
+            "from": {
+              "node": "bandB",
+              "port": "out"
+            },
+            "id": "bandB:out>upper:edge2",
+            "to": {
+              "node": "upper",
+              "port": "edge2"
+            }
+          },
+          "below:out>edge:b": {
+            "from": {
+              "node": "below",
+              "port": "out"
+            },
+            "id": "below:out>edge:b",
+            "to": {
+              "node": "edge",
+              "port": "b"
+            }
+          },
+          "cut0:out>t:a": {
+            "from": {
+              "node": "cut0",
+              "port": "out"
+            },
+            "id": "cut0:out>t:a",
+            "to": {
+              "node": "t",
+              "port": "a"
+            }
+          },
+          "edge:out>outputs:edge": {
+            "from": {
+              "node": "edge",
+              "port": "out"
+            },
+            "id": "edge:out>outputs:edge",
+            "to": {
+              "node": "outputs",
+              "port": "edge"
+            }
+          },
+          "inputs:amount>cut0:a": {
+            "from": {
+              "node": "inputs",
+              "port": "amount"
+            },
+            "id": "inputs:amount>cut0:a",
+            "to": {
+              "node": "cut0",
+              "port": "a"
+            }
+          },
+          "inputs:edgeWidth>bandA:b": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>bandA:b",
+            "to": {
+              "node": "bandA",
+              "port": "b"
+            }
+          },
+          "inputs:edgeWidth>t:b": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>t:b",
+            "to": {
+              "node": "t",
+              "port": "b"
+            }
+          },
+          "inputs:edgeWidth>w1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "edgeWidth"
+            },
+            "id": "inputs:edgeWidth>w1:a",
+            "to": {
+              "node": "w1",
+              "port": "a"
+            }
+          },
+          "inputs:noise>alpha:in": {
+            "from": {
+              "node": "inputs",
+              "port": "noise"
+            },
+            "id": "inputs:noise>alpha:in",
+            "to": {
+              "node": "alpha",
+              "port": "in"
+            }
+          },
+          "inputs:noise>upper:in": {
+            "from": {
+              "node": "inputs",
+              "port": "noise"
+            },
+            "id": "inputs:noise>upper:in",
+            "to": {
+              "node": "upper",
+              "port": "in"
+            }
+          },
+          "inputs:softness>soft:a": {
+            "from": {
+              "node": "inputs",
+              "port": "softness"
+            },
+            "id": "inputs:softness>soft:a",
+            "to": {
+              "node": "soft",
+              "port": "a"
+            }
+          },
+          "soft:out>bandB:b": {
+            "from": {
+              "node": "soft",
+              "port": "out"
+            },
+            "id": "soft:out>bandB:b",
+            "to": {
+              "node": "bandB",
+              "port": "b"
+            }
+          },
+          "soft:out>tEnd:b": {
+            "from": {
+              "node": "soft",
+              "port": "out"
+            },
+            "id": "soft:out>tEnd:b",
+            "to": {
+              "node": "tEnd",
+              "port": "b"
+            }
+          },
+          "t:out>alpha:edge1": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>alpha:edge1",
+            "to": {
+              "node": "alpha",
+              "port": "edge1"
+            }
+          },
+          "t:out>bandA:a": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>bandA:a",
+            "to": {
+              "node": "bandA",
+              "port": "a"
+            }
+          },
+          "t:out>tEnd:a": {
+            "from": {
+              "node": "t",
+              "port": "out"
+            },
+            "id": "t:out>tEnd:a",
+            "to": {
+              "node": "tEnd",
+              "port": "a"
+            }
+          },
+          "tEnd:out>alpha:edge2": {
+            "from": {
+              "node": "tEnd",
+              "port": "out"
+            },
+            "id": "tEnd:out>alpha:edge2",
+            "to": {
+              "node": "alpha",
+              "port": "edge2"
+            }
+          },
+          "upper:out>below:in": {
+            "from": {
+              "node": "upper",
+              "port": "out"
+            },
+            "id": "upper:out>below:in",
+            "to": {
+              "node": "below",
+              "port": "in"
+            }
+          },
+          "w1:out>cut0:b": {
+            "from": {
+              "node": "w1",
+              "port": "out"
+            },
+            "id": "w1:out>cut0:b",
+            "to": {
+              "node": "cut0",
+              "port": "b"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fb923c",
+            "id": "grp_body",
+            "nodeIds": [
+              "w1",
+              "cut0",
+              "t",
+              "soft",
+              "tEnd",
+              "alpha",
+              "bandA",
+              "bandB",
+              "upper",
+              "below",
+              "edge"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 2422,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Soft Edge Dissolve"
+          }
+        ],
+        "id": "ks_soft_dissolve",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "noise",
+            "name": "Noise",
+            "tooltip": "Any 0…1 pattern that decides what disappears first.",
+            "type": "float"
+          },
+          {
+            "default": 0,
+            "id": "amount",
+            "name": "Amount",
+            "tooltip": "0 = fully visible, 1 = fully dissolved.",
+            "type": "float"
+          },
+          {
+            "default": 0.08,
+            "id": "edgeWidth",
+            "name": "Edge Width",
+            "tooltip": "Width of the glowing band (in noise units).",
+            "type": "float"
+          },
+          {
+            "default": 0.02,
+            "id": "softness",
+            "name": "Softness",
+            "tooltip": "Feathering of both borders (clamped to ≥ 0.001).",
+            "type": "float"
+          }
+        ],
+        "name": "Soft Edge Dissolve",
+        "nodes": {
+          "alpha": {
+            "defId": "smoothstep",
+            "id": "alpha",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "bandA": {
+            "defId": "add",
+            "id": "bandA",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "bandB": {
+            "defId": "add",
+            "id": "bandB",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "below": {
+            "defId": "oneMinus",
+            "id": "below",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cut0": {
+            "defId": "multiply",
+            "id": "cut0",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "edge": {
+            "defId": "multiply",
+            "id": "edge",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 2862,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "soft": {
+            "defId": "maximum",
+            "id": "soft",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.001
+            }
+          },
+          "t": {
+            "defId": "subtract",
+            "id": "t",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tEnd": {
+            "defId": "add",
+            "id": "tEnd",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "upper": {
+            "defId": "smoothstep",
+            "id": "upper",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "w1": {
+            "defId": "add",
+            "id": "w1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 1
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "alpha",
+            "name": "Alpha",
+            "tooltip": "Visibility mask 0…1 (feathered).",
+            "type": "float"
+          },
+          {
+            "id": "edge",
+            "name": "Edge",
+            "tooltip": "Glowing band 0…1, just inside the cut.",
+            "type": "float"
+          }
+        ]
+      },
+      "ks_triplanar": {
+        "comments": [
+          {
+            "color": "#4ade80",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 158,
+              "w": 300
+            },
+            "text": "**Triplanar** — samples the texture on the YZ, XZ and XY planes and blends by `|n|^sharpness` (normalised). No UVs needed, so rocks and terrain never stretch.\nUses explicit LOD-free sampling; for normal maps use the Triplanar Normal node (Whiteout blend) next to this kit."
+          }
+        ],
+        "edges": {
+          "inputs:normal>tp:normal": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>tp:normal",
+            "to": {
+              "node": "tp",
+              "port": "normal"
+            }
+          },
+          "inputs:pos>tp:pos": {
+            "from": {
+              "node": "inputs",
+              "port": "pos"
+            },
+            "id": "inputs:pos>tp:pos",
+            "to": {
+              "node": "tp",
+              "port": "pos"
+            }
+          },
+          "inputs:sharpness>tp:blend": {
+            "from": {
+              "node": "inputs",
+              "port": "sharpness"
+            },
+            "id": "inputs:sharpness>tp:blend",
+            "to": {
+              "node": "tp",
+              "port": "blend"
+            }
+          },
+          "inputs:tex>tp:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "tex"
+            },
+            "id": "inputs:tex>tp:tex",
+            "to": {
+              "node": "tp",
+              "port": "tex"
+            }
+          },
+          "inputs:tile>tp:tile": {
+            "from": {
+              "node": "inputs",
+              "port": "tile"
+            },
+            "id": "inputs:tile>tp:tile",
+            "to": {
+              "node": "tp",
+              "port": "tile"
+            }
+          },
+          "tp:rgb>outputs:rgb": {
+            "from": {
+              "node": "tp",
+              "port": "rgb"
+            },
+            "id": "tp:rgb>outputs:rgb",
+            "to": {
+              "node": "outputs",
+              "port": "rgb"
+            }
+          },
+          "tp:weights>outputs:weights": {
+            "from": {
+              "node": "tp",
+              "port": "weights"
+            },
+            "id": "tp:weights>outputs:weights",
+            "to": {
+              "node": "outputs",
+              "port": "weights"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#4ade80",
+            "id": "grp_body",
+            "nodeIds": [
+              "tp"
+            ],
+            "rect": {
+              "h": 554,
+              "w": 344,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Triplanar Projection"
+          }
+        ],
+        "id": "ks_triplanar",
+        "inputs": [
+          {
+            "id": "tex",
+            "name": "Texture",
+            "tooltip": "Texture projected along X, Y and Z.",
+            "type": "texture2D"
+          },
+          {
+            "default": [
+              0,
+              0,
+              0
+            ],
+            "id": "pos",
+            "name": "Position",
+            "tooltip": "Projection position (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": 1,
+            "id": "tile",
+            "name": "Tile",
+            "tooltip": "Texture repeats per world unit.",
+            "type": "float"
+          },
+          {
+            "default": 4,
+            "id": "sharpness",
+            "name": "Sharpness",
+            "tooltip": "Blend-weight exponent: 1 = soft seams, 8+ = nearly hard.",
+            "type": "float"
+          }
+        ],
+        "name": "Triplanar Projection",
+        "nodes": {
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 784,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tp": {
+            "defId": "uvTriplanarTexture",
+            "id": "tp",
+            "params": {
+              "space": "world"
+            },
+            "position": {
+              "x": 322,
+              "y": 224
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "rgb",
+            "name": "Color",
+            "tooltip": "Blended projection.",
+            "type": "color"
+          },
+          {
+            "id": "weights",
+            "name": "Weights",
+            "tooltip": "Axis weights (sum = 1): x, y, z.",
+            "type": "vec3"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "noiseTex": "sample.dissolve-glow-edge.noiseTex"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "grid": false,
+      "lightAzimuth": 30,
+      "lightElevation": 45,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "torus",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

@@ -1,0 +1,2082 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAABj0lEQVR42u3byW3rMBRAUdeRTVpxA6kmbaSb9OQC0oCzshEQiszhaSB5DsDVBwT8dyVH4wUAAAAAAAAAAAAAAABgUG/X93vEMskDhi7GiYYuRubgf+6350r/7fr98XJ93T6fS4jCPf7v8B8rZ+hrEUqDGP7GEXJiTPk7v3eA6UL89598DCw6QEmEtRBTDH8tQu3wSwMMGyF3+GmIlsGL0DD86FUaYJgILcOPjpUOdYoINcNfOjNqDbG2zZoIww4/HVZ6RRwRIN1m7ZHQXYDaPTW9JRGx96fbrIkw/N6/9HMREWBpm8MdBbVnPDn3aSICpKv2zGiovT9nYFF/hGuG381RsNUe23oaGhGgi6Ngi7026oKsZfDTBejlCnmo3/8eA5wqQm8Bom7UCSBAvwEiHtoIsGOE018LzBbAaejOEboLMNJR0M0NuREjdPdMYPQAwz4RO2OE6R5LninA1G9GHLm8G2T484WY+gXdI0N4Tf2AGD7SKPwubOuB+17MR3rzBDHZHaOYGAAAAAAAAMDlFyTEC+qparpdAAAAAElFTkSuQmCC",
+        "id": "sample.sprite-water-reflection.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-water-reflection.locked_sprite_texture"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Sprite UV and time."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_depth",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1154
+        },
+        "text": "`depth = waterline − v` (positive under water). The mirror image is read at `v' = depth / (1 − waterline)`, i.e. the same distance above the line, in the sprite's own 0…1 space. `above = step(waterline, v)` selects the sprite half."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_ripple",
+        "position": {
+          "x": 2126,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2990
+        },
+        "text": "`dx = (sin(depth·f − t·speed) + 0.5·sin(depth·1.7f − 1.3·t·speed)) · amount · saturate(depth·4)`: two sines of different frequency don't look periodic, and the `saturate(depth·4)` ramp keeps the reflection attached to the sprite's feet at the waterline."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_sample",
+        "position": {
+          "x": 5320,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 2072
+        },
+        "text": "Two **Sprite Texture** reads (*Outside: transparent* so rippled UVs that leave the sprite are empty): the sprite at `(u, (v − waterline) / (1 − waterline))` and the reflection at the rippled mirror UV. Reflection alpha = `a × opacity × (1 − depth / fade)²`; colour = `rgb × water tint`. `lerp(…, above)` picks the half."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_line",
+        "position": {
+          "x": 7596,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "`line = 1 − smoothstep(0, width, |v − waterline|)`: a thin HDR highlight on the surface that also covers the seam between sprite and reflection."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 9872,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Sprite / reflection colour with the surface line, and the matching alpha."
+      }
+    ],
+    "edges": {
+      "a1:out>s1:in": {
+        "from": {
+          "node": "a1",
+          "port": "out"
+        },
+        "id": "a1:out>s1:in",
+        "to": {
+          "node": "s1",
+          "port": "in"
+        }
+      },
+      "a2:out>s2:in": {
+        "from": {
+          "node": "a2",
+          "port": "out"
+        },
+        "id": "a2:out>s2:in",
+        "to": {
+          "node": "s2",
+          "port": "in"
+        }
+      },
+      "aadd:out>master:alpha": {
+        "from": {
+          "node": "aadd",
+          "port": "out"
+        },
+        "id": "aadd:out>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "above:out>pi_above:in": {
+        "from": {
+          "node": "above",
+          "port": "out"
+        },
+        "id": "above:out>pi_above:in",
+        "to": {
+          "node": "pi_above",
+          "port": "in"
+        }
+      },
+      "ad:out>sm:in": {
+        "from": {
+          "node": "ad",
+          "port": "out"
+        },
+        "id": "ad:out>sm:in",
+        "to": {
+          "node": "sm",
+          "port": "in"
+        }
+      },
+      "al:out>aadd:a": {
+        "from": {
+          "node": "al",
+          "port": "out"
+        },
+        "id": "al:out>aadd:a",
+        "to": {
+          "node": "aadd",
+          "port": "a"
+        }
+      },
+      "am:out>dx:b": {
+        "from": {
+          "node": "am",
+          "port": "out"
+        },
+        "id": "am:out>dx:b",
+        "to": {
+          "node": "dx",
+          "port": "b"
+        }
+      },
+      "cadd:out>master:baseColor": {
+        "from": {
+          "node": "cadd",
+          "port": "out"
+        },
+        "id": "cadd:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "col:out>cadd:a": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>cadd:a",
+        "to": {
+          "node": "cadd",
+          "port": "a"
+        }
+      },
+      "dd:out>ad:in": {
+        "from": {
+          "node": "dd",
+          "port": "out"
+        },
+        "id": "dd:out>ad:in",
+        "to": {
+          "node": "ad",
+          "port": "in"
+        }
+      },
+      "depth:out>dpos:a": {
+        "from": {
+          "node": "depth",
+          "port": "out"
+        },
+        "id": "depth:out>dpos:a",
+        "to": {
+          "node": "dpos",
+          "port": "a"
+        }
+      },
+      "dpos:out>grow0:a": {
+        "from": {
+          "node": "dpos",
+          "port": "out"
+        },
+        "id": "dpos:out>grow0:a",
+        "to": {
+          "node": "grow0",
+          "port": "a"
+        }
+      },
+      "dpos:out>pi_depth:in": {
+        "from": {
+          "node": "dpos",
+          "port": "out"
+        },
+        "id": "dpos:out>pi_depth:in",
+        "to": {
+          "node": "pi_depth",
+          "port": "in"
+        }
+      },
+      "dpos:out>vr:a": {
+        "from": {
+          "node": "dpos",
+          "port": "out"
+        },
+        "id": "dpos:out>vr:a",
+        "to": {
+          "node": "vr",
+          "port": "a"
+        }
+      },
+      "dx:out>ux:b": {
+        "from": {
+          "node": "dx",
+          "port": "out"
+        },
+        "id": "dx:out>ux:b",
+        "to": {
+          "node": "ux",
+          "port": "b"
+        }
+      },
+      "f1:out>a1:a": {
+        "from": {
+          "node": "f1",
+          "port": "out"
+        },
+        "id": "f1:out>a1:a",
+        "to": {
+          "node": "a1",
+          "port": "a"
+        }
+      },
+      "f1:out>f2:a": {
+        "from": {
+          "node": "f1",
+          "port": "out"
+        },
+        "id": "f1:out>f2:a",
+        "to": {
+          "node": "f2",
+          "port": "a"
+        }
+      },
+      "f2:out>a2:a": {
+        "from": {
+          "node": "f2",
+          "port": "out"
+        },
+        "id": "f2:out>a2:a",
+        "to": {
+          "node": "a2",
+          "port": "a"
+        }
+      },
+      "fd:out>fi:in": {
+        "from": {
+          "node": "fd",
+          "port": "out"
+        },
+        "id": "fd:out>fi:in",
+        "to": {
+          "node": "fi",
+          "port": "in"
+        }
+      },
+      "fi:out>fs:in": {
+        "from": {
+          "node": "fi",
+          "port": "out"
+        },
+        "id": "fi:out>fs:in",
+        "to": {
+          "node": "fs",
+          "port": "in"
+        }
+      },
+      "fq:out>ra:b": {
+        "from": {
+          "node": "fq",
+          "port": "out"
+        },
+        "id": "fq:out>ra:b",
+        "to": {
+          "node": "ra",
+          "port": "b"
+        }
+      },
+      "fs:out>fq:a": {
+        "from": {
+          "node": "fs",
+          "port": "out"
+        },
+        "id": "fs:out>fq:a",
+        "to": {
+          "node": "fq",
+          "port": "a"
+        }
+      },
+      "fs:out>fq:b": {
+        "from": {
+          "node": "fs",
+          "port": "out"
+        },
+        "id": "fs:out>fq:b",
+        "to": {
+          "node": "fq",
+          "port": "b"
+        }
+      },
+      "grow0:out>grow:in": {
+        "from": {
+          "node": "grow0",
+          "port": "out"
+        },
+        "id": "grow0:out>grow:in",
+        "to": {
+          "node": "grow",
+          "port": "in"
+        }
+      },
+      "grow:out>am:b": {
+        "from": {
+          "node": "grow",
+          "port": "out"
+        },
+        "id": "grow:out>am:b",
+        "to": {
+          "node": "am",
+          "port": "b"
+        }
+      },
+      "lc:out>cadd:b": {
+        "from": {
+          "node": "lc",
+          "port": "out"
+        },
+        "id": "lc:out>cadd:b",
+        "to": {
+          "node": "cadd",
+          "port": "b"
+        }
+      },
+      "ln:out>aadd:b": {
+        "from": {
+          "node": "ln",
+          "port": "out"
+        },
+        "id": "ln:out>aadd:b",
+        "to": {
+          "node": "aadd",
+          "port": "b"
+        }
+      },
+      "ln:out>lc:b": {
+        "from": {
+          "node": "ln",
+          "port": "out"
+        },
+        "id": "ln:out>lc:b",
+        "to": {
+          "node": "lc",
+          "port": "b"
+        }
+      },
+      "lw:out>sm:edge2": {
+        "from": {
+          "node": "lw",
+          "port": "out"
+        },
+        "id": "lw:out>sm:edge2",
+        "to": {
+          "node": "sm",
+          "port": "edge2"
+        }
+      },
+      "p_fadeLength_sample:out>fd:b": {
+        "from": {
+          "node": "p_fadeLength_sample",
+          "port": "out"
+        },
+        "id": "p_fadeLength_sample:out>fd:b",
+        "to": {
+          "node": "fd",
+          "port": "b"
+        }
+      },
+      "p_lineColor_line:out>lc:a": {
+        "from": {
+          "node": "p_lineColor_line",
+          "port": "out"
+        },
+        "id": "p_lineColor_line:out>lc:a",
+        "to": {
+          "node": "lc",
+          "port": "a"
+        }
+      },
+      "p_lineWidth_line:out>lw:a": {
+        "from": {
+          "node": "p_lineWidth_line",
+          "port": "out"
+        },
+        "id": "p_lineWidth_line:out>lw:a",
+        "to": {
+          "node": "lw",
+          "port": "a"
+        }
+      },
+      "p_locked_sprite_texture_sample:out>ref:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_sample",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_sample:out>ref:tex",
+        "to": {
+          "node": "ref",
+          "port": "tex"
+        }
+      },
+      "p_locked_sprite_texture_sample:out>spr:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_sample",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_sample:out>spr:tex",
+        "to": {
+          "node": "spr",
+          "port": "tex"
+        }
+      },
+      "p_reflectOpacity_sample:out>ra0:b": {
+        "from": {
+          "node": "p_reflectOpacity_sample",
+          "port": "out"
+        },
+        "id": "p_reflectOpacity_sample:out>ra0:b",
+        "to": {
+          "node": "ra0",
+          "port": "b"
+        }
+      },
+      "p_rippleAmount_ripple:out>am:a": {
+        "from": {
+          "node": "p_rippleAmount_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleAmount_ripple:out>am:a",
+        "to": {
+          "node": "am",
+          "port": "a"
+        }
+      },
+      "p_rippleFrequency_ripple:out>f1:b": {
+        "from": {
+          "node": "p_rippleFrequency_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleFrequency_ripple:out>f1:b",
+        "to": {
+          "node": "f1",
+          "port": "b"
+        }
+      },
+      "p_rippleSpeed_ripple:out>ts:b": {
+        "from": {
+          "node": "p_rippleSpeed_ripple",
+          "port": "out"
+        },
+        "id": "p_rippleSpeed_ripple:out>ts:b",
+        "to": {
+          "node": "ts",
+          "port": "b"
+        }
+      },
+      "p_waterColor_sample:out>tint:b": {
+        "from": {
+          "node": "p_waterColor_sample",
+          "port": "out"
+        },
+        "id": "p_waterColor_sample:out>tint:b",
+        "to": {
+          "node": "tint",
+          "port": "b"
+        }
+      },
+      "p_waterline_depth:out>above:edge": {
+        "from": {
+          "node": "p_waterline_depth",
+          "port": "out"
+        },
+        "id": "p_waterline_depth:out>above:edge",
+        "to": {
+          "node": "above",
+          "port": "edge"
+        }
+      },
+      "p_waterline_depth:out>depth:a": {
+        "from": {
+          "node": "p_waterline_depth",
+          "port": "out"
+        },
+        "id": "p_waterline_depth:out>depth:a",
+        "to": {
+          "node": "depth",
+          "port": "a"
+        }
+      },
+      "p_waterline_depth:out>span:in": {
+        "from": {
+          "node": "p_waterline_depth",
+          "port": "out"
+        },
+        "id": "p_waterline_depth:out>span:in",
+        "to": {
+          "node": "span",
+          "port": "in"
+        }
+      },
+      "p_waterline_depth:out>vs:b": {
+        "from": {
+          "node": "p_waterline_depth",
+          "port": "out"
+        },
+        "id": "p_waterline_depth:out>vs:b",
+        "to": {
+          "node": "vs",
+          "port": "b"
+        }
+      },
+      "p_waterline_line:out>dd:b": {
+        "from": {
+          "node": "p_waterline_line",
+          "port": "out"
+        },
+        "id": "p_waterline_line:out>dd:b",
+        "to": {
+          "node": "dd",
+          "port": "b"
+        }
+      },
+      "po_above_al_t:out>al:t": {
+        "from": {
+          "node": "po_above_al_t",
+          "port": "out"
+        },
+        "id": "po_above_al_t:out>al:t",
+        "to": {
+          "node": "al",
+          "port": "t"
+        }
+      },
+      "po_above_col_t:out>col:t": {
+        "from": {
+          "node": "po_above_col_t",
+          "port": "out"
+        },
+        "id": "po_above_col_t:out>col:t",
+        "to": {
+          "node": "col",
+          "port": "t"
+        }
+      },
+      "po_depth_f1_a:out>f1:a": {
+        "from": {
+          "node": "po_depth_f1_a",
+          "port": "out"
+        },
+        "id": "po_depth_f1_a:out>f1:a",
+        "to": {
+          "node": "f1",
+          "port": "a"
+        }
+      },
+      "po_depth_fd_a:out>fd:a": {
+        "from": {
+          "node": "po_depth_fd_a",
+          "port": "out"
+        },
+        "id": "po_depth_fd_a:out>fd:a",
+        "to": {
+          "node": "fd",
+          "port": "a"
+        }
+      },
+      "po_time_ts_a:out>ts:a": {
+        "from": {
+          "node": "po_time_ts_a",
+          "port": "out"
+        },
+        "id": "po_time_ts_a:out>ts:a",
+        "to": {
+          "node": "ts",
+          "port": "a"
+        }
+      },
+      "ra0:out>ra:a": {
+        "from": {
+          "node": "ra0",
+          "port": "out"
+        },
+        "id": "ra0:out>ra:a",
+        "to": {
+          "node": "ra",
+          "port": "a"
+        }
+      },
+      "ra:out>al:a": {
+        "from": {
+          "node": "ra",
+          "port": "out"
+        },
+        "id": "ra:out>al:a",
+        "to": {
+          "node": "al",
+          "port": "a"
+        }
+      },
+      "ref:a>ra0:a": {
+        "from": {
+          "node": "ref",
+          "port": "a"
+        },
+        "id": "ref:a>ra0:a",
+        "to": {
+          "node": "ra0",
+          "port": "a"
+        }
+      },
+      "ref:rgb>tint:a": {
+        "from": {
+          "node": "ref",
+          "port": "rgb"
+        },
+        "id": "ref:rgb>tint:a",
+        "to": {
+          "node": "tint",
+          "port": "a"
+        }
+      },
+      "ruv:rg>ref:uv": {
+        "from": {
+          "node": "ruv",
+          "port": "rg"
+        },
+        "id": "ruv:rg>ref:uv",
+        "to": {
+          "node": "ref",
+          "port": "uv"
+        }
+      },
+      "s1:out>sum:a": {
+        "from": {
+          "node": "s1",
+          "port": "out"
+        },
+        "id": "s1:out>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "s2:out>s2h:a": {
+        "from": {
+          "node": "s2",
+          "port": "out"
+        },
+        "id": "s2:out>s2h:a",
+        "to": {
+          "node": "s2h",
+          "port": "a"
+        }
+      },
+      "s2h:out>sum:b": {
+        "from": {
+          "node": "s2h",
+          "port": "out"
+        },
+        "id": "s2h:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "sm:out>ln:in": {
+        "from": {
+          "node": "sm",
+          "port": "out"
+        },
+        "id": "sm:out>ln:in",
+        "to": {
+          "node": "ln",
+          "port": "in"
+        }
+      },
+      "span:out>vr:b": {
+        "from": {
+          "node": "span",
+          "port": "out"
+        },
+        "id": "span:out>vr:b",
+        "to": {
+          "node": "vr",
+          "port": "b"
+        }
+      },
+      "span:out>vsn:b": {
+        "from": {
+          "node": "span",
+          "port": "out"
+        },
+        "id": "span:out>vsn:b",
+        "to": {
+          "node": "vsn",
+          "port": "b"
+        }
+      },
+      "spr:a>al:b": {
+        "from": {
+          "node": "spr",
+          "port": "a"
+        },
+        "id": "spr:a>al:b",
+        "to": {
+          "node": "al",
+          "port": "b"
+        }
+      },
+      "spr:rgb>col:b": {
+        "from": {
+          "node": "spr",
+          "port": "rgb"
+        },
+        "id": "spr:rgb>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "sum:out>dx:a": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>dx:a",
+        "to": {
+          "node": "dx",
+          "port": "a"
+        }
+      },
+      "suv:rg>spr:uv": {
+        "from": {
+          "node": "suv",
+          "port": "rg"
+        },
+        "id": "suv:rg>spr:uv",
+        "to": {
+          "node": "spr",
+          "port": "uv"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tint:out>col:a": {
+        "from": {
+          "node": "tint",
+          "port": "out"
+        },
+        "id": "tint:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "ts2:out>a2:b": {
+        "from": {
+          "node": "ts2",
+          "port": "out"
+        },
+        "id": "ts2:out>a2:b",
+        "to": {
+          "node": "a2",
+          "port": "b"
+        }
+      },
+      "ts:out>a1:b": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>a1:b",
+        "to": {
+          "node": "a1",
+          "port": "b"
+        }
+      },
+      "ts:out>ts2:a": {
+        "from": {
+          "node": "ts",
+          "port": "out"
+        },
+        "id": "ts:out>ts2:a",
+        "to": {
+          "node": "ts2",
+          "port": "a"
+        }
+      },
+      "us:g>above:in": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>above:in",
+        "to": {
+          "node": "above",
+          "port": "in"
+        }
+      },
+      "us:g>dd:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>dd:a",
+        "to": {
+          "node": "dd",
+          "port": "a"
+        }
+      },
+      "us:g>depth:b": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>depth:b",
+        "to": {
+          "node": "depth",
+          "port": "b"
+        }
+      },
+      "us:g>vs:a": {
+        "from": {
+          "node": "us",
+          "port": "g"
+        },
+        "id": "us:g>vs:a",
+        "to": {
+          "node": "vs",
+          "port": "a"
+        }
+      },
+      "us:r>suv:r": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>suv:r",
+        "to": {
+          "node": "suv",
+          "port": "r"
+        }
+      },
+      "us:r>ux:a": {
+        "from": {
+          "node": "us",
+          "port": "r"
+        },
+        "id": "us:r>ux:a",
+        "to": {
+          "node": "ux",
+          "port": "a"
+        }
+      },
+      "uv:out>us:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>us:in",
+        "to": {
+          "node": "us",
+          "port": "in"
+        }
+      },
+      "ux:out>ruv:r": {
+        "from": {
+          "node": "ux",
+          "port": "out"
+        },
+        "id": "ux:out>ruv:r",
+        "to": {
+          "node": "ruv",
+          "port": "r"
+        }
+      },
+      "vr:out>ruv:g": {
+        "from": {
+          "node": "vr",
+          "port": "out"
+        },
+        "id": "vr:out>ruv:g",
+        "to": {
+          "node": "ruv",
+          "port": "g"
+        }
+      },
+      "vs:out>vsn:a": {
+        "from": {
+          "node": "vs",
+          "port": "out"
+        },
+        "id": "vs:out>vsn:a",
+        "to": {
+          "node": "vsn",
+          "port": "a"
+        }
+      },
+      "vsn:out>suv:g": {
+        "from": {
+          "node": "vsn",
+          "port": "out"
+        },
+        "id": "vsn:out>suv:g",
+        "to": {
+          "node": "suv",
+          "port": "g"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "uv",
+          "us",
+          "t",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 507,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Inputs"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_depth",
+        "nodeIds": [
+          "depth",
+          "dpos",
+          "span",
+          "vr",
+          "above",
+          "vs",
+          "vsn",
+          "p_waterline_depth",
+          "pi_depth",
+          "pi_above"
+        ],
+        "rect": {
+          "h": 662,
+          "w": 1198,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Depth below the waterline"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_ripple",
+        "nodeIds": [
+          "f1",
+          "ts",
+          "a1",
+          "s1",
+          "f2",
+          "ts2",
+          "a2",
+          "s2",
+          "s2h",
+          "sum",
+          "grow0",
+          "grow",
+          "am",
+          "dx",
+          "ux",
+          "ruv",
+          "po_depth_f1_a",
+          "p_rippleFrequency_ripple",
+          "po_time_ts_a",
+          "p_rippleSpeed_ripple",
+          "p_rippleAmount_ripple"
+        ],
+        "rect": {
+          "h": 893,
+          "w": 3034,
+          "x": 2104,
+          "y": 0
+        },
+        "title": "Ripples that grow with depth"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_sample",
+        "nodeIds": [
+          "suv",
+          "spr",
+          "ref",
+          "tint",
+          "fd",
+          "fi",
+          "fs",
+          "fq",
+          "ra0",
+          "ra",
+          "col",
+          "al",
+          "p_locked_sprite_texture_sample",
+          "p_waterColor_sample",
+          "po_depth_fd_a",
+          "p_fadeLength_sample",
+          "p_reflectOpacity_sample",
+          "po_above_col_t",
+          "po_above_al_t"
+        ],
+        "rect": {
+          "h": 1092,
+          "w": 2116,
+          "x": 5298,
+          "y": 0
+        },
+        "title": "Sprite half + reflection half"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_line",
+        "nodeIds": [
+          "dd",
+          "ad",
+          "lw",
+          "sm",
+          "ln",
+          "lc",
+          "cadd",
+          "aadd",
+          "p_waterline_line",
+          "p_lineWidth_line",
+          "p_lineColor_line"
+        ],
+        "rect": {
+          "h": 491,
+          "w": 2116,
+          "x": 7574,
+          "y": 0
+        },
+        "title": "Surface line"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 9850,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-water-reflection",
+    "keywords": [],
+    "name": "2D Water Reflection",
+    "nodes": {
+      "a1": {
+        "defId": "subtract",
+        "id": "a1",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 755
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a2": {
+        "defId": "subtract",
+        "id": "a2",
+        "params": {},
+        "position": {
+          "x": 3044,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "aadd": {
+        "defId": "maximum",
+        "id": "aadd",
+        "params": {},
+        "position": {
+          "x": 9126,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "above": {
+        "defId": "step",
+        "id": "above",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ad": {
+        "defId": "abs",
+        "id": "ad",
+        "params": {},
+        "position": {
+          "x": 8208,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "al": {
+        "defId": "lerp",
+        "id": "al",
+        "params": {},
+        "position": {
+          "x": 7156,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "am": {
+        "defId": "multiply",
+        "id": "am",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cadd": {
+        "defId": "add",
+        "id": "cadd",
+        "params": {},
+        "position": {
+          "x": 9432,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "lerp",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 6238,
+          "y": 557
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dd": {
+        "defId": "subtract",
+        "id": "dd",
+        "params": {},
+        "position": {
+          "x": 7902,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "depth": {
+        "defId": "subtract",
+        "id": "depth",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 264
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dpos": {
+        "defId": "maximum",
+        "id": "dpos",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 264
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0
+        }
+      },
+      "dx": {
+        "defId": "multiply",
+        "id": "dx",
+        "params": {},
+        "position": {
+          "x": 4268,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f1": {
+        "defId": "multiply",
+        "id": "f1",
+        "params": {},
+        "position": {
+          "x": 2432,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "f2": {
+        "defId": "multiply",
+        "id": "f2",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1.7
+        }
+      },
+      "fd": {
+        "defId": "divide",
+        "id": "fd",
+        "params": {},
+        "position": {
+          "x": 5626,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fi": {
+        "defId": "oneMinus",
+        "id": "fi",
+        "params": {},
+        "position": {
+          "x": 5932,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fq": {
+        "defId": "multiply",
+        "id": "fq",
+        "params": {},
+        "position": {
+          "x": 6544,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fs": {
+        "defId": "saturate",
+        "id": "fs",
+        "params": {},
+        "position": {
+          "x": 6238,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "grow": {
+        "defId": "saturate",
+        "id": "grow",
+        "params": {},
+        "position": {
+          "x": 2432,
+          "y": 165
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "grow0": {
+        "defId": "multiply",
+        "id": "grow0",
+        "params": {},
+        "position": {
+          "x": 2126,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 4
+        }
+      },
+      "lc": {
+        "defId": "multiply",
+        "id": "lc",
+        "params": {},
+        "position": {
+          "x": 9126,
+          "y": 259
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ln": {
+        "defId": "oneMinus",
+        "id": "ln",
+        "params": {},
+        "position": {
+          "x": 8820,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lw": {
+        "defId": "maximum",
+        "id": "lw",
+        "params": {},
+        "position": {
+          "x": 7902,
+          "y": 353
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.0001
+        }
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 9872,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_fadeLength_sample": {
+        "defId": "property",
+        "id": "p_fadeLength_sample",
+        "params": {
+          "property": "fadeLength"
+        },
+        "position": {
+          "x": 5320,
+          "y": 158
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineColor_line": {
+        "defId": "property",
+        "id": "p_lineColor_line",
+        "params": {
+          "property": "lineColor"
+        },
+        "position": {
+          "x": 7596,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lineWidth_line": {
+        "defId": "property",
+        "id": "p_lineWidth_line",
+        "params": {
+          "property": "lineWidth"
+        },
+        "position": {
+          "x": 7596,
+          "y": 377
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_sample": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_sample",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 5320,
+          "y": 908
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_reflectOpacity_sample": {
+        "defId": "property",
+        "id": "p_reflectOpacity_sample",
+        "params": {
+          "property": "reflectOpacity"
+        },
+        "position": {
+          "x": 5320,
+          "y": 372
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleAmount_ripple": {
+        "defId": "property",
+        "id": "p_rippleAmount_ripple",
+        "params": {
+          "property": "rippleAmount"
+        },
+        "position": {
+          "x": 2126,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleFrequency_ripple": {
+        "defId": "property",
+        "id": "p_rippleFrequency_ripple",
+        "params": {
+          "property": "rippleFrequency"
+        },
+        "position": {
+          "x": 2126,
+          "y": 483
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rippleSpeed_ripple": {
+        "defId": "property",
+        "id": "p_rippleSpeed_ripple",
+        "params": {
+          "property": "rippleSpeed"
+        },
+        "position": {
+          "x": 2126,
+          "y": 637
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_waterColor_sample": {
+        "defId": "property",
+        "id": "p_waterColor_sample",
+        "params": {
+          "property": "waterColor"
+        },
+        "position": {
+          "x": 5320,
+          "y": 1002
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_waterline_depth": {
+        "defId": "property",
+        "id": "p_waterline_depth",
+        "params": {
+          "property": "waterline"
+        },
+        "position": {
+          "x": 768,
+          "y": 418
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_waterline_line": {
+        "defId": "property",
+        "id": "p_waterline_line",
+        "params": {
+          "property": "waterline"
+        },
+        "position": {
+          "x": 7596,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_above": {
+        "defId": "portalIn",
+        "id": "pi_above",
+        "params": {
+          "channel": "Above"
+        },
+        "position": {
+          "x": 1380,
+          "y": 163
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_depth": {
+        "defId": "portalIn",
+        "id": "pi_depth",
+        "params": {
+          "channel": "Depth"
+        },
+        "position": {
+          "x": 1686,
+          "y": 264
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_above_al_t": {
+        "defId": "portalOut",
+        "id": "po_above_al_t",
+        "params": {
+          "channel": "Above"
+        },
+        "position": {
+          "x": 5320,
+          "y": 252
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_above_col_t": {
+        "defId": "portalOut",
+        "id": "po_above_col_t",
+        "params": {
+          "channel": "Above"
+        },
+        "position": {
+          "x": 5320,
+          "y": 610
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_depth_f1_a": {
+        "defId": "portalOut",
+        "id": "po_depth_f1_a",
+        "params": {
+          "channel": "Depth"
+        },
+        "position": {
+          "x": 2126,
+          "y": 577
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_depth_fd_a": {
+        "defId": "portalOut",
+        "id": "po_depth_fd_a",
+        "params": {
+          "channel": "Depth"
+        },
+        "position": {
+          "x": 5320,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_ts_a": {
+        "defId": "portalOut",
+        "id": "po_time_ts_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 2126,
+          "y": 731
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ra": {
+        "defId": "multiply",
+        "id": "ra",
+        "params": {},
+        "position": {
+          "x": 6850,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ra0": {
+        "defId": "multiply",
+        "id": "ra0",
+        "params": {},
+        "position": {
+          "x": 5932,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ref": {
+        "defId": "spriteTexture",
+        "id": "ref",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 5626,
+          "y": 783
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ruv": {
+        "defId": "combine",
+        "id": "ruv",
+        "params": {},
+        "position": {
+          "x": 4880,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s1": {
+        "defId": "sin",
+        "id": "s1",
+        "params": {},
+        "position": {
+          "x": 3044,
+          "y": 767
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2": {
+        "defId": "sin",
+        "id": "s2",
+        "params": {},
+        "position": {
+          "x": 3350,
+          "y": 471
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "s2h": {
+        "defId": "multiply",
+        "id": "s2h",
+        "params": {},
+        "position": {
+          "x": 3656,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "sm": {
+        "defId": "smoothstep",
+        "id": "sm",
+        "params": {},
+        "position": {
+          "x": 8514,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "span": {
+        "defId": "oneMinus",
+        "id": "span",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 406
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "spr": {
+        "defId": "spriteTexture",
+        "id": "spr",
+        "params": {
+          "outside": "transparent"
+        },
+        "position": {
+          "x": 5626,
+          "y": 497
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 3962,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "suv": {
+        "defId": "combine",
+        "id": "suv",
+        "params": {},
+        "position": {
+          "x": 5320,
+          "y": 670
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tint": {
+        "defId": "multiply",
+        "id": "tint",
+        "params": {},
+        "position": {
+          "x": 5932,
+          "y": 829
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts": {
+        "defId": "multiply",
+        "id": "ts",
+        "params": {},
+        "position": {
+          "x": 2432,
+          "y": 613
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ts2": {
+        "defId": "multiply",
+        "id": "ts2",
+        "params": {},
+        "position": {
+          "x": 2738,
+          "y": 613
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1.3
+        }
+      },
+      "us": {
+        "defId": "split",
+        "id": "us",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 321
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 357
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ux": {
+        "defId": "add",
+        "id": "ux",
+        "params": {},
+        "position": {
+          "x": 4574,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vr": {
+        "defId": "divide",
+        "id": "vr",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 394
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vs": {
+        "defId": "subtract",
+        "id": "vs",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vsn": {
+        "defId": "divide",
+        "id": "vsn",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Water",
+        "default": 0.5,
+        "displayName": "Waterline",
+        "exposed": true,
+        "id": "waterline",
+        "max": 0.7,
+        "min": 0.2,
+        "perInstance": false,
+        "referenceName": "_Waterline",
+        "slider": true,
+        "tooltip": "V coordinate where the water starts (0 = bottom of the quad).",
+        "type": "float"
+      },
+      {
+        "category": "Water",
+        "colorSpace": "srgb",
+        "default": [
+          0.35,
+          0.65,
+          0.9
+        ],
+        "displayName": "Water Tint",
+        "exposed": true,
+        "id": "waterColor",
+        "perInstance": false,
+        "referenceName": "_WaterTint",
+        "tooltip": "Colour multiplied onto the reflection (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Water",
+        "default": 0.65,
+        "displayName": "Reflection Opacity",
+        "exposed": true,
+        "id": "reflectOpacity",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ReflectionOpacity",
+        "slider": true,
+        "tooltip": "Opacity of the reflection right below the waterline.",
+        "type": "float"
+      },
+      {
+        "category": "Water",
+        "default": 0.4,
+        "displayName": "Fade Length",
+        "exposed": true,
+        "id": "fadeLength",
+        "max": 1,
+        "min": 0.05,
+        "perInstance": false,
+        "referenceName": "_FadeLength",
+        "slider": true,
+        "tooltip": "Depth (UV units) over which the reflection fades out.",
+        "type": "float"
+      },
+      {
+        "category": "Ripples",
+        "default": 0.03,
+        "displayName": "Ripple Amount",
+        "exposed": true,
+        "id": "rippleAmount",
+        "max": 0.1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RippleAmount",
+        "slider": true,
+        "tooltip": "Sideways displacement of the reflection at full depth (UV units).",
+        "type": "float"
+      },
+      {
+        "category": "Ripples",
+        "default": 28,
+        "displayName": "Ripple Frequency",
+        "exposed": true,
+        "id": "rippleFrequency",
+        "max": 80,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_RippleFrequency",
+        "slider": true,
+        "tooltip": "Ripples per unit of depth (radians).",
+        "type": "float"
+      },
+      {
+        "category": "Ripples",
+        "default": 2.5,
+        "displayName": "Ripple Speed",
+        "exposed": true,
+        "id": "rippleSpeed",
+        "max": 8,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RippleSpeed",
+        "slider": true,
+        "tooltip": "Travel speed of the ripples in radians per second.",
+        "type": "float"
+      },
+      {
+        "category": "Surface",
+        "colorSpace": "linear",
+        "default": [
+          2.2,
+          3,
+          3.6
+        ],
+        "displayName": "Surface Line Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "lineColor",
+        "perInstance": false,
+        "referenceName": "_SurfaceLineColor",
+        "tooltip": "HDR colour of the bright line on the water surface (linear).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "default": 0.012,
+        "displayName": "Surface Line Width",
+        "exposed": true,
+        "id": "lineWidth",
+        "max": 0.05,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SurfaceLineWidth",
+        "slider": true,
+        "tooltip": "Thickness of the surface line in UV units (0 = off).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-water-reflection.locked_sprite_texture"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "grid": false,
+      "mode": "2d",
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

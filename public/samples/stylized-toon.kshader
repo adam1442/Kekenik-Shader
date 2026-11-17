@@ -1,0 +1,2079 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_inputs",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 73,
+          "w": 762
+        },
+        "text": "Everything the shading needs: a **light direction** (a material parameter — swap in the engine's Main Light node if you prefer scene lighting), the world normal and the view direction. Shared by the next blocks through portals."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_cel",
+        "position": {
+          "x": 988,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 762
+        },
+        "text": "The **Toon Light** kit: `N·L` → half-Lambert → 3 quantised bands, mixed between *Shadow* and *Lit*. "
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_spec",
+        "position": {
+          "x": 988,
+          "y": 679
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "Blinn half-vector `H = normalize(L + V)`; the highlight is `step(1 − size, N·H)` (hard, cel-style) and only shows on the lit side (× toon level)."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_rim",
+        "position": {
+          "x": 3264,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Fresnel kit** gives a thin glow on silhouettes; it is HDR so a Bloom post-effect picks it up."
+      },
+      {
+        "color": "#f87171",
+        "id": "note_outline",
+        "position": {
+          "x": 3264,
+          "y": 708
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "No inverted hull needed: `1 − N·V` is ≈ 1 on the silhouette, so `smoothstep(1 − width, …)` paints a line exactly where the surface turns away from the camera."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_mix",
+        "position": {
+          "x": 4622,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "`final = lerp(cel + specular + rim, outline colour, outline mask)` — the outline always wins, so the silhouette stays crisp."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5674,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 300
+        },
+        "text": "Unlit master: the shading above is the final colour."
+      }
+    ],
+    "edges": {
+      "a1:out>a2:a": {
+        "from": {
+          "node": "a1",
+          "port": "out"
+        },
+        "id": "a1:out>a2:a",
+        "to": {
+          "node": "a2",
+          "port": "a"
+        }
+      },
+      "a2:out>fin:a": {
+        "from": {
+          "node": "a2",
+          "port": "out"
+        },
+        "id": "a2:out>fin:a",
+        "to": {
+          "node": "fin",
+          "port": "a"
+        }
+      },
+      "col:out>a1:b": {
+        "from": {
+          "node": "col",
+          "port": "out"
+        },
+        "id": "col:out>a1:b",
+        "to": {
+          "node": "a1",
+          "port": "b"
+        }
+      },
+      "edge:out>mask:in": {
+        "from": {
+          "node": "edge",
+          "port": "out"
+        },
+        "id": "edge:out>mask:in",
+        "to": {
+          "node": "mask",
+          "port": "in"
+        }
+      },
+      "fin:out>master:baseColor": {
+        "from": {
+          "node": "fin",
+          "port": "out"
+        },
+        "id": "fin:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "fres:glow>a2:b": {
+        "from": {
+          "node": "fres",
+          "port": "glow"
+        },
+        "id": "fres:glow>a2:b",
+        "to": {
+          "node": "a2",
+          "port": "b"
+        }
+      },
+      "half:out>nh:b": {
+        "from": {
+          "node": "half",
+          "port": "out"
+        },
+        "id": "half:out>nh:b",
+        "to": {
+          "node": "nh",
+          "port": "b"
+        }
+      },
+      "hi:out>mask:edge2": {
+        "from": {
+          "node": "hi",
+          "port": "out"
+        },
+        "id": "hi:out>mask:edge2",
+        "to": {
+          "node": "mask",
+          "port": "edge2"
+        }
+      },
+      "hl:out>lit:a": {
+        "from": {
+          "node": "hl",
+          "port": "out"
+        },
+        "id": "hl:out>lit:a",
+        "to": {
+          "node": "lit",
+          "port": "a"
+        }
+      },
+      "inv:out>hl:edge": {
+        "from": {
+          "node": "inv",
+          "port": "out"
+        },
+        "id": "inv:out>hl:edge",
+        "to": {
+          "node": "hl",
+          "port": "edge"
+        }
+      },
+      "ldir0:out>ldir:in": {
+        "from": {
+          "node": "ldir0",
+          "port": "out"
+        },
+        "id": "ldir0:out>ldir:in",
+        "to": {
+          "node": "ldir",
+          "port": "in"
+        }
+      },
+      "ldir:out>pi_l:in": {
+        "from": {
+          "node": "ldir",
+          "port": "out"
+        },
+        "id": "ldir:out>pi_l:in",
+        "to": {
+          "node": "pi_l",
+          "port": "in"
+        }
+      },
+      "lit:out>col:a": {
+        "from": {
+          "node": "lit",
+          "port": "out"
+        },
+        "id": "lit:out>col:a",
+        "to": {
+          "node": "col",
+          "port": "a"
+        }
+      },
+      "lo:out>hi:a": {
+        "from": {
+          "node": "lo",
+          "port": "out"
+        },
+        "id": "lo:out>hi:a",
+        "to": {
+          "node": "hi",
+          "port": "a"
+        }
+      },
+      "lo:out>mask:edge1": {
+        "from": {
+          "node": "lo",
+          "port": "out"
+        },
+        "id": "lo:out>mask:edge1",
+        "to": {
+          "node": "mask",
+          "port": "edge1"
+        }
+      },
+      "mask:out>fin:t": {
+        "from": {
+          "node": "mask",
+          "port": "out"
+        },
+        "id": "mask:out>fin:t",
+        "to": {
+          "node": "fin",
+          "port": "t"
+        }
+      },
+      "nh:out>hl:in": {
+        "from": {
+          "node": "nh",
+          "port": "out"
+        },
+        "id": "nh:out>hl:in",
+        "to": {
+          "node": "hl",
+          "port": "in"
+        }
+      },
+      "nrm:out>pi_n:in": {
+        "from": {
+          "node": "nrm",
+          "port": "out"
+        },
+        "id": "nrm:out>pi_n:in",
+        "to": {
+          "node": "pi_n",
+          "port": "in"
+        }
+      },
+      "p_lit_cel:out>toon:lit": {
+        "from": {
+          "node": "p_lit_cel",
+          "port": "out"
+        },
+        "id": "p_lit_cel:out>toon:lit",
+        "to": {
+          "node": "toon",
+          "port": "lit"
+        }
+      },
+      "p_outlineColor_mix:out>fin:b": {
+        "from": {
+          "node": "p_outlineColor_mix",
+          "port": "out"
+        },
+        "id": "p_outlineColor_mix:out>fin:b",
+        "to": {
+          "node": "fin",
+          "port": "b"
+        }
+      },
+      "p_outlineWidth_outline:out>lo:b": {
+        "from": {
+          "node": "p_outlineWidth_outline",
+          "port": "out"
+        },
+        "id": "p_outlineWidth_outline:out>lo:b",
+        "to": {
+          "node": "lo",
+          "port": "b"
+        }
+      },
+      "p_rimColor_rim:out>fres:color": {
+        "from": {
+          "node": "p_rimColor_rim",
+          "port": "out"
+        },
+        "id": "p_rimColor_rim:out>fres:color",
+        "to": {
+          "node": "fres",
+          "port": "color"
+        }
+      },
+      "p_rimIntensity_rim:out>fres:intensity": {
+        "from": {
+          "node": "p_rimIntensity_rim",
+          "port": "out"
+        },
+        "id": "p_rimIntensity_rim:out>fres:intensity",
+        "to": {
+          "node": "fres",
+          "port": "intensity"
+        }
+      },
+      "p_rimPower_rim:out>fres:power": {
+        "from": {
+          "node": "p_rimPower_rim",
+          "port": "out"
+        },
+        "id": "p_rimPower_rim:out>fres:power",
+        "to": {
+          "node": "fres",
+          "port": "power"
+        }
+      },
+      "p_shadow_cel:out>toon:shadow": {
+        "from": {
+          "node": "p_shadow_cel",
+          "port": "out"
+        },
+        "id": "p_shadow_cel:out>toon:shadow",
+        "to": {
+          "node": "toon",
+          "port": "shadow"
+        }
+      },
+      "p_softness_cel:out>toon:softness": {
+        "from": {
+          "node": "p_softness_cel",
+          "port": "out"
+        },
+        "id": "p_softness_cel:out>toon:softness",
+        "to": {
+          "node": "toon",
+          "port": "softness"
+        }
+      },
+      "p_specColor_spec:out>col:b": {
+        "from": {
+          "node": "p_specColor_spec",
+          "port": "out"
+        },
+        "id": "p_specColor_spec:out>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "p_specSize_spec:out>inv:b": {
+        "from": {
+          "node": "p_specSize_spec",
+          "port": "out"
+        },
+        "id": "p_specSize_spec:out>inv:b",
+        "to": {
+          "node": "inv",
+          "port": "b"
+        }
+      },
+      "po_l_sum_a:out>sum:a": {
+        "from": {
+          "node": "po_l_sum_a",
+          "port": "out"
+        },
+        "id": "po_l_sum_a:out>sum:a",
+        "to": {
+          "node": "sum",
+          "port": "a"
+        }
+      },
+      "po_l_toon_lightDir:out>toon:lightDir": {
+        "from": {
+          "node": "po_l_toon_lightDir",
+          "port": "out"
+        },
+        "id": "po_l_toon_lightDir:out>toon:lightDir",
+        "to": {
+          "node": "toon",
+          "port": "lightDir"
+        }
+      },
+      "po_level_lit_b:out>lit:b": {
+        "from": {
+          "node": "po_level_lit_b",
+          "port": "out"
+        },
+        "id": "po_level_lit_b:out>lit:b",
+        "to": {
+          "node": "lit",
+          "port": "b"
+        }
+      },
+      "po_n_edge_normal:out>edge:normal": {
+        "from": {
+          "node": "po_n_edge_normal",
+          "port": "out"
+        },
+        "id": "po_n_edge_normal:out>edge:normal",
+        "to": {
+          "node": "edge",
+          "port": "normal"
+        }
+      },
+      "po_n_fres_normal:out>fres:normal": {
+        "from": {
+          "node": "po_n_fres_normal",
+          "port": "out"
+        },
+        "id": "po_n_fres_normal:out>fres:normal",
+        "to": {
+          "node": "fres",
+          "port": "normal"
+        }
+      },
+      "po_n_nh_a:out>nh:a": {
+        "from": {
+          "node": "po_n_nh_a",
+          "port": "out"
+        },
+        "id": "po_n_nh_a:out>nh:a",
+        "to": {
+          "node": "nh",
+          "port": "a"
+        }
+      },
+      "po_n_toon_normal:out>toon:normal": {
+        "from": {
+          "node": "po_n_toon_normal",
+          "port": "out"
+        },
+        "id": "po_n_toon_normal:out>toon:normal",
+        "to": {
+          "node": "toon",
+          "port": "normal"
+        }
+      },
+      "po_v_edge_viewDir:out>edge:viewDir": {
+        "from": {
+          "node": "po_v_edge_viewDir",
+          "port": "out"
+        },
+        "id": "po_v_edge_viewDir:out>edge:viewDir",
+        "to": {
+          "node": "edge",
+          "port": "viewDir"
+        }
+      },
+      "po_v_fres_viewDir:out>fres:viewDir": {
+        "from": {
+          "node": "po_v_fres_viewDir",
+          "port": "out"
+        },
+        "id": "po_v_fres_viewDir:out>fres:viewDir",
+        "to": {
+          "node": "fres",
+          "port": "viewDir"
+        }
+      },
+      "po_v_sum_b:out>sum:b": {
+        "from": {
+          "node": "po_v_sum_b",
+          "port": "out"
+        },
+        "id": "po_v_sum_b:out>sum:b",
+        "to": {
+          "node": "sum",
+          "port": "b"
+        }
+      },
+      "sum:out>half:in": {
+        "from": {
+          "node": "sum",
+          "port": "out"
+        },
+        "id": "sum:out>half:in",
+        "to": {
+          "node": "half",
+          "port": "in"
+        }
+      },
+      "toon:color>a1:a": {
+        "from": {
+          "node": "toon",
+          "port": "color"
+        },
+        "id": "toon:color>a1:a",
+        "to": {
+          "node": "a1",
+          "port": "a"
+        }
+      },
+      "toon:level>pi_level:in": {
+        "from": {
+          "node": "toon",
+          "port": "level"
+        },
+        "id": "toon:level>pi_level:in",
+        "to": {
+          "node": "pi_level",
+          "port": "in"
+        }
+      },
+      "vdir:out>pi_v:in": {
+        "from": {
+          "node": "vdir",
+          "port": "out"
+        },
+        "id": "vdir:out>pi_v:in",
+        "to": {
+          "node": "pi_v",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_inputs",
+        "nodeIds": [
+          "ldir0",
+          "ldir",
+          "nrm",
+          "vdir",
+          "pi_n",
+          "pi_l",
+          "pi_v"
+        ],
+        "rect": {
+          "h": 541,
+          "w": 806,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Light & view inputs"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_cel",
+        "nodeIds": [
+          "toon",
+          "po_n_toon_normal",
+          "po_l_toon_lightDir",
+          "p_softness_cel",
+          "p_shadow_cel",
+          "p_lit_cel",
+          "pi_level"
+        ],
+        "rect": {
+          "h": 575,
+          "w": 806,
+          "x": 966,
+          "y": 0
+        },
+        "title": "Cel shading"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_spec",
+        "nodeIds": [
+          "sum",
+          "half",
+          "nh",
+          "inv",
+          "hl",
+          "lit",
+          "col",
+          "po_l_sum_a",
+          "po_v_sum_b",
+          "po_n_nh_a",
+          "p_specSize_spec",
+          "po_level_lit_b",
+          "p_specColor_spec"
+        ],
+        "rect": {
+          "h": 553,
+          "w": 2116,
+          "x": 966,
+          "y": 645
+        },
+        "title": "Hard specular"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_rim",
+        "nodeIds": [
+          "fres",
+          "po_n_fres_normal",
+          "po_v_fres_viewDir",
+          "p_rimColor_rim",
+          "p_rimPower_rim",
+          "p_rimIntensity_rim"
+        ],
+        "rect": {
+          "h": 604,
+          "w": 586,
+          "x": 3242,
+          "y": 0
+        },
+        "title": "Rim light"
+      },
+      {
+        "color": "#f87171",
+        "id": "grp_outline",
+        "nodeIds": [
+          "edge",
+          "lo",
+          "hi",
+          "mask",
+          "po_n_edge_normal",
+          "po_v_edge_viewDir",
+          "p_outlineWidth_outline"
+        ],
+        "rect": {
+          "h": 469,
+          "w": 1198,
+          "x": 3242,
+          "y": 674
+        },
+        "title": "Fake outline"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_mix",
+        "nodeIds": [
+          "a1",
+          "a2",
+          "fin",
+          "p_outlineColor_mix"
+        ],
+        "rect": {
+          "h": 366,
+          "w": 892,
+          "x": 4600,
+          "y": 0
+        },
+        "title": "Compose"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master"
+        ],
+        "rect": {
+          "h": 332,
+          "w": 344,
+          "x": 5652,
+          "y": 0
+        },
+        "title": "Master output (URP Unlit)"
+      }
+    ],
+    "id": "stylized-toon",
+    "keywords": [],
+    "name": "Stylized Toon (Ramp + Rim + Outline)",
+    "nodes": {
+      "a1": {
+        "defId": "add",
+        "id": "a1",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "a2": {
+        "defId": "add",
+        "id": "a2",
+        "params": {},
+        "position": {
+          "x": 4928,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "col": {
+        "defId": "multiply",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 750
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "edge": {
+        "defId": "fresnel",
+        "id": "edge",
+        "params": {
+          "mode": "power"
+        },
+        "position": {
+          "x": 3570,
+          "y": 779
+        },
+        "previewEnabled": false,
+        "values": {
+          "power": 1
+        }
+      },
+      "fin": {
+        "defId": "lerp",
+        "id": "fin",
+        "params": {},
+        "position": {
+          "x": 5234,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fres": {
+        "defId": "subgraph",
+        "id": "fres",
+        "label": "Rim",
+        "params": {
+          "subgraph": "ks_fresnel_kit"
+        },
+        "position": {
+          "x": 3570,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "half": {
+        "defId": "normalize",
+        "id": "half",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 959
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hi": {
+        "defId": "add",
+        "id": "hi",
+        "params": {},
+        "position": {
+          "x": 3876,
+          "y": 993
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.03
+        }
+      },
+      "hl": {
+        "defId": "step",
+        "id": "hl",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 750
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "inv": {
+        "defId": "subtract",
+        "id": "inv",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 750
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "ldir": {
+        "defId": "normalize",
+        "id": "ldir",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ldir0": {
+        "defId": "property",
+        "id": "ldir0",
+        "params": {
+          "property": "lightDir"
+        },
+        "position": {
+          "x": 22,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lit": {
+        "defId": "multiply",
+        "id": "lit",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 750
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "lo": {
+        "defId": "subtract",
+        "id": "lo",
+        "params": {},
+        "position": {
+          "x": 3570,
+          "y": 993
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "mask": {
+        "defId": "smoothstep",
+        "id": "mask",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 981
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5674,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nh": {
+        "defId": "dot",
+        "id": "nh",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 887
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "normal",
+        "id": "nrm",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lit_cel": {
+        "defId": "property",
+        "id": "p_lit_cel",
+        "params": {
+          "property": "lit"
+        },
+        "position": {
+          "x": 988,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_outlineColor_mix": {
+        "defId": "property",
+        "id": "p_outlineColor_mix",
+        "params": {
+          "property": "outlineColor"
+        },
+        "position": {
+          "x": 4622,
+          "y": 276
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_outlineWidth_outline": {
+        "defId": "property",
+        "id": "p_outlineWidth_outline",
+        "params": {
+          "property": "outlineWidth"
+        },
+        "position": {
+          "x": 3264,
+          "y": 1017
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimColor_rim": {
+        "defId": "property",
+        "id": "p_rimColor_rim",
+        "params": {
+          "property": "rimColor"
+        },
+        "position": {
+          "x": 3264,
+          "y": 206
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimIntensity_rim": {
+        "defId": "property",
+        "id": "p_rimIntensity_rim",
+        "params": {
+          "property": "rimIntensity"
+        },
+        "position": {
+          "x": 3264,
+          "y": 300
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimPower_rim": {
+        "defId": "property",
+        "id": "p_rimPower_rim",
+        "params": {
+          "property": "rimPower"
+        },
+        "position": {
+          "x": 3264,
+          "y": 394
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shadow_cel": {
+        "defId": "property",
+        "id": "p_shadow_cel",
+        "params": {
+          "property": "shadow"
+        },
+        "position": {
+          "x": 988,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_softness_cel": {
+        "defId": "property",
+        "id": "p_softness_cel",
+        "params": {
+          "property": "softness"
+        },
+        "position": {
+          "x": 988,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_specColor_spec": {
+        "defId": "property",
+        "id": "p_specColor_spec",
+        "params": {
+          "property": "specColor"
+        },
+        "position": {
+          "x": 988,
+          "y": 774
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_specSize_spec": {
+        "defId": "property",
+        "id": "p_specSize_spec",
+        "params": {
+          "property": "specSize"
+        },
+        "position": {
+          "x": 988,
+          "y": 868
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_l": {
+        "defId": "portalIn",
+        "id": "pi_l",
+        "params": {
+          "channel": "L"
+        },
+        "position": {
+          "x": 634,
+          "y": 168
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_level": {
+        "defId": "portalIn",
+        "id": "pi_level",
+        "params": {
+          "channel": "Level"
+        },
+        "position": {
+          "x": 1600,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_n": {
+        "defId": "portalIn",
+        "id": "pi_n",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 328,
+          "y": 312
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_v": {
+        "defId": "portalIn",
+        "id": "pi_v",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 328,
+          "y": 456
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_l_sum_a": {
+        "defId": "portalOut",
+        "id": "po_l_sum_a",
+        "params": {
+          "channel": "L"
+        },
+        "position": {
+          "x": 988,
+          "y": 1082
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_l_toon_lightDir": {
+        "defId": "portalOut",
+        "id": "po_l_toon_lightDir",
+        "params": {
+          "channel": "L"
+        },
+        "position": {
+          "x": 988,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_level_lit_b": {
+        "defId": "portalOut",
+        "id": "po_level_lit_b",
+        "params": {
+          "channel": "Level"
+        },
+        "position": {
+          "x": 988,
+          "y": 962
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_edge_normal": {
+        "defId": "portalOut",
+        "id": "po_n_edge_normal",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 3264,
+          "y": 856
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_fres_normal": {
+        "defId": "portalOut",
+        "id": "po_n_fres_normal",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 3264,
+          "y": 488
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_nh_a": {
+        "defId": "portalOut",
+        "id": "po_n_nh_a",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 988,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_n_toon_normal": {
+        "defId": "portalOut",
+        "id": "po_n_toon_normal",
+        "params": {
+          "channel": "N"
+        },
+        "position": {
+          "x": 988,
+          "y": 519
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_v_edge_viewDir": {
+        "defId": "portalOut",
+        "id": "po_v_edge_viewDir",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 3264,
+          "y": 916
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_v_fres_viewDir": {
+        "defId": "portalOut",
+        "id": "po_v_fres_viewDir",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 3264,
+          "y": 548
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_v_sum_b": {
+        "defId": "portalOut",
+        "id": "po_v_sum_b",
+        "params": {
+          "channel": "V"
+        },
+        "position": {
+          "x": 988,
+          "y": 1142
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sum": {
+        "defId": "add",
+        "id": "sum",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 947
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "toon": {
+        "defId": "subgraph",
+        "id": "toon",
+        "label": "Toon Light",
+        "params": {
+          "subgraph": "ks_toon_light"
+        },
+        "position": {
+          "x": 1294,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "vdir": {
+        "defId": "viewDirection",
+        "id": "vdir",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 427
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.unlit",
+    "properties": [
+      {
+        "category": "Cel Shading",
+        "default": [
+          0.45,
+          0.8,
+          0.4
+        ],
+        "displayName": "Light Direction",
+        "exposed": true,
+        "id": "lightDir",
+        "perInstance": false,
+        "referenceName": "_LightDirection",
+        "tooltip": "Direction FROM the surface TOWARDS the light (world space; normalised in the graph). Drive it from your light's script — the shader is engine-light independent and identical on every target.",
+        "type": "vec3"
+      },
+      {
+        "category": "Cel Shading",
+        "colorSpace": "srgb",
+        "default": [
+          0.95,
+          0.62,
+          0.38
+        ],
+        "displayName": "Lit Color",
+        "exposed": true,
+        "id": "lit",
+        "perInstance": false,
+        "referenceName": "_LitColor",
+        "tooltip": "Colour of the brightest band (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Cel Shading",
+        "colorSpace": "srgb",
+        "default": [
+          0.28,
+          0.2,
+          0.45
+        ],
+        "displayName": "Shadow Color",
+        "exposed": true,
+        "id": "shadow",
+        "perInstance": false,
+        "referenceName": "_ShadowColor",
+        "tooltip": "Colour of the darkest band (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Cel Shading",
+        "default": 0.02,
+        "displayName": "Band Softness",
+        "exposed": true,
+        "id": "softness",
+        "max": 0.3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BandSoftness",
+        "slider": true,
+        "tooltip": "Width of the band edges: 0 = hard cel, 0.3 = painterly.",
+        "type": "float"
+      },
+      {
+        "category": "Specular",
+        "colorSpace": "srgb",
+        "default": [
+          1,
+          0.95,
+          0.85
+        ],
+        "displayName": "Specular Color",
+        "exposed": true,
+        "id": "specColor",
+        "perInstance": false,
+        "referenceName": "_SpecularColor",
+        "tooltip": "Colour of the hard highlight (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Specular",
+        "default": 0.06,
+        "displayName": "Specular Size",
+        "exposed": true,
+        "id": "specSize",
+        "max": 0.4,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SpecularSize",
+        "slider": true,
+        "tooltip": "Size of the highlight (0 = off).",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "colorSpace": "linear",
+        "default": [
+          1.2,
+          0.9,
+          0.7
+        ],
+        "displayName": "Rim Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "rimColor",
+        "perInstance": false,
+        "referenceName": "_RimColor",
+        "tooltip": "HDR rim colour (values above 1 bloom).",
+        "type": "color"
+      },
+      {
+        "category": "Rim",
+        "default": 3.5,
+        "displayName": "Rim Power",
+        "exposed": true,
+        "id": "rimPower",
+        "max": 10,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_RimPower",
+        "slider": true,
+        "tooltip": "Rim falloff: higher = thinner rim.",
+        "type": "float"
+      },
+      {
+        "category": "Rim",
+        "default": 0.6,
+        "displayName": "Rim Intensity",
+        "exposed": true,
+        "id": "rimIntensity",
+        "max": 2,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimIntensity",
+        "slider": true,
+        "tooltip": "Strength of the rim light.",
+        "type": "float"
+      },
+      {
+        "category": "Outline",
+        "colorSpace": "srgb",
+        "default": [
+          0.08,
+          0.05,
+          0.12
+        ],
+        "displayName": "Outline Color",
+        "exposed": true,
+        "id": "outlineColor",
+        "perInstance": false,
+        "referenceName": "_OutlineColor",
+        "tooltip": "Colour of the fake outline (sRGB).",
+        "type": "color"
+      },
+      {
+        "category": "Outline",
+        "default": 0.16,
+        "displayName": "Outline Width",
+        "exposed": true,
+        "id": "outlineWidth",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_OutlineWidth",
+        "slider": true,
+        "tooltip": "Width of the silhouette line (0 = none). View-dependent: thicker on round shapes.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_fresnel_kit": {
+        "comments": [
+          {
+            "color": "#22d3ee",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1154
+            },
+            "text": "**Fresnel kit** — `(1 − N·V)^power × intensity`.\nThe Fresnel node gives the view-dependent term; the mask is saturated so it can drive alpha, emission or a ramp directly. Glow = colour × mask."
+          }
+        ],
+        "edges": {
+          "fres:out>scale:a": {
+            "from": {
+              "node": "fres",
+              "port": "out"
+            },
+            "id": "fres:out>scale:a",
+            "to": {
+              "node": "scale",
+              "port": "a"
+            }
+          },
+          "inputs:color>tint:a": {
+            "from": {
+              "node": "inputs",
+              "port": "color"
+            },
+            "id": "inputs:color>tint:a",
+            "to": {
+              "node": "tint",
+              "port": "a"
+            }
+          },
+          "inputs:intensity>scale:b": {
+            "from": {
+              "node": "inputs",
+              "port": "intensity"
+            },
+            "id": "inputs:intensity>scale:b",
+            "to": {
+              "node": "scale",
+              "port": "b"
+            }
+          },
+          "inputs:normal>fres:normal": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>fres:normal",
+            "to": {
+              "node": "fres",
+              "port": "normal"
+            }
+          },
+          "inputs:power>fres:power": {
+            "from": {
+              "node": "inputs",
+              "port": "power"
+            },
+            "id": "inputs:power>fres:power",
+            "to": {
+              "node": "fres",
+              "port": "power"
+            }
+          },
+          "inputs:viewDir>fres:viewDir": {
+            "from": {
+              "node": "inputs",
+              "port": "viewDir"
+            },
+            "id": "inputs:viewDir>fres:viewDir",
+            "to": {
+              "node": "fres",
+              "port": "viewDir"
+            }
+          },
+          "inv:out>outputs:faceOn": {
+            "from": {
+              "node": "inv",
+              "port": "out"
+            },
+            "id": "inv:out>outputs:faceOn",
+            "to": {
+              "node": "outputs",
+              "port": "faceOn"
+            }
+          },
+          "sat:out>inv:in": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>inv:in",
+            "to": {
+              "node": "inv",
+              "port": "in"
+            }
+          },
+          "sat:out>outputs:rim": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>outputs:rim",
+            "to": {
+              "node": "outputs",
+              "port": "rim"
+            }
+          },
+          "sat:out>tint:b": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>tint:b",
+            "to": {
+              "node": "tint",
+              "port": "b"
+            }
+          },
+          "scale:out>sat:in": {
+            "from": {
+              "node": "scale",
+              "port": "out"
+            },
+            "id": "scale:out>sat:in",
+            "to": {
+              "node": "sat",
+              "port": "in"
+            }
+          },
+          "tint:out>outputs:glow": {
+            "from": {
+              "node": "tint",
+              "port": "out"
+            },
+            "id": "tint:out>outputs:glow",
+            "to": {
+              "node": "outputs",
+              "port": "glow"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#22d3ee",
+            "id": "grp_body",
+            "nodeIds": [
+              "fres",
+              "scale",
+              "sat",
+              "tint",
+              "inv"
+            ],
+            "rect": {
+              "h": 426,
+              "w": 1198,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Fresnel Rim Kit"
+          }
+        ],
+        "id": "ks_fresnel_kit",
+        "inputs": [
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0,
+              0,
+              1
+            ],
+            "id": "viewDir",
+            "name": "View Direction",
+            "tooltip": "Unit vector from the surface to the camera (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              1,
+              1,
+              1
+            ],
+            "id": "color",
+            "name": "Rim Color",
+            "tooltip": "Colour of the glow output (linear, may exceed 1 for HDR bloom).",
+            "type": "color"
+          },
+          {
+            "default": 3,
+            "id": "power",
+            "name": "Power",
+            "tooltip": "Fresnel exponent: higher = thinner rim.",
+            "type": "float"
+          },
+          {
+            "default": 1,
+            "id": "intensity",
+            "name": "Intensity",
+            "tooltip": "Multiplier of the rim mask.",
+            "type": "float"
+          }
+        ],
+        "name": "Fresnel Rim Kit",
+        "nodes": {
+          "fres": {
+            "defId": "fresnel",
+            "id": "fres",
+            "params": {
+              "mode": "power"
+            },
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "inv": {
+            "defId": "oneMinus",
+            "id": "inv",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1638,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sat": {
+            "defId": "saturate",
+            "id": "sat",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 170
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scale": {
+            "defId": "multiply",
+            "id": "scale",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 158
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tint": {
+            "defId": "multiply",
+            "id": "tint",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 288
+            },
+            "previewEnabled": false,
+            "values": {}
+          }
+        },
+        "outputs": [
+          {
+            "id": "rim",
+            "name": "Rim",
+            "tooltip": "Rim mask 0…1 (1 on silhouettes).",
+            "type": "float"
+          },
+          {
+            "id": "glow",
+            "name": "Glow",
+            "tooltip": "Rim colour × rim mask.",
+            "type": "color"
+          },
+          {
+            "id": "faceOn",
+            "name": "Face-On",
+            "tooltip": "1 − rim: strongest where the surface faces the camera.",
+            "type": "float"
+          }
+        ]
+      },
+      "ks_toon_light": {
+        "comments": [
+          {
+            "color": "#fb923c",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 39,
+              "w": 1154
+            },
+            "text": "**Toon light** — `v = N·L × ½ + ½` (half-Lambert keeps the dark side readable), then the Toon Ramp node quantises v into 3 equal bands with a feathered edge."
+          }
+        ],
+        "edges": {
+          "half:out>v:a": {
+            "from": {
+              "node": "half",
+              "port": "out"
+            },
+            "id": "half:out>v:a",
+            "to": {
+              "node": "v",
+              "port": "a"
+            }
+          },
+          "inputs:lightDir>ndl:b": {
+            "from": {
+              "node": "inputs",
+              "port": "lightDir"
+            },
+            "id": "inputs:lightDir>ndl:b",
+            "to": {
+              "node": "ndl",
+              "port": "b"
+            }
+          },
+          "inputs:lit>ramp:lit": {
+            "from": {
+              "node": "inputs",
+              "port": "lit"
+            },
+            "id": "inputs:lit>ramp:lit",
+            "to": {
+              "node": "ramp",
+              "port": "lit"
+            }
+          },
+          "inputs:normal>ndl:a": {
+            "from": {
+              "node": "inputs",
+              "port": "normal"
+            },
+            "id": "inputs:normal>ndl:a",
+            "to": {
+              "node": "ndl",
+              "port": "a"
+            }
+          },
+          "inputs:shadow>ramp:shadow": {
+            "from": {
+              "node": "inputs",
+              "port": "shadow"
+            },
+            "id": "inputs:shadow>ramp:shadow",
+            "to": {
+              "node": "ramp",
+              "port": "shadow"
+            }
+          },
+          "inputs:softness>ramp:softness": {
+            "from": {
+              "node": "inputs",
+              "port": "softness"
+            },
+            "id": "inputs:softness>ramp:softness",
+            "to": {
+              "node": "ramp",
+              "port": "softness"
+            }
+          },
+          "ndl:out>half:a": {
+            "from": {
+              "node": "ndl",
+              "port": "out"
+            },
+            "id": "ndl:out>half:a",
+            "to": {
+              "node": "half",
+              "port": "a"
+            }
+          },
+          "ramp:color>outputs:color": {
+            "from": {
+              "node": "ramp",
+              "port": "color"
+            },
+            "id": "ramp:color>outputs:color",
+            "to": {
+              "node": "outputs",
+              "port": "color"
+            }
+          },
+          "ramp:level>outputs:level": {
+            "from": {
+              "node": "ramp",
+              "port": "level"
+            },
+            "id": "ramp:level>outputs:level",
+            "to": {
+              "node": "outputs",
+              "port": "level"
+            }
+          },
+          "v:out>ramp:value": {
+            "from": {
+              "node": "v",
+              "port": "out"
+            },
+            "id": "v:out>ramp:value",
+            "to": {
+              "node": "ramp",
+              "port": "value"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#fb923c",
+            "id": "grp_body",
+            "nodeIds": [
+              "ndl",
+              "half",
+              "v",
+              "ramp"
+            ],
+            "rect": {
+              "h": 411,
+              "w": 1198,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Toon Light (3 bands)"
+          }
+        ],
+        "id": "ks_toon_light",
+        "inputs": [
+          {
+            "default": [
+              0,
+              1,
+              0
+            ],
+            "id": "normal",
+            "name": "Normal",
+            "tooltip": "Surface normal (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": [
+              0.4,
+              0.8,
+              0.4
+            ],
+            "id": "lightDir",
+            "name": "Light Direction",
+            "tooltip": "Direction from the surface TOWARDS the light (world space).",
+            "type": "vec3"
+          },
+          {
+            "default": 0.02,
+            "id": "softness",
+            "name": "Softness",
+            "tooltip": "Width of the band edges (0 = hard cel).",
+            "type": "float"
+          },
+          {
+            "default": [
+              0.2,
+              0.2,
+              0.35
+            ],
+            "id": "shadow",
+            "name": "Shadow",
+            "tooltip": "Colour of the darkest band.",
+            "type": "color"
+          },
+          {
+            "default": [
+              1,
+              1,
+              1
+            ],
+            "id": "lit",
+            "name": "Lit",
+            "tooltip": "Colour of the brightest band.",
+            "type": "color"
+          }
+        ],
+        "name": "Toon Light (3 bands)",
+        "nodes": {
+          "half": {
+            "defId": "multiply",
+            "id": "half",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 189
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ndl": {
+            "defId": "dot",
+            "id": "ndl",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 189
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 1638,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ramp": {
+            "defId": "toonRamp",
+            "id": "ramp",
+            "params": {
+              "bands": 3,
+              "mode": "bands"
+            },
+            "position": {
+              "x": 1240,
+              "y": 105
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "v": {
+            "defId": "add",
+            "id": "v",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 189
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "color",
+            "name": "Color",
+            "tooltip": "mix(Shadow, Lit, level).",
+            "type": "color"
+          },
+          {
+            "id": "level",
+            "name": "Level",
+            "tooltip": "Band level 0…1 (0, ⅓, ⅔, 1 with soft edges).",
+            "type": "float"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "grid": false,
+      "lightAzimuth": 40,
+      "lightElevation": 45,
+      "lit": "unlit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

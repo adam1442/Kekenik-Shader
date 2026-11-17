@@ -1,0 +1,2149 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_geo",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 762
+        },
+        "text": "Object-space position drives the flake cells; world normal, view and the *Light Direction* parameter decide when a flake reflects light into the camera. Shared through portals."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_bump",
+        "position": {
+          "x": 988,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 1460
+        },
+        "text": "Two octaves of cheap value-fbm are the height; **Height To Normal** (fast kernel) turns it into a tangent-space normal for the Lit master. The same height tints dips with the shade colour and darkens crevices (occlusion)."
+      },
+      {
+        "color": "#22d3ee",
+        "id": "note_flake",
+        "position": {
+          "x": 988,
+          "y": 910
+        },
+        "size": {
+          "h": 39,
+          "w": 2990
+        },
+        "text": "Object position × density is split into an integer **cell** and a fractional position inside it. One hash of the cell gives a random vector: it jitters the flake centre (±¼ of the cell) and tilts the flake normal `normalize(N + d × tilt)`. A radial mask keeps a small disc per cell."
+      },
+      {
+        "color": "#fbbf24",
+        "id": "note_glint",
+        "position": {
+          "x": 4182,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2684
+        },
+        "text": "Half vector `H = normalize(L + V)`; a flake glints when its normal lines up with H: `pow(saturate(F·H), sharpness)`. Multiplied by the disc mask, the sun-facing term and a per-flake twinkle `½ + ½·sin(t·3 + id·37)` (id = cell hash) blended by *Twinkle*."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_emit",
+        "position": {
+          "x": 7070,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "`emission = sparkleColor × glint × intensity` — emission is HDR, so strong glints bloom in the preview and in URP/Godot with Bloom enabled."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 8122,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "Tangent-space bump normal, tinted albedo, crevice occlusion and glint emission."
+      }
+    ],
+    "edges": {
+      "albedo:out>master:baseColor": {
+        "from": {
+          "node": "albedo",
+          "port": "out"
+        },
+        "id": "albedo:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "ao:out>master:occlusion": {
+        "from": {
+          "node": "ao",
+          "port": "out"
+        },
+        "id": "ao:out>master:occlusion",
+        "to": {
+          "node": "master",
+          "port": "occlusion"
+        }
+      },
+      "cell:out>cid:in": {
+        "from": {
+          "node": "cell",
+          "port": "out"
+        },
+        "id": "cell:out>cid:in",
+        "to": {
+          "node": "cid",
+          "port": "in"
+        }
+      },
+      "cell:out>rnd:in": {
+        "from": {
+          "node": "cell",
+          "port": "out"
+        },
+        "id": "cell:out>rnd:in",
+        "to": {
+          "node": "rnd",
+          "port": "in"
+        }
+      },
+      "cid:out>tw1:a": {
+        "from": {
+          "node": "cid",
+          "port": "out"
+        },
+        "id": "cid:out>tw1:a",
+        "to": {
+          "node": "tw1",
+          "port": "a"
+        }
+      },
+      "ctr:out>dv:b": {
+        "from": {
+          "node": "ctr",
+          "port": "out"
+        },
+        "id": "ctr:out>dv:b",
+        "to": {
+          "node": "dv",
+          "port": "b"
+        }
+      },
+      "d1:out>d2:a": {
+        "from": {
+          "node": "d1",
+          "port": "out"
+        },
+        "id": "d1:out>d2:a",
+        "to": {
+          "node": "d2",
+          "port": "a"
+        }
+      },
+      "d2:out>tilt:a": {
+        "from": {
+          "node": "d2",
+          "port": "out"
+        },
+        "id": "d2:out>tilt:a",
+        "to": {
+          "node": "tilt",
+          "port": "a"
+        }
+      },
+      "disc:out>g1:b": {
+        "from": {
+          "node": "disc",
+          "port": "out"
+        },
+        "id": "disc:out>g1:b",
+        "to": {
+          "node": "g1",
+          "port": "b"
+        }
+      },
+      "dist:out>mask:in": {
+        "from": {
+          "node": "dist",
+          "port": "out"
+        },
+        "id": "dist:out>mask:in",
+        "to": {
+          "node": "mask",
+          "port": "in"
+        }
+      },
+      "dv:out>dist:in": {
+        "from": {
+          "node": "dv",
+          "port": "out"
+        },
+        "id": "dv:out>dist:in",
+        "to": {
+          "node": "dist",
+          "port": "in"
+        }
+      },
+      "em:out>master:emission": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "fbm:out>hmix:in": {
+        "from": {
+          "node": "fbm",
+          "port": "out"
+        },
+        "id": "fbm:out>hmix:in",
+        "to": {
+          "node": "hmix",
+          "port": "in"
+        }
+      },
+      "fbm:out>nrm:height": {
+        "from": {
+          "node": "fbm",
+          "port": "out"
+        },
+        "id": "fbm:out>nrm:height",
+        "to": {
+          "node": "nrm",
+          "port": "height"
+        }
+      },
+      "fh:out>fhs:in": {
+        "from": {
+          "node": "fh",
+          "port": "out"
+        },
+        "id": "fh:out>fhs:in",
+        "to": {
+          "node": "fhs",
+          "port": "in"
+        }
+      },
+      "fhs:out>pw:a": {
+        "from": {
+          "node": "fhs",
+          "port": "out"
+        },
+        "id": "fhs:out>pw:a",
+        "to": {
+          "node": "pw",
+          "port": "a"
+        }
+      },
+      "fn0:out>fn:in": {
+        "from": {
+          "node": "fn0",
+          "port": "out"
+        },
+        "id": "fn0:out>fn:in",
+        "to": {
+          "node": "fn",
+          "port": "in"
+        }
+      },
+      "fn:out>fh:a": {
+        "from": {
+          "node": "fn",
+          "port": "out"
+        },
+        "id": "fn:out>fh:a",
+        "to": {
+          "node": "fh",
+          "port": "a"
+        }
+      },
+      "fr:out>dv:a": {
+        "from": {
+          "node": "fr",
+          "port": "out"
+        },
+        "id": "fr:out>dv:a",
+        "to": {
+          "node": "dv",
+          "port": "a"
+        }
+      },
+      "g1:out>g2:a": {
+        "from": {
+          "node": "g1",
+          "port": "out"
+        },
+        "id": "g1:out>g2:a",
+        "to": {
+          "node": "g2",
+          "port": "a"
+        }
+      },
+      "g2:out>g3:a": {
+        "from": {
+          "node": "g2",
+          "port": "out"
+        },
+        "id": "g2:out>g3:a",
+        "to": {
+          "node": "g3",
+          "port": "a"
+        }
+      },
+      "g3:out>sp:b": {
+        "from": {
+          "node": "g3",
+          "port": "out"
+        },
+        "id": "g3:out>sp:b",
+        "to": {
+          "node": "sp",
+          "port": "b"
+        }
+      },
+      "h0:out>h:in": {
+        "from": {
+          "node": "h0",
+          "port": "out"
+        },
+        "id": "h0:out>h:in",
+        "to": {
+          "node": "h",
+          "port": "in"
+        }
+      },
+      "h:out>fh:b": {
+        "from": {
+          "node": "h",
+          "port": "out"
+        },
+        "id": "h:out>fh:b",
+        "to": {
+          "node": "fh",
+          "port": "b"
+        }
+      },
+      "hmix:out>hsat:in": {
+        "from": {
+          "node": "hmix",
+          "port": "out"
+        },
+        "id": "hmix:out>hsat:in",
+        "to": {
+          "node": "hsat",
+          "port": "in"
+        }
+      },
+      "hsat:out>albedo:t": {
+        "from": {
+          "node": "hsat",
+          "port": "out"
+        },
+        "id": "hsat:out>albedo:t",
+        "to": {
+          "node": "albedo",
+          "port": "t"
+        }
+      },
+      "hsat:out>ao:in": {
+        "from": {
+          "node": "hsat",
+          "port": "out"
+        },
+        "id": "hsat:out>ao:in",
+        "to": {
+          "node": "ao",
+          "port": "in"
+        }
+      },
+      "jit:out>ctr:a": {
+        "from": {
+          "node": "jit",
+          "port": "out"
+        },
+        "id": "jit:out>ctr:a",
+        "to": {
+          "node": "ctr",
+          "port": "a"
+        }
+      },
+      "l0:out>nl:b": {
+        "from": {
+          "node": "l0",
+          "port": "out"
+        },
+        "id": "l0:out>nl:b",
+        "to": {
+          "node": "nl",
+          "port": "b"
+        }
+      },
+      "l0:out>pi_sundir:in": {
+        "from": {
+          "node": "l0",
+          "port": "out"
+        },
+        "id": "l0:out>pi_sundir:in",
+        "to": {
+          "node": "pi_sundir",
+          "port": "in"
+        }
+      },
+      "mask:out>disc:in": {
+        "from": {
+          "node": "mask",
+          "port": "out"
+        },
+        "id": "mask:out>disc:in",
+        "to": {
+          "node": "disc",
+          "port": "in"
+        }
+      },
+      "nl:out>nls:in": {
+        "from": {
+          "node": "nl",
+          "port": "out"
+        },
+        "id": "nl:out>nls:in",
+        "to": {
+          "node": "nls",
+          "port": "in"
+        }
+      },
+      "nls:out>g2:b": {
+        "from": {
+          "node": "nls",
+          "port": "out"
+        },
+        "id": "nls:out>g2:b",
+        "to": {
+          "node": "g2",
+          "port": "b"
+        }
+      },
+      "nrm:normal>master:normalTS": {
+        "from": {
+          "node": "nrm",
+          "port": "normal"
+        },
+        "id": "nrm:normal>master:normalTS",
+        "to": {
+          "node": "master",
+          "port": "normalTS"
+        }
+      },
+      "opos:out>pi_objectpos:in": {
+        "from": {
+          "node": "opos",
+          "port": "out"
+        },
+        "id": "opos:out>pi_objectpos:in",
+        "to": {
+          "node": "pi_objectpos",
+          "port": "in"
+        }
+      },
+      "p_bumpScale_bump:out>fbm:scale": {
+        "from": {
+          "node": "p_bumpScale_bump",
+          "port": "out"
+        },
+        "id": "p_bumpScale_bump:out>fbm:scale",
+        "to": {
+          "node": "fbm",
+          "port": "scale"
+        }
+      },
+      "p_bumpStrength_bump:out>nrm:strength": {
+        "from": {
+          "node": "p_bumpStrength_bump",
+          "port": "out"
+        },
+        "id": "p_bumpStrength_bump:out>nrm:strength",
+        "to": {
+          "node": "nrm",
+          "port": "strength"
+        }
+      },
+      "p_density_flake:out>pd:b": {
+        "from": {
+          "node": "p_density_flake",
+          "port": "out"
+        },
+        "id": "p_density_flake:out>pd:b",
+        "to": {
+          "node": "pd",
+          "port": "b"
+        }
+      },
+      "p_flakeTilt_flake:out>tilt:b": {
+        "from": {
+          "node": "p_flakeTilt_flake",
+          "port": "out"
+        },
+        "id": "p_flakeTilt_flake:out>tilt:b",
+        "to": {
+          "node": "tilt",
+          "port": "b"
+        }
+      },
+      "p_intensity_emit:out>em:b": {
+        "from": {
+          "node": "p_intensity_emit",
+          "port": "out"
+        },
+        "id": "p_intensity_emit:out>em:b",
+        "to": {
+          "node": "em",
+          "port": "b"
+        }
+      },
+      "p_lightDir_geo:out>l0:in": {
+        "from": {
+          "node": "p_lightDir_geo",
+          "port": "out"
+        },
+        "id": "p_lightDir_geo:out>l0:in",
+        "to": {
+          "node": "l0",
+          "port": "in"
+        }
+      },
+      "p_shadeColor_bump:out>albedo:a": {
+        "from": {
+          "node": "p_shadeColor_bump",
+          "port": "out"
+        },
+        "id": "p_shadeColor_bump:out>albedo:a",
+        "to": {
+          "node": "albedo",
+          "port": "a"
+        }
+      },
+      "p_sharpness_glint:out>pw:b": {
+        "from": {
+          "node": "p_sharpness_glint",
+          "port": "out"
+        },
+        "id": "p_sharpness_glint:out>pw:b",
+        "to": {
+          "node": "pw",
+          "port": "b"
+        }
+      },
+      "p_size_flake:out>mask:edge2": {
+        "from": {
+          "node": "p_size_flake",
+          "port": "out"
+        },
+        "id": "p_size_flake:out>mask:edge2",
+        "to": {
+          "node": "mask",
+          "port": "edge2"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "p_snowColor_bump:out>albedo:b": {
+        "from": {
+          "node": "p_snowColor_bump",
+          "port": "out"
+        },
+        "id": "p_snowColor_bump:out>albedo:b",
+        "to": {
+          "node": "albedo",
+          "port": "b"
+        }
+      },
+      "p_sparkleColor_emit:out>sp:a": {
+        "from": {
+          "node": "p_sparkleColor_emit",
+          "port": "out"
+        },
+        "id": "p_sparkleColor_emit:out>sp:a",
+        "to": {
+          "node": "sp",
+          "port": "a"
+        }
+      },
+      "p_twinkle_glint:out>tw6:t": {
+        "from": {
+          "node": "p_twinkle_glint",
+          "port": "out"
+        },
+        "id": "p_twinkle_glint:out>tw6:t",
+        "to": {
+          "node": "tw6",
+          "port": "t"
+        }
+      },
+      "pd:out>cell:in": {
+        "from": {
+          "node": "pd",
+          "port": "out"
+        },
+        "id": "pd:out>cell:in",
+        "to": {
+          "node": "cell",
+          "port": "in"
+        }
+      },
+      "pd:out>fr:in": {
+        "from": {
+          "node": "pd",
+          "port": "out"
+        },
+        "id": "pd:out>fr:in",
+        "to": {
+          "node": "fr",
+          "port": "in"
+        }
+      },
+      "po_objectpos_pd_a:out>pd:a": {
+        "from": {
+          "node": "po_objectpos_pd_a",
+          "port": "out"
+        },
+        "id": "po_objectpos_pd_a:out>pd:a",
+        "to": {
+          "node": "pd",
+          "port": "a"
+        }
+      },
+      "po_sundir_h0_a:out>h0:a": {
+        "from": {
+          "node": "po_sundir_h0_a",
+          "port": "out"
+        },
+        "id": "po_sundir_h0_a:out>h0:a",
+        "to": {
+          "node": "h0",
+          "port": "a"
+        }
+      },
+      "po_time_tw2_a:out>tw2:a": {
+        "from": {
+          "node": "po_time_tw2_a",
+          "port": "out"
+        },
+        "id": "po_time_tw2_a:out>tw2:a",
+        "to": {
+          "node": "tw2",
+          "port": "a"
+        }
+      },
+      "po_uv_fbm_p:out>fbm:p": {
+        "from": {
+          "node": "po_uv_fbm_p",
+          "port": "out"
+        },
+        "id": "po_uv_fbm_p:out>fbm:p",
+        "to": {
+          "node": "fbm",
+          "port": "p"
+        }
+      },
+      "po_viewdir_h0_b:out>h0:b": {
+        "from": {
+          "node": "po_viewdir_h0_b",
+          "port": "out"
+        },
+        "id": "po_viewdir_h0_b:out>h0:b",
+        "to": {
+          "node": "h0",
+          "port": "b"
+        }
+      },
+      "po_worldnormal_fn0_a:out>fn0:a": {
+        "from": {
+          "node": "po_worldnormal_fn0_a",
+          "port": "out"
+        },
+        "id": "po_worldnormal_fn0_a:out>fn0:a",
+        "to": {
+          "node": "fn0",
+          "port": "a"
+        }
+      },
+      "pw:out>g1:a": {
+        "from": {
+          "node": "pw",
+          "port": "out"
+        },
+        "id": "pw:out>g1:a",
+        "to": {
+          "node": "g1",
+          "port": "a"
+        }
+      },
+      "rnd:out>d1:a": {
+        "from": {
+          "node": "rnd",
+          "port": "out"
+        },
+        "id": "rnd:out>d1:a",
+        "to": {
+          "node": "d1",
+          "port": "a"
+        }
+      },
+      "rnd:out>jit:a": {
+        "from": {
+          "node": "rnd",
+          "port": "out"
+        },
+        "id": "rnd:out>jit:a",
+        "to": {
+          "node": "jit",
+          "port": "a"
+        }
+      },
+      "sp:out>em:a": {
+        "from": {
+          "node": "sp",
+          "port": "out"
+        },
+        "id": "sp:out>em:a",
+        "to": {
+          "node": "em",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "tilt:out>fn0:b": {
+        "from": {
+          "node": "tilt",
+          "port": "out"
+        },
+        "id": "tilt:out>fn0:b",
+        "to": {
+          "node": "fn0",
+          "port": "b"
+        }
+      },
+      "tw1:out>tw3:b": {
+        "from": {
+          "node": "tw1",
+          "port": "out"
+        },
+        "id": "tw1:out>tw3:b",
+        "to": {
+          "node": "tw3",
+          "port": "b"
+        }
+      },
+      "tw2:out>tw3:a": {
+        "from": {
+          "node": "tw2",
+          "port": "out"
+        },
+        "id": "tw2:out>tw3:a",
+        "to": {
+          "node": "tw3",
+          "port": "a"
+        }
+      },
+      "tw3:out>tw4:in": {
+        "from": {
+          "node": "tw3",
+          "port": "out"
+        },
+        "id": "tw3:out>tw4:in",
+        "to": {
+          "node": "tw4",
+          "port": "in"
+        }
+      },
+      "tw4:out>tw5:in": {
+        "from": {
+          "node": "tw4",
+          "port": "out"
+        },
+        "id": "tw4:out>tw5:in",
+        "to": {
+          "node": "tw5",
+          "port": "in"
+        }
+      },
+      "tw5:out>tw6:b": {
+        "from": {
+          "node": "tw5",
+          "port": "out"
+        },
+        "id": "tw5:out>tw6:b",
+        "to": {
+          "node": "tw6",
+          "port": "b"
+        }
+      },
+      "tw6:out>g3:b": {
+        "from": {
+          "node": "tw6",
+          "port": "out"
+        },
+        "id": "tw6:out>g3:b",
+        "to": {
+          "node": "g3",
+          "port": "b"
+        }
+      },
+      "uv:out>nrm:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>nrm:uv",
+        "to": {
+          "node": "nrm",
+          "port": "uv"
+        }
+      },
+      "uv:out>pi_uv:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>pi_uv:in",
+        "to": {
+          "node": "pi_uv",
+          "port": "in"
+        }
+      },
+      "v:out>pi_viewdir:in": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>pi_viewdir:in",
+        "to": {
+          "node": "pi_viewdir",
+          "port": "in"
+        }
+      },
+      "wn:out>nl:a": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>nl:a",
+        "to": {
+          "node": "nl",
+          "port": "a"
+        }
+      },
+      "wn:out>pi_worldnormal:in": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>pi_worldnormal:in",
+        "to": {
+          "node": "pi_worldnormal",
+          "port": "in"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_geo",
+        "nodeIds": [
+          "opos",
+          "wn",
+          "v",
+          "l0",
+          "t",
+          "uv",
+          "p_lightDir_geo",
+          "pi_uv",
+          "pi_objectpos",
+          "pi_worldnormal",
+          "pi_sundir",
+          "pi_viewdir",
+          "pi_time"
+        ],
+        "rect": {
+          "h": 1028,
+          "w": 806,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Geometry + light"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_bump",
+        "nodeIds": [
+          "fbm",
+          "nrm",
+          "hmix",
+          "hsat",
+          "albedo",
+          "ao",
+          "po_uv_fbm_p",
+          "p_bumpScale_bump",
+          "p_bumpStrength_bump",
+          "p_shadeColor_bump",
+          "p_snowColor_bump"
+        ],
+        "rect": {
+          "h": 806,
+          "w": 1504,
+          "x": 966,
+          "y": 0
+        },
+        "title": "Snow bump"
+      },
+      {
+        "color": "#22d3ee",
+        "id": "grp_flake",
+        "nodeIds": [
+          "pd",
+          "cell",
+          "fr",
+          "rnd",
+          "cid",
+          "jit",
+          "ctr",
+          "dv",
+          "dist",
+          "d1",
+          "d2",
+          "tilt",
+          "fn0",
+          "fn",
+          "mask",
+          "disc",
+          "po_objectpos_pd_a",
+          "p_density_flake",
+          "p_flakeTilt_flake",
+          "po_worldnormal_fn0_a",
+          "p_size_flake"
+        ],
+        "rect": {
+          "h": 633,
+          "w": 3034,
+          "x": 966,
+          "y": 876
+        },
+        "title": "Flake cells"
+      },
+      {
+        "color": "#fbbf24",
+        "id": "grp_glint",
+        "nodeIds": [
+          "h0",
+          "h",
+          "fh",
+          "fhs",
+          "pw",
+          "nl",
+          "nls",
+          "tw1",
+          "tw2",
+          "tw3",
+          "tw4",
+          "tw5",
+          "tw6",
+          "g1",
+          "g2",
+          "g3",
+          "po_sundir_h0_a",
+          "po_viewdir_h0_b",
+          "p_sharpness_glint",
+          "po_time_tw2_a",
+          "p_twinkle_glint"
+        ],
+        "rect": {
+          "h": 777,
+          "w": 2728,
+          "x": 4160,
+          "y": 0
+        },
+        "title": "Glint"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_emit",
+        "nodeIds": [
+          "sp",
+          "em",
+          "p_sparkleColor_emit",
+          "p_intensity_emit"
+        ],
+        "rect": {
+          "h": 330,
+          "w": 892,
+          "x": 7048,
+          "y": 0
+        },
+        "title": "Sparkle emission"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 548,
+          "w": 586,
+          "x": 8100,
+          "y": 0
+        },
+        "title": "Master output (URP Lit)"
+      }
+    ],
+    "id": "snow-sparkle",
+    "keywords": [],
+    "name": "Snow with Sparkle",
+    "nodes": {
+      "albedo": {
+        "defId": "lerp",
+        "id": "albedo",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 509
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ao": {
+        "defId": "remap",
+        "id": "ao",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": 0,
+          "outMax": 1,
+          "outMin": 0.6
+        }
+      },
+      "cell": {
+        "defId": "floor",
+        "id": "cell",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 993
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "cid": {
+        "defId": "hash3to1",
+        "id": "cid",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 981
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "ctr": {
+        "defId": "add",
+        "id": "ctr",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 1265
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.25
+        }
+      },
+      "d1": {
+        "defId": "multiply",
+        "id": "d1",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 1123
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 2
+        }
+      },
+      "d2": {
+        "defId": "subtract",
+        "id": "d2",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 1123
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 1
+        }
+      },
+      "disc": {
+        "defId": "oneMinus",
+        "id": "disc",
+        "params": {},
+        "position": {
+          "x": 3742,
+          "y": 1164
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dist": {
+        "defId": "length",
+        "id": "dist",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 1164
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dv": {
+        "defId": "subtract",
+        "id": "dv",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 1152
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "em": {
+        "defId": "multiply",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 7682,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fbm": {
+        "defId": "noiseFbm",
+        "id": "fbm",
+        "params": {
+          "basis": "value",
+          "octaves": 2
+        },
+        "position": {
+          "x": 1294,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fh": {
+        "defId": "dot",
+        "id": "fh",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fhs": {
+        "defId": "saturate",
+        "id": "fhs",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fn": {
+        "defId": "normalize",
+        "id": "fn",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 1022
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fn0": {
+        "defId": "add",
+        "id": "fn0",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 1010
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "fr": {
+        "defId": "fract",
+        "id": "fr",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 1164
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g1": {
+        "defId": "multiply",
+        "id": "g1",
+        "params": {},
+        "position": {
+          "x": 6018,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g2": {
+        "defId": "multiply",
+        "id": "g2",
+        "params": {},
+        "position": {
+          "x": 6324,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "g3": {
+        "defId": "multiply",
+        "id": "g3",
+        "params": {},
+        "position": {
+          "x": 6630,
+          "y": 384
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h": {
+        "defId": "normalize",
+        "id": "h",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "h0": {
+        "defId": "add",
+        "id": "h0",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "hmix": {
+        "defId": "remap",
+        "id": "hmix",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 194
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 0.75,
+          "inMin": 0.25,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "hsat": {
+        "defId": "saturate",
+        "id": "hsat",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 242
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "jit": {
+        "defId": "multiply",
+        "id": "jit",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 1265
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.5
+        }
+      },
+      "l0": {
+        "defId": "normalize",
+        "id": "l0",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mask": {
+        "defId": "smoothstep",
+        "id": "mask",
+        "params": {},
+        "position": {
+          "x": 3436,
+          "y": 1140
+        },
+        "previewEnabled": false,
+        "values": {
+          "edge1": 0
+        }
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 8428,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nl": {
+        "defId": "dot",
+        "id": "nl",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 343
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nls": {
+        "defId": "saturate",
+        "id": "nls",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 278
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nrm": {
+        "defId": "heightToNormal",
+        "id": "nrm",
+        "params": {
+          "quality": "fast"
+        },
+        "position": {
+          "x": 1600,
+          "y": 408
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "opos": {
+        "defId": "position",
+        "id": "opos",
+        "params": {
+          "space": "object"
+        },
+        "position": {
+          "x": 22,
+          "y": 266
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bumpScale_bump": {
+        "defId": "property",
+        "id": "p_bumpScale_bump",
+        "params": {
+          "property": "bumpScale"
+        },
+        "position": {
+          "x": 988,
+          "y": 254
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bumpStrength_bump": {
+        "defId": "property",
+        "id": "p_bumpStrength_bump",
+        "params": {
+          "property": "bumpStrength"
+        },
+        "position": {
+          "x": 988,
+          "y": 528
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_density_flake": {
+        "defId": "property",
+        "id": "p_density_flake",
+        "params": {
+          "property": "density"
+        },
+        "position": {
+          "x": 988,
+          "y": 1111
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_flakeTilt_flake": {
+        "defId": "property",
+        "id": "p_flakeTilt_flake",
+        "params": {
+          "property": "flakeTilt"
+        },
+        "position": {
+          "x": 988,
+          "y": 1205
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_intensity_emit": {
+        "defId": "property",
+        "id": "p_intensity_emit",
+        "params": {
+          "property": "intensity"
+        },
+        "position": {
+          "x": 7070,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_lightDir_geo": {
+        "defId": "property",
+        "id": "p_lightDir_geo",
+        "params": {
+          "property": "lightDir"
+        },
+        "position": {
+          "x": 22,
+          "y": 134
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_shadeColor_bump": {
+        "defId": "property",
+        "id": "p_shadeColor_bump",
+        "params": {
+          "property": "shadeColor"
+        },
+        "position": {
+          "x": 988,
+          "y": 622
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_sharpness_glint": {
+        "defId": "property",
+        "id": "p_sharpness_glint",
+        "params": {
+          "property": "sharpness"
+        },
+        "position": {
+          "x": 4182,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_size_flake": {
+        "defId": "property",
+        "id": "p_size_flake",
+        "params": {
+          "property": "size"
+        },
+        "position": {
+          "x": 988,
+          "y": 1419
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 8122,
+          "y": 290
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_snowColor_bump": {
+        "defId": "property",
+        "id": "p_snowColor_bump",
+        "params": {
+          "property": "snowColor"
+        },
+        "position": {
+          "x": 988,
+          "y": 716
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_sparkleColor_emit": {
+        "defId": "property",
+        "id": "p_sparkleColor_emit",
+        "params": {
+          "property": "sparkleColor"
+        },
+        "position": {
+          "x": 7070,
+          "y": 240
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_twinkle_glint": {
+        "defId": "property",
+        "id": "p_twinkle_glint",
+        "params": {
+          "property": "twinkle"
+        },
+        "position": {
+          "x": 4182,
+          "y": 485
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pd": {
+        "defId": "multiply",
+        "id": "pd",
+        "params": {},
+        "position": {
+          "x": 1294,
+          "y": 1087
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_objectpos": {
+        "defId": "portalIn",
+        "id": "pi_objectpos",
+        "params": {
+          "channel": "ObjectPos"
+        },
+        "position": {
+          "x": 328,
+          "y": 295
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_sundir": {
+        "defId": "portalIn",
+        "id": "pi_sundir",
+        "params": {
+          "channel": "SunDir"
+        },
+        "position": {
+          "x": 634,
+          "y": 151
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 475
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_uv": {
+        "defId": "portalIn",
+        "id": "pi_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 328,
+          "y": 655
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_viewdir": {
+        "defId": "portalIn",
+        "id": "pi_viewdir",
+        "params": {
+          "channel": "ViewDir"
+        },
+        "position": {
+          "x": 328,
+          "y": 799
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_worldnormal": {
+        "defId": "portalIn",
+        "id": "pi_worldnormal",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 328,
+          "y": 943
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_objectpos_pd_a": {
+        "defId": "portalOut",
+        "id": "po_objectpos_pd_a",
+        "params": {
+          "channel": "ObjectPos"
+        },
+        "position": {
+          "x": 988,
+          "y": 1299
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_sundir_h0_a": {
+        "defId": "portalOut",
+        "id": "po_sundir_h0_a",
+        "params": {
+          "channel": "SunDir"
+        },
+        "position": {
+          "x": 4182,
+          "y": 223
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_tw2_a": {
+        "defId": "portalOut",
+        "id": "po_time_tw2_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 4182,
+          "y": 721
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_uv_fbm_p": {
+        "defId": "portalOut",
+        "id": "po_uv_fbm_p",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 988,
+          "y": 348
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_viewdir_h0_b": {
+        "defId": "portalOut",
+        "id": "po_viewdir_h0_b",
+        "params": {
+          "channel": "ViewDir"
+        },
+        "position": {
+          "x": 4182,
+          "y": 283
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_worldnormal_fn0_a": {
+        "defId": "portalOut",
+        "id": "po_worldnormal_fn0_a",
+        "params": {
+          "channel": "WorldNormal"
+        },
+        "position": {
+          "x": 988,
+          "y": 1359
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pw": {
+        "defId": "power",
+        "id": "pw",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rnd": {
+        "defId": "hash3to3",
+        "id": "rnd",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 1123
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sp": {
+        "defId": "multiply",
+        "id": "sp",
+        "params": {},
+        "position": {
+          "x": 7376,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 410
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tilt": {
+        "defId": "multiply",
+        "id": "tilt",
+        "params": {},
+        "position": {
+          "x": 2824,
+          "y": 1010
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tw1": {
+        "defId": "multiply",
+        "id": "tw1",
+        "params": {},
+        "position": {
+          "x": 4182,
+          "y": 579
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 37
+        }
+      },
+      "tw2": {
+        "defId": "multiply",
+        "id": "tw2",
+        "params": {},
+        "position": {
+          "x": 4488,
+          "y": 603
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3
+        }
+      },
+      "tw3": {
+        "defId": "add",
+        "id": "tw3",
+        "params": {},
+        "position": {
+          "x": 4794,
+          "y": 502
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tw4": {
+        "defId": "sin",
+        "id": "tw4",
+        "params": {},
+        "position": {
+          "x": 5100,
+          "y": 514
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "tw5": {
+        "defId": "remap",
+        "id": "tw5",
+        "params": {},
+        "position": {
+          "x": 5406,
+          "y": 466
+        },
+        "previewEnabled": false,
+        "values": {
+          "inMax": 1,
+          "inMin": -1,
+          "outMax": 1,
+          "outMin": 0
+        }
+      },
+      "tw6": {
+        "defId": "lerp",
+        "id": "tw6",
+        "params": {},
+        "position": {
+          "x": 5712,
+          "y": 372
+        },
+        "previewEnabled": false,
+        "values": {
+          "a": 1
+        }
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 626
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "v": {
+        "defId": "viewDirection",
+        "id": "v",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 770
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wn": {
+        "defId": "normal",
+        "id": "wn",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 914
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Surface",
+        "colorSpace": "srgb",
+        "default": [
+          0.93,
+          0.96,
+          1
+        ],
+        "displayName": "Snow Color",
+        "exposed": true,
+        "id": "snowColor",
+        "perInstance": false,
+        "referenceName": "_SnowColor",
+        "tooltip": "Albedo of the snow in light areas.",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "colorSpace": "srgb",
+        "default": [
+          0.62,
+          0.72,
+          0.9
+        ],
+        "displayName": "Shade Color",
+        "exposed": true,
+        "id": "shadeColor",
+        "perInstance": false,
+        "referenceName": "_ShadeColor",
+        "tooltip": "Cool blue-ish albedo in the dips of the bump (fake sub-surface scattering).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "default": 0.3,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Specular smoothness of the snow surface.",
+        "type": "float"
+      },
+      {
+        "category": "Bump",
+        "default": 14,
+        "displayName": "Bump Scale",
+        "exposed": true,
+        "id": "bumpScale",
+        "max": 48,
+        "min": 2,
+        "perInstance": false,
+        "referenceName": "_BumpScale",
+        "slider": true,
+        "tooltip": "Frequency of the snow bumps (UV space).",
+        "type": "float"
+      },
+      {
+        "category": "Bump",
+        "default": 0.8,
+        "displayName": "Bump Strength",
+        "exposed": true,
+        "id": "bumpStrength",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BumpStrength",
+        "slider": true,
+        "tooltip": "Strength of the bump normal.",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "colorSpace": "linear",
+        "default": [
+          1.5,
+          1.7,
+          2.2
+        ],
+        "displayName": "Sparkle Color",
+        "exposed": true,
+        "hdr": true,
+        "id": "sparkleColor",
+        "perInstance": false,
+        "referenceName": "_SparkleColor",
+        "tooltip": "HDR colour of the glints (values above 1 bloom).",
+        "type": "color"
+      },
+      {
+        "category": "Sparkle",
+        "default": [
+          0.5,
+          0.65,
+          0.55
+        ],
+        "displayName": "Light Direction",
+        "exposed": true,
+        "id": "lightDir",
+        "perInstance": false,
+        "referenceName": "_LightDirection",
+        "tooltip": "Direction FROM the surface TOWARDS the sun (world space, normalised in the graph). Drive it from your light's script.",
+        "type": "vec3"
+      },
+      {
+        "category": "Sparkle",
+        "default": 40,
+        "displayName": "Flake Density",
+        "exposed": true,
+        "id": "density",
+        "max": 160,
+        "min": 8,
+        "perInstance": false,
+        "referenceName": "_FlakeDensity",
+        "slider": true,
+        "tooltip": "Grid cells per object unit — more cells = finer glitter.",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "default": 0.2,
+        "displayName": "Flake Size",
+        "exposed": true,
+        "id": "size",
+        "max": 0.25,
+        "min": 0.03,
+        "perInstance": false,
+        "referenceName": "_FlakeSize",
+        "slider": true,
+        "tooltip": "Radius of one flake as a fraction of its cell (max 0.25 keeps the flake inside its cell).",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "default": 90,
+        "displayName": "Glint Sharpness",
+        "exposed": true,
+        "id": "sharpness",
+        "max": 400,
+        "min": 8,
+        "perInstance": false,
+        "referenceName": "_GlintSharpness",
+        "slider": true,
+        "tooltip": "Exponent of the glint: higher = narrower range of view angles that sparkle.",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "default": 1.4,
+        "displayName": "Flake Tilt",
+        "exposed": true,
+        "id": "flakeTilt",
+        "max": 4,
+        "min": 0.1,
+        "perInstance": false,
+        "referenceName": "_FlakeTilt",
+        "slider": true,
+        "tooltip": "How far random flakes tilt away from the surface normal (larger = more glints, less coherent).",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "default": 4,
+        "displayName": "Sparkle Intensity",
+        "exposed": true,
+        "id": "intensity",
+        "max": 12,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_SparkleIntensity",
+        "slider": true,
+        "tooltip": "Brightness of the glints.",
+        "type": "float"
+      },
+      {
+        "category": "Sparkle",
+        "default": 0.35,
+        "displayName": "Twinkle",
+        "exposed": true,
+        "id": "twinkle",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Twinkle",
+        "slider": true,
+        "tooltip": "Per-flake brightness flicker over time (0 = none).",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {}
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "gradient",
+      "grid": false,
+      "lightAzimuth": 35,
+      "lightElevation": 38,
+      "lightIntensity": 1.2,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

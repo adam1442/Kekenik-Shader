@@ -1,0 +1,293 @@
+import { isTextureType } from "../types/shaderType";
+import { compileForTarget, type GeneratedTarget } from "../codegen/compileTargets";
+import { compileGodot, godotFileBase } from "../codegen/godot";
+import { normalizeRenderer, normalizeVersion } from "../codegen/godot/data/versions";
+import { compileUnity } from "../codegen/unity";
+import { unityHelperFiles } from "./unityHelpers";
+import { unityTargetById } from "../codegen/unity/data/targets";
+import type { Graph, ParamValue } from "../graph/types";
+import { optionValue, switchProfile, targetProfiles } from "../profiles";
+import type { ProfileProblem } from "../profiles/types";
+import { targetReferenceName } from "../properties/names";
+import type { RefTarget } from "../properties/names";
+import { godotReadme } from "./godotTarget";
+import { UNITY_README } from "./registry";
+import { bakeReadme } from "../bake/records";
+
+export type BundleTargetId = "unity" | "godot" | "glsl" | "hlsl" | "wgsl";
+export const BUNDLE_TARGET_IDS: readonly BundleTargetId[] = ["unity", "godot", "glsl", "hlsl", "wgsl"];
+const FOLDER: Record<BundleTargetId, string> = {
+  unity: "Unity",
+  godot: "Godot",
+  glsl: "GLSL",
+  hlsl: "HLSL",
+  wgsl: "WGSL",
+};
+
+/** Per-target choice in the Export dialog (defaults come from Graph Settings). */
+export interface TargetChoice {
+  enabled: boolean;
+  /** Target profile id (`unity.urp.*` / `godot.*`). */
+  profile?: string;
+  /** Unity version id (`6000.3`) / Godot version id (`4.3`). */
+  version?: string;
+  renderer?: string;
+  /** HLSL / WGSL emit options (same flags as the Code panel's options popover). Ignored by the other targets. */
+  emit?: { nativeDerivatives?: boolean; flipUvV?: boolean; flipClipY?: boolean };
+}
+export type ExportSelection = Partial<Record<BundleTargetId, TargetChoice>>;
+
+export interface BundleFile {
+  /** Path inside the bundle root (`Godot/foo.gdshader`). */
+  path: string;
+  content: string;
+  target: BundleTargetId | "meta";
+  language: string;
+}
+interface TargetReport {
+  id: BundleTargetId;
+  ok: boolean;
+  files: string[];
+  problems: ProfileProblem[];
+  errors: number;
+  warnings: number;
+}
+export interface Bundle {
+  /** `KekenikShader_<Name>` */
+  root: string;
+  name: string;
+  files: BundleFile[];
+  reports: TargetReport[];
+  manifest: Record<string, unknown>;
+}
+
+const GENERATOR_NAME = "Kekenik Shader";
+
+/** `[A-Za-z0-9_-]` only; never empty, never `.`/`..`. */
+const safeName = (s: string, fallback = "Shader"): string =>
+  s.replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") || fallback;
+/** One path segment: no separators, no leading dot, limited charset. */
+const safeFileName = (s: string, fallback = "shader"): string => {
+  const t = s
+    .replace(/[^A-Za-z0-9._-]+/g, "_")
+    .replace(/^[._]+/, "")
+    .replace(/\.{2,}/g, "_");
+  return t || fallback;
+};
+
+/** Default target profile of an engine for a graph currently on `profileId` (family mapping). */
+export function defaultProfileFor(engine: "unity" | "godot", profileId: string): string {
+  const cur = targetProfiles.get(profileId);
+  if (cur && (cur.engine === "unity-urp") === (engine === "unity")) return cur.id;
+  const fam = cur?.family;
+  if (engine === "godot")
+    return fam === "sprite" ? "godot.canvasitem" : fam === "vfx" ? "godot.spatial.vfx" : "godot.spatial";
+  return fam === "sprite"
+    ? "unity.urp.sprite-lit"
+    : fam === "vfx"
+      ? "unity.urp.vfx-unlit"
+      : fam === "unlit"
+        ? "unity.urp.unlit"
+        : "unity.urp.lit";
+}
+
+/** The graph as one target sees it: profile switched when needed + the target's version / renderer settings. */
+function prepareGraph(
+  graph: Graph,
+  id: BundleTargetId,
+  c: TargetChoice | undefined,
+): { graph: Graph; problems: ProfileProblem[] } {
+  if (id !== "unity" && id !== "godot") return { graph, problems: [] };
+  const want = c?.profile ?? defaultProfileFor(id, graph.profileId);
+  let g = graph;
+  let problems: ProfileProblem[] = [];
+  if (want !== graph.profileId && targetProfiles.get(want)) {
+    const sw = switchProfile(graph, want);
+    g = sw.graph;
+    problems = sw.problems;
+  }
+  const settings: Record<string, ParamValue> = { ...g.settings };
+  if (id === "unity" && c?.version) settings.unityVersion = c.version;
+  if (id === "godot") {
+    if (c?.version) settings.godotVersion = c.version;
+    if (c?.renderer) settings.godotRenderer = c.renderer;
+  }
+  return { graph: { ...g, settings }, problems };
+}
+
+const count = (ps: readonly ProfileProblem[], s: string): number => ps.filter((p) => p.severity === s).length;
+const json = (v: unknown): string => JSON.stringify(v, null, 2) + "\n";
+const num = (n: unknown): number | undefined => (typeof n === "number" ? n : undefined);
+
+/** Build everything the Export dialog previews / zips. Pure and deterministic (no timestamps, sorted entries). */
+/** Generic GLSL / HLSL / WGSL headers say "Generated by Kekenik Shader — …"; the export adds the generator version (Unity / Godot already carry it). Export-only: the preview / golden text is untouched. */
+const stampGenerator = (text: string, version: string): string =>
+  text.replace(`// Generated by ${GENERATOR_NAME} — `, `// Generated by ${GENERATOR_NAME} ${version} — `);
+
+export function buildBundle(
+  graph: Graph,
+  selection: ExportSelection,
+  opts: { generatorVersion?: string } = {},
+): Bundle {
+  const name = safeName(graph.name || "Shader");
+  const root = `KekenikShader_${name}`;
+  const gv = opts.generatorVersion ?? "0.1.0";
+  const files: BundleFile[] = [];
+  const reports: TargetReport[] = [];
+  const targetsInfo: Record<string, unknown> = {};
+  const bindings: Partial<Record<BundleTargetId, Map<string, string>>> = {};
+  const warnings: Array<Record<string, unknown>> = [];
+  const surface: Record<string, unknown> = {};
+  const readme: string[] = [
+    `# ${GENERATOR_NAME} — ${graph.name || "Shader"}`,
+    "",
+    `Exported by ${GENERATOR_NAME} ${gv}. Every shader in this folder was generated from one node graph.`,
+    "",
+  ];
+
+  for (const id of BUNDLE_TARGET_IDS) {
+    const c = selection[id];
+    if (!c?.enabled) continue;
+    const { graph: g, problems: swp } = prepareGraph(graph, id, c);
+    const dir = FOLDER[id];
+    const rep: TargetReport = { id, ok: true, files: [], problems: [...swp], errors: 0, warnings: 0 };
+    const names = new Map<string, string>();
+    bindings[id] = names;
+    let out: Array<{ path: string; content: string; language: string }> = [];
+    let ok = true;
+    let diag = "";
+    if (id === "godot") {
+      const r = compileGodot(g, { generatorVersion: gv });
+      out = r.text
+        ? [
+            {
+              path: r.fileName.replace(/[^A-Za-z0-9._-]+/g, "_") || `${godotFileBase(g.name)}.gdshader`,
+              content: r.text,
+              language: "gdshader",
+            },
+          ]
+        : [];
+      ok = r.result.ok;
+      rep.problems.push(...r.problems);
+      for (const b of r.result.uniformBindings ?? []) names.set(b.propId, b.name);
+      diag = r.result.diagnostics.map((d) => `${d.severity} ${d.code}: ${d.message}`).join("\n");
+      targetsInfo.godot = {
+        version: normalizeVersion(g.settings.godotVersion),
+        profile: g.profileId,
+        renderer: normalizeRenderer(g.settings.godotRenderer),
+        file: out[0] ? `${dir}/${out[0].path}` : null,
+      };
+      const tp = targetProfiles.get(g.profileId);
+      surface.godot = Object.fromEntries(
+        (tp?.surfaceOptions ?? []).map((d) => [d.id, optionValue(tp!.surfaceOptions, g.settings, d.id)]),
+      );
+      readme.push(godotReadme(g));
+    } else if (id === "unity") {
+      const r = compileUnity(g, { generatorVersion: gv });
+      out = r.text
+        ? [
+            { path: safeFileName(r.fileName, "Shader.shader"), content: r.text, language: "shaderlab" },
+            ...unityHelperFiles(r.text),
+          ]
+        : [];
+      ok = r.result.ok;
+      rep.problems.push(...r.problems);
+      for (const b of r.result.uniformBindings ?? []) names.set(b.propId, b.name);
+      diag = r.result.diagnostics.map((d) => `${d.severity} ${d.code}: ${d.message}`).join("\n");
+      const ut = unityTargetById(g.settings.unityVersion);
+      targetsInfo.unity = {
+        unity: ut.unity,
+        urp: ut.urp,
+        profile: g.profileId,
+        file: out[0] ? `${dir}/${out[0].path}` : null,
+      };
+      const tp = targetProfiles.get(g.profileId);
+      surface.unity = Object.fromEntries(
+        (tp?.surfaceOptions ?? []).map((d) => [d.id, optionValue(tp!.surfaceOptions, g.settings, d.id)]),
+      );
+      readme.push(UNITY_README(g));
+    } else {
+      const r = compileForTarget(g, id as GeneratedTarget, id === "glsl" || !c.emit ? {} : { emit: c.emit });
+      out = r.files.map((f) => ({
+        path: safeFileName(f.path),
+        content: stampGenerator(f.content, gv),
+        language: f.language,
+      }));
+      ok = r.ok;
+      for (const b of r.uniformBindings ?? []) names.set(b.propId, b.name);
+      diag = r.diagnostics.map((d) => `${d.severity} ${d.code}: ${d.message}`).join("\n");
+      for (const d of r.diagnostics)
+        if (d.severity === "error") rep.problems.push({ rule: `${id}.compile`, severity: "error", message: d.message });
+      readme.push(
+        `## ${id.toUpperCase()}\n\n${id === "glsl" ? "GLSL ES 3.00 (WebGL2): `shader.vert` + `shader.frag`. The host contract (attributes, `ks_*` uniforms) is documented in the file headers." : id === "hlsl" ? "Generic Direct3D HLSL (SM 5.0+). The host contract is documented in the file header." : "WebGPU WGSL (validated with naga). The host contract is documented in the file header."}\n`,
+      );
+    }
+    if (out.length === 0) out = [{ path: "diagnostics.txt", content: `${diag || "No output"}\n`, language: "text" }];
+    for (const f of out) {
+      files.push({ path: `${dir}/${f.path}`, content: f.content, target: id, language: f.language });
+      rep.files.push(`${dir}/${f.path}`);
+    }
+    rep.errors = count(rep.problems, "error") + (ok ? 0 : rep.problems.some((p) => p.severity === "error") ? 0 : 1);
+    rep.warnings = count(rep.problems, "warning");
+    rep.ok = ok && rep.errors === 0;
+    reports.push(rep);
+    for (const p of rep.problems)
+      if (p.severity !== "info") warnings.push({ target: id, rule: p.rule, severity: p.severity, message: p.message });
+  }
+
+  const parameters = graph.properties
+    .filter((p) => p.exposed)
+    .map((p) => {
+      const engineNames: Record<string, string> = {};
+      for (const t of BUNDLE_TARGET_IDS)
+        engineNames[t] = bindings[t]?.get(p.id) ?? targetReferenceName(p.referenceName, t as RefTarget);
+      return {
+        id: p.id,
+        displayName: p.displayName,
+        type: p.type,
+        default: p.default,
+        range:
+          p.min !== undefined || p.max !== undefined
+            ? { min: num(p.min) ?? null, max: num(p.max) ?? null, step: num(p.step) ?? null, slider: !!p.slider }
+            : null,
+        hdr: !!p.hdr,
+        colorSpace: p.colorSpace ?? null,
+        textureDefault: p.textureDefault ?? null,
+        category: p.category ?? null,
+        perInstance: p.perInstance,
+        godotGlobal: !!p.godotGlobal && !isTextureType(p.type),
+        engineNames,
+      };
+    });
+  const manifest = {
+    generator: GENERATOR_NAME,
+    version: gv,
+    graph: { name: graph.name, id: (graph as { id?: string }).id ?? safeName(graph.name) },
+    targets: targetsInfo,
+    parameters,
+    keywords: graph.keywords.map((k) => ({
+      id: k.id,
+      displayName: k.displayName,
+      kind: k.kind,
+      definition: k.definition,
+      default: k.default,
+      entries: k.entries ?? null,
+    })),
+    surfaceOptions: surface,
+    warnings,
+  };
+  const bakeNotes = bakeReadme(graph);
+  if (bakeNotes) readme.push(bakeNotes);
+  files.push({ path: "parameters.json", content: json(manifest), target: "meta", language: "json" });
+  files.push({ path: "README.md", content: readme.join("\n"), target: "meta", language: "markdown" });
+  files.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
+  reports.sort((a, b) => BUNDLE_TARGET_IDS.indexOf(a.id) - BUNDLE_TARGET_IDS.indexOf(b.id));
+  return { root, name, files, reports, manifest };
+}
+
+/** Clipboard form: a single file is raw; several are joined with `// ===== <path> =====` separators (shader files only). */
+export function concatForClipboard(files: readonly BundleFile[]): string {
+  const shaders = files.filter((f) => f.target !== "meta");
+  if (shaders.length === 1) return shaders[0]!.content;
+  return shaders.map((f) => `// ===== ${f.path} =====\n${f.content}`).join("\n");
+}

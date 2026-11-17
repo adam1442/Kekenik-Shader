@@ -1,0 +1,34 @@
+/* Kekenik Shader — refined light theme (Preferences → Theme). Only tokens are overridden; components follow. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --kk-surface-0: #e9ecf2;
+  --kk-surface-1: #f6f7fa;
+  --kk-surface-2: #eef0f5;
+  --kk-surface-3: #ffffff;
+  --kk-surface-4: #e3e7ef;
+  --kk-border-subtle: #e2e5ec;
+  --kk-border: #d3d8e3;
+  --kk-border-strong: #b9c0d0;
+  --kk-text-1: #1a1f2b;
+  --kk-text-2: #4a5368;
+  --kk-text-3: #7a8398;
+  --kk-text-disabled: #a9b0c0;
+  --kk-accent: #6040e8;
+  --kk-accent-hover: #5230d8;
+  --kk-accent-press: #4624c0;
+  --kk-accent-soft: rgba(96, 64, 232, 0.14);
+  --kk-accent-softer: rgba(96, 64, 232, 0.07);
+  --kk-focus-ring: #7a5cf5;
+  --kk-shadow-1: 0 1px 2px rgba(20, 28, 50, 0.12);
+  --kk-shadow-2: 0 4px 12px rgba(20, 28, 50, 0.14);
+  --kk-shadow-3: 0 10px 28px rgba(20, 28, 50, 0.18), 0 0 0 1px rgba(20, 28, 50, 0.05);
+  --kk-shadow-4: 0 20px 56px rgba(20, 28, 50, 0.22), 0 0 0 1px rgba(20, 28, 50, 0.06);
+}
+:root[data-theme="light"] .kk-canvas[data-grid="dots"] {
+  background-image:
+    radial-gradient(circle, rgba(20, 28, 50, 0.14) 1px, transparent 1.3px),
+    radial-gradient(circle, rgba(20, 28, 50, 0.28) 1.5px, transparent 1.8px);
+}
+:root[data-theme="light"] .kk-canvas[data-grid="major"] {
+  background-image: radial-gradient(circle, rgba(20, 28, 50, 0.22) 1.5px, transparent 1.8px);
+}

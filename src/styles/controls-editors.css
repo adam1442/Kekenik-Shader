@@ -1,0 +1,638 @@
+/* Controls library — rich editors: color, gradient, curve, levels . */
+
+/* ── ColorField / ColorPicker ────────────────────────────────────────── */
+.kk-colorfield {
+  position: relative;
+  display: inline-flex;
+  flex: 1;
+  min-width: 72px;
+  height: var(--kk-row-h);
+}
+.kk-colorfield--compact {
+  height: var(--kk-row-h-compact);
+  min-width: 40px;
+}
+.kk-colorfield__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 2px 6px 2px 2px;
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-sm);
+  background: var(--kk-field-bg);
+  color: var(--kk-text-1);
+  transition:
+    border-color var(--kk-dur-fast) var(--kk-ease),
+    background var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-colorfield__btn:hover:not(:disabled) {
+  border-color: var(--kk-border-strong);
+  background: var(--kk-field-bg-hover);
+}
+.kk-colorfield__btn[aria-expanded="true"],
+.kk-colorfield__btn:focus-visible {
+  border-color: var(--kk-accent);
+  outline: none;
+}
+.kk-colorfield__swatch {
+  position: relative;
+  flex: none;
+  aspect-ratio: 1.5;
+  height: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+.kk-colorfield__opaque,
+.kk-colorfield__alpha {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.kk-colorfield__opaque {
+  left: 0;
+  width: 50%;
+}
+.kk-colorfield__alpha {
+  right: 0;
+  width: 50%;
+}
+.kk-colorfield__hex {
+  font-size: var(--kk-text-sm);
+  letter-spacing: 0.02em;
+}
+.kk-colorfield__a {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+}
+.kk-badge--hdr {
+  margin-left: auto;
+  height: 14px;
+  padding: 0 5px;
+  font-size: 9px;
+  background: var(--kk-surface-4);
+  color: var(--kk-text-3);
+}
+.kk-badge--hdr.is-active {
+  background: linear-gradient(90deg, #ff9d5c, #ffe27a);
+  color: #2a1a00;
+}
+.kk-colorfield.is-disabled {
+  opacity: 0.5;
+}
+.kk-colorfield.is-mixed .kk-colorfield__swatch {
+  background: repeating-linear-gradient(45deg, var(--kk-surface-4) 0 3px, var(--kk-surface-2) 3px 6px);
+}
+.kk-colorfield.is-dragover .kk-colorfield__btn {
+  border-color: var(--kk-accent);
+  box-shadow: var(--kk-shadow-glow);
+}
+.kk-colorfield.is-invalid .kk-colorfield__btn {
+  border-color: var(--kk-danger);
+}
+.kk-colorfield.is-modified .kk-colorfield__btn {
+  box-shadow: inset 2px 0 0 var(--kk-accent);
+}
+.kk-surface {
+  touch-action: none;
+  outline: none;
+  cursor: crosshair;
+}
+.kk-surface:focus-visible {
+  box-shadow: 0 0 0 2px var(--kk-accent-soft);
+}
+.kk-cp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  width: 100%;
+  min-width: 0;
+}
+.kk-cp__sv {
+  position: relative;
+  height: 128px;
+  border-radius: var(--kk-radius-sm);
+}
+.kk-cp__puck {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.kk-cp__hue,
+.kk-cp__alpha {
+  position: relative;
+  height: 12px;
+  border-radius: var(--kk-radius-full);
+}
+.kk-cp__hue {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.kk-cp__alphafill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.kk-cp__knob {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: transparent;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.45),
+    0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+.kk-cp__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kk-cp__row--between {
+  justify-content: space-between;
+}
+.kk-cp__compare {
+  display: flex;
+  width: 54px;
+  height: 22px;
+  flex: none;
+  border-radius: var(--kk-radius-sm);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-cp__before,
+.kk-cp__after {
+  position: relative;
+  flex: 1;
+  padding: 0;
+  border: 0;
+}
+.kk-cp__before > span,
+.kk-cp__after > span {
+  position: absolute;
+  inset: 0;
+}
+.kk-cp__before {
+  cursor: pointer;
+}
+.kk-cp__nums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 4px;
+}
+.kk-cp__hex {
+  grid-column: 1 / -1;
+}
+.kk-cp__hdr {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.kk-cp__strip {
+  display: flex;
+  height: 18px;
+  border-radius: var(--kk-radius-sm);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-cp__stripcell {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: end center;
+}
+.kk-cp__stripcell i {
+  font-style: normal;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  mix-blend-mode: difference;
+  padding-bottom: 1px;
+}
+.kk-cp__copy {
+  display: inline-flex;
+  gap: 3px;
+}
+.kk-cp__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.kk-swatch {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--kk-border-strong);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-swatch > span {
+  position: absolute;
+  inset: 0;
+}
+.kk-swatch:hover {
+  transform: scale(1.12);
+}
+.kk-swatch--add {
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border-style: dashed;
+  color: var(--kk-text-3);
+}
+
+/* ── Gradient ────────────────────────────────────────────────────────── */
+.kk-gradcanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+.kk-gradfield {
+  position: relative;
+  display: inline-flex;
+  flex: 1;
+  min-width: 72px;
+  height: var(--kk-row-h);
+}
+.kk-gradfield--compact {
+  height: var(--kk-row-h-compact);
+}
+.kk-gradfield__btn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid var(--kk-border-strong);
+  border-radius: var(--kk-radius-sm);
+  overflow: hidden;
+  transition: border-color var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-gradfield__btn:hover:not(:disabled),
+.kk-gradfield__btn[aria-expanded="true"] {
+  border-color: var(--kk-accent);
+}
+.kk-gradfield__mixed {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--kk-surface-3);
+  color: var(--kk-text-3);
+}
+.kk-gradfield.is-disabled {
+  opacity: 0.5;
+}
+.kk-gradfield.is-invalid .kk-gradfield__btn {
+  border-color: var(--kk-danger);
+}
+.kk-grad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  min-width: 0;
+}
+.kk-grad.is-disabled {
+  opacity: 0.55;
+}
+.kk-grad__stage {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+}
+.kk-grad__bar {
+  height: 28px;
+  border-radius: var(--kk-radius-sm);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-grad__row {
+  position: relative;
+  height: 16px;
+  cursor: copy;
+}
+.kk-gstop {
+  position: absolute;
+  top: 0;
+  width: 12px;
+  height: 14px;
+  margin-left: -6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  outline: none;
+  transition:
+    transform var(--kk-dur-fast) var(--kk-ease),
+    opacity var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-gstop > i {
+  position: absolute;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--kk-text-2);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.kk-gstop--color > i {
+  top: 2px;
+}
+.kk-gstop--alpha > i {
+  top: 0;
+}
+.kk-gstop--color::before,
+.kk-gstop--alpha::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -3px;
+  border: 3px solid transparent;
+}
+.kk-gstop--color::before {
+  top: -4px;
+  border-bottom: 4px solid var(--kk-text-2);
+}
+.kk-gstop--alpha::before {
+  bottom: -4px;
+  border-top: 4px solid var(--kk-text-2);
+}
+.kk-gstop:hover > i,
+.kk-gstop:focus-visible > i {
+  border-color: #fff;
+}
+.kk-gstop.is-selected > i {
+  border-color: var(--kk-accent-hover);
+  box-shadow: 0 0 0 2px var(--kk-accent-soft);
+}
+.kk-gstop.is-selected::before {
+  border-bottom-color: var(--kk-accent-hover);
+  border-top-color: var(--kk-accent-hover);
+}
+.kk-gstop.is-removing {
+  opacity: 0.3;
+  transform: scale(0.8);
+}
+.kk-grad__sel,
+.kk-grad__bar2,
+.kk-curve__bar,
+.kk-lvl__bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.kk-grad__sel .kk-numfield {
+  flex: 1 1 70px;
+}
+.kk-grad__sel .kk-colorfield {
+  flex: 0 0 40px;
+  min-width: 40px;
+}
+.kk-grad__sellabel {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: 100%;
+}
+.kk-grad__bar2 {
+  justify-content: space-between;
+}
+.kk-grad__tools {
+  display: inline-flex;
+  gap: 3px;
+}
+.kk-grad__count {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+}
+.kk-presets {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  max-height: 300px;
+}
+.kk-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: var(--kk-radius-sm);
+  background: transparent;
+  color: var(--kk-text-2);
+  text-align: start;
+}
+.kk-preset:hover,
+.kk-preset:focus-visible {
+  background: var(--kk-accent-soft);
+  color: var(--kk-text-1);
+  outline: none;
+}
+.kk-preset__bar {
+  height: 14px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-preset__name {
+  font-size: var(--kk-text-sm);
+}
+.kk-presets--curves {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.kk-preset--curve .kk-curvethumb {
+  height: 36px;
+  background: var(--kk-surface-1);
+  border-radius: 3px;
+}
+
+/* ── Curve ───────────────────────────────────────────────────────────── */
+.kk-curve {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  min-width: 0;
+}
+.kk-curve.is-disabled {
+  opacity: 0.6;
+}
+.kk-curve__spacer {
+  flex: 1;
+}
+.kk-curve__lbl {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.kk-curve__bar--wrap {
+  gap: 6px;
+}
+.kk-curvecanvas {
+  display: block;
+  width: 100%;
+  border-radius: var(--kk-radius-sm);
+  border: 1px solid var(--kk-border-strong);
+  outline: none;
+  touch-action: none;
+}
+.kk-curvecanvas:focus-visible {
+  border-color: var(--kk-accent);
+}
+.kk-curvethumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.kk-curvefield {
+  position: relative;
+  display: inline-flex;
+  flex: 1;
+  min-width: 72px;
+  height: var(--kk-row-h);
+}
+.kk-curvefield--compact {
+  height: var(--kk-row-h-compact);
+}
+.kk-curvefield__btn {
+  width: 100%;
+  height: 100%;
+  padding: 2px 4px;
+  border: 1px solid var(--kk-border-strong);
+  border-radius: var(--kk-radius-sm);
+  background: var(--kk-surface-1);
+  transition: border-color var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-curvefield__btn:hover:not(:disabled),
+.kk-curvefield__btn[aria-expanded="true"] {
+  border-color: var(--kk-accent);
+}
+.kk-curvefield.is-disabled {
+  opacity: 0.5;
+}
+.kk-curvefield.is-invalid .kk-curvefield__btn {
+  border-color: var(--kk-danger);
+}
+
+/* ── Levels ──────────────────────────────────────────────────────────── */
+.kk-lvl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  min-width: 0;
+}
+.kk-lvl.is-disabled {
+  opacity: 0.6;
+}
+.kk-lvl__histwrap {
+  position: relative;
+  border-radius: var(--kk-radius-sm);
+  border: 1px solid var(--kk-border-strong);
+  background: var(--kk-surface-0);
+  overflow: hidden;
+}
+.kk-lvl__hist {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.kk-lvl__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-sm);
+  text-align: center;
+  pointer-events: none;
+}
+.kk-lvl__empty span {
+  font-size: var(--kk-text-xs);
+  opacity: 0.7;
+}
+.kk-lvl__track {
+  position: relative;
+  height: 16px;
+  margin: 0 6px;
+}
+.kk-lvl__track--in {
+  background: linear-gradient(to right, #000, #fff);
+  height: 8px;
+  margin-top: -2px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-lvl__outramp {
+  background: linear-gradient(to right, #000, #fff);
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px var(--kk-border-strong);
+}
+.kk-lvl__h {
+  position: absolute;
+  top: 8px;
+  width: 12px;
+  height: 11px;
+  margin-left: -6px;
+  padding: 0;
+  border: 0;
+  background: var(--kk-text-2);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  cursor: ew-resize;
+  touch-action: none;
+  outline: none;
+  transition: background var(--kk-dur-fast) var(--kk-ease);
+}
+.kk-lvl__h--black {
+  background: #14161c;
+  filter: drop-shadow(0 0 1px #fff);
+}
+.kk-lvl__h--white {
+  background: #f2f4fa;
+}
+.kk-lvl__h--gamma {
+  background: #8a8f9c;
+}
+.kk-lvl__h:hover,
+.kk-lvl__h:focus-visible {
+  background: var(--kk-accent-hover);
+  filter: none;
+}
+.kk-lvl__fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.kk-lvl__fields--out {
+  grid-template-columns: repeat(2, 1fr);
+}
+.kk-lvl__bar--foot {
+  padding-top: 2px;
+}

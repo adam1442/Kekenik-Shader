@@ -1,0 +1,1268 @@
+{
+  "embeddedAssets": {
+    "assets": [
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAA+UlEQVR42u2ZXQ6EIAwG9zQejQtywN3sgwlBwKKCbZlJeDThG2vl5wMAAAAAAAAAAAAAAEPYtu0rGcsFdidkn/hOHiiEcBgxRvsi0snmlEKXJKTDlIh8kiV6BbRkqA7/D3OlAkxKaH3bveHPBJREqA1/Z5iQIAkv6f6S59RJkAQrNUOJhFIjrUl4rSf0vv10LdArQF0VSEu69g/vLf8zAdMl3AnzdA9QL8DlH2Fm+CsSEOBRgESC2x7Qu0dwK6AlYRkBNQlqF0MzBKjYD7wlwcSOcJQAlWcCM0SoPxUaJcLE4egIEWbvCZ66FHFxW7RkaAAAAAAAAM38AMIUjH8iCrlaAAAAAElFTkSuQmCC",
+        "id": "sample.sprite-palette-swap.locked_sprite_texture",
+        "mime": "image/png",
+        "name": "slime-sprite-indexed.png"
+      },
+      {
+        "dataBase64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAAAECAYAAAA+oDmkAAADjklEQVR42g3T+y8cBgDAcf+Ax1RNz/R686iZncdVvR+hHq25mAk1ucpdLna5i1ztEqQ1qbG1TKaWXcWEmI1VV5a4LtcHsREjRHtraYuO6pRdyzSH0jt33/kTPj98nARJQrxTRfhk+iLM9keUdxTfwiD85MEEFIsJ1IQSVBpOcNkxxJWRhFRHE3YxFklDPBHfJhLZnExU2wliOtOIu5pBQu8pkgxZpPwmJd2YTebtHKQDueQM5ZH3Rz4FIwXI/ixEPi5DOVmEakqOxqRAe1+JbqaYskcqzs2qqXqioXqhhC+XtNT9U0rDio6m1Qqu/FtFq7mGjhd1dK19Q8/6d/T914Jho52br35i0NLD8OavjG3dYHL7NqadIWZ2R5l7M8Gi1cSybQazfZ51x1MsrOAkcRYS4yIiydWXdDd/pO5HyT0QRKFHMIqDYlSeoWi9wik7dIxKQSQ13tHU+8TSdDieZmEi7UeS6RKd4BffNPr9Mrjlf4qhgCyGg6SMirMZD8thIiKXqag8THH5PEgq4GFKIY/TZcxnFrEglbOUo2A5T8lKQTFmmYo1uZoNpQaLqoQtjZYdbSlWnQ5rRQXWqkpstdXY6r/C1vg1Nv1l9lr17HV8z153O3vXf8TefxW7sRf7YD/2ESOO8QEcd3/HMT2KY3YCFu/B82l4OYuTsyAJV5903ERS3P3y8AiU4RmsxCtEg0CiwzvyHD4x1QgT6hAlX8Y3tRm/k+0EZHUTmN1LUO4NgvMHEBeOEFI0QZjiLyTFsxxXzxOtfUKcboHE8qckn39G6oVlMmpXyLy0irTBzEdNL8nVr5PfssEnba8402lB3r2F8tprPu3bRW2wUmK0cfaOHd0QVAxD1SjUjkP9vqNxCvQmaH0AHQ+h+zFcn4f+BTAuweAyjKzAuBnursH0Bsxa9v1b+/6dfb8VnIQCZ/x8XHhP5ILYzxVJoBvRwW+REOJOiuQAGZEeSGM8+DjhIKeTPZGlvo3ipBeqrEOUZAv4LFdAeb43nxe+wxdFPlxUHKahWEiT+ghXtO/SqvOlo9yfrvMB9FwIpK82CMOl97nZ8AGDTWKG9aGMtYQz2SbB1BnBTPdx5q5FsdgXzbIhFrMxnvU7CViGktgcTmNz9EO2xnLYnjjN9tQZXt9TsnNfzc7MWXYflbE7V8mbv2uwLtZhfdaI7bke22orey9+wL7+M/aNXhwWA47tW7Df439BWpi6yVWWbgAAAABJRU5ErkJggg==",
+        "id": "sample.sprite-palette-swap.ramp",
+        "mime": "image/png",
+        "name": "palette-lut.png"
+      }
+    ],
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-palette-swap.locked_sprite_texture",
+      "ramp": "sample.sprite-palette-swap.ramp"
+    }
+  },
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_src",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The sprite stores *indices* as grey levels (shadow / body / light / highlight), not final colours."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_index",
+        "position": {
+          "x": 768,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1374
+        },
+        "text": "Grey `v` → index `round(v × 3)` → ramp position `index / 3`. This lands exactly on the four colour stops of every palette, so edges and filtering can never produce in-between colours."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_pal",
+        "position": {
+          "x": 2346,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 848
+        },
+        "text": "Two **Palette Ramp** lookups share the same index; `Blend` cross-fades the resulting colours. Both rows are read on texel centres, so neighbouring palettes never bleed."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 3398,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 848
+        },
+        "text": "Recoloured RGB with the original sprite alpha (hard pixel edges stay hard)."
+      }
+    ],
+    "edges": {
+      "col:rgb>master:baseColor": {
+        "from": {
+          "node": "col",
+          "port": "rgb"
+        },
+        "id": "col:rgb>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "grey:r>times3:a": {
+        "from": {
+          "node": "grey",
+          "port": "r"
+        },
+        "id": "grey:r>times3:a",
+        "to": {
+          "node": "times3",
+          "port": "a"
+        }
+      },
+      "mix:out>rgb:in": {
+        "from": {
+          "node": "mix",
+          "port": "out"
+        },
+        "id": "mix:out>rgb:in",
+        "to": {
+          "node": "rgb",
+          "port": "in"
+        }
+      },
+      "p_blend_pal:out>mix:t": {
+        "from": {
+          "node": "p_blend_pal",
+          "port": "out"
+        },
+        "id": "p_blend_pal:out>mix:t",
+        "to": {
+          "node": "mix",
+          "port": "t"
+        }
+      },
+      "p_locked_sprite_texture_src:out>sprite:tex": {
+        "from": {
+          "node": "p_locked_sprite_texture_src",
+          "port": "out"
+        },
+        "id": "p_locked_sprite_texture_src:out>sprite:tex",
+        "to": {
+          "node": "sprite",
+          "port": "tex"
+        }
+      },
+      "p_paletteA_pal:out>rampA:palette": {
+        "from": {
+          "node": "p_paletteA_pal",
+          "port": "out"
+        },
+        "id": "p_paletteA_pal:out>rampA:palette",
+        "to": {
+          "node": "rampA",
+          "port": "palette"
+        }
+      },
+      "p_paletteB_pal:out>rampB:palette": {
+        "from": {
+          "node": "p_paletteB_pal",
+          "port": "out"
+        },
+        "id": "p_paletteB_pal:out>rampB:palette",
+        "to": {
+          "node": "rampB",
+          "port": "palette"
+        }
+      },
+      "p_ramp_pal:out>rampA:ramp": {
+        "from": {
+          "node": "p_ramp_pal",
+          "port": "out"
+        },
+        "id": "p_ramp_pal:out>rampA:ramp",
+        "to": {
+          "node": "rampA",
+          "port": "ramp"
+        }
+      },
+      "p_ramp_pal:out>rampB:ramp": {
+        "from": {
+          "node": "p_ramp_pal",
+          "port": "out"
+        },
+        "id": "p_ramp_pal:out>rampB:ramp",
+        "to": {
+          "node": "rampB",
+          "port": "ramp"
+        }
+      },
+      "p_rows_pal:out>rampA:rows": {
+        "from": {
+          "node": "p_rows_pal",
+          "port": "out"
+        },
+        "id": "p_rows_pal:out>rampA:rows",
+        "to": {
+          "node": "rampA",
+          "port": "rows"
+        }
+      },
+      "p_rows_pal:out>rampB:rows": {
+        "from": {
+          "node": "p_rows_pal",
+          "port": "out"
+        },
+        "id": "p_rows_pal:out>rampB:rows",
+        "to": {
+          "node": "rampB",
+          "port": "rows"
+        }
+      },
+      "p_width_pal:out>rampA:width": {
+        "from": {
+          "node": "p_width_pal",
+          "port": "out"
+        },
+        "id": "p_width_pal:out>rampA:width",
+        "to": {
+          "node": "rampA",
+          "port": "width"
+        }
+      },
+      "p_width_pal:out>rampB:width": {
+        "from": {
+          "node": "p_width_pal",
+          "port": "out"
+        },
+        "id": "p_width_pal:out>rampB:width",
+        "to": {
+          "node": "rampB",
+          "port": "width"
+        }
+      },
+      "po_index_rampA_value:out>rampA:value": {
+        "from": {
+          "node": "po_index_rampA_value",
+          "port": "out"
+        },
+        "id": "po_index_rampA_value:out>rampA:value",
+        "to": {
+          "node": "rampA",
+          "port": "value"
+        }
+      },
+      "po_index_rampB_value:out>rampB:value": {
+        "from": {
+          "node": "po_index_rampB_value",
+          "port": "out"
+        },
+        "id": "po_index_rampB_value:out>rampB:value",
+        "to": {
+          "node": "rampB",
+          "port": "value"
+        }
+      },
+      "pos:out>pi_index:in": {
+        "from": {
+          "node": "pos",
+          "port": "out"
+        },
+        "id": "pos:out>pi_index:in",
+        "to": {
+          "node": "pi_index",
+          "port": "in"
+        }
+      },
+      "rampA:color>mix:a": {
+        "from": {
+          "node": "rampA",
+          "port": "color"
+        },
+        "id": "rampA:color>mix:a",
+        "to": {
+          "node": "mix",
+          "port": "a"
+        }
+      },
+      "rampB:color>mix:b": {
+        "from": {
+          "node": "rampB",
+          "port": "color"
+        },
+        "id": "rampB:color>mix:b",
+        "to": {
+          "node": "mix",
+          "port": "b"
+        }
+      },
+      "rgb:b>col:b": {
+        "from": {
+          "node": "rgb",
+          "port": "b"
+        },
+        "id": "rgb:b>col:b",
+        "to": {
+          "node": "col",
+          "port": "b"
+        }
+      },
+      "rgb:g>col:g": {
+        "from": {
+          "node": "rgb",
+          "port": "g"
+        },
+        "id": "rgb:g>col:g",
+        "to": {
+          "node": "col",
+          "port": "g"
+        }
+      },
+      "rgb:r>col:r": {
+        "from": {
+          "node": "rgb",
+          "port": "r"
+        },
+        "id": "rgb:r>col:r",
+        "to": {
+          "node": "col",
+          "port": "r"
+        }
+      },
+      "rounded:out>pos:a": {
+        "from": {
+          "node": "rounded",
+          "port": "out"
+        },
+        "id": "rounded:out>pos:a",
+        "to": {
+          "node": "pos",
+          "port": "a"
+        }
+      },
+      "sprite:a>master:alpha": {
+        "from": {
+          "node": "sprite",
+          "port": "a"
+        },
+        "id": "sprite:a>master:alpha",
+        "to": {
+          "node": "master",
+          "port": "alpha"
+        }
+      },
+      "sprite:rgb>grey:in": {
+        "from": {
+          "node": "sprite",
+          "port": "rgb"
+        },
+        "id": "sprite:rgb>grey:in",
+        "to": {
+          "node": "grey",
+          "port": "in"
+        }
+      },
+      "times3:out>rounded:in": {
+        "from": {
+          "node": "times3",
+          "port": "out"
+        },
+        "id": "times3:out>rounded:in",
+        "to": {
+          "node": "rounded",
+          "port": "in"
+        }
+      },
+      "uv:out>sprite:uv": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>sprite:uv",
+        "to": {
+          "node": "sprite",
+          "port": "uv"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_src",
+        "nodeIds": [
+          "uv",
+          "sprite",
+          "p_locked_sprite_texture_src"
+        ],
+        "rect": {
+          "h": 438,
+          "w": 586,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Indexed sprite"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_index",
+        "nodeIds": [
+          "grey",
+          "times3",
+          "rounded",
+          "pos",
+          "pi_index"
+        ],
+        "rect": {
+          "h": 291,
+          "w": 1418,
+          "x": 746,
+          "y": 0
+        },
+        "title": "Snap to palette index"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_pal",
+        "nodeIds": [
+          "rampA",
+          "rampB",
+          "mix",
+          "po_index_rampA_value",
+          "p_paletteA_pal",
+          "p_rows_pal",
+          "p_width_pal",
+          "p_ramp_pal",
+          "po_index_rampB_value",
+          "p_paletteB_pal",
+          "p_blend_pal"
+        ],
+        "rect": {
+          "h": 862,
+          "w": 892,
+          "x": 2324,
+          "y": 0
+        },
+        "title": "Palette lookup (A and B)"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "rgb",
+          "col",
+          "master"
+        ],
+        "rect": {
+          "h": 339,
+          "w": 892,
+          "x": 3376,
+          "y": 0
+        },
+        "title": "Master output (URP Sprite Unlit)"
+      }
+    ],
+    "id": "sprite-palette-swap",
+    "keywords": [],
+    "name": "Palette Swap (LUT)",
+    "nodes": {
+      "col": {
+        "defId": "combine",
+        "id": "col",
+        "params": {},
+        "position": {
+          "x": 3704,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "grey": {
+        "defId": "split",
+        "id": "grey",
+        "params": {},
+        "position": {
+          "x": 768,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 4010,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "mix": {
+        "defId": "lerp",
+        "id": "mix",
+        "params": {},
+        "position": {
+          "x": 2958,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_blend_pal": {
+        "defId": "property",
+        "id": "p_blend_pal",
+        "params": {
+          "property": "blend"
+        },
+        "position": {
+          "x": 2346,
+          "y": 182
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_locked_sprite_texture_src": {
+        "defId": "property",
+        "id": "p_locked_sprite_texture_src",
+        "params": {
+          "property": "locked_sprite_texture"
+        },
+        "position": {
+          "x": 22,
+          "y": 230
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_paletteA_pal": {
+        "defId": "property",
+        "id": "p_paletteA_pal",
+        "params": {
+          "property": "paletteA"
+        },
+        "position": {
+          "x": 2346,
+          "y": 276
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_paletteB_pal": {
+        "defId": "property",
+        "id": "p_paletteB_pal",
+        "params": {
+          "property": "paletteB"
+        },
+        "position": {
+          "x": 2346,
+          "y": 712
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_ramp_pal": {
+        "defId": "property",
+        "id": "p_ramp_pal",
+        "params": {
+          "property": "ramp"
+        },
+        "position": {
+          "x": 2346,
+          "y": 430
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rows_pal": {
+        "defId": "property",
+        "id": "p_rows_pal",
+        "params": {
+          "property": "rows"
+        },
+        "position": {
+          "x": 2346,
+          "y": 524
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_width_pal": {
+        "defId": "property",
+        "id": "p_width_pal",
+        "params": {
+          "property": "width"
+        },
+        "position": {
+          "x": 2346,
+          "y": 618
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_index": {
+        "defId": "portalIn",
+        "id": "pi_index",
+        "params": {
+          "channel": "Index"
+        },
+        "position": {
+          "x": 1992,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_index_rampA_value": {
+        "defId": "portalOut",
+        "id": "po_index_rampA_value",
+        "params": {
+          "channel": "Index"
+        },
+        "position": {
+          "x": 2346,
+          "y": 370
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_index_rampB_value": {
+        "defId": "portalOut",
+        "id": "po_index_rampB_value",
+        "params": {
+          "channel": "Index"
+        },
+        "position": {
+          "x": 2346,
+          "y": 806
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pos": {
+        "defId": "divide",
+        "id": "pos",
+        "params": {},
+        "position": {
+          "x": 1686,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3
+        }
+      },
+      "rampA": {
+        "defId": "subgraph",
+        "id": "rampA",
+        "label": "Palette A",
+        "params": {
+          "subgraph": "ks_palette_ramp"
+        },
+        "position": {
+          "x": 2652,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rampB": {
+        "defId": "subgraph",
+        "id": "rampB",
+        "label": "Palette B",
+        "params": {
+          "subgraph": "ks_palette_ramp"
+        },
+        "position": {
+          "x": 2652,
+          "y": 336
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rgb": {
+        "defId": "split",
+        "id": "rgb",
+        "params": {},
+        "position": {
+          "x": 3398,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rounded": {
+        "defId": "round",
+        "id": "rounded",
+        "params": {},
+        "position": {
+          "x": 1380,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "sprite": {
+        "defId": "sampleTexture2D",
+        "id": "sprite",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "times3": {
+        "defId": "multiply",
+        "id": "times3",
+        "params": {},
+        "position": {
+          "x": 1074,
+          "y": 129
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3
+        }
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 324
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.sprite-unlit",
+    "properties": [
+      {
+        "category": "Sprite",
+        "default": null,
+        "displayName": "Sprite Texture",
+        "exposed": true,
+        "id": "locked_sprite_texture",
+        "perInstance": false,
+        "referenceName": "_MainTex",
+        "textureDefault": "white",
+        "tooltip": "The sprite itself. Bound automatically by the SpriteRenderer (Unity) / the node's texture (Godot); locked, not exported as a uniform.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Palette",
+        "default": null,
+        "displayName": "Palette Ramp",
+        "exposed": true,
+        "id": "ramp",
+        "perInstance": false,
+        "referenceName": "_PaletteRamp",
+        "textureDefault": "white",
+        "tooltip": "Palette texture: one palette per row, dark → light, left → right.",
+        "type": "texture2D"
+      },
+      {
+        "category": "Palette",
+        "default": 0,
+        "displayName": "Palette A",
+        "exposed": true,
+        "id": "paletteA",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PaletteA",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Row of the first palette (0-based).",
+        "type": "float"
+      },
+      {
+        "category": "Palette",
+        "default": 2,
+        "displayName": "Palette B",
+        "exposed": true,
+        "id": "paletteB",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_PaletteB",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Row of the second palette (0-based).",
+        "type": "float"
+      },
+      {
+        "category": "Palette",
+        "default": 0,
+        "displayName": "Blend A → B",
+        "exposed": true,
+        "id": "blend",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_BlendAB",
+        "slider": true,
+        "tooltip": "0 = palette A, 1 = palette B. Animate it for a smooth recolour.",
+        "type": "float"
+      },
+      {
+        "category": "Ramp texture",
+        "default": 4,
+        "displayName": "Palette Count",
+        "exposed": true,
+        "id": "rows",
+        "max": 16,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_PaletteCount",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Number of rows (palettes) in the ramp texture.",
+        "type": "float"
+      },
+      {
+        "category": "Ramp texture",
+        "default": 64,
+        "displayName": "Ramp Width",
+        "exposed": true,
+        "id": "width",
+        "max": 256,
+        "min": 4,
+        "perInstance": false,
+        "referenceName": "_RampWidth",
+        "slider": true,
+        "step": 1,
+        "tooltip": "Texels per row of the ramp texture.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_palette_ramp": {
+        "comments": [
+          {
+            "color": "#f472b6",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 1766
+            },
+            "text": "**Palette ramp** — `u = value × (w−1)/w + 0.5/w`, `v = (row + 0.5)/rows`: both land on texel centres, so neighbouring rows never bleed and the ends of the ramp stay clean.\nSampled with explicit LOD 0 (no mip mixing of rows)."
+          }
+        ],
+        "edges": {
+          "half:out>u:b": {
+            "from": {
+              "node": "half",
+              "port": "out"
+            },
+            "id": "half:out>u:b",
+            "to": {
+              "node": "u",
+              "port": "b"
+            }
+          },
+          "inputs:palette>row:a": {
+            "from": {
+              "node": "inputs",
+              "port": "palette"
+            },
+            "id": "inputs:palette>row:a",
+            "to": {
+              "node": "row",
+              "port": "a"
+            }
+          },
+          "inputs:ramp>tex:tex": {
+            "from": {
+              "node": "inputs",
+              "port": "ramp"
+            },
+            "id": "inputs:ramp>tex:tex",
+            "to": {
+              "node": "tex",
+              "port": "tex"
+            }
+          },
+          "inputs:rows>v:b": {
+            "from": {
+              "node": "inputs",
+              "port": "rows"
+            },
+            "id": "inputs:rows>v:b",
+            "to": {
+              "node": "v",
+              "port": "b"
+            }
+          },
+          "inputs:value>sat:in": {
+            "from": {
+              "node": "inputs",
+              "port": "value"
+            },
+            "id": "inputs:value>sat:in",
+            "to": {
+              "node": "sat",
+              "port": "in"
+            }
+          },
+          "inputs:width>half:b": {
+            "from": {
+              "node": "inputs",
+              "port": "width"
+            },
+            "id": "inputs:width>half:b",
+            "to": {
+              "node": "half",
+              "port": "b"
+            }
+          },
+          "inputs:width>k:b": {
+            "from": {
+              "node": "inputs",
+              "port": "width"
+            },
+            "id": "inputs:width>k:b",
+            "to": {
+              "node": "k",
+              "port": "b"
+            }
+          },
+          "inputs:width>wm1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "width"
+            },
+            "id": "inputs:width>wm1:a",
+            "to": {
+              "node": "wm1",
+              "port": "a"
+            }
+          },
+          "k:out>scaled:b": {
+            "from": {
+              "node": "k",
+              "port": "out"
+            },
+            "id": "k:out>scaled:b",
+            "to": {
+              "node": "scaled",
+              "port": "b"
+            }
+          },
+          "row:out>v:a": {
+            "from": {
+              "node": "row",
+              "port": "out"
+            },
+            "id": "row:out>v:a",
+            "to": {
+              "node": "v",
+              "port": "a"
+            }
+          },
+          "sat:out>scaled:a": {
+            "from": {
+              "node": "sat",
+              "port": "out"
+            },
+            "id": "sat:out>scaled:a",
+            "to": {
+              "node": "scaled",
+              "port": "a"
+            }
+          },
+          "scaled:out>u:a": {
+            "from": {
+              "node": "scaled",
+              "port": "out"
+            },
+            "id": "scaled:out>u:a",
+            "to": {
+              "node": "u",
+              "port": "a"
+            }
+          },
+          "tex:rgba>outputs:color": {
+            "from": {
+              "node": "tex",
+              "port": "rgba"
+            },
+            "id": "tex:rgba>outputs:color",
+            "to": {
+              "node": "outputs",
+              "port": "color"
+            }
+          },
+          "u:out>uv:r": {
+            "from": {
+              "node": "u",
+              "port": "out"
+            },
+            "id": "u:out>uv:r",
+            "to": {
+              "node": "uv",
+              "port": "r"
+            }
+          },
+          "uv:rg>tex:uv": {
+            "from": {
+              "node": "uv",
+              "port": "rg"
+            },
+            "id": "uv:rg>tex:uv",
+            "to": {
+              "node": "tex",
+              "port": "uv"
+            }
+          },
+          "v:out>uv:g": {
+            "from": {
+              "node": "v",
+              "port": "out"
+            },
+            "id": "v:out>uv:g",
+            "to": {
+              "node": "uv",
+              "port": "g"
+            }
+          },
+          "wm1:out>k:a": {
+            "from": {
+              "node": "wm1",
+              "port": "out"
+            },
+            "id": "wm1:out>k:a",
+            "to": {
+              "node": "k",
+              "port": "a"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#f472b6",
+            "id": "grp_body",
+            "nodeIds": [
+              "sat",
+              "wm1",
+              "k",
+              "scaled",
+              "half",
+              "u",
+              "row",
+              "v",
+              "uv",
+              "tex"
+            ],
+            "rect": {
+              "h": 746,
+              "w": 1810,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Palette Ramp"
+          }
+        ],
+        "id": "ks_palette_ramp",
+        "inputs": [
+          {
+            "default": 0.5,
+            "id": "value",
+            "name": "Value",
+            "tooltip": "Position on the ramp, 0…1 (e.g. sprite luminance).",
+            "type": "float"
+          },
+          {
+            "default": 0,
+            "id": "palette",
+            "name": "Palette",
+            "tooltip": "Row of the ramp texture (0 = first palette).",
+            "type": "float"
+          },
+          {
+            "default": 4,
+            "id": "rows",
+            "name": "Rows",
+            "tooltip": "Number of palettes (rows) in the ramp texture.",
+            "type": "float"
+          },
+          {
+            "default": 64,
+            "id": "width",
+            "name": "Width",
+            "tooltip": "Texels per row of the ramp texture.",
+            "type": "float"
+          },
+          {
+            "id": "ramp",
+            "name": "Ramp",
+            "tooltip": "Ramp texture: one palette per row, dark → light.",
+            "type": "texture2D"
+          }
+        ],
+        "name": "Palette Ramp",
+        "nodes": {
+          "half": {
+            "defId": "divide",
+            "id": "half",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 206
+            },
+            "previewEnabled": false,
+            "values": {
+              "a": 0.5
+            }
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "k": {
+            "defId": "divide",
+            "id": "k",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 466
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 2250,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "row": {
+            "defId": "add",
+            "id": "row",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 608
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.5
+            }
+          },
+          "sat": {
+            "defId": "saturate",
+            "id": "sat",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 348
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scaled": {
+            "defId": "multiply",
+            "id": "scaled",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 336
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "tex": {
+            "defId": "sampleTexture2D",
+            "id": "tex",
+            "params": {
+              "mode": "lod"
+            },
+            "position": {
+              "x": 1852,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {
+              "lod": 0
+            }
+          },
+          "u": {
+            "defId": "add",
+            "id": "u",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 206
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "uv": {
+            "defId": "combine",
+            "id": "uv",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 158
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "v": {
+            "defId": "divide",
+            "id": "v",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 608
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "wm1": {
+            "defId": "subtract",
+            "id": "wm1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 466
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 1
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "color",
+            "name": "Color",
+            "tooltip": "Colour of the palette at Value.",
+            "type": "color4"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {
+      "locked_sprite_texture": "sample.sprite-palette-swap.locked_sprite_texture",
+      "ramp": "sample.sprite-palette-swap.ramp"
+    },
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "checker",
+      "grid": false,
+      "mode": "2d",
+      "nearest": true,
+      "primitive": "quad",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

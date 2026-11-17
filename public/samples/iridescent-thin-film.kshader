@@ -1,0 +1,1952 @@
+{
+  "format": "kshader",
+  "generator": "Kekenik Shader",
+  "graph": {
+    "comments": [
+      {
+        "color": "#60a5fa",
+        "id": "note_geo",
+        "position": {
+          "x": 22,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1068
+        },
+        "text": "World normal and view direction give `N·V`, the angle that shifts the interference colour. UV + time feed the thickness pattern."
+      },
+      {
+        "color": "#4ade80",
+        "id": "note_thick",
+        "position": {
+          "x": 1294,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 2072
+        },
+        "text": "A slowly drifting 3-octave fbm (`uv + t × drift`) is remapped between *Thickness Min* and *Max*. Real soap films have exactly this kind of flowing thickness variation."
+      },
+      {
+        "color": "#f472b6",
+        "id": "note_film",
+        "position": {
+          "x": 3570,
+          "y": 34
+        },
+        "size": {
+          "h": 56,
+          "w": 542
+        },
+        "text": "The **Thin Film** subgraph turns thickness, IOR and `N·V` into an interference tint — open it to see the optical-path maths."
+      },
+      {
+        "color": "#fb923c",
+        "id": "note_mix",
+        "position": {
+          "x": 4316,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 1154
+        },
+        "text": "Base colour = `lerp(baseTone, film, strength)`. A cubic rim `(1 − N·V)³` adds a soft emissive edge in the film colour."
+      },
+      {
+        "color": "#a78bfa",
+        "id": "note_out",
+        "position": {
+          "x": 5674,
+          "y": 34
+        },
+        "size": {
+          "h": 39,
+          "w": 542
+        },
+        "text": "Metallic, glossy surface tinted by the film; rim emission on top."
+      }
+    ],
+    "edges": {
+      "base:out>master:baseColor": {
+        "from": {
+          "node": "base",
+          "port": "out"
+        },
+        "id": "base:out>master:baseColor",
+        "to": {
+          "node": "master",
+          "port": "baseColor"
+        }
+      },
+      "d6:out>dr:g": {
+        "from": {
+          "node": "d6",
+          "port": "out"
+        },
+        "id": "d6:out>dr:g",
+        "to": {
+          "node": "dr",
+          "port": "g"
+        }
+      },
+      "dr:rg>p:b": {
+        "from": {
+          "node": "dr",
+          "port": "rg"
+        },
+        "id": "dr:rg>p:b",
+        "to": {
+          "node": "p",
+          "port": "b"
+        }
+      },
+      "dt:out>d6:a": {
+        "from": {
+          "node": "dt",
+          "port": "out"
+        },
+        "id": "dt:out>d6:a",
+        "to": {
+          "node": "d6",
+          "port": "a"
+        }
+      },
+      "dt:out>dr:r": {
+        "from": {
+          "node": "dt",
+          "port": "out"
+        },
+        "id": "dt:out>dr:r",
+        "to": {
+          "node": "dr",
+          "port": "r"
+        }
+      },
+      "em:out>master:emission": {
+        "from": {
+          "node": "em",
+          "port": "out"
+        },
+        "id": "em:out>master:emission",
+        "to": {
+          "node": "master",
+          "port": "emission"
+        }
+      },
+      "film:color>base:b": {
+        "from": {
+          "node": "film",
+          "port": "color"
+        },
+        "id": "film:color>base:b",
+        "to": {
+          "node": "base",
+          "port": "b"
+        }
+      },
+      "film:color>em:a": {
+        "from": {
+          "node": "film",
+          "port": "color"
+        },
+        "id": "film:color>em:a",
+        "to": {
+          "node": "em",
+          "port": "a"
+        }
+      },
+      "n:out>thick:t": {
+        "from": {
+          "node": "n",
+          "port": "out"
+        },
+        "id": "n:out>thick:t",
+        "to": {
+          "node": "thick",
+          "port": "t"
+        }
+      },
+      "nv0:out>nv:in": {
+        "from": {
+          "node": "nv0",
+          "port": "out"
+        },
+        "id": "nv0:out>nv:in",
+        "to": {
+          "node": "nv",
+          "port": "in"
+        }
+      },
+      "nv:out>pi_ndotv:in": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>pi_ndotv:in",
+        "to": {
+          "node": "pi_ndotv",
+          "port": "in"
+        }
+      },
+      "nv:out>rim0:in": {
+        "from": {
+          "node": "nv",
+          "port": "out"
+        },
+        "id": "nv:out>rim0:in",
+        "to": {
+          "node": "rim0",
+          "port": "in"
+        }
+      },
+      "p:out>n:p": {
+        "from": {
+          "node": "p",
+          "port": "out"
+        },
+        "id": "p:out>n:p",
+        "to": {
+          "node": "n",
+          "port": "p"
+        }
+      },
+      "p_bands_film:out>film:bands": {
+        "from": {
+          "node": "p_bands_film",
+          "port": "out"
+        },
+        "id": "p_bands_film:out>film:bands",
+        "to": {
+          "node": "film",
+          "port": "bands"
+        }
+      },
+      "p_baseTone_mix:out>base:a": {
+        "from": {
+          "node": "p_baseTone_mix",
+          "port": "out"
+        },
+        "id": "p_baseTone_mix:out>base:a",
+        "to": {
+          "node": "base",
+          "port": "a"
+        }
+      },
+      "p_drift_thick:out>dt:b": {
+        "from": {
+          "node": "p_drift_thick",
+          "port": "out"
+        },
+        "id": "p_drift_thick:out>dt:b",
+        "to": {
+          "node": "dt",
+          "port": "b"
+        }
+      },
+      "p_ior_film:out>film:ior": {
+        "from": {
+          "node": "p_ior_film",
+          "port": "out"
+        },
+        "id": "p_ior_film:out>film:ior",
+        "to": {
+          "node": "film",
+          "port": "ior"
+        }
+      },
+      "p_metallic_out:out>master:metallic": {
+        "from": {
+          "node": "p_metallic_out",
+          "port": "out"
+        },
+        "id": "p_metallic_out:out>master:metallic",
+        "to": {
+          "node": "master",
+          "port": "metallic"
+        }
+      },
+      "p_noiseScale_thick:out>n:scale": {
+        "from": {
+          "node": "p_noiseScale_thick",
+          "port": "out"
+        },
+        "id": "p_noiseScale_thick:out>n:scale",
+        "to": {
+          "node": "n",
+          "port": "scale"
+        }
+      },
+      "p_rimGlow_mix:out>rg:b": {
+        "from": {
+          "node": "p_rimGlow_mix",
+          "port": "out"
+        },
+        "id": "p_rimGlow_mix:out>rg:b",
+        "to": {
+          "node": "rg",
+          "port": "b"
+        }
+      },
+      "p_smoothness_out:out>master:smoothness": {
+        "from": {
+          "node": "p_smoothness_out",
+          "port": "out"
+        },
+        "id": "p_smoothness_out:out>master:smoothness",
+        "to": {
+          "node": "master",
+          "port": "smoothness"
+        }
+      },
+      "p_strength_mix:out>base:t": {
+        "from": {
+          "node": "p_strength_mix",
+          "port": "out"
+        },
+        "id": "p_strength_mix:out>base:t",
+        "to": {
+          "node": "base",
+          "port": "t"
+        }
+      },
+      "p_thickMax_thick:out>thick:b": {
+        "from": {
+          "node": "p_thickMax_thick",
+          "port": "out"
+        },
+        "id": "p_thickMax_thick:out>thick:b",
+        "to": {
+          "node": "thick",
+          "port": "b"
+        }
+      },
+      "p_thickMin_thick:out>thick:a": {
+        "from": {
+          "node": "p_thickMin_thick",
+          "port": "out"
+        },
+        "id": "p_thickMin_thick:out>thick:a",
+        "to": {
+          "node": "thick",
+          "port": "a"
+        }
+      },
+      "po_ndotv_film_nDotV:out>film:nDotV": {
+        "from": {
+          "node": "po_ndotv_film_nDotV",
+          "port": "out"
+        },
+        "id": "po_ndotv_film_nDotV:out>film:nDotV",
+        "to": {
+          "node": "film",
+          "port": "nDotV"
+        }
+      },
+      "po_time_dt_a:out>dt:a": {
+        "from": {
+          "node": "po_time_dt_a",
+          "port": "out"
+        },
+        "id": "po_time_dt_a:out>dt:a",
+        "to": {
+          "node": "dt",
+          "port": "a"
+        }
+      },
+      "po_uv_p_a:out>p:a": {
+        "from": {
+          "node": "po_uv_p_a",
+          "port": "out"
+        },
+        "id": "po_uv_p_a:out>p:a",
+        "to": {
+          "node": "p",
+          "port": "a"
+        }
+      },
+      "rg:out>em:b": {
+        "from": {
+          "node": "rg",
+          "port": "out"
+        },
+        "id": "rg:out>em:b",
+        "to": {
+          "node": "em",
+          "port": "b"
+        }
+      },
+      "rim0:out>rim:a": {
+        "from": {
+          "node": "rim0",
+          "port": "out"
+        },
+        "id": "rim0:out>rim:a",
+        "to": {
+          "node": "rim",
+          "port": "a"
+        }
+      },
+      "rim:out>rg:a": {
+        "from": {
+          "node": "rim",
+          "port": "out"
+        },
+        "id": "rim:out>rg:a",
+        "to": {
+          "node": "rg",
+          "port": "a"
+        }
+      },
+      "t:time>pi_time:in": {
+        "from": {
+          "node": "t",
+          "port": "time"
+        },
+        "id": "t:time>pi_time:in",
+        "to": {
+          "node": "pi_time",
+          "port": "in"
+        }
+      },
+      "thick:out>film:thickness": {
+        "from": {
+          "node": "thick",
+          "port": "out"
+        },
+        "id": "thick:out>film:thickness",
+        "to": {
+          "node": "film",
+          "port": "thickness"
+        }
+      },
+      "uv:out>pi_uv:in": {
+        "from": {
+          "node": "uv",
+          "port": "out"
+        },
+        "id": "uv:out>pi_uv:in",
+        "to": {
+          "node": "pi_uv",
+          "port": "in"
+        }
+      },
+      "v:out>nv0:b": {
+        "from": {
+          "node": "v",
+          "port": "out"
+        },
+        "id": "v:out>nv0:b",
+        "to": {
+          "node": "nv0",
+          "port": "b"
+        }
+      },
+      "wn:out>nv0:a": {
+        "from": {
+          "node": "wn",
+          "port": "out"
+        },
+        "id": "wn:out>nv0:a",
+        "to": {
+          "node": "nv0",
+          "port": "a"
+        }
+      }
+    },
+    "groups": [
+      {
+        "color": "#60a5fa",
+        "id": "grp_geo",
+        "nodeIds": [
+          "wn",
+          "v",
+          "uv",
+          "t",
+          "nv0",
+          "nv",
+          "pi_time",
+          "pi_uv",
+          "pi_ndotv"
+        ],
+        "rect": {
+          "h": 709,
+          "w": 1112,
+          "x": 0,
+          "y": 0
+        },
+        "title": "Geometry"
+      },
+      {
+        "color": "#4ade80",
+        "id": "grp_thick",
+        "nodeIds": [
+          "dt",
+          "dr",
+          "d6",
+          "p",
+          "n",
+          "thick",
+          "po_time_dt_a",
+          "p_drift_thick",
+          "po_uv_p_a",
+          "p_noiseScale_thick",
+          "p_thickMin_thick",
+          "p_thickMax_thick"
+        ],
+        "rect": {
+          "h": 669,
+          "w": 2116,
+          "x": 1272,
+          "y": 0
+        },
+        "title": "Thickness field"
+      },
+      {
+        "color": "#f472b6",
+        "id": "grp_film",
+        "nodeIds": [
+          "film",
+          "po_ndotv_film_nDotV",
+          "p_ior_film",
+          "p_bands_film"
+        ],
+        "rect": {
+          "h": 414,
+          "w": 586,
+          "x": 3548,
+          "y": 0
+        },
+        "title": "Thin film"
+      },
+      {
+        "color": "#fb923c",
+        "id": "grp_mix",
+        "nodeIds": [
+          "base",
+          "rim0",
+          "rim",
+          "rg",
+          "em",
+          "p_baseTone_mix",
+          "p_strength_mix",
+          "p_rimGlow_mix"
+        ],
+        "rect": {
+          "h": 599,
+          "w": 1198,
+          "x": 4294,
+          "y": 0
+        },
+        "title": "Colour + rim"
+      },
+      {
+        "color": "#a78bfa",
+        "id": "grp_out",
+        "nodeIds": [
+          "master",
+          "p_metallic_out",
+          "p_smoothness_out"
+        ],
+        "rect": {
+          "h": 531,
+          "w": 586,
+          "x": 5652,
+          "y": 0
+        },
+        "title": "Master output (URP Lit)"
+      }
+    ],
+    "id": "iridescent-thin-film",
+    "keywords": [],
+    "name": "Iridescent Thin Film",
+    "nodes": {
+      "base": {
+        "defId": "lerp",
+        "id": "base",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "d6": {
+        "defId": "multiply",
+        "id": "d6",
+        "params": {},
+        "position": {
+          "x": 1906,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 0.6
+        }
+      },
+      "dr": {
+        "defId": "combine",
+        "id": "dr",
+        "params": {},
+        "position": {
+          "x": 2212,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "dt": {
+        "defId": "multiply",
+        "id": "dt",
+        "params": {},
+        "position": {
+          "x": 1600,
+          "y": 153
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "em": {
+        "defId": "multiply",
+        "id": "em",
+        "params": {},
+        "position": {
+          "x": 5234,
+          "y": 355
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "film": {
+        "defId": "subgraph",
+        "id": "film",
+        "label": "Film",
+        "params": {
+          "subgraph": "ks_thin_film"
+        },
+        "position": {
+          "x": 3876,
+          "y": 122
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "master": {
+        "defId": "masterOutput",
+        "id": "master",
+        "params": {},
+        "position": {
+          "x": 5980,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "n": {
+        "defId": "noiseFbm",
+        "id": "n",
+        "params": {
+          "basis": "value",
+          "octaves": 3
+        },
+        "position": {
+          "x": 2824,
+          "y": 139
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv": {
+        "defId": "saturate",
+        "id": "nv",
+        "params": {},
+        "position": {
+          "x": 634,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "nv0": {
+        "defId": "dot",
+        "id": "nv0",
+        "params": {},
+        "position": {
+          "x": 328,
+          "y": 105
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p": {
+        "defId": "add",
+        "id": "p",
+        "params": {},
+        "position": {
+          "x": 2518,
+          "y": 247
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_bands_film": {
+        "defId": "property",
+        "id": "p_bands_film",
+        "params": {
+          "property": "bands"
+        },
+        "position": {
+          "x": 3570,
+          "y": 170
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_baseTone_mix": {
+        "defId": "property",
+        "id": "p_baseTone_mix",
+        "params": {
+          "property": "baseTone"
+        },
+        "position": {
+          "x": 4316,
+          "y": 141
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_drift_thick": {
+        "defId": "property",
+        "id": "p_drift_thick",
+        "params": {
+          "property": "drift"
+        },
+        "position": {
+          "x": 1294,
+          "y": 177
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_ior_film": {
+        "defId": "property",
+        "id": "p_ior_film",
+        "params": {
+          "property": "ior"
+        },
+        "position": {
+          "x": 3570,
+          "y": 264
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_metallic_out": {
+        "defId": "property",
+        "id": "p_metallic_out",
+        "params": {
+          "property": "metallic"
+        },
+        "position": {
+          "x": 5674,
+          "y": 273
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_noiseScale_thick": {
+        "defId": "property",
+        "id": "p_noiseScale_thick",
+        "params": {
+          "property": "noiseScale"
+        },
+        "position": {
+          "x": 1294,
+          "y": 271
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_rimGlow_mix": {
+        "defId": "property",
+        "id": "p_rimGlow_mix",
+        "params": {
+          "property": "rimGlow"
+        },
+        "position": {
+          "x": 4316,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_smoothness_out": {
+        "defId": "property",
+        "id": "p_smoothness_out",
+        "params": {
+          "property": "smoothness"
+        },
+        "position": {
+          "x": 5674,
+          "y": 367
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_strength_mix": {
+        "defId": "property",
+        "id": "p_strength_mix",
+        "params": {
+          "property": "strength"
+        },
+        "position": {
+          "x": 4316,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_thickMax_thick": {
+        "defId": "property",
+        "id": "p_thickMax_thick",
+        "params": {
+          "property": "thickMax"
+        },
+        "position": {
+          "x": 1294,
+          "y": 365
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "p_thickMin_thick": {
+        "defId": "property",
+        "id": "p_thickMin_thick",
+        "params": {
+          "property": "thickMin"
+        },
+        "position": {
+          "x": 1294,
+          "y": 459
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_ndotv": {
+        "defId": "portalIn",
+        "id": "pi_ndotv",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 940,
+          "y": 146
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_time": {
+        "defId": "portalIn",
+        "id": "pi_time",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 328,
+          "y": 444
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "pi_uv": {
+        "defId": "portalIn",
+        "id": "pi_uv",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 328,
+          "y": 624
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_ndotv_film_nDotV": {
+        "defId": "portalOut",
+        "id": "po_ndotv_film_nDotV",
+        "params": {
+          "channel": "NdotV"
+        },
+        "position": {
+          "x": 3570,
+          "y": 358
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_time_dt_a": {
+        "defId": "portalOut",
+        "id": "po_time_dt_a",
+        "params": {
+          "channel": "Time"
+        },
+        "position": {
+          "x": 1294,
+          "y": 553
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "po_uv_p_a": {
+        "defId": "portalOut",
+        "id": "po_uv_p_a",
+        "params": {
+          "channel": "UV"
+        },
+        "position": {
+          "x": 1294,
+          "y": 613
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rg": {
+        "defId": "multiply",
+        "id": "rg",
+        "params": {},
+        "position": {
+          "x": 4928,
+          "y": 355
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "rim": {
+        "defId": "power",
+        "id": "rim",
+        "params": {},
+        "position": {
+          "x": 4622,
+          "y": 461
+        },
+        "previewEnabled": false,
+        "values": {
+          "b": 3
+        }
+      },
+      "rim0": {
+        "defId": "oneMinus",
+        "id": "rim0",
+        "params": {},
+        "position": {
+          "x": 4316,
+          "y": 473
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "t": {
+        "defId": "time",
+        "id": "t",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 379
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "thick": {
+        "defId": "lerp",
+        "id": "thick",
+        "params": {},
+        "position": {
+          "x": 3130,
+          "y": 329
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "uv": {
+        "defId": "uv",
+        "id": "uv",
+        "params": {},
+        "position": {
+          "x": 22,
+          "y": 595
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "v": {
+        "defId": "viewDirection",
+        "id": "v",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 117
+        },
+        "previewEnabled": false,
+        "values": {}
+      },
+      "wn": {
+        "defId": "normal",
+        "id": "wn",
+        "params": {
+          "space": "world"
+        },
+        "position": {
+          "x": 22,
+          "y": 235
+        },
+        "previewEnabled": false,
+        "values": {}
+      }
+    },
+    "profileId": "unity.urp.lit",
+    "properties": [
+      {
+        "category": "Surface",
+        "colorSpace": "srgb",
+        "default": [
+          0.03,
+          0.03,
+          0.05
+        ],
+        "displayName": "Base Tone",
+        "exposed": true,
+        "id": "baseTone",
+        "perInstance": false,
+        "referenceName": "_BaseTone",
+        "tooltip": "Colour of the surface without the film (where Film Strength is low).",
+        "type": "color"
+      },
+      {
+        "category": "Surface",
+        "default": 1,
+        "displayName": "Film Strength",
+        "exposed": true,
+        "id": "strength",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_FilmStrength",
+        "slider": true,
+        "tooltip": "Blend between the base tone and the interference colours.",
+        "type": "float"
+      },
+      {
+        "category": "Surface",
+        "default": 0.85,
+        "displayName": "Metallic",
+        "exposed": true,
+        "id": "metallic",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Metallic",
+        "slider": true,
+        "tooltip": "Metallic factor: high values make reflections carry the film colour.",
+        "type": "float"
+      },
+      {
+        "category": "Surface",
+        "default": 0.92,
+        "displayName": "Smoothness",
+        "exposed": true,
+        "id": "smoothness",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_Smoothness",
+        "slider": true,
+        "tooltip": "Surface smoothness.",
+        "type": "float"
+      },
+      {
+        "category": "Film",
+        "default": 0.15,
+        "displayName": "Thickness Min",
+        "exposed": true,
+        "id": "thickMin",
+        "max": 1,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ThicknessMin",
+        "slider": true,
+        "tooltip": "Thinnest film (arbitrary units).",
+        "type": "float"
+      },
+      {
+        "category": "Film",
+        "default": 0.85,
+        "displayName": "Thickness Max",
+        "exposed": true,
+        "id": "thickMax",
+        "max": 1.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_ThicknessMax",
+        "slider": true,
+        "tooltip": "Thickest film (arbitrary units).",
+        "type": "float"
+      },
+      {
+        "category": "Film",
+        "default": 1.45,
+        "displayName": "Film IOR",
+        "exposed": true,
+        "id": "ior",
+        "max": 2.6,
+        "min": 1,
+        "perInstance": false,
+        "referenceName": "_FilmIOR",
+        "slider": true,
+        "tooltip": "Refractive index of the film (soap ≈ 1.33, oxide ≈ 2).",
+        "type": "float"
+      },
+      {
+        "category": "Film",
+        "default": 2.2,
+        "displayName": "Colour Bands",
+        "exposed": true,
+        "id": "bands",
+        "max": 8,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_ColourBands",
+        "slider": true,
+        "tooltip": "How many colour cycles the thickness range sweeps.",
+        "type": "float"
+      },
+      {
+        "category": "Pattern",
+        "default": 3.5,
+        "displayName": "Pattern Scale",
+        "exposed": true,
+        "id": "noiseScale",
+        "max": 16,
+        "min": 0.5,
+        "perInstance": false,
+        "referenceName": "_PatternScale",
+        "slider": true,
+        "tooltip": "Size of the thickness swirls (UV space).",
+        "type": "float"
+      },
+      {
+        "category": "Pattern",
+        "default": 0.05,
+        "displayName": "Drift Speed",
+        "exposed": true,
+        "id": "drift",
+        "max": 0.5,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_DriftSpeed",
+        "slider": true,
+        "tooltip": "How fast the thickness pattern flows (0 = frozen).",
+        "type": "float"
+      },
+      {
+        "category": "Surface",
+        "default": 0.5,
+        "displayName": "Rim Glow",
+        "exposed": true,
+        "id": "rimGlow",
+        "max": 3,
+        "min": 0,
+        "perInstance": false,
+        "referenceName": "_RimGlow",
+        "slider": true,
+        "tooltip": "Emission of the film colour at grazing angles.",
+        "type": "float"
+      }
+    ],
+    "settings": {},
+    "subgraphDefs": {
+      "ks_thin_film": {
+        "comments": [
+          {
+            "color": "#f472b6",
+            "id": "note_body",
+            "position": {
+              "x": 322,
+              "y": 34
+            },
+            "size": {
+              "h": 56,
+              "w": 3602
+            },
+            "text": "**Thin film** — light reflected from the top and bottom of a film of thickness `d` interferes with path difference `2·n·d·cosθt`, where `cosθt = √(1 − (1 − N·V²)/n²)`.\nEach colour channel has a different wavelength, modelled as phase offsets (0, ⅓, ⅔) of `½ + ½ cos(2π(path·bands + offset))`. Not spectral — an art-directable approximation, cheap and portable."
+          }
+        ],
+        "edges": {
+          "cosT2:out>cosT:in": {
+            "from": {
+              "node": "cosT2",
+              "port": "out"
+            },
+            "id": "cosT2:out>cosT:in",
+            "to": {
+              "node": "cosT",
+              "port": "in"
+            }
+          },
+          "cosT:out>path:b": {
+            "from": {
+              "node": "cosT",
+              "port": "out"
+            },
+            "id": "cosT:out>path:b",
+            "to": {
+              "node": "path",
+              "port": "b"
+            }
+          },
+          "cos_b:out>hl_b:in": {
+            "from": {
+              "node": "cos_b",
+              "port": "out"
+            },
+            "id": "cos_b:out>hl_b:in",
+            "to": {
+              "node": "hl_b",
+              "port": "in"
+            }
+          },
+          "cos_g:out>hl_g:in": {
+            "from": {
+              "node": "cos_g",
+              "port": "out"
+            },
+            "id": "cos_g:out>hl_g:in",
+            "to": {
+              "node": "hl_g",
+              "port": "in"
+            }
+          },
+          "cos_r:out>hl_r:in": {
+            "from": {
+              "node": "cos_r",
+              "port": "out"
+            },
+            "id": "cos_r:out>hl_r:in",
+            "to": {
+              "node": "hl_r",
+              "port": "in"
+            }
+          },
+          "hl_b:out>rgb:b": {
+            "from": {
+              "node": "hl_b",
+              "port": "out"
+            },
+            "id": "hl_b:out>rgb:b",
+            "to": {
+              "node": "rgb",
+              "port": "b"
+            }
+          },
+          "hl_g:out>rgb:g": {
+            "from": {
+              "node": "hl_g",
+              "port": "out"
+            },
+            "id": "hl_g:out>rgb:g",
+            "to": {
+              "node": "rgb",
+              "port": "g"
+            }
+          },
+          "hl_r:out>rgb:r": {
+            "from": {
+              "node": "hl_r",
+              "port": "out"
+            },
+            "id": "hl_r:out>rgb:r",
+            "to": {
+              "node": "rgb",
+              "port": "r"
+            }
+          },
+          "inputs:bands>scaled:b": {
+            "from": {
+              "node": "inputs",
+              "port": "bands"
+            },
+            "id": "inputs:bands>scaled:b",
+            "to": {
+              "node": "scaled",
+              "port": "b"
+            }
+          },
+          "inputs:ior>n2:a": {
+            "from": {
+              "node": "inputs",
+              "port": "ior"
+            },
+            "id": "inputs:ior>n2:a",
+            "to": {
+              "node": "n2",
+              "port": "a"
+            }
+          },
+          "inputs:ior>n2:b": {
+            "from": {
+              "node": "inputs",
+              "port": "ior"
+            },
+            "id": "inputs:ior>n2:b",
+            "to": {
+              "node": "n2",
+              "port": "b"
+            }
+          },
+          "inputs:ior>t1:b": {
+            "from": {
+              "node": "inputs",
+              "port": "ior"
+            },
+            "id": "inputs:ior>t1:b",
+            "to": {
+              "node": "t1",
+              "port": "b"
+            }
+          },
+          "inputs:nDotV>nv2:a": {
+            "from": {
+              "node": "inputs",
+              "port": "nDotV"
+            },
+            "id": "inputs:nDotV>nv2:a",
+            "to": {
+              "node": "nv2",
+              "port": "a"
+            }
+          },
+          "inputs:nDotV>nv2:b": {
+            "from": {
+              "node": "inputs",
+              "port": "nDotV"
+            },
+            "id": "inputs:nDotV>nv2:b",
+            "to": {
+              "node": "nv2",
+              "port": "b"
+            }
+          },
+          "inputs:thickness>t1:a": {
+            "from": {
+              "node": "inputs",
+              "port": "thickness"
+            },
+            "id": "inputs:thickness>t1:a",
+            "to": {
+              "node": "t1",
+              "port": "a"
+            }
+          },
+          "n2:out>ratio:b": {
+            "from": {
+              "node": "n2",
+              "port": "out"
+            },
+            "id": "n2:out>ratio:b",
+            "to": {
+              "node": "ratio",
+              "port": "b"
+            }
+          },
+          "nv2:out>sin2:in": {
+            "from": {
+              "node": "nv2",
+              "port": "out"
+            },
+            "id": "nv2:out>sin2:in",
+            "to": {
+              "node": "sin2",
+              "port": "in"
+            }
+          },
+          "off_b:out>tau_b:a": {
+            "from": {
+              "node": "off_b",
+              "port": "out"
+            },
+            "id": "off_b:out>tau_b:a",
+            "to": {
+              "node": "tau_b",
+              "port": "a"
+            }
+          },
+          "off_g:out>tau_g:a": {
+            "from": {
+              "node": "off_g",
+              "port": "out"
+            },
+            "id": "off_g:out>tau_g:a",
+            "to": {
+              "node": "tau_g",
+              "port": "a"
+            }
+          },
+          "off_r:out>tau_r:a": {
+            "from": {
+              "node": "off_r",
+              "port": "out"
+            },
+            "id": "off_r:out>tau_r:a",
+            "to": {
+              "node": "tau_r",
+              "port": "a"
+            }
+          },
+          "path:out>scaled:a": {
+            "from": {
+              "node": "path",
+              "port": "out"
+            },
+            "id": "path:out>scaled:a",
+            "to": {
+              "node": "scaled",
+              "port": "a"
+            }
+          },
+          "ratio:out>cosT2:in": {
+            "from": {
+              "node": "ratio",
+              "port": "out"
+            },
+            "id": "ratio:out>cosT2:in",
+            "to": {
+              "node": "cosT2",
+              "port": "in"
+            }
+          },
+          "rgb:rgb>outputs:color": {
+            "from": {
+              "node": "rgb",
+              "port": "rgb"
+            },
+            "id": "rgb:rgb>outputs:color",
+            "to": {
+              "node": "outputs",
+              "port": "color"
+            }
+          },
+          "scaled:out>off_b:a": {
+            "from": {
+              "node": "scaled",
+              "port": "out"
+            },
+            "id": "scaled:out>off_b:a",
+            "to": {
+              "node": "off_b",
+              "port": "a"
+            }
+          },
+          "scaled:out>off_g:a": {
+            "from": {
+              "node": "scaled",
+              "port": "out"
+            },
+            "id": "scaled:out>off_g:a",
+            "to": {
+              "node": "off_g",
+              "port": "a"
+            }
+          },
+          "scaled:out>off_r:a": {
+            "from": {
+              "node": "scaled",
+              "port": "out"
+            },
+            "id": "scaled:out>off_r:a",
+            "to": {
+              "node": "off_r",
+              "port": "a"
+            }
+          },
+          "sin2:out>ratio:a": {
+            "from": {
+              "node": "sin2",
+              "port": "out"
+            },
+            "id": "sin2:out>ratio:a",
+            "to": {
+              "node": "ratio",
+              "port": "a"
+            }
+          },
+          "t1:out>t2:a": {
+            "from": {
+              "node": "t1",
+              "port": "out"
+            },
+            "id": "t1:out>t2:a",
+            "to": {
+              "node": "t2",
+              "port": "a"
+            }
+          },
+          "t2:out>path:a": {
+            "from": {
+              "node": "t2",
+              "port": "out"
+            },
+            "id": "t2:out>path:a",
+            "to": {
+              "node": "path",
+              "port": "a"
+            }
+          },
+          "tau_b:out>cos_b:in": {
+            "from": {
+              "node": "tau_b",
+              "port": "out"
+            },
+            "id": "tau_b:out>cos_b:in",
+            "to": {
+              "node": "cos_b",
+              "port": "in"
+            }
+          },
+          "tau_g:out>cos_g:in": {
+            "from": {
+              "node": "tau_g",
+              "port": "out"
+            },
+            "id": "tau_g:out>cos_g:in",
+            "to": {
+              "node": "cos_g",
+              "port": "in"
+            }
+          },
+          "tau_r:out>cos_r:in": {
+            "from": {
+              "node": "tau_r",
+              "port": "out"
+            },
+            "id": "tau_r:out>cos_r:in",
+            "to": {
+              "node": "cos_r",
+              "port": "in"
+            }
+          }
+        },
+        "groups": [
+          {
+            "color": "#f472b6",
+            "id": "grp_body",
+            "nodeIds": [
+              "nv2",
+              "sin2",
+              "n2",
+              "ratio",
+              "cosT2",
+              "cosT",
+              "t1",
+              "t2",
+              "path",
+              "scaled",
+              "rgb",
+              "off_r",
+              "tau_r",
+              "cos_r",
+              "hl_r",
+              "off_g",
+              "tau_g",
+              "cos_g",
+              "hl_g",
+              "off_b",
+              "tau_b",
+              "cos_b",
+              "hl_b"
+            ],
+            "rect": {
+              "h": 1224,
+              "w": 3646,
+              "x": 300,
+              "y": 0
+            },
+            "title": "Thin Film"
+          }
+        ],
+        "id": "ks_thin_film",
+        "inputs": [
+          {
+            "default": 0.7,
+            "id": "nDotV",
+            "name": "N·V",
+            "tooltip": "Cosine between normal and view direction (saturate(dot(N, V))).",
+            "type": "float"
+          },
+          {
+            "default": 0.5,
+            "id": "thickness",
+            "name": "Thickness",
+            "tooltip": "Film thickness, arbitrary 0…1 units (vary it with noise for oil-slick patterns).",
+            "type": "float"
+          },
+          {
+            "default": 1.5,
+            "id": "ior",
+            "name": "IOR",
+            "tooltip": "Refractive index of the film (soap ≈ 1.33, oxide ≈ 2).",
+            "type": "float"
+          },
+          {
+            "default": 2,
+            "id": "bands",
+            "name": "Bands",
+            "tooltip": "Colour cycles per unit of optical path.",
+            "type": "float"
+          }
+        ],
+        "name": "Thin Film",
+        "nodes": {
+          "cosT": {
+            "defId": "sqrt",
+            "id": "cosT",
+            "params": {},
+            "position": {
+              "x": 1546,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cosT2": {
+            "defId": "oneMinus",
+            "id": "cosT2",
+            "params": {},
+            "position": {
+              "x": 1240,
+              "y": 276
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cos_b": {
+            "defId": "cos",
+            "id": "cos_b",
+            "params": {},
+            "position": {
+              "x": 3076,
+              "y": 634
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cos_g": {
+            "defId": "cos",
+            "id": "cos_g",
+            "params": {},
+            "position": {
+              "x": 3076,
+              "y": 848
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "cos_r": {
+            "defId": "cos",
+            "id": "cos_r",
+            "params": {},
+            "position": {
+              "x": 3076,
+              "y": 1062
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "hl_b": {
+            "defId": "remap",
+            "id": "hl_b",
+            "params": {},
+            "position": {
+              "x": 3382,
+              "y": 586
+            },
+            "previewEnabled": false,
+            "values": {
+              "inMax": 1,
+              "inMin": -1,
+              "outMax": 1,
+              "outMin": 0
+            }
+          },
+          "hl_g": {
+            "defId": "remap",
+            "id": "hl_g",
+            "params": {},
+            "position": {
+              "x": 3382,
+              "y": 800
+            },
+            "previewEnabled": false,
+            "values": {
+              "inMax": 1,
+              "inMin": -1,
+              "outMax": 1,
+              "outMin": 0
+            }
+          },
+          "hl_r": {
+            "defId": "remap",
+            "id": "hl_r",
+            "params": {},
+            "position": {
+              "x": 3382,
+              "y": 1014
+            },
+            "previewEnabled": false,
+            "values": {
+              "inMax": 1,
+              "inMin": -1,
+              "outMax": 1,
+              "outMin": 0
+            }
+          },
+          "inputs": {
+            "defId": "subgraphInputs",
+            "id": "inputs",
+            "params": {},
+            "position": {
+              "x": 20,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "n2": {
+            "defId": "multiply",
+            "id": "n2",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "nv2": {
+            "defId": "multiply",
+            "id": "nv2",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "off_b": {
+            "defId": "add",
+            "id": "off_b",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 622
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.6666666666666666
+            }
+          },
+          "off_g": {
+            "defId": "add",
+            "id": "off_g",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 836
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0.3333333333333333
+            }
+          },
+          "off_r": {
+            "defId": "add",
+            "id": "off_r",
+            "params": {},
+            "position": {
+              "x": 2464,
+              "y": 1050
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 0
+            }
+          },
+          "outputs": {
+            "defId": "subgraphOutputs",
+            "id": "outputs",
+            "params": {},
+            "position": {
+              "x": 4086,
+              "y": 0
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "path": {
+            "defId": "multiply",
+            "id": "path",
+            "params": {},
+            "position": {
+              "x": 1852,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "ratio": {
+            "defId": "divide",
+            "id": "ratio",
+            "params": {},
+            "position": {
+              "x": 934,
+              "y": 122
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "rgb": {
+            "defId": "combine",
+            "id": "rgb",
+            "params": {},
+            "position": {
+              "x": 3688,
+              "y": 574
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "scaled": {
+            "defId": "multiply",
+            "id": "scaled",
+            "params": {},
+            "position": {
+              "x": 2158,
+              "y": 836
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "sin2": {
+            "defId": "oneMinus",
+            "id": "sin2",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 134
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "t1": {
+            "defId": "multiply",
+            "id": "t1",
+            "params": {},
+            "position": {
+              "x": 322,
+              "y": 406
+            },
+            "previewEnabled": false,
+            "values": {}
+          },
+          "t2": {
+            "defId": "multiply",
+            "id": "t2",
+            "params": {},
+            "position": {
+              "x": 628,
+              "y": 264
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 2
+            }
+          },
+          "tau_b": {
+            "defId": "multiply",
+            "id": "tau_b",
+            "params": {},
+            "position": {
+              "x": 2770,
+              "y": 622
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 6.28318530718
+            }
+          },
+          "tau_g": {
+            "defId": "multiply",
+            "id": "tau_g",
+            "params": {},
+            "position": {
+              "x": 2770,
+              "y": 836
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 6.28318530718
+            }
+          },
+          "tau_r": {
+            "defId": "multiply",
+            "id": "tau_r",
+            "params": {},
+            "position": {
+              "x": 2770,
+              "y": 1050
+            },
+            "previewEnabled": false,
+            "values": {
+              "b": 6.28318530718
+            }
+          }
+        },
+        "outputs": [
+          {
+            "id": "color",
+            "name": "Color",
+            "tooltip": "Interference tint (per-channel cosine, 0…1).",
+            "type": "color"
+          }
+        ]
+      }
+    }
+  },
+  "preview": {
+    "bindings": {},
+    "material": {
+      "keywords": {},
+      "values": {}
+    },
+    "prefs": {
+      "bg": "dark",
+      "envIntensity": 1.2,
+      "grid": false,
+      "lightAzimuth": 50,
+      "lightElevation": 40,
+      "lightIntensity": 1.2,
+      "lit": "lit",
+      "mode": "3d",
+      "primitive": "sphere",
+      "stats": false
+    },
+    "presets": {},
+    "sim": {},
+    "version": 1
+  },
+  "schemaVersion": 1
+}

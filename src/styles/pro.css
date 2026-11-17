@@ -1,0 +1,308 @@
+/* pro features: grid styles, dialogs, stats panel, welcome screen, custom-function editor. */
+.kk-canvas[data-grid="dots"][data-grid-style="lines"] {
+  background-image:
+    linear-gradient(to right, rgba(128, 138, 165, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 138, 165, 0.1) 1px, transparent 1px),
+    linear-gradient(to right, rgba(128, 138, 165, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 138, 165, 0.22) 1px, transparent 1px);
+  background-size:
+    var(--kk-g-size) var(--kk-g-size),
+    var(--kk-g-size) var(--kk-g-size),
+    var(--kk-g-major) var(--kk-g-major),
+    var(--kk-g-major) var(--kk-g-major);
+  background-position: var(--kk-g-x) var(--kk-g-y);
+}
+.kk-canvas[data-grid="dots"][data-grid-style="cross"] {
+  background-image:
+    linear-gradient(to right, rgba(128, 138, 165, 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 138, 165, 0.35) 1px, transparent 1px);
+  background-size: var(--kk-g-major) var(--kk-g-major);
+  background-position: var(--kk-g-x) var(--kk-g-y);
+}
+.kk-pro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  font-size: var(--kk-text-md);
+  color: var(--kk-text-1);
+  overflow: auto;
+  height: 100%;
+  box-sizing: border-box;
+}
+.kk-pro h3 {
+  margin: 6px 0 2px;
+  font-size: var(--kk-text-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kk-text-3);
+  font-weight: 600;
+}
+.kk-pro__row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.kk-pro__row > label {
+  color: var(--kk-text-2);
+}
+.kk-pro__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.kk-pro__card {
+  background: var(--kk-surface-3);
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-md);
+  padding: 10px 12px;
+  transition:
+    border-color var(--kk-dur) var(--kk-ease),
+    transform var(--kk-dur) var(--kk-ease);
+}
+.kk-pro__card b {
+  display: block;
+  font-size: var(--kk-text-xl);
+  font-variant-numeric: tabular-nums;
+}
+.kk-pro__card span {
+  color: var(--kk-text-3);
+  font-size: var(--kk-text-sm);
+}
+.kk-pro__tpl {
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+.kk-pro__tpl:hover,
+.kk-pro__tpl:focus-visible {
+  border-color: var(--kk-accent);
+  transform: translateY(-1px);
+  outline: none;
+}
+.kk-pro__tpl strong {
+  display: block;
+  margin-bottom: 4px;
+}
+.kk-pro__hint {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--kk-radius-sm);
+  background: var(--kk-info-soft);
+  cursor: default;
+}
+.kk-pro__hint[data-sev="warning"] {
+  background: var(--kk-warning-soft);
+}
+.kk-pro__hint[data-clickable="true"] {
+  cursor: pointer;
+}
+.kk-pro__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.kk-pro__table td,
+.kk-pro__table th {
+  padding: 4px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--kk-border-subtle);
+}
+.kk-pro__table th {
+  color: var(--kk-text-3);
+  font-weight: 500;
+}
+.kk-pro__code {
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-sm);
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-sm);
+  overflow: hidden;
+  min-height: 90px;
+}
+.kk-pro__muted {
+  color: var(--kk-text-3);
+}
+.kk-pro__kbd {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.kk-pro__warn {
+  color: var(--kk-warning);
+  font-size: var(--kk-text-sm);
+}
+/* Port hover "+" chip: click an unconnected input / any output port to add a node already wired to it. */
+.kk-canvas:not([data-wiring]) .kk-port[data-port-dir="out"]::before,
+.kk-canvas:not([data-wiring]) .kk-port[data-port-dir="in"]:not(.is-connected)::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 600 11px/1 var(--kk-font-sans);
+  color: var(--kk-text-1);
+  background: var(--kk-surface-4);
+  border: 1px solid var(--kk-border-strong);
+  box-shadow: var(--kk-shadow-1);
+  opacity: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  transition:
+    opacity 140ms var(--kk-ease),
+    transform 140ms var(--kk-ease);
+}
+.kk-canvas .kk-port[data-port-dir="out"]::before {
+  left: calc(100% + 6px);
+  transform: translateX(-4px) scale(0.8);
+}
+.kk-canvas .kk-port[data-port-dir="in"]::before {
+  right: calc(100% + 6px);
+  transform: translateX(4px) scale(0.8);
+}
+.kk-canvas .kk-port:hover::before {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- : budgets, heatmap, optimisation report ---- */
+.kk-meter {
+  display: grid;
+  grid-template-columns: 1fr 90px auto;
+  gap: 8px;
+  align-items: center;
+  font-size: var(--kk-text-sm);
+}
+.kk-meter__label {
+  color: var(--kk-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kk-meter__bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--kk-surface-3);
+  overflow: hidden;
+}
+.kk-meter__bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: #3fb97a;
+  transition:
+    width var(--kk-dur) var(--kk-ease),
+    background var(--kk-dur) var(--kk-ease);
+}
+.kk-meter[data-status="warn"] .kk-meter__bar i {
+  background: #e0b341;
+}
+.kk-meter[data-status="bad"] .kk-meter__bar i {
+  background: #e5534b;
+}
+.kk-meter__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--kk-text-1);
+  min-width: 70px;
+  text-align: right;
+}
+.kk-pro__fixes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.kk-pro__hotrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--kk-radius-sm);
+  background: transparent;
+  color: var(--kk-text-1);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.kk-pro__hotrow:hover {
+  background: var(--kk-surface-3);
+}
+.kk-pro__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.kk-pro__chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--kk-surface-3);
+  border: 1px solid var(--kk-border);
+  font-size: var(--kk-text-sm);
+  font-family: var(--kk-font-mono, monospace);
+}
+.kk-diff {
+  max-height: 260px;
+  overflow: auto;
+  margin: 6px 0 0;
+  padding: 8px;
+  border-radius: var(--kk-radius-sm);
+  background: var(--kk-surface-3);
+  font-family: var(--kk-font-mono, monospace);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.kk-diff div[data-kind="add"] {
+  background: rgba(63, 185, 122, 0.16);
+}
+.kk-diff div[data-kind="del"] {
+  background: rgba(229, 83, 75, 0.16);
+}
+/* Cost heatmap (attributes are set by HeatmapDriver). The node border carries the tint; the badge sits at the top-right corner. */
+.kk-node[data-heat] {
+  transition:
+    box-shadow var(--kk-dur) var(--kk-ease),
+    border-color var(--kk-dur) var(--kk-ease);
+}
+.kk-node[data-heat="low"] {
+  border-color: rgba(63, 185, 122, 0.7);
+  box-shadow: 0 0 14px rgba(63, 185, 122, calc(0.12 + var(--kk-heat, 0) * 0.3));
+}
+.kk-node[data-heat="mid"] {
+  border-color: rgba(224, 179, 65, 0.85);
+  box-shadow: 0 0 18px rgba(224, 179, 65, calc(0.2 + var(--kk-heat, 0) * 0.3));
+}
+.kk-node[data-heat="high"] {
+  border-color: rgba(229, 83, 75, 0.95);
+  box-shadow: 0 0 24px rgba(229, 83, 75, calc(0.3 + var(--kk-heat, 0) * 0.35));
+}
+.kk-node[data-heat]::after {
+  content: attr(data-heat-label);
+  position: absolute;
+  top: -9px;
+  right: 8px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font: 600 10px/16px var(--kk-font-mono, monospace);
+  color: #10131a;
+  pointer-events: none;
+  z-index: 5;
+}
+.kk-node[data-heat="low"]::after {
+  background: #3fb97a;
+}
+.kk-node[data-heat="mid"]::after {
+  background: #e0b341;
+}
+.kk-node[data-heat="high"]::after {
+  background: #e5534b;
+  color: #fff;
+}
